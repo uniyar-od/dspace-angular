@@ -188,10 +188,6 @@ export function submissionObjectReducer(state = initialState, action: Submission
       return updateDeduplication(state, action as SetWorkspaceDuplicatedAction);
     }
 
-    case SubmissionObjectActionTypes.SET_WORKFLOW_DUPLICATION: {
-      return updateDeduplication(state, action as SetWorkflowDuplicatedAction);
-    }
-
     // errors actions
     case SubmissionObjectActionTypes.INSERT_ERRORS: {
       return insertError(state, action as InertSectionErrorsAction);
@@ -702,18 +698,26 @@ function editFileData(state: SubmissionObjectState, action: EditFileDataAction):
           activeSection: state[ action.payload.submissionId ].activeSection,
           sections: Object.assign({}, state[ action.payload.submissionId ].sections,
             Object.assign({}, {
-                [ action.payload.sectionId ]: {
-                  data: Object.assign({}, state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data, {
-                    files: Object.assign({},
-                      filesData.files, {
-                        [ fileIndex ]: action.payload.data
-                      })
-                  }),
-                  isValid: state[ action.payload.submissionId ].sections[ action.payload.sectionId ].isValid,
-                  errors: state[ action.payload.submissionId ].sections[ action.payload.sectionId ].errors
-                }
-              }
-            )
+              [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+                data: Object.assign({}, state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data, {
+                  files: Object.assign({},
+                    filesData.files, {
+                      [ fileIndex ]: action.payload.data
+                    })
+                })
+              })
+            })
+            // Object.assign({}, state[action.payload.submissionId].sections[action.payload.sectionId],{
+            //     [ action.payload.sectionId ]: {
+            //       data: Object.assign({}, state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data, {
+            //         files: Object.assign({},
+            //           filesData.files, {
+            //             [ fileIndex ]: action.payload.data
+            //           })
+            //       })
+            //     }
+            //   }
+            // )
           ),
           isLoading: state[ action.payload.submissionId ].isLoading,
           savePending: state[ action.payload.submissionId ].savePending,
@@ -746,15 +750,20 @@ function deleteFile(state: SubmissionObjectState, action: DeleteUploadedFileActi
           activeSection: state[ action.payload.submissionId ].activeSection,
           sections: Object.assign({}, state[action.payload.submissionId].sections,
             Object.assign({}, {
-                [ action.payload.sectionId ]: {
-                  data: Object.assign({}, state[action.payload.submissionId].sections[action.payload.sectionId].data, {
-                    files: deleteProperty(filesData.files, fileIndex)
-                  }),
-                  isValid: state[action.payload.submissionId].sections[action.payload.sectionId].isValid,
-                  errors: state[action.payload.submissionId].sections[action.payload.sectionId].errors
-                }
-              }
-            )
+              [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+                data: Object.assign({}, state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data, {
+                  files: deleteProperty(filesData.files, fileIndex)
+                })
+              })
+            })
+            // Object.assign({}, state[action.payload.submissionId].sections[action.payload.sectionId], {
+            //     [ action.payload.sectionId ]: {
+            //       data: Object.assign({}, state[action.payload.submissionId].sections[action.payload.sectionId].data, {
+            //         files: deleteProperty(filesData.files, fileIndex)
+            //       })
+            //     }
+            //   }
+            // )
           ),
           isLoading: state[action.payload.submissionId].isLoading,
           savePending: state[action.payload.submissionId].savePending,
