@@ -61,8 +61,8 @@ export class SubmissionRestService extends PostPatchDataService<SubmitDataRespon
       .distinctUntilChanged();
   }
 
-  public getDataByHref(href: string): Observable<any> {
-    const request = new ConfigRequest(this.requestService.generateRequestId(), href);
+  public getDataByHref(href: string, options?: HttpOptions): Observable<any> {
+    const request = new ConfigRequest(this.requestService.generateRequestId(), href, options);
     this.requestService.configure(request, true);
 
     return this.fetchRequest(request);

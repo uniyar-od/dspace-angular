@@ -185,8 +185,8 @@ export class BrowseEntriesRequest extends GetRequest {
 }
 
 export class ConfigRequest extends GetRequest {
-  constructor(uuid: string, href: string) {
-    super(uuid, href);
+  constructor(uuid: string, href: string, public options?: HttpOptions) {
+    super(uuid, href, null, options);
   }
 
   getResponseParser(): GenericConstructor<ResponseParsingService> {

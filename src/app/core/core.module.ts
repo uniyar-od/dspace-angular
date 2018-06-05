@@ -76,6 +76,7 @@ import { RolesService } from './roles/roles.service';
 import { TaskResponseParsingService } from './tasks/task-response-parsing.service';
 import { UploaderService } from '../shared/uploader/uploader.service';
 import { MyDSpaceResponseParsingService } from './data/mydspace-response-parsing.service';
+import { FileService } from './shared/file.service';
 
 const IMPORTS = [
   CommonModule,
@@ -151,6 +152,7 @@ const PROVIDERS = [
   TaskResponseParsingService,
   RolesService,
   UploaderService,
+  FileService,
   // register AuthInterceptor as HttpInterceptor
   {
     provide: HTTP_INTERCEPTORS,
