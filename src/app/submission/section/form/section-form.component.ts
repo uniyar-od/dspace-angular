@@ -31,6 +31,8 @@ import { NotificationsService } from '../../../shared/notifications/notification
 import { TranslateService } from '@ngx-translate/core';
 import { SectionService } from '../section.service';
 import { difference } from '../../../shared/object.util';
+import { FormClearErrorsAction } from '../../../shared/form/form.actions';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'ds-submission-section-form',
@@ -99,6 +101,24 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
       .forEach((subscription) => subscription.unsubscribe());
   }
 
+  hasMetadataEnrichment(sectionData): boolean {
+    const diffResult = [];
+
+    // compare current form data state with section data retrieved from store
+    const diffObj = difference(sectionData, this.formData);
+
+    // iterate over differences to check whether they are actually different
+    Object.keys(diffObj)
+      .forEach((key) => {
+        diffObj[key].forEach((value) => {
+          if (value.hasOwnProperty('value')) {
+            diffResult.push(value);
+          }
+        });
+      });
+    return isNotEmpty(diffResult);
+  }
+
   initForm(sectionData: WorkspaceitemSectionDataType) {
     this.formModel = this.formBuilderService.modelFromConfiguration(
       this.formConfig,
@@ -108,9 +128,9 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
   }
 
   updateForm(sectionData: WorkspaceitemSectionDataType, errors: SubmissionSectionError[]) {
-    const diff = difference(sectionData, this.formData);
-    if (isNotEmpty(sectionData) && !isEqual(sectionData, this.sectionData.data) && isNotEmpty(diff)) {
-      this.translate.get('submission.sections.general.metadata_extracted', {sectionId: this.sectionData.id})
+
+    if (isNotEmpty(sectionData) && !isEqual(sectionData, this.sectionData.data) && this.hasMetadataEnrichment(sectionData)) {
+      this.translate.get('submission.sections.general.metadata-extracted', {sectionId: this.sectionData.id})
         .take(1)
         .subscribe((m) => {
           this.notificationsService.info(null, m, null, true);
@@ -174,22 +194,6 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
         .distinctUntilChanged()
         .subscribe((sectionState: SubmissionSectionObject) => {
           this.updateForm(sectionState.data, sectionState.errors);
-          // if (isNotEmpty(sectionState.data) || isNotEmpty(sectionState.errors)) {
-          //   console.log(sectionState.data, sectionState.errors);
-          //   this.updateForm(sectionState.data, sectionState.errors);
-          // }
-          // if (isNotEmpty(sectionState.data) && !isEqual(sectionState.data, this.sectionData.data)) {
-          //   // Data are changed from remote response so update form's values
-          //   // TODO send a notification to notify data may have been changed
-          //   this.sectionData.data = sectionState.data;
-          //   // this.isLoading = true;
-          //   setTimeout(() => {
-          //     // Reset the form
-          //     this.updateForm(sectionState.data, sectionState.errors);
-          //   }, 50);
-          // } else if (isNotEmpty(sectionState.errors)) {
-          //   this.checksForErrors(sectionState.errors);
-          // }
         })
     )
   }

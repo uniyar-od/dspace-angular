@@ -46,14 +46,17 @@ export class SubmissionService {
   }
 
   getActiveSectionId(submissionId: string): Observable<string> {
-    return this.store.select(submissionObjectFromIdSelector(submissionId))
-      .filter((submission: SubmissionObjectEntry) => isNotUndefined(submission))
+    return this.getSubmissionObject(submissionId)
       .map((submission: SubmissionObjectEntry) => submission.activeSection);
   }
 
-  getSubmissionSections(submissionId: string): Observable<SectionDataObject[]> {
+  getSubmissionObject(submissionId: string): Observable<SubmissionObjectEntry> {
     return this.store.select(submissionObjectFromIdSelector(submissionId))
       .filter((submission: SubmissionObjectEntry) => isNotUndefined(submission))
+  }
+
+  getSubmissionSections(submissionId: string): Observable<SectionDataObject[]> {
+    return this.getSubmissionObject(submissionId)
       .filter((submission: SubmissionObjectEntry) => isNotUndefined(submission.sections) && !submission.isLoading)
       .take(1)
       .map((submission: SubmissionObjectEntry) => submission.sections)
@@ -79,8 +82,7 @@ export class SubmissionService {
   }
 
   public getDisabledSectionsList(submissionId: string): Observable<SectionDataObject[]> {
-    return this.store.select(submissionObjectFromIdSelector(submissionId))
-      .filter((submission: SubmissionObjectEntry) => isNotUndefined(submission))
+    return this.getSubmissionObject(submissionId)
       .filter((submission: SubmissionObjectEntry) => isNotUndefined(submission.sections) && !submission.isLoading)
       .map((submission: SubmissionObjectEntry) => submission.sections)
       .map((sections: SubmissionSectionEntry) => {
@@ -105,6 +107,12 @@ export class SubmissionService {
       && sectionData.visibility.main === 'HIDDEN'
       && sectionData.visibility.other === 'HIDDEN');
 
+  }
+
+  public isSubmissionLoading(submissionId: string): Observable<boolean> {
+    return this.getSubmissionObject(submissionId)
+      .map((submission: SubmissionObjectEntry) => submission.isLoading)
+      .distinctUntilChanged()
   }
 
   getSubmissionObjectLinkName(): string {

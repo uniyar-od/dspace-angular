@@ -150,7 +150,7 @@ export class FormComponent implements OnDestroy, OnInit {
         .filter((formState: FormEntry) => !!formState && !isEmpty(formState.errors))
         .map((formState) => formState.errors)
         .distinctUntilChanged()
-        .delay(100) // this terrible delay is here to prevent the detection change error
+        // .delay(100) // this terrible delay is here to prevent the detection change error
         .subscribe((errors: FormError[]) => {
           const {formGroup, formModel} = this;
 
@@ -178,10 +178,10 @@ export class FormComponent implements OnDestroy, OnInit {
    * Method provided by Angular. Invoked when the instance is destroyed
    */
   ngOnDestroy() {
-    this.store.dispatch(new FormRemoveAction(this.formId));
     this.subs
       .filter((sub) => hasValue(sub))
       .forEach((sub) => sub.unsubscribe());
+    this.store.dispatch(new FormRemoveAction(this.formId));
   }
 
   /**

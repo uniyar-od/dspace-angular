@@ -17,7 +17,6 @@ export class FileService {
     const options: HttpOptions = Object.create({headers, responseType: 'blob'});
     return this.restService.request(RestRequestMethod.Get, url, null, options)
       .subscribe((data) => {
-        console.log(data);
         saveAs(data.payload as Blob, this.getFileNameFromResponseContentDisposition(data));
       });
   }
@@ -31,7 +30,6 @@ export class FileService {
     const contentDisposition = res.headers.get('content-disposition') || '';
     const matches = /filename="([^;]+)"/ig.exec(contentDisposition) || [];
     const fileName = (matches[1] || 'untitled').trim().replace(/\.[^/.]+$/, '');
-    console.log(fileName);
     return fileName;
   };
 }

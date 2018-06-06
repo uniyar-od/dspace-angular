@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { SubmissionState } from '../submission.reducers';
 
-import { hasValue, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import {
   DeleteSectionErrorsAction,
   DisableSectionAction,
@@ -21,46 +21,54 @@ import { submissionObjectFromIdSelector, submissionSectionFromIdSelector } from 
 import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { SubmissionScopeType } from '../../core/submission/submission-scope-type';
 import parseSectionErrorPaths, { SectionErrorPath } from '../utils/parseSectionErrorPaths';
-import { FormAddError, FormRemoveErrorAction } from '../../shared/form/form.actions';
+import { FormAddError, FormClearErrorsAction, FormRemoveErrorAction } from '../../shared/form/form.actions';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationsService } from '../../shared/notifications/notifications.service';
 
 @Injectable()
 export class SectionService {
 
-  constructor(private scrollToService: ScrollToService,
-              private store: Store<SubmissionState>) {
+  constructor(private notificationsService: NotificationsService,
+              private scrollToService: ScrollToService,
+              private store: Store<SubmissionState>,
+              private translate: TranslateService) {
   }
 
   public checkSectionErrors(submissionId, sectionId, formId, currentErrors, prevErrors = []) {
-    const dispatchedErrors = [];
-    currentErrors.forEach((error: SubmissionSectionError) => {
-      const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
+    if (isEmpty(currentErrors)) {
+      this.store.dispatch(new FormClearErrorsAction(formId));
+    } else {
+      const dispatchedErrors = [];
+      currentErrors.forEach((error: SubmissionSectionError) => {
+        const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
 
-      errorPaths.forEach((path: SectionErrorPath) => {
-        if (path.fieldId) {
-          const fieldId = path.fieldId.replace(/\./g, '_');
+        errorPaths.forEach((path: SectionErrorPath) => {
+          if (path.fieldId) {
+            const fieldId = path.fieldId.replace(/\./g, '_');
 
-          // Dispatch action to the form state;
-          const formAddErrorAction = new FormAddError(formId, fieldId, error.message);
-          this.store.dispatch(formAddErrorAction);
-          dispatchedErrors.push(fieldId);
-        }
-      });
-    });
-
-    prevErrors.forEach((error: SubmissionSectionError) => {
-      const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
-
-      errorPaths.forEach((path: SectionErrorPath) => {
-        if (path.fieldId) {
-          const fieldId = path.fieldId.replace(/\./g, '_');
-
-          if (!dispatchedErrors.includes(fieldId)) {
-            const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId);
-            this.store.dispatch(formRemoveErrorAction);
+            // Dispatch action to the form state;
+            const formAddErrorAction = new FormAddError(formId, fieldId, error.message);
+            this.store.dispatch(formAddErrorAction);
+            dispatchedErrors.push(fieldId);
           }
-        }
+        });
       });
-    });
+
+      prevErrors.forEach((error: SubmissionSectionError) => {
+        const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
+
+        errorPaths.forEach((path: SectionErrorPath) => {
+          if (path.fieldId) {
+            const fieldId = path.fieldId.replace(/\./g, '_');
+
+            if (!dispatchedErrors.includes(fieldId)) {
+              const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId);
+              this.store.dispatch(formRemoveErrorAction);
+            }
+          }
+        });
+      });
+    }
 
     // because errors has been shown, remove them from the state
     const removeAction = new DeleteSectionErrorsAction(submissionId, sectionId, currentErrors);
@@ -123,10 +131,20 @@ export class SectionService {
 
   public updateSectionData(submissionId, sectionId, data) {
     if (isNotEmpty(data)) {
-      this.isSectionAvailable(submissionId, sectionId)
+      const isAvailable$ = this.isSectionAvailable(submissionId, sectionId);
+      const isEnabled$ = this.isSectionEnabled(submissionId, sectionId);
+
+      Observable.combineLatest(isAvailable$, isEnabled$)
         .take(1)
-        .filter((loaded) => loaded)
-        .subscribe((loaded: boolean) => {
+        .filter(([available, enabled]: [boolean, boolean]) => available)
+        .subscribe(([available, enabled]: [boolean, boolean]) => {
+          if (!enabled) {
+            this.translate.get('submission.sections.general.metadata-extracted-new-section', {sectionId})
+              .take(1)
+              .subscribe((m) => {
+                this.notificationsService.info(null, m, null, true);
+              });
+          }
           this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, []));
         });
     }
