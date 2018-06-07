@@ -131,6 +131,7 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
   }
 
   onChange(event: DynamicFormControlEvent) {
+    return
   }
 
   onChipSelected(event) {

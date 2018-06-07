@@ -127,10 +127,11 @@ export class NumberPickerComponent implements OnInit, ControlValueAccessor {
   }
 
   registerOnChange(fn) {
-    // this.change = fn;
+    return
   }
 
   registerOnTouched(fn) {
+    return
   }
 
   emitChange() {
