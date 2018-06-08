@@ -100,12 +100,10 @@ export class NumberPickerComponent implements OnInit, ControlValueAccessor {
         this.value = null;
         this.emitChange();
       } else {
-        this.value = this.lastValue;
-        this.emitChange();
+        this.value = undefined;
       }
     } catch (e) {
-      this.value = this.lastValue;
-      this.emitChange();
+      this.value = undefined;
     }
   }
 

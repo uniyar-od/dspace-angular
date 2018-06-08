@@ -36,7 +36,7 @@ export class SectionService {
 
   public checkSectionErrors(submissionId, sectionId, formId, currentErrors, prevErrors = []) {
     if (isEmpty(currentErrors)) {
-      this.store.dispatch(new FormClearErrorsAction(formId));
+      // this.store.dispatch(new FormClearErrorsAction(formId));
     } else {
       const dispatchedErrors = [];
       currentErrors.forEach((error: SubmissionSectionError) => {
