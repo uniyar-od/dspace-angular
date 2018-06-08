@@ -43,7 +43,8 @@
     <form
       *ngVar="(itemUUIDObs | async) as itemUuid"
       (ngSubmit)="sendMessage(itemUuid)" [formGroup]="messageForm">
-      <input *ngIf="!(isSubmitter | async)" type="text" readonly class="form-control-plaintext" id="to" value="{{'mydspace.messages.to' | translate}}: {{(submitter | async)?.name}}">
+      <!--<input *ngIf="!(isSubmitter | async)" type="text" readonly class="form-control-plaintext" id="to" value="{{'mydspace.messages.to' | translate}}: {{(submitter | async)?.name}}">-->
+      <label *ngIf="!(isSubmitter | async)">{{'mydspace.messages.to' | translate}}: <span class="badge badge-pill badge-light">{{(submitter | async)?.name}}</span></label>
       <div class="form-group">
         <input formControlName="textSubject"
                class="form-control mb-1"
