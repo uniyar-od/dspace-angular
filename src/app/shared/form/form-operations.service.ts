@@ -181,7 +181,7 @@ export class FormOperationsService {
     return (isNotUndefined(fieldIndex)) ? fieldId + '/' + fieldIndex : fieldId;
   }
 
-  getFieldPathSegmentedFromChangeEvent(event: DynamicFormControlEvent) {
+  public getFieldPathSegmentedFromChangeEvent(event: DynamicFormControlEvent) {
     let fieldId;
     if (this.formBuilder.isComboboxGroup(event.model.parent as DynamicFormControlModel)) {
       fieldId = (event.model.parent as any).qualdropId;
@@ -222,7 +222,7 @@ export class FormOperationsService {
     return fieldValue;
   }
 
-  getValueMap(items: any[]): Map<string, any> {
+  public getValueMap(items: any[]): Map<string, any> {
     const metadataValueMap = new Map();
 
     items.forEach((item) => {

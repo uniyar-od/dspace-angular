@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { SubmissionState } from '../submission.reducers';
+import { isEqual } from 'lodash';
 
 import { hasValue, isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import {
@@ -36,8 +37,9 @@ export class SectionService {
 
   public checkSectionErrors(submissionId, sectionId, formId, currentErrors, prevErrors = []) {
     if (isEmpty(currentErrors)) {
-      // this.store.dispatch(new FormClearErrorsAction(formId));
-    } else {
+      this.store.dispatch(new DeleteSectionErrorsAction(submissionId, sectionId, currentErrors));
+      this.store.dispatch(new FormClearErrorsAction(formId));
+    } else if (!isEqual(currentErrors, prevErrors)) {
       const dispatchedErrors = [];
       currentErrors.forEach((error: SubmissionSectionError) => {
         const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
@@ -69,10 +71,6 @@ export class SectionService {
         });
       });
     }
-
-    // because errors has been shown, remove them from the state
-    const removeAction = new DeleteSectionErrorsAction(submissionId, sectionId, currentErrors);
-    this.store.dispatch(removeAction);
   }
 
   public getSectionState(submissionId, sectionId): Observable<SubmissionSectionObject> {

@@ -25,17 +25,17 @@ export class SearchFiltersComponent {
   clearParams;
 
   constructor(private searchService: SearchService, private filterService: SearchFilterService) {
-    this.filters = searchService.getConfig();
-    this.clearParams = filterService.getCurrentFilters().map((filters) => {
-      Object.keys(filters).forEach((f) => filters[f] = null);
-      return filters;
-    });
   }
 
   ngOnInit(): void {
     this.filters = this.filterService.getSearchOptions()
       .distinctUntilChanged()
       .flatMap((options) => this.searchService.getConfig(options.scope, options.configuration));
+
+    this.clearParams = this.filterService.getCurrentFilters().map((filters) => {
+      Object.keys(filters).forEach((f) => filters[f] = null);
+      return filters;
+    });
   }
 
   getSearchLink() {

@@ -612,16 +612,13 @@ function setIsValid(state: SubmissionObjectState, action: SectionStatusChangeAct
   if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
-        activeSection: state[ action.payload.submissionId ].activeSection,
         sections: Object.assign({}, state[ action.payload.submissionId ].sections,
           Object.assign({}, {
             [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
               isValid: action.payload.status
             })
           })
-        ),
-        isLoading: state[ action.payload.submissionId ].isLoading,
-        savePending: state[ action.payload.submissionId ].savePending,
+        )
       })
     });
   } else {
