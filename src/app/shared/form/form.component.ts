@@ -47,6 +47,11 @@ export class FormComponent implements OnDestroy, OnInit {
   @Input() displaySubmit = true;
 
   /**
+   * A boolean that indicate if to emit a form change event
+   */
+  @Input() emitChange = true;
+
+  /**
    * The form unique ID
    */
   @Input() formId: string;
@@ -190,9 +195,9 @@ export class FormComponent implements OnDestroy, OnInit {
                 const model: DynamicFormControlModel = this.formBuilderService.findById(fieldId, formModel);
                 this.formService.removeErrorFromField(field, model, error.message);
               }
-            })
+            });
 
-          this.formErrors = errors
+          this.formErrors = errors;
           this.changeDetectorRef.detectChanges();
         })
     );
@@ -241,9 +246,11 @@ export class FormComponent implements OnDestroy, OnInit {
     this.store.dispatch(action);
     this.formGroup.markAsPristine();
 
-    this.change.emit(event);
-    const control: FormControl = event.control;
+    if (this.emitChange) {
+      this.change.emit(event);
+    }
 
+    const control: FormControl = event.control;
     if (control.valid) {
       this.store.dispatch(new FormRemoveErrorAction(this.formId, event.model.id));
     }

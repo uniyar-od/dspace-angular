@@ -118,10 +118,6 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
     this.blur.emit();
   }
 
-  onChange(event: DynamicFormControlEvent) {
-    (event.$event as Event).stopPropagation();
-  }
-
   onChipSelected(event) {
     this.expandForm();
     this.selectedChipItem = this.chips.getChipByIndex(event);
