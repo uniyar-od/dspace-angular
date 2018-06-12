@@ -29,7 +29,7 @@ export const POLICY_DEFAULT_WITH_LIST = 2; // Banner2
   templateUrl: './section-upload.component.html',
 })
 @renderSectionFor(SectionType.Upload)
-export class FilesSectionComponent extends SectionModelComponent implements OnChanges, OnInit {
+export class FilesSectionComponent extends SectionModelComponent implements OnInit {
 
   public AlertTypeEnum = AlertType;
   public fileIndexes = [];
@@ -168,10 +168,6 @@ export class FilesSectionComponent extends SectionModelComponent implements OnCh
           }
         )
     );
-  }
-
-  ngOnChanges() {
-
   }
 
   /**

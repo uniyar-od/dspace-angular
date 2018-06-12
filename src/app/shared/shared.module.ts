@@ -7,11 +7,11 @@ import { NgbDatepickerModule, NgbModule, NgbTimepickerModule, NgbTypeaheadModule
 
 import { TranslateModule } from '@ngx-translate/core';
 
+import { NgxPaginationModule } from 'ngx-pagination';
+
 import { FileUploadModule } from 'ng2-file-upload';
 
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-
-import { NgxPaginationModule } from 'ngx-pagination';
 
 import { EnumKeysPipe } from './utils/enum-keys-pipe';
 import { FileSizePipe } from './utils/file-size-pipe';
@@ -60,14 +60,15 @@ import { TruncatePipe } from './utils/truncate.pipe';
 import { TruncatableComponent } from './truncatable/truncatable.component';
 import { TruncatableService } from './truncatable/truncatable.service';
 import { TruncatablePartComponent } from './truncatable/truncatable-part/truncatable-part.component';
+import { MockAdminGuard } from './mocks/mock-admin-guard.service';
 import { UploaderComponent } from './uploader/uploader.component';
 import { ChipsComponent } from './chips/chips.component';
 import { DsDynamicTagComponent } from './form/builder/ds-dynamic-form-ui/models/tag/dynamic-tag.component';
 import { DsDynamicListComponent } from './form/builder/ds-dynamic-form-ui/models/list/dynamic-list.component';
-import { DsDynamicGroupComponent } from './form/builder/ds-dynamic-form-ui/models/ds-dynamic-group/dynamic-group.components';
+import { DsDynamicGroupComponent } from './form/builder/ds-dynamic-form-ui/models/dynamic-group/dynamic-group.components';
 import { SortablejsModule } from 'angular-sortablejs';
 import { NumberPickerComponent } from './number-picker/number-picker.component';
-import { DsDatePickerComponent } from './form/builder/ds-dynamic-form-ui/models/ds-date-picker/ds-date-picker.component';
+import { DsDatePickerComponent } from './form/builder/ds-dynamic-form-ui/models/date-picker/date-picker.component';
 import { MyDSpaceResultListElementComponent } from './object-list/my-dspace-result-list-element/my-dspace-result-list-element.component';
 import { DsDynamicLookupComponent } from './form/builder/ds-dynamic-form-ui/models/lookup/dynamic-lookup.component';
 import { MessageBoardComponent } from './message-board/message-board.component';
@@ -145,6 +146,8 @@ const COMPONENTS = [
   DsDynamicScrollableDropdownComponent,
   DsDynamicTagComponent,
   DsDynamicTypeaheadComponent,
+  DsDynamicGroupComponent,
+  DsDatePickerComponent,
   ErrorComponent,
   FormComponent,
   LoadingComponent,
@@ -214,9 +217,10 @@ const ENTRY_COMPONENTS = [
 ];
 
 const PROVIDERS = [
-  TruncatableService,
+  MockAdminGuard,
   SubmissionService,
   SubmissionRestService,
+  TruncatableService,
 ];
 
 const DIRECTIVES = [

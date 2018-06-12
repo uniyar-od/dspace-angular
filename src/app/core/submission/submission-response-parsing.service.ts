@@ -39,12 +39,11 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
         && (data.statusCode === '201' || data.statusCode === '200' || data.statusCode === 'OK' || data.statusCode === 'Created')) {
       let dataDefinition = this.process<NormalizedObject | ConfigObject, SubmissionResourceType>(data.payload, request.href);
       dataDefinition = this.postProcess<NormalizedObject | ConfigObject, SubmissionResourceType>(dataDefinition);
-      return new SubmissionSuccessResponse(dataDefinition[Object.keys(dataDefinition)[0]], data.statusCode, this.processPageInfo(data.payload.page));
+      return new SubmissionSuccessResponse(dataDefinition[Object.keys(dataDefinition)[0]], data.statusCode, this.processPageInfo(data.payload));
     } else if (isEmpty(data.payload) && data.statusCode === '204') {
       // Response from a DELETE request
       return new SubmissionSuccessResponse(null, data.statusCode);
     } else {
-      console.log(data);
       return new ErrorResponse(
         Object.assign(
           new Error('Unexpected response from server'),

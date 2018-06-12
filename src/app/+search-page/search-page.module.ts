@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 import { SearchPageRoutingModule } from './search-page-routing.module';
 import { SearchPageComponent } from './search-page.component';
@@ -20,7 +21,7 @@ import { SearchFiltersComponent } from './search-filters/search-filters.componen
 import { SearchFilterComponent } from './search-filters/search-filter/search-filter.component';
 import { SearchFacetFilterComponent } from './search-filters/search-filter/search-facet-filter/search-facet-filter.component';
 import { SearchFilterService } from './search-filters/search-filter/search-filter.service';
-import { SearchTabComponent } from './search-tab/search-tab.component';
+import { SearchSwitchConfigComponent } from './search-filters/search-switch-config/search-switch-config.component';
 
 const effects = [
   SearchSidebarEffects
@@ -41,7 +42,7 @@ const components = [
   SearchFiltersComponent,
   SearchFilterComponent,
   SearchFacetFilterComponent,
-  SearchTabComponent
+  SearchSwitchConfigComponent
 ];
 
 @NgModule({
@@ -50,6 +51,7 @@ const components = [
     CommonModule,
     SharedModule,
     EffectsModule.forFeature(effects),
+    CoreModule.forRoot()
   ],
   declarations: components,
   providers: [

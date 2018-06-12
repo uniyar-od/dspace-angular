@@ -59,6 +59,10 @@
       "detail": "{{ range }} of {{ total }}"
     }
   },
+  "sorting": {
+    "ASC": "Ascending",
+    "DESC": "Descending"
+  },
   "title": "DSpace",
   "404": {
     "help": "We can't find the page you're looking for. The page may have been moved or deleted. You can use the button below to get back to the home page. ",
@@ -135,7 +139,8 @@
     "description": "",
     "form": {
       "search": "Search",
-      "search_dspace": "Search MyDSpace"
+      "search_dspace": "Search DSpace",
+      "search_mydspace": "Search MyDSpace"
     },
     "results": {
       "head": "Search Results",
@@ -181,9 +186,13 @@
           "placeholder": "Subject",
           "head": "Subject"
         },
-        "date": {
+        "dateIssued": {
           "placeholder": "Date",
           "head": "Date"
+        },
+        "has_content_in_original_bundle": {
+          "placeholder": "Has files",
+          "head": "Has files"
         },
         "namedresourcetype": {
           "placeholder": "Status",
@@ -238,6 +247,8 @@
     "search-results": "Error fetching search results"
   },
   "form": {
+    "submit": "Submit",
+    "cancel": "Cancel",
     "search": "Search",
     "remove": "Remove",
     "first-name": "First name",
@@ -309,8 +320,12 @@
         "add-more": "Add more",
         "sections_not_valid": "There are incomplete sections.",
         "deposit_success_notice": "Submission deposited successfully.",
+        "deposit_error_notice": "There was an issue when submitting the item, please try again later.",
+        "discard_success_notice": "Submission discarded successfully.",
+        "discard_error_notice": "There was an issue when discarding the item, please try again later.",
         "save_success_notice": "Submission saved successfully.",
-        "metadata_extracted": "New metadata have been extracted and added to the item."
+        "metadata-extracted": "New metadata have been extracted and added to the <strong>{{sectionId}}</strong> section.",
+        "metadata-extracted-new-section": "New <strong>{{sectionId}}</strong> section has been added to submission."
       },
       "submit.progressbar.describe.stepone": "Describe",
       "submit.progressbar.describe.steptwo": "Describe",

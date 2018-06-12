@@ -1,7 +1,6 @@
 import { SubmissionDefinitionsModel } from '../shared/config/config-submission-definitions.model';
 import { SubmissionFormsModel } from '../shared/config/config-submission-forms.model';
 import { SubmissionSectionModel } from '../shared/config/config-submission-section.model';
-import { ConfigAuthorityModel } from '../shared/config/config-authority.model';
 import { GenericConstructor } from '../shared/generic-constructor';
 import { NormalizedBitstream } from '../cache/models/normalized-bitstream.model';
 import { NormalizedBundle } from '../cache/models/normalized-bundle.model';
@@ -18,7 +17,7 @@ import { NormalizedWorkflowItem } from './models/normalized-workflowitem.model';
 import { NormalizedEditItem } from './models/normalized-edititem.model';
 
 export class NormalizedSubmissionObjectFactory {
-  public static getConstructor(type: SubmissionResourceType): GenericConstructor<NormalizedObject|ConfigObject> {
+  public static getConstructor(type: SubmissionResourceType): GenericConstructor<NormalizedObject | ConfigObject> {
     switch (type) {
       case SubmissionResourceType.Bitstream: {
         return NormalizedBitstream
@@ -61,9 +60,6 @@ export class NormalizedSubmissionObjectFactory {
       case SubmissionResourceType.SubmissionSection:
       case SubmissionResourceType.SubmissionSections: {
         return SubmissionSectionModel
-      }
-      case SubmissionResourceType.Authority: {
-        return ConfigAuthorityModel
       }
       default: {
         return undefined;

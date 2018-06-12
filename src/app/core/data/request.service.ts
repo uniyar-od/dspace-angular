@@ -87,7 +87,7 @@ export class RequestService {
       this.clearRequestsOnTheirWayToTheStore(request.href);
     }
     if (request.method !== RestRequestMethod.Get || !this.isCachedOrPending(request) || (overrideRequest && !this.isPending(request))) {
-      this.dispatchRequest(request, overrideRequest);
+      this.dispatchRequest(request);
     }
   }
 
@@ -120,7 +120,7 @@ export class RequestService {
     return isCached || isPending;
   }
 
-  private dispatchRequest(request: RestRequest, overrideRequest: boolean = false) {
+  private dispatchRequest(request: RestRequest) {
     this.store.dispatch(new RequestConfigureAction(request));
     this.store.dispatch(new RequestExecuteAction(request.uuid));
     if (request.method === RestRequestMethod.Get) {

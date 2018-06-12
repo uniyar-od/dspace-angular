@@ -137,11 +137,23 @@ export function submissionObjectReducer(state = initialState, action: Submission
     }
 
     case SubmissionObjectActionTypes.DEPOSIT_SUBMISSION_SUCCESS: {
-      return Object.create({});
+      return initialState;
     }
 
     case SubmissionObjectActionTypes.DEPOSIT_SUBMISSION_ERROR: {
       return endDeposit(state, action as DepositSubmissionAction);
+    }
+
+    case SubmissionObjectActionTypes.DISCARD_SUBMISSION: {
+      return state;
+    }
+
+    case SubmissionObjectActionTypes.DISCARD_SUBMISSION_SUCCESS: {
+      return initialState;
+    }
+
+    case SubmissionObjectActionTypes.DISCARD_SUBMISSION_ERROR: {
+      return state;
     }
 
     case SubmissionObjectActionTypes.SET_ACTIVE_SECTION: {
@@ -514,7 +526,7 @@ function initSection(state: SubmissionObjectState, action: InitSectionAction): S
             collapsed: false,
             enabled: action.payload.enabled,
             data: action.payload.data,
-            errors: action.payload.errors,
+            errors: action.payload.errors || [],
             isLoading: false,
             isValid: false
           }
@@ -596,16 +608,13 @@ function setIsValid(state: SubmissionObjectState, action: SectionStatusChangeAct
   if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
-        activeSection: state[ action.payload.submissionId ].activeSection,
         sections: Object.assign({}, state[ action.payload.submissionId ].sections,
           Object.assign({}, {
             [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
               isValid: action.payload.status
             })
           })
-        ),
-        isLoading: state[ action.payload.submissionId ].isLoading,
-        savePending: state[ action.payload.submissionId ].savePending,
+        )
       })
     });
   } else {

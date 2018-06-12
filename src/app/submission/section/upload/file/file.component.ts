@@ -15,6 +15,15 @@ import { dateToGMTString } from '../../../../shared/date.util';
 import { JsonPatchOperationsService } from '../../../../core/json-patch/json-patch-operations.service';
 import { SubmitDataResponseDefinitionObject } from '../../../../core/shared/submit-data-response-definition.model';
 import { SubmissionService } from '../../../submission.service';
+import { ItemDataService } from '../../../../core/data/item-data.service';
+import { SubmissionRestService } from '../../../submission-rest.service';
+import { DSpaceRESTv2Service, HttpOptions } from '../../../../core/dspace-rest-v2/dspace-rest-v2.service';
+import { HttpHeaders } from '@angular/common/http';
+import { ResponseContentType } from '@angular/http';
+import { RestRequestMethod } from '../../../../core/data/request.models';
+import { saveAs } from 'file-saver';
+import { FileService } from '../../../../core/shared/file.service';
+import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service';
 
 @Component({
   selector: 'ds-submission-upload-section-file',
@@ -42,7 +51,9 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
   protected subscriptions = [];
 
   constructor(private cdr: ChangeDetectorRef,
+              private fileService: FileService,
               private formService: FormService,
+              private halService: HALEndpointService,
               private modalService: NgbModal,
               private operationsBuilder: JsonPatchOperationsBuilder,
               private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
@@ -92,6 +103,15 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
     );
   }
 
+  public downloadBitstreamFile() {
+    this.halService.getEndpoint('bitstreams')
+      .first()
+      .subscribe((url) => {
+        const fileUrl = `${url}/${this.fileData.uuid}/content`;
+        this.fileService.downloadFile(fileUrl);
+      });
+  }
+
   public saveBitstreamData(event) {
     event.preventDefault();
     this.subscriptions.push(
@@ -110,7 +130,7 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
             .forEach((accessCondition, index) => {
               let accessConditionOpt;
               this.availableAccessConditionOptions
-                .filter((element) => isNotNull(accessCondition.name) && element.name === accessCondition.name[0])
+                .filter((element) => isNotNull(accessCondition.name) && element.name === accessCondition.name[0].value)
                 .forEach((element) => accessConditionOpt = element);
               if (accessConditionOpt) {
                 const path = `accessConditions/${index}`;
@@ -121,15 +141,15 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
                   accessConditionsToSave.push(accessConditionOpt);
                 } else {
                   accessConditionOpt = Object.assign({}, accessCondition);
-                  accessConditionOpt.name = Array.isArray(accessCondition.name) ? accessCondition.name[0] : accessCondition.name;
-                  accessConditionOpt.groupUUID = Array.isArray(accessCondition.groupUUID) ? accessCondition.groupUUID[0] : accessCondition.groupUUID;
+                  accessConditionOpt.name = Array.isArray(accessCondition.name) ? accessCondition.name[0].value : accessCondition.name.value;
+                  accessConditionOpt.groupUUID = Array.isArray(accessCondition.groupUUID) ? accessCondition.groupUUID[0].value : accessCondition.groupUUID.value;
                   if (accessCondition.startDate) {
-                    const startDate = Array.isArray(accessCondition.startDate) ? accessCondition.startDate[0] : accessCondition.startDate;
+                    const startDate = Array.isArray(accessCondition.startDate) ? accessCondition.startDate[0].value : accessCondition.startDate.value;
                     accessConditionOpt.startDate = dateToGMTString(startDate);
                     accessConditionOpt = deleteProperty(accessConditionOpt, 'endDate');
                   }
                   if (accessCondition.endDate) {
-                    const endDate = Array.isArray(accessCondition.endDate) ? accessCondition.endDate[0] : accessCondition.endDate;
+                    const endDate = Array.isArray(accessCondition.endDate) ? accessCondition.endDate[0].value : accessCondition.endDate.value;
                     accessConditionOpt.endDate = dateToGMTString(endDate);
                     accessConditionOpt = deleteProperty(accessConditionOpt, 'startDate');
                   }

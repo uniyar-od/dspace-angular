@@ -5,12 +5,19 @@ import {
   DynamicFormArrayModel,
   DynamicFormControlEvent,
   DynamicFormControlModel,
-  DynamicFormGroupModel,
+  DynamicFormGroupModel, DynamicFormLayout,
 } from '@ng-dynamic-forms/core';
 import { Store } from '@ngrx/store';
+import { findIndex } from 'lodash';
 
 import { AppState } from '../../app.reducer';
-import { FormChangeAction, FormInitAction, FormRemoveAction, FormStatusChangeAction } from './form.actions';
+import {
+  FormChangeAction,
+  FormInitAction,
+  FormRemoveAction,
+  FormRemoveErrorAction,
+  FormStatusChangeAction
+} from './form.actions';
 import { FormBuilderService } from './builder/form-builder.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -31,12 +38,18 @@ import { isEmpty } from 'lodash';
 })
 export class FormComponent implements OnDestroy, OnInit {
 
+  private formErrors: FormError[] = [];
   private formValid: boolean;
 
   /**
    * A boolean that indicate if to display form's submit and cancel buttons
    */
   @Input() displaySubmit = true;
+
+  /**
+   * A boolean that indicate if to emit a form change event
+   */
+  @Input() emitChange = true;
 
   /**
    * The form unique ID
@@ -49,6 +62,7 @@ export class FormComponent implements OnDestroy, OnInit {
   @Input() formModel: DynamicFormControlModel[];
   @Input() parentFormModel: DynamicFormGroupModel | DynamicFormGroupModel[];
   @Input() formGroup: FormGroup;
+  @Input() formLayout: DynamicFormLayout = null;
 
   /* tslint:disable:no-output-rename */
   @Output('dfBlur') blur: EventEmitter<DynamicFormControlEvent> = new EventEmitter<DynamicFormControlEvent>();
@@ -143,11 +157,13 @@ export class FormComponent implements OnDestroy, OnInit {
         .filter((formState: FormEntry) => !!formState && !isEmpty(formState.errors))
         .map((formState) => formState.errors)
         .distinctUntilChanged()
-        .delay(100) // this terrible delay is here to prevent the detection change error
+        // .delay(100) // this terrible delay is here to prevent the detection change error
         .subscribe((errors: FormError[]) => {
           const {formGroup, formModel} = this;
 
-          errors.forEach((error: FormError) => {
+          errors
+            .filter((error: FormError) => findIndex(this.formErrors, {fieldId: error.fieldId}) === -1)
+            .forEach((error: FormError) => {
             const {fieldId} = error;
             let field: AbstractControl;
             if (!!this.parentFormModel) {
@@ -159,9 +175,29 @@ export class FormComponent implements OnDestroy, OnInit {
             if (field) {
               const model: DynamicFormControlModel = this.formBuilderService.findById(fieldId, formModel);
               this.formService.addErrorToField(field, model, error.message);
+              // this.formService.validateAllFormFields(formGroup);
+              this.changeDetectorRef.detectChanges();
             }
           });
 
+          this.formErrors
+            .filter((error: FormError) => findIndex(errors, {fieldId: error.fieldId}) === -1)
+            .forEach((error: FormError) => {
+              const {fieldId} = error;
+              let field: AbstractControl;
+              if (!!this.parentFormModel) {
+                field = this.formBuilderService.getFormControlById(fieldId, formGroup.parent as FormGroup, formModel);
+              } else {
+                field = this.formBuilderService.getFormControlById(fieldId, formGroup, formModel);
+              }
+
+              if (field) {
+                const model: DynamicFormControlModel = this.formBuilderService.findById(fieldId, formModel);
+                this.formService.removeErrorFromField(field, model, error.message);
+              }
+            });
+
+          this.formErrors = errors;
           this.changeDetectorRef.detectChanges();
         })
     );
@@ -171,10 +207,10 @@ export class FormComponent implements OnDestroy, OnInit {
    * Method provided by Angular. Invoked when the instance is destroyed
    */
   ngOnDestroy() {
-    this.store.dispatch(new FormRemoveAction(this.formId));
     this.subs
       .filter((sub) => hasValue(sub))
       .forEach((sub) => sub.unsubscribe());
+    this.store.dispatch(new FormRemoveAction(this.formId));
   }
 
   /**
@@ -210,10 +246,14 @@ export class FormComponent implements OnDestroy, OnInit {
     this.store.dispatch(action);
     this.formGroup.markAsPristine();
 
-    this.change.emit(event);
-    const control: FormControl = event.control;
+    if (this.emitChange) {
+      this.change.emit(event);
+    }
 
-    control.setErrors(null);
+    const control: FormControl = event.control;
+    if (control.valid) {
+      this.store.dispatch(new FormRemoveErrorAction(this.formId, event.model.id));
+    }
   }
 
   /**

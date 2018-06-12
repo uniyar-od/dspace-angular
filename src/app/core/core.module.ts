@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { DynamicFormLayoutService, DynamicFormService, DynamicFormValidationService } from '@ng-dynamic-forms/core';
 
 import { coreEffects } from './core.effects';
 import { coreReducers } from './core.reducers';
@@ -15,6 +16,7 @@ import { coreReducers } from './core.reducers';
 import { isNotEmpty } from '../shared/empty.util';
 
 import { ApiService } from '../shared/services/api.service';
+import { BrowseEntriesResponseParsingService } from './data/browse-entries-response-parsing.service';
 import { CollectionDataService } from './data/collection-data.service';
 import { CommunityDataService } from './data/community-data.service';
 import { DebugResponseParsingService } from './data/debug-response-parsing.service';
@@ -40,11 +42,11 @@ import { BrowseService } from './browse/browse.service';
 import { BrowseResponseParsingService } from './data/browse-response-parsing.service';
 import { ConfigResponseParsingService } from './data/config-response-parsing.service';
 import { RouteService } from '../shared/services/route.service';
-import { DynamicFormLayoutService, DynamicFormService, DynamicFormValidationService } from '@ng-dynamic-forms/core';
 
 import { SubmissionDefinitionsConfigService } from './config/submission-definitions-config.service';
 import { SubmissionFormsConfigService } from './config/submission-forms-config.service';
 import { SubmissionSectionsConfigService } from './config/submission-sections-config.service';
+
 import { SubmissionResponseParsingService } from './submission/submission-response-parsing.service';
 import { EpersonResponseParsingService } from './eperson/eperson-response-parsing.service';
 import { JsonPatchOperationsBuilder } from './json-patch/builder/json-patch-operations-builder';
@@ -58,6 +60,10 @@ import { AuthResponseParsingService } from './auth/auth-response-parsing.service
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { PlatformService } from '../shared/services/platform.service';
+import { HALEndpointService } from './shared/hal-endpoint.service';
+import { FacetValueResponseParsingService } from './data/facet-value-response-parsing.service';
+import { FacetValueMapResponseParsingService } from './data/facet-value-map-response-parsing.service';
+import { FacetConfigResponseParsingService } from './data/facet-config-response-parsing.service';
 import { JsonPatchOperationsService } from './json-patch/json-patch-operations.service';
 import { MessageService } from './message/message.service';
 import { MessageResponseParsingService } from './message/message-response-parsing.service';
@@ -69,6 +75,8 @@ import { NotificationsService } from '../shared/notifications/notifications.serv
 import { RolesService } from './roles/roles.service';
 import { TaskResponseParsingService } from './tasks/task-response-parsing.service';
 import { UploaderService } from '../shared/uploader/uploader.service';
+import { MyDSpaceResponseParsingService } from './data/mydspace-response-parsing.service';
+import { FileService } from './shared/file.service';
 
 const IMPORTS = [
   CommonModule,
@@ -101,6 +109,7 @@ const PROVIDERS = [
   FormService,
   EpersonResponseParsingService,
   GroupEpersonService,
+  HALEndpointService,
   HostWindowService,
   ItemDataService,
   MetadataService,
@@ -111,10 +120,14 @@ const PROVIDERS = [
   RequestService,
   ResponseCacheService,
   EndpointMapResponseParsingService,
+  FacetValueResponseParsingService,
+  FacetValueMapResponseParsingService,
+  FacetConfigResponseParsingService,
   DebugResponseParsingService,
   SearchResponseParsingService,
   ServerResponseService,
   BrowseResponseParsingService,
+  BrowseEntriesResponseParsingService,
   BrowseService,
   ConfigResponseParsingService,
   RouteService,
@@ -126,10 +139,12 @@ const PROVIDERS = [
   JsonPatchOperationsService,
   AuthorityService,
   IntegrationResponseParsingService,
+  UploaderService,
   UUIDService,
   NotificationsService,
   WorkspaceitemDataService,
   WorkflowitemDataService,
+  MyDSpaceResponseParsingService,
   ClaimedTaskDataService,
   PoolTaskDataService,
   MessageService,
@@ -137,14 +152,15 @@ const PROVIDERS = [
   TaskResponseParsingService,
   RolesService,
   UploaderService,
-  { provide: NativeWindowService, useFactory: NativeWindowFactory },
+  FileService,
   // register AuthInterceptor as HttpInterceptor
   {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
-  }
-
+  },
+  NotificationsService,
+  { provide: NativeWindowService, useFactory: NativeWindowFactory }
 ];
 
 @NgModule({

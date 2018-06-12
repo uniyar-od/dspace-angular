@@ -22,6 +22,8 @@ import { PaginationComponentOptions } from './pagination-component-options.model
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { hasValue, isNotEmpty } from '../empty.util';
 import { PageInfo } from '../../core/shared/page-info.model';
+import { isEqual, isObject, transform } from 'lodash';
+import { difference } from '../object.util';
 
 /**
  * The default pagination controls component.
@@ -144,7 +146,7 @@ export class PaginationComponent implements OnDestroy, OnInit {
   /**
    * Direction in which to sort: ascending or descending
    */
-  public sortDirection: SortDirection = SortDirection.Ascending;
+  public sortDirection: SortDirection = SortDirection.ASC;
 
   /**
    * Name of the field that's used to sort by
@@ -237,7 +239,7 @@ export class PaginationComponent implements OnDestroy, OnInit {
    *    The page being navigated to.
    */
   public doPageChange(page: number) {
-    this.updateRoute({ page: page });
+    this.updateRoute({ page: page.toString() });
   }
 
   /**
@@ -335,9 +337,23 @@ export class PaginationComponent implements OnDestroy, OnInit {
    * Method to update the route parameters
    */
   private updateRoute(params: {}) {
-    this.router.navigate([], {
-      queryParams: Object.assign({}, this.currentQueryParams, params)
-    });
+    if (isNotEmpty(difference(params, this.currentQueryParams))) {
+      this.router.navigate([], {
+        queryParams: Object.assign({}, this.currentQueryParams, params),
+        queryParamsHandling: 'merge'
+      });
+    }
+  }
+
+  private difference(object, base) {
+    const changes = (o, b) => {
+      return transform(o, (result, value, key) => {
+        if (!isEqual(value, b[key]) && isNotEmpty(value)) {
+          result[key] = (isObject(value) && isObject(b[key])) ? changes(value, b[key]) : value;
+        }
+      });
+    };
+    return changes(object, base);
   }
 
   /**

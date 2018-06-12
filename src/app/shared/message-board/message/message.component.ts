@@ -36,15 +36,12 @@ export class MessageComponent implements OnInit {
   ngOnInit() {
     const type = this.m.findMetadata('dc.type');
 
-    if (this.isLast &&
-      ((this.isSubmitter && type === 'outbound')
-        || (!this.isSubmitter && type === 'inbound'))
-    ) {
-      this.showUnread = true;
-      this.showRead = false;
-    } else if (this.isLast) {
-      this.showUnread = false;
-      this.showRead = true;
+    if (this.isLast) {
+      if ((this.isSubmitter && type === 'outbound')
+        || (!this.isSubmitter && type === 'inbound')) {
+        this.showUnread = true;
+        this.showRead = false;
+      }
     } else {
       this.showUnread = false;
       this.showRead = false;

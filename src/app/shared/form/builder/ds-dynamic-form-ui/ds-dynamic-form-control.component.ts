@@ -12,7 +12,6 @@ import {
 import { FormGroup } from '@angular/forms';
 import {
   DynamicDatePickerModel,
-  DynamicFormArrayGroupModel,
   DynamicFormControlComponent,
   DynamicFormControlEvent,
   DynamicFormControlModel,
@@ -34,8 +33,8 @@ import {
 import { DYNAMIC_FORM_CONTROL_TYPE_TYPEAHEAD } from './models/typeahead/dynamic-typeahead.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_SCROLLABLE_DROPDOWN } from './models/scrollable-dropdown/dynamic-scrollable-dropdown.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_TAG } from './models/tag/dynamic-tag.model';
-import { DYNAMIC_FORM_CONTROL_TYPE_RELATION } from './models/ds-dynamic-group/dynamic-group.model';
-import { DYNAMIC_FORM_CONTROL_TYPE_DSDATEPICKER } from './models/ds-date-picker/ds-date-picker.model';
+import { DYNAMIC_FORM_CONTROL_TYPE_RELATION } from './models/dynamic-group/dynamic-group.model';
+import { DYNAMIC_FORM_CONTROL_TYPE_DSDATEPICKER } from './models/date-picker/date-picker.model';
 import { DYNAMIC_FORM_CONTROL_TYPE_LOOKUP } from './models/lookup/dynamic-lookup.model';
 import { DynamicListCheckboxGroupModel } from './models/list/dynamic-list-checkbox-group.model';
 import { DynamicListRadioGroupModel } from './models/list/dynamic-list-radio-group.model';
@@ -172,5 +171,4 @@ export class DsDynamicFormControlComponent extends DynamicFormControlComponent i
       this.onValueChange(event);
     }
   }
-
 }

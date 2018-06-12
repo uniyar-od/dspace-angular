@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SearchService } from '../search-service/search.service';
 import { RemoteData } from '../../core/data/remote-data';
 import { SearchFilterConfig } from '../search-service/search-filter-config.model';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import { hasValue } from '../../shared/empty.util';
+import { SearchFilterService } from './search-filter/search-filter.service';
+import { SearchConfigOption } from './search-switch-config/search-config-option.model';
 
 /**
  * This component renders a simple item page.
@@ -18,41 +18,28 @@ import { hasValue } from '../../shared/empty.util';
   templateUrl: './search-filters.component.html',
 })
 
-export class SearchFiltersComponent implements OnDestroy, OnInit {
-  filters: SearchFilterConfig[] = [];
-  sub: Subscription;
-  constructor(private cdr: ChangeDetectorRef, private searchService: SearchService) {
+export class SearchFiltersComponent {
+  @Input() configurationList: SearchConfigOption[];
+
+  filters: Observable<RemoteData<SearchFilterConfig[]>>;
+  clearParams;
+
+  constructor(private searchService: SearchService, private filterService: SearchFilterService) {
   }
 
-  ngOnInit() {
-    this.sub = this.searchService.getConfig()
+  ngOnInit(): void {
+    this.filters = this.filterService.getSearchOptions()
       .distinctUntilChanged()
-      .subscribe((filtersConfig) => {
-        const filters = [];
-        filtersConfig.forEach((filter) => {
-          let newFilter = filter;
-          // Force instance of the facet object to SearchFilterConfig
-          if (!(filter instanceof SearchFilterConfig)) {
-            newFilter = Object.assign(new SearchFilterConfig(), filter);
-          }
-          filters.push(newFilter);
-        });
-        this.filters = filters;
-        this.cdr.detectChanges();
-      });
-  }
+      .flatMap((options) => this.searchService.getConfig(options.scope, options.configuration));
 
-  getClearFiltersQueryParams(): any {
-    return this.searchService.getClearFiltersQueryParams();
+    this.clearParams = this.filterService.getCurrentFilters().map((filters) => {
+      Object.keys(filters).forEach((f) => filters[f] = null);
+      return filters;
+    });
   }
 
   getSearchLink() {
     return this.searchService.getSearchLink();
   }
 
-  ngOnDestroy() {
-    if (hasValue(this.sub)) {
-      this.sub.unsubscribe();
-    }
-  }
 }
