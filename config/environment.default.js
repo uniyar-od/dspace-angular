@@ -30,7 +30,7 @@ module.exports = {
     }
   },
   filters: {
-    loadOpened: []
+    loadOpened: ['namedresourcetype']
   },
   // Notifications
   notifications: {

@@ -16,6 +16,7 @@ export interface DynamicGroupModelConfig extends DsDynamicInputModelConfig {
   name: string,
   relationFields: string[],
   scopeUUID: string,
+  submissionScope: string;
   value?: any;
 }
 
@@ -27,6 +28,7 @@ export class DynamicGroupModel extends DsDynamicInputModel {
   @serializable() mandatoryField: string;
   @serializable() relationFields: string[];
   @serializable() scopeUUID: string;
+  @serializable() submissionScope: string;
   @serializable() _value: any[];
   @serializable() readonly type: string = DYNAMIC_FORM_CONTROL_TYPE_RELATION;
 
@@ -37,6 +39,7 @@ export class DynamicGroupModel extends DsDynamicInputModel {
     this.mandatoryField = config.mandatoryField;
     this.relationFields = config.relationFields;
     this.scopeUUID = config.scopeUUID;
+    this.submissionScope = config.submissionScope;
     const value = config.value || [];
     this.valueUpdates.next(value);
   }

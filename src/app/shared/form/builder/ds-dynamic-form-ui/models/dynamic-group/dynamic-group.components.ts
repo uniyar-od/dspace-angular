@@ -80,7 +80,7 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
     });
 
     this.formId = this.formService.getUniqueId(this.model.id);
-    this.formModel = this.formBuilderService.modelFromConfiguration(config, this.model.scopeUUID, {});
+    this.formModel = this.formBuilderService.modelFromConfiguration(config, this.model.scopeUUID, {}, this.model.submissionScope, this.model.readOnly);
     const initChipsValue = this.model.isEmpty() ? [] : this.model.value;
     this.chips = new Chips(initChipsValue, 'value', this.model.mandatoryField, this.EnvConfig.submission.metadata.icons);
     this.subs.push(
