@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@ang
 import { Store } from '@ngrx/store';
 import { DynamicFormControlEvent, DynamicFormControlModel } from '@ng-dynamic-forms/core';
 
-import { isEqual, isObject, transform } from 'lodash';
+import { isEqual } from 'lodash';
 
 import { FormBuilderService } from '../../../shared/form/builder/form-builder.service';
 import { FormComponent } from '../../../shared/form/form.component';
@@ -31,8 +31,6 @@ import { NotificationsService } from '../../../shared/notifications/notification
 import { TranslateService } from '@ngx-translate/core';
 import { SectionService } from '../section.service';
 import { difference } from '../../../shared/object.util';
-import { FormClearErrorsAction } from '../../../shared/form/form.actions';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'ds-submission-section-form',

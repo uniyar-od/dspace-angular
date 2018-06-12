@@ -15,7 +15,6 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { MyDSpaceResultDetailElementComponent } from '../my-dspace-result-detail-element.component';
 import { ItemStatusType } from '../../../object-collection/shared/mydspace-item-status/item-status-type';
 
-
 @Component({
   selector: 'ds-claimtask-my-dspace-result-detail-element',
   styleUrls: ['../my-dspace-result-detail-element.component.scss'],
