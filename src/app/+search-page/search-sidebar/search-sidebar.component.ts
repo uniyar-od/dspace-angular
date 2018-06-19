@@ -18,6 +18,7 @@ export class SearchSidebarComponent {
   @Input() hideOptions;
   @Input() viewModeList;
   @Input() configurationList: SearchConfigOption[];
+  @Input() defaultOptions: any;
   @Output() toggleSidebar = new EventEmitter<boolean>();
 
 }

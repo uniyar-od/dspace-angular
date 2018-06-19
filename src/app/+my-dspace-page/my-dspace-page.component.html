@@ -5,6 +5,7 @@
     <ds-search-sidebar *ngIf="!(isMobileView$ | async)" class="col-3 sidebar-md-sticky"
                        id="search-sidebar"
                        [configurationList]="(configurationList$ | async)"
+                       [defaultOptions]="defaults"
                        [hideOptions]="hideOptions"
                        [resultCount]="(resultsRD$ | async)?.pageInfo?.totalElements"
                        [viewModeList]="viewModeList"></ds-search-sidebar>
@@ -23,6 +24,7 @@
           <ds-search-sidebar *ngIf="(isMobileView$ | async)" class="col-12"
                              id="search-sidebar-sm"
                              [configurationList]="(configurationList$ | async)"
+                             [defaultOptions]="defaults"
                              [hideOptions]="hideOptions"
                              [resultCount]="(resultsRD$ | async)?.pageInfo?.totalElements"
                              (toggleSidebar)="closeSidebar()"

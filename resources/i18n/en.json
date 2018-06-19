@@ -217,9 +217,15 @@
         "submitter": {
           "placeholder": "Submitter",
           "head": "Submitter"
+        },
+        "objectpeople": {
+          "placeholder": "People",
+          "head": "People"
+        },
+        "objectou": {
+          "placeholder": "Affiliation",
+          "head": "Affiliation"
         }
-
-
       }
     }
   },
