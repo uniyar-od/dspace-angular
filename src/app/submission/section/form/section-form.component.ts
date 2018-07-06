@@ -119,6 +119,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
 
   initForm(sectionData: WorkspaceitemSectionDataType) {
     this.formModel = this.formBuilderService.modelFromConfiguration(
+      this.translate,
       this.formConfig,
       this.collectionId,
       sectionData,
@@ -137,6 +138,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
       this.formModel = null;
       this.cdr.detectChanges();
       this.formModel = this.formBuilderService.modelFromConfiguration(
+        this.translate,
         this.formConfig,
         this.collectionId,
         sectionData,

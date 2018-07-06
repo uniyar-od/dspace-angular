@@ -33,6 +33,7 @@ import { SubmissionFormsModel } from '../../../../../core/shared/config/config-s
 import { FormFieldModel } from '../../../../../shared/form/builder/models/form-field.model';
 import { AccessConditionOption } from '../../../../../core/shared/config/config-access-condition-option.model';
 import { SubmissionService } from '../../../../submission.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ds-submission-upload-section-file-edit',
@@ -56,7 +57,8 @@ export class UploadSectionFileEditComponent implements OnChanges {
 
   constructor(private cdr: ChangeDetectorRef,
               private formBuilderService: FormBuilderService,
-              private submissionService: SubmissionService) {
+              private submissionService: SubmissionService,
+              private translate: TranslateService) {
   }
 
   ngOnChanges() {
@@ -79,6 +81,7 @@ export class UploadSectionFileEditComponent implements OnChanges {
     const formModel: DynamicFormControlModel[] = [];
     const metadataGroupModelConfig = Object.assign({}, BITSTREAM_METADATA_FORM_GROUP_CONFIG);
     metadataGroupModelConfig.group = this.formBuilderService.modelFromConfiguration(
+      this.translate,
       configForm,
       this.collectionId,
       this.fileData.metadata,

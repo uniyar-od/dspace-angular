@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChanges, } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { isEmpty } from '../empty.util';
 
 @Component({
   selector: 'ds-number-picker',
@@ -24,20 +25,20 @@ export class NumberPickerComponent implements OnInit, ControlValueAccessor {
 
   @Output() selected = new EventEmitter<number>();
   @Output() remove = new EventEmitter<number>();
-  @Output() blur = new EventEmitter<any>();
   @Output() change = new EventEmitter<any>();
   @Output() focus = new EventEmitter<any>();
 
-  lastValue: number;
+  startValue: number;
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    // this.lastValue = this.value;
+    // this.startValue = this.value;
     this.step = this.step || 1;
     this.min = this.min || 0;
     this.max = this.max || 100;
+    this.size = this.size || 1;
     this.disabled = this.disabled || false;
     this.invalid = this.invalid || false;
     this.cd.detectChanges();
@@ -58,12 +59,13 @@ export class NumberPickerComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  increment(reverse?: boolean) {
+  private changeValue(reverse: boolean = false) {
+
     // First after init
-    if (!this.value) {
-      this.value = this.lastValue;
+    if (isEmpty(this.value)) {
+      this.value = this.startValue;
     } else {
-      this.lastValue = this.value;
+      this.startValue = this.value;
 
       let newValue = this.value;
       if (reverse) {
@@ -86,8 +88,12 @@ export class NumberPickerComponent implements OnInit, ControlValueAccessor {
     this.emitChange();
   }
 
-  decrement() {
-    this.increment(true);
+  toggleDown() {
+    this.changeValue(true);
+  }
+
+  toggleUp() {
+    this.changeValue();
   }
 
   update(event) {
@@ -108,25 +114,15 @@ export class NumberPickerComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onBlur(event) {
-    this.blur.emit(event);
-  }
-
   onFocus(event) {
     if (this.value) {
-      this.lastValue = this.value;
+      this.startValue = this.value;
     }
     this.focus.emit(event);
   }
 
   writeValue(value) {
-    if (this.lastValue) {
-      this.lastValue = this.value;
-      this.value = value;
-    } else {
-      // First init
-      this.lastValue = value;
-    }
+    this.startValue = value || this.min;
   }
 
   registerOnChange(fn) {
