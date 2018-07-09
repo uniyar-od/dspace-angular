@@ -6,10 +6,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../app.reducer';
 import { formObjectFromIdSelector } from './selectors';
 import { FormBuilderService } from './builder/form-builder.service';
-import { DynamicFormControlModel, DynamicFormGroupModel } from '@ng-dynamic-forms/core';
-import { isEmpty, isNotEmpty, isNotUndefined, isUndefined } from '../empty.util';
-import { find, uniqueId } from 'lodash';
-import { FormChangeAction, FormRemoveErrorAction } from './form.actions';
+import { DynamicFormControlModel } from '@ng-dynamic-forms/core';
+import { isEmpty, isNotUndefined } from '../empty.util';
+import { uniqueId } from 'lodash';
+import { FormChangeAction } from './form.actions';
 import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
 
 @Injectable()

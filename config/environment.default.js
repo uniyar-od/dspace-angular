@@ -29,7 +29,9 @@ module.exports = {
       page: '/dspace-spring-rest/shib.html'
     }
   },
+  // Form settings
   form: {
+    // NOTE: Map server-side validators to comparative Angular form validators
     validatorMap: {
       required: 'required',
       regex: 'pattern'
