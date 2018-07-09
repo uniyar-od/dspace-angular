@@ -20,9 +20,7 @@ const parseSectionErrorPaths = (path: string | string[]): SectionErrorPath[] => 
   const paths = typeof path === 'string' ? [path] : path;
 
   return paths.map((item) => {
-      console.log(item.match(regex));
       if (item.match(regex) && item.match(regex).length > 2) {
-        console.log(item.match(regex));
         return {
           sectionId: item.match(regex)[1],
           fieldId: item.match(regex)[2],

@@ -39,7 +39,7 @@ export class SectionService {
     if (isEmpty(currentErrors)) {
       this.store.dispatch(new DeleteSectionErrorsAction(submissionId, sectionId, currentErrors));
       this.store.dispatch(new FormClearErrorsAction(formId));
-    } else if (!isEqual(currentErrors, prevErrors)) {
+    } else {
       const dispatchedErrors = [];
       currentErrors.forEach((error: SubmissionSectionError) => {
         const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);

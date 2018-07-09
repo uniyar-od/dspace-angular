@@ -175,7 +175,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
           this.store.dispatch(new SectionStatusChangeAction(this.submissionId, this.sectionData.id, this.valid));
         }),
       /**
-       * Subscribe to form data
+       * Subscribe to form's data
        */
       this.formService.getFormData(this.formId)
         .distinctUntilChanged()

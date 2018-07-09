@@ -29,6 +29,12 @@ module.exports = {
       page: '/dspace-spring-rest/shib.html'
     }
   },
+  form: {
+    validatorMap: {
+      required: 'required',
+      regex: 'pattern'
+    }
+  },
   filters: {
     loadOpened: ['namedresourcetype']
   },
