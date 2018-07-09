@@ -332,9 +332,8 @@
         <small *ngIf="model.hint" class="text-muted" [innerHTML]="model.hint"
                [ngClass]="getClass('element', 'hint')"></small>
 
-        {{ validator }}
         <div *ngIf="showErrorMessages" [ngClass]="[getClass('element', 'errors'), getClass('grid', 'errors')]">
-            <small *ngFor="let message of errorMessages" class="invalid-feedback d-block">{{ message | translate }}</small>
+            <small *ngFor="let message of errorMessages" class="invalid-feedback d-block">{{ message | translate:model.validators }}</small>
         </div>
 
       </ng-container>

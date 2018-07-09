@@ -12,13 +12,12 @@ import { DynamicFormControlLayout } from '@ng-dynamic-forms/core';
 import { setLayout } from './parser.utils';
 import { AuthorityOptions } from '../../../../core/integration/models/authority-options.model';
 import { ParserOptions } from './parser-options';
-import { TranslateService } from '@ngx-translate/core';
 
 export abstract class FieldParser {
 
   protected fieldId: string;
 
-  constructor(protected translate: TranslateService, protected configData: FormFieldModel, protected initFormValues, protected parserOptions: ParserOptions) {
+  constructor(protected configData: FormFieldModel, protected initFormValues, protected parserOptions: ParserOptions) {
   }
 
   public abstract modelFactory(fieldValue?: FormFieldMetadataValueObject): any;
@@ -213,14 +212,13 @@ export abstract class FieldParser {
   }
 
   protected addPatternValidator(controlModel) {
-    this.translate.get('form.error.validation.pattern').subscribe((msg) => {
-      const regex = new RegExp(this.configData.input.regex);
-      controlModel.validators = Object.assign({}, controlModel.validators, {pattern: regex});
-      controlModel.errorMessages = Object.assign(
-        {},
-        controlModel.errorMessages,
-        {pattern: msg});
-    })
+    const regex = new RegExp(this.configData.input.regex);
+    controlModel.validators = Object.assign({}, controlModel.validators, {pattern: regex});
+    controlModel.errorMessages = Object.assign(
+      {},
+      controlModel.errorMessages,
+      {pattern: 'form.error.validation.pattern', regex: 'form.error.validation.pattern'});
+
   }
 
   protected markAsRequired(controlModel) {

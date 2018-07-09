@@ -25,7 +25,6 @@ import { RowParser } from './parsers/row-parser';
 import { DynamicRowArrayModel } from './ds-dynamic-form-ui/models/ds-dynamic-row-array-model';
 import { DsDynamicInputModel } from './ds-dynamic-form-ui/models/ds-dynamic-input.model';
 import { FormFieldMetadataValueObject } from './models/form-field-metadata-value.model';
-import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class FormBuilderService extends DynamicFormService {
@@ -191,13 +190,13 @@ export class FormBuilderService extends DynamicFormService {
     return result;
   }
 
-  modelFromConfiguration(translate: TranslateService, json: string | SubmissionFormsModel, scopeUUID: string, initFormValues: any = {}, submissionScope?: string, readOnly = false): DynamicFormControlModel[] | never {
+  modelFromConfiguration(json: string | SubmissionFormsModel, scopeUUID: string, initFormValues: any = {}, submissionScope?: string, readOnly = false): DynamicFormControlModel[] | never {
     let rows: DynamicFormControlModel[] = [];
     const rawData = typeof json === 'string' ? JSON.parse(json, JSONUtils.parseReviver) : json;
 
     if (rawData.rows && !isEmpty(rawData.rows)) {
       rawData.rows.forEach((currentRow) => {
-        const rowParsed = new RowParser(translate, currentRow, scopeUUID, initFormValues, submissionScope, readOnly).parse();
+        const rowParsed = new RowParser(currentRow, scopeUUID, initFormValues, submissionScope, readOnly).parse();
         if (isNotNull(rowParsed)) {
           if (Array.isArray(rowParsed)) {
             rows = rows.concat(rowParsed);

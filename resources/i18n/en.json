@@ -187,8 +187,8 @@
           "head": "Subject"
         },
         "dateIssued": {
-          "placeholder": "Date",
-          "head": "Date"
+          "placeholder": "Date issued",
+          "head": "Date issued"
         },
         "has_content_in_original_bundle": {
           "placeholder": "Has files",
@@ -202,17 +202,9 @@
           "placeholder": "Date submitted",
           "head": "Date submitted"
         },
-        "dateIssued": {
-          "placeholder": "Date issued",
-          "head": "Date issued"
-        },
         "itemtype": {
           "placeholder": "Type",
           "head": "Type"
-        },
-        "has_content_in_original_bundle": {
-          "placeholder": "Has files",
-          "head": "Has files"
         },
         "submitter": {
           "placeholder": "Submitter",
@@ -268,7 +260,7 @@
     "group-expand-help": "Click here to expand and add more element",
     "error": {
       "validation": {
-        "pattern": "This input is restricted by the current pattern: {{ validator.requiredPattern }}."
+        "pattern": "This input is restricted by the current pattern: {{ pattern }}."
       }
     }
   },

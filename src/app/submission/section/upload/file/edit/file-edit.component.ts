@@ -81,7 +81,6 @@ export class UploadSectionFileEditComponent implements OnChanges {
     const formModel: DynamicFormControlModel[] = [];
     const metadataGroupModelConfig = Object.assign({}, BITSTREAM_METADATA_FORM_GROUP_CONFIG);
     metadataGroupModelConfig.group = this.formBuilderService.modelFromConfiguration(
-      this.translate,
       configForm,
       this.collectionId,
       this.fileData.metadata,

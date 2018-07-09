@@ -15,13 +15,6 @@ import { dateToGMTString } from '../../../../shared/date.util';
 import { JsonPatchOperationsService } from '../../../../core/json-patch/json-patch-operations.service';
 import { SubmitDataResponseDefinitionObject } from '../../../../core/shared/submit-data-response-definition.model';
 import { SubmissionService } from '../../../submission.service';
-import { ItemDataService } from '../../../../core/data/item-data.service';
-import { SubmissionRestService } from '../../../submission-rest.service';
-import { DSpaceRESTv2Service, HttpOptions } from '../../../../core/dspace-rest-v2/dspace-rest-v2.service';
-import { HttpHeaders } from '@angular/common/http';
-import { ResponseContentType } from '@angular/http';
-import { RestRequestMethod } from '../../../../core/data/request.models';
-import { saveAs } from 'file-saver';
 import { FileService } from '../../../../core/shared/file.service';
 import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service';
 

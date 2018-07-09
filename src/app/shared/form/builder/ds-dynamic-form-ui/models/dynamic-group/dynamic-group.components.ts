@@ -30,7 +30,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { hasOnlyEmptyProperties } from '../../../../../object.util';
 import { FormFieldMetadataValueObject } from '../../../models/form-field-metadata-value.model';
 import { AuthorityValueModel } from '../../../../../../core/integration/models/authority-value.model';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ds-dynamic-group',
@@ -62,8 +61,7 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
   constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
               private formBuilderService: FormBuilderService,
               private formService: FormService,
-              private cdr: ChangeDetectorRef,
-              private translate: TranslateService) {
+              private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
@@ -76,7 +74,7 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
     });
 
     this.formId = this.formService.getUniqueId(this.model.id);
-    this.formModel = this.formBuilderService.modelFromConfiguration(this.translate, config, this.model.scopeUUID, {}, this.model.submissionScope, this.model.readOnly);
+    this.formModel = this.formBuilderService.modelFromConfiguration(config, this.model.scopeUUID, {}, this.model.submissionScope, this.model.readOnly);
     const initChipsValue = this.model.isEmpty() ? [] : this.model.value;
     this.chips = new Chips(initChipsValue, 'value', this.model.mandatoryField);
     this.subs.push(

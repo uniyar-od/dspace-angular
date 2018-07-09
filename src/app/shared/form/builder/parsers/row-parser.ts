@@ -10,15 +10,13 @@ import { FormFieldModel } from '../models/form-field.model';
 import { ParserType } from './parser-type';
 import { ParserOptions } from './parser-options';
 import { ParserFactory } from './parser-factory';
-import { TranslateService } from '@ngx-translate/core';
 
 export const ROW_ID_PREFIX = 'df-row-group-config-';
 
 export class RowParser {
   protected authorityOptions: IntegrationSearchOptions;
 
-  constructor(protected translate: TranslateService,
-              protected rowData,
+  constructor(protected rowData,
               protected scopeUUID,
               protected initFormValues: any,
               protected submissionScope,
@@ -49,7 +47,7 @@ export class RowParser {
 
       const parserCo = ParserFactory.getConstructor(fieldData.input.type as ParserType);
       if (parserCo) {
-        fieldModel = new parserCo(this.translate, fieldData, this.initFormValues, parserOptions).parse();
+        fieldModel = new parserCo(fieldData, this.initFormValues, parserOptions).parse();
       } else {
         throw new Error(`unknown form control model type defined with label "${fieldData.label}"`);
       }

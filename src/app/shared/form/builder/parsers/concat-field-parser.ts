@@ -11,18 +11,16 @@ import {
 } from '../ds-dynamic-form-ui/models/ds-dynamic-concat.model';
 import { isNotEmpty } from '../../../empty.util';
 import { ParserOptions } from './parser-options';
-import { TranslateService } from '@ngx-translate/core';
 
 export class ConcatFieldParser extends FieldParser {
 
-  constructor(protected translate: TranslateService,
-              protected configData: FormFieldModel,
+  constructor(protected configData: FormFieldModel,
               protected initFormValues,
               protected parserOptions: ParserOptions,
               protected separator: string,
               protected firstPlaceholder: string = null,
               protected secondPlaceholder: string = null) {
-    super(translate, configData, initFormValues, parserOptions);
+    super(configData, initFormValues, parserOptions);
 
     this.separator = separator;
     this.firstPlaceholder = firstPlaceholder;

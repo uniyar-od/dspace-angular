@@ -49,14 +49,12 @@ import { FormFieldMetadataValueObject } from './models/form-field-metadata-value
 import { DynamicConcatModel } from './ds-dynamic-form-ui/models/ds-dynamic-concat.model';
 import { DynamicLookupNameModel } from './ds-dynamic-form-ui/models/lookup/dynamic-lookup-name.model';
 import { DynamicRowArrayModel } from './ds-dynamic-form-ui/models/ds-dynamic-row-array-model';
-import { TranslateService } from '@ngx-translate/core';
 
 describe('FormBuilderService test suite', () => {
 
   let testModel: DynamicFormControlModel[];
   let testFormConfiguration: SubmissionFormsModel;
   let service: FormBuilderService;
-  let translate: TranslateService;
 
   function testValidator() {
     return {testValidator: {valid: true}};
@@ -74,7 +72,6 @@ describe('FormBuilderService test suite', () => {
         FormBuilderService,
         DynamicFormService,
         DynamicFormValidationService,
-        TranslateService,
         {provide: NG_VALIDATORS, useValue: testValidator, multi: true},
         {provide: NG_ASYNC_VALIDATORS, useValue: testAsyncValidator, multi: true}
       ]
@@ -379,10 +376,7 @@ describe('FormBuilderService test suite', () => {
     }
   });
 
-  beforeEach(inject([TranslateService, FormBuilderService], (translateService: TranslateService, formService: FormBuilderService) => {
-    service = formService;
-    translate = translateService;
-  }));
+  beforeEach(inject([FormBuilderService], (formService: FormBuilderService) => service = formService));
 
   it('should find a dynamic form control model by id', () => {
 
@@ -413,7 +407,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should create an array of form models', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
 
     expect(formModel[0] instanceof DynamicRowGroupModel).toBe(true);
     expect((formModel[0] as DynamicRowGroupModel).group.length).toBe(3);
@@ -434,7 +428,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should return form\'s fields value from form model', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     let value = {} as any;
 
     expect(service.getValueFromModel(formModel)).toEqual(value);
@@ -455,7 +449,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should clear all form\'s fields value', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     const value = {} as any;
 
     ((formModel[0] as DynamicRowGroupModel).get(1) as DsDynamicInputModel).valueUpdates.next('test');
@@ -467,7 +461,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should return true when model has a custom group model as parent', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     let model = service.findById('dc_identifier_QUALDROP_VALUE', formModel);
     let modelParent = service.findById('dc_identifier_QUALDROP_GROUP', formModel);
     model.parent = modelParent;
@@ -496,7 +490,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should return true when model value is a map', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     const model = service.findById('dc_identifier_QUALDROP_VALUE', formModel);
     const modelParent = service.findById('dc_identifier_QUALDROP_GROUP', formModel);
     model.parent = modelParent;
@@ -505,7 +499,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should return true when model is a Qualdrop Group', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     let model = service.findById('dc_identifier_QUALDROP_GROUP', formModel);
 
     expect(service.isQualdropGroup(model)).toBe(true);
@@ -516,7 +510,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should return true when model is a Custom or List Group', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     let model = service.findById('dc_identifier_QUALDROP_GROUP', formModel);
 
     expect(service.isCustomOrListGroup(model)).toBe(true);
@@ -535,7 +529,7 @@ describe('FormBuilderService test suite', () => {
   });
 
   it('should return true when model is a Custom Group', () => {
-    const formModel = service.modelFromConfiguration(translate, testFormConfiguration, 'testScopeUUID');
+    const formModel = service.modelFromConfiguration(testFormConfiguration, 'testScopeUUID');
     let model = service.findById('dc_identifier_QUALDROP_GROUP', formModel);
 
     expect(service.isCustomGroup(model)).toBe(true);
