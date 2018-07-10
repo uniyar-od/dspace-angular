@@ -49,7 +49,7 @@ export class SectionService {
             const fieldId = path.fieldId.replace(/\./g, '_');
 
             // Dispatch action to the form state;
-            const formAddErrorAction = new FormAddError(formId, fieldId, error.message);
+            const formAddErrorAction = new FormAddError(formId, fieldId, path.fieldIndex, error.message);
             this.store.dispatch(formAddErrorAction);
             dispatchedErrors.push(fieldId);
           }
@@ -64,7 +64,7 @@ export class SectionService {
             const fieldId = path.fieldId.replace(/\./g, '_');
 
             if (!dispatchedErrors.includes(fieldId)) {
-              const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId);
+              const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId, path.fieldIndex);
               this.store.dispatch(formRemoveErrorAction);
             }
           }
