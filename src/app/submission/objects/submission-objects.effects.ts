@@ -46,6 +46,7 @@ import { DeduplicationService } from '../section/deduplication/deduplication.ser
 import { SubmissionState } from '../submission.reducers';
 import { SubmissionObjectEntry } from './submission-objects.reducer';
 import { SubmissionSectionModel } from '../../core/shared/config/config-submission-section.model';
+import parseSectionErrors from '../utils/parseSectionErrors';
 
 @Injectable()
 export class SubmissionObjectEffects {
@@ -304,25 +305,14 @@ export class SubmissionObjectEffects {
     if (isNotEmpty(response)) {
       this.notificationsService.success(null, this.translate.get('submission.sections.general.save_success_notice'));
 
-      const errorsList = {};
-
       // to avoid dispatching an action for every error, create an array of errors per section
       response.forEach((item: Workspaceitem | Workflowitem) => {
 
+        let errorsList;
         const {errors} = item;
 
         if (errors && !isEmpty(errors)) {
-          errors.forEach((error: SubmissionObjectError) => {
-            const paths: SectionErrorPath[] = parseSectionErrorPaths(error.paths);
-
-            paths.forEach((path: SectionErrorPath) => {
-              const sectionError = {path: path.originalPath, message: error.message};
-              if (!errorsList[path.sectionId]) {
-                errorsList[path.sectionId] = [];
-              }
-              errorsList[path.sectionId].push(sectionError);
-            });
-          });
+          errorsList = parseSectionErrors(errors);
           this.notificationsService.warning(null, this.translate.get('submission.sections.general.sections_not_valid'));
         }
 

@@ -39,7 +39,7 @@ export class SectionService {
     if (isEmpty(currentErrors)) {
       this.store.dispatch(new DeleteSectionErrorsAction(submissionId, sectionId, currentErrors));
       this.store.dispatch(new FormClearErrorsAction(formId));
-    } else {
+    } else if (!isEqual(currentErrors, prevErrors)) {
       const dispatchedErrors = [];
       currentErrors.forEach((error: SubmissionSectionError) => {
         const errorPaths: SectionErrorPath[] = parseSectionErrorPaths(error.path);
@@ -127,7 +127,7 @@ export class SectionService {
     this.store.dispatch(new DisableSectionAction(submissionId, sectionId))
   }
 
-  public updateSectionData(submissionId, sectionId, data) {
+  public updateSectionData(submissionId, sectionId, data, errors = []) {
     if (isNotEmpty(data)) {
       const isAvailable$ = this.isSectionAvailable(submissionId, sectionId);
       const isEnabled$ = this.isSectionEnabled(submissionId, sectionId);
@@ -143,7 +143,7 @@ export class SectionService {
                 this.notificationsService.info(null, m, null, true);
               });
           }
-          this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, []));
+          this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, errors));
         });
     }
   }

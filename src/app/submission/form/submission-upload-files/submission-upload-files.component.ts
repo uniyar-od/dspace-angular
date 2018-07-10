@@ -12,6 +12,7 @@ import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-
 import { SubmissionService } from '../../submission.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { UploaderOptions } from '../../../shared/uploader/uploader-options.model';
+import parseSectionErrors from '../../utils/parseSectionErrors';
 
 @Component({
   selector: 'ds-submission-upload-files',
@@ -59,11 +60,15 @@ export class SubmissionUploadFilesComponent implements OnChanges {
             this.notificationsService.success(null, this.translate.get('submission.sections.upload.upload-successful'));
 
             const {sections} = workspaceitem;
+            const {errors} = workspaceitem;
+
+            const errorsList = parseSectionErrors(errors);
             if (sections && isNotEmpty(sections)) {
               Object.keys(sections)
                 .forEach((sectionId) => {
                   const sectionData = normalizeSectionData(sections[sectionId]);
-                  this.sectionService.updateSectionData(this.submissionId, sectionId, sectionData)
+                  const sectionErrors = errorsList[sectionId];
+                  this.sectionService.updateSectionData(this.submissionId, sectionId, sectionData, sectionErrors)
                 })
             }
           }
