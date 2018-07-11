@@ -77,10 +77,16 @@ export class ChipsComponent implements OnChanges {
     this.chips.updateOrder();
   }
 
-  showTooltip(tooltip: NgbTooltip, index, content) {
+  showTooltip(tooltip: NgbTooltip, index, field?) {
     tooltip.close();
-    if (!this.chips.getChipByIndex(index).editMode && this.dragged === -1) {
-      this.tipText = content;
+    const item = this.chips.getChipByIndex(index);
+    if (!item.editMode && this.dragged === -1) {
+      if (field) {
+        this.tipText = item.item[field].display;
+      } else {
+        this.tipText = item.display;
+      }
+
       this.cdr.detectChanges();
       tooltip.open();
     }

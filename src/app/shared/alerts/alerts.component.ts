@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { AlertType } from './aletrs-type';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { trigger } from '@angular/animations';
+
+import { AlertType } from './aletrs-type';
 import { fadeOutLeave, fadeOutState } from '../animations/fade';
 
 @Component({
@@ -21,6 +21,7 @@ export class AlertsComponent {
   @Input() content: string;
   @Input() dismissible = false;
   @Input() type: AlertType;
+  @Output() close: EventEmitter<any> = new EventEmitter<any>();
 
   public animate = 'fadeIn';
   public dismissed = false;
@@ -28,12 +29,13 @@ export class AlertsComponent {
   constructor(private cdr: ChangeDetectorRef) {
   }
 
-  close() {
+  dismiss() {
     if (this.dismissible) {
       this.animate = 'fadeOut';
       this.cdr.detectChanges();
       setTimeout(() => {
         this.dismissed = true;
+        this.close.emit();
         this.cdr.detectChanges();
       }, 300);
 

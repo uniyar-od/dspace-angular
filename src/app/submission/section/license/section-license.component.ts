@@ -11,7 +11,7 @@ import { Collection } from '../../../core/shared/collection.model';
 import { DynamicCheckboxModel, DynamicFormControlEvent, DynamicFormControlModel } from '@ng-dynamic-forms/core';
 import { SECTION_LICENSE_FORM_MODEL } from './section-license.model';
 import { FormBuilderService } from '../../../shared/form/builder/form-builder.service';
-import { SectionStatusChangeAction } from '../../objects/submission-objects.actions';
+import { RemoveSectionErrorsAction, SectionStatusChangeAction } from '../../objects/submission-objects.actions';
 import { FormService } from '../../../shared/form/form.service';
 import { SubmissionState } from '../../submission.reducers';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
@@ -79,7 +79,7 @@ export class LicenseSectionComponent extends SectionModelComponent implements On
           this.sectionService.isSectionReadOnly(this.submissionId, this.sectionData.id, this.submissionService.getSubmissionScope())
             .take(1)
             .filter((isReadOnly) => isReadOnly)
-            .subscribe((isReadOnly) => {
+            .subscribe(() => {
               model.disabled = true;
             });
           this.changeDetectorRef.detectChanges();
@@ -88,7 +88,18 @@ export class LicenseSectionComponent extends SectionModelComponent implements On
         .filter((errors) => isNotEmpty(errors))
         .distinctUntilChanged()
         .subscribe((errors) => {
-          this.sectionService.checkSectionErrors(this.submissionId, this.sectionData.id, this.formId, errors);
+          // parse errors
+          const newErrors = errors.map((error) => {
+            // When the error path is only on the section,
+            // replace it with the path to the form field to display error also on the form
+            if (error.path === '/sections/license') {
+              return Object.assign({}, error, {path: '/sections/license/granted'});
+            } else {
+              return error;
+            }
+          });
+
+          this.sectionService.checkSectionErrors(this.submissionId, this.sectionData.id, this.formId, newErrors);
           this.sectionData.errors = errors;
           this.changeDetectorRef.detectChanges();
         })
@@ -101,6 +112,8 @@ export class LicenseSectionComponent extends SectionModelComponent implements On
     this.store.dispatch(new SectionStatusChangeAction(this.submissionId, this.sectionData.id, value.value));
     if (value) {
       this.operationsBuilder.add(this.pathCombiner.getPath(path), value.value.toString(), false, true);
+      // Remove any general section's errors
+      this.store.dispatch(new RemoveSectionErrorsAction(this.submissionId, this.sectionData.id));
     } else {
       this.operationsBuilder.remove(this.pathCombiner.getPath(path));
     }

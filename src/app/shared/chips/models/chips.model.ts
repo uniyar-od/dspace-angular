@@ -1,9 +1,7 @@
-import { findIndex, isEqual } from 'lodash';
+import { findIndex, isEqual, isObject } from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ChipsItem, ChipsItemIcon } from './chips-item.model';
 import { hasValue } from '../../empty.util';
-import { FormFieldMetadataValueObject } from '../../form/builder/models/form-field-metadata-value.model';
-import { AuthorityValueModel } from '../../../core/integration/models/authority-value.model';
 
 export interface ChipsIconsConfig {
   [metadata: string]: string;
@@ -100,14 +98,30 @@ export class Chips {
       .forEach((metadata) => {
         const value = item[metadata];
         if (hasValue(value)
-          && (value instanceof FormFieldMetadataValueObject || value instanceof AuthorityValueModel)
-          && ((value as FormFieldMetadataValueObject).authority || (value as AuthorityValueModel).id)
+          && isObject(value)
           && this.iconsConfig.hasOwnProperty(metadata)) {
 
-          const icon: ChipsItemIcon = {
-            style: this.iconsConfig[metadata]
-          };
-          icons.push(icon);
+          let icon: ChipsItemIcon;
+          const hasAuthority: boolean = (value.hasOwnProperty('authority') && value.authority)
+            || (value.hasOwnProperty('id') && value.id);
+
+          // Set icons
+          if ((this.displayObj && this.displayObj === metadata) || hasAuthority) {
+            if (hasAuthority) {
+              icon = {
+                metadata,
+                style: this.iconsConfig[metadata]
+              };
+            }
+          } else {
+            icon = {
+              metadata,
+              style: this.iconsConfig[metadata] + ' text-muted'
+            };
+          }
+          if (icon) {
+            icons.push(icon);
+          }
         }
       });
 
