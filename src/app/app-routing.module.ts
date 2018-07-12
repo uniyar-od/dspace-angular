@@ -13,6 +13,7 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
       { path: 'items', loadChildren: './+item-page/item-page.module#ItemPageModule' },
       { path: 'mydspace', loadChildren: './+my-dspace-page/my-dspace-page.module#MyDSpacePageModule' },
       { path: 'search', loadChildren: './+search-page/search-page.module#SearchPageModule' },
+      { path: 'admin', loadChildren: './+admin/admin.module#AdminModule' },
       { path: 'login', loadChildren: './+login-page/login-page.module#LoginPageModule' },
       { path: 'logout', loadChildren: './+logout-page/logout-page.module#LogoutPageModule' },
       { path: 'submit', loadChildren: './+submit-page/submit-page.module#SubmitPageModule' },

@@ -8,6 +8,7 @@ import { BrowseResponseParsingService } from './browse-response-parsing.service'
 import { ConfigResponseParsingService } from './config-response-parsing.service';
 import { AuthResponseParsingService } from '../auth/auth-response-parsing.service';
 import { HttpOptions } from '../dspace-rest-v2/dspace-rest-v2.service';
+import { HttpHeaders } from '@angular/common/http';
 import { SubmissionResponseParsingService } from '../submission/submission-response-parsing.service';
 import { EpersonResponseParsingService } from '../eperson/eperson-response-parsing.service';
 import { IntegrationResponseParsingService } from '../integration/integration-response-parsing.service';
