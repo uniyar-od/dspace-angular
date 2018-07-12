@@ -3,6 +3,7 @@ import { isNotEmpty } from '../../empty.util';
 
 export interface ChipsItemIcon {
   metadata: string;
+  hasAuthority: boolean;
   style: string;
   tooltip?: any;
 }

@@ -263,7 +263,7 @@
     "group-collapse": "Collapse",
     "group-expand": "Expand",
     "group-collapse-help": "Click here to collapse",
-    "group-expand-help": "Click here to expand and add more element"
+    }
   },
   "login": {
     "title": "Login",

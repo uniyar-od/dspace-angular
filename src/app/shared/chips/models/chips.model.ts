@@ -97,26 +97,20 @@ export class Chips {
     Object.keys(item)
       .forEach((metadata) => {
         const value = item[metadata];
-        if (hasValue(value)
-          && isObject(value)
-          && this.iconsConfig.hasOwnProperty(metadata)) {
+        if (hasValue(value) && isObject(value) && this.iconsConfig.hasOwnProperty(metadata)) {
 
           let icon: ChipsItemIcon;
-          const hasAuthority: boolean = (value.hasOwnProperty('authority') && value.authority)
-            || (value.hasOwnProperty('id') && value.id);
+          const hasAuthority: boolean = ((value.hasOwnProperty('authority') && value.authority)
+            || (value.hasOwnProperty('id') && value.id)) ? true : false;
 
           // Set icons
-          if ((this.displayObj && this.displayObj === metadata) || hasAuthority) {
-            if (hasAuthority) {
-              icon = {
-                metadata,
-                style: this.iconsConfig[metadata]
-              };
-            }
-          } else {
+          if ((this.displayObj && this.displayObj === metadata && hasAuthority)
+            || (this.displayObj && this.displayObj !== metadata)) {
+
             icon = {
               metadata,
-              style: this.iconsConfig[metadata] + ' text-muted'
+              hasAuthority: hasAuthority,
+              style: this.iconsConfig[metadata]
             };
           }
           if (icon) {

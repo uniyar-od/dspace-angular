@@ -65,8 +65,7 @@ export class ChipsComponent implements OnChanges {
     }
   }
 
-  onDragStart(tooltip: NgbTooltip, index) {
-    tooltip.close();
+  onDragStart(index) {
     this.uploaderService.overrideDragOverPage();
     this.dragged = index;
   }

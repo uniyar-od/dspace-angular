@@ -2,7 +2,9 @@
   <ul class="nav nav-pills d-flex flex-column flex-sm-row" [sortablejs]="chips.getChips()" [sortablejsOptions]="options">
     <ng-container *ngFor="let c of chips.getChips(); let i = index">
       <ng-template #tipContent>{{tipText}}</ng-template>
-      <li class="nav-item mr-2 mb-1">
+      <li class="nav-item mr-2 mb-1"
+          (dragstart)="onDragStart(i)"
+          (dragend)="onDragEnd(i)">
         <a class="flex-sm-fill text-sm-center nav-link active"
            href="#"
            [ngClass]="{'chip-selected disabled': (editable && c.editMode) || dragged == i}"
@@ -16,9 +18,9 @@
                  class="fa {{icon.style}}"
                  [class.mr-1]="!l"
                  [class.mr-2]="l"
+                 [class.text-muted]="!(icon.hasAuthority)"
                  aria-hidden="true"
-                 (dragstart)="onDragStart(t, i)"
-                 (dragend)="onDragEnd(i)"
+                 (dragstart)="tooltip.close();"
                  (mouseover)="showTooltip(t, i, icon.metadata)"
                  (mouseout)="t.close()"></i>
             </ng-container>
