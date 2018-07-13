@@ -7,7 +7,6 @@ import { isObject } from 'lodash';
 import { Chips } from './models/chips.model';
 import { ChipsItem } from './models/chips-item.model';
 import { UploaderService } from '../uploader/uploader.service';
-import { isObject } from '../../../../../dspace-angular-dspacecris_demo/node_modules/@types/lodash';
 
 @Component({
   selector: 'ds-chips',
