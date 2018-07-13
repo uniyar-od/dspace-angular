@@ -317,11 +317,23 @@
           ></ds-dynamic-lookup>
         </ng-container>
 
-        <small *ngIf="showHint" class="text-muted" [innerHTML]="model.hint"
+        <ng-container *ngSwitchCase="19">
+          <ds-dynamic-lookup
+            [bindId]="bindId"
+            [group]="group"
+            [model]="model"
+            [showErrorMessages]="showErrorMessages"
+            (blur)="onBlur($event)"
+            (change)="onValueChange($event)"
+            (focus)="onFocus($event)"
+          ></ds-dynamic-lookup>
+        </ng-container>
+
+        <small *ngIf="model.hint" class="text-muted" [innerHTML]="model.hint"
                [ngClass]="getClass('element', 'hint')"></small>
 
         <div *ngIf="showErrorMessages" [ngClass]="[getClass('element', 'errors'), getClass('grid', 'errors')]">
-            <small *ngFor="let message of errorMessages" class="invalid-feedback d-block">{{ message }}</small>
+            <small *ngFor="let message of errorMessages" class="invalid-feedback d-block">{{ message | translate:model.validators }}</small>
         </div>
 
       </ng-container>

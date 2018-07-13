@@ -11,15 +11,16 @@ import { DsDynamicInputModel, DsDynamicInputModelConfig } from '../ds-dynamic-fo
 import { DynamicFormControlLayout } from '@ng-dynamic-forms/core';
 import { setLayout } from './parser.utils';
 import { AuthorityOptions } from '../../../../core/integration/models/authority-options.model';
+import { ParserOptions } from './parser-options';
 
 export abstract class FieldParser {
 
   protected fieldId: string;
 
-  constructor(protected configData: FormFieldModel, protected initFormValues, protected readOnly: boolean) {
+  constructor(protected configData: FormFieldModel, protected initFormValues, protected parserOptions: ParserOptions) {
   }
 
-  public abstract modelFactory(fieldValue?: FormFieldMetadataValueObject): any;
+  public abstract modelFactory(fieldValue?: FormFieldMetadataValueObject, label?: boolean): any;
 
   public parse() {
     if (((this.getInitValueCount() > 1 && !this.configData.repeatable) || (this.configData.repeatable))
@@ -32,6 +33,7 @@ export abstract class FieldParser {
 
       const config = {
         id: uniqueId() + '_array',
+        label: this.configData.label,
         initialCount: this.getInitArrayIndex(),
         notRepeteable: !this.configData.repeatable,
         groupFactory: () => {
@@ -49,7 +51,7 @@ export abstract class FieldParser {
                 arrayCounter++;
               }
             }
-            model = this.modelFactory(fieldValue);
+            model = this.modelFactory(fieldValue, false);
           }
           setLayout(model, 'element', 'host', 'col');
           if (model.hasLanguages) {
@@ -61,7 +63,7 @@ export abstract class FieldParser {
 
       const layout: DynamicFormControlLayout = {
         grid: {
-          group: 'dsgridgroup form-row'
+          group: 'form-row'
         }
       };
 
@@ -77,7 +79,7 @@ export abstract class FieldParser {
   }
 
   protected getInitValueCount(index = 0, fieldId?): number {
-    const fieldIds = fieldId || this.getFieldId();
+    const fieldIds = fieldId || this.getAllFieldIds();
     if (isNotEmpty(this.initFormValues) && isNotNull(fieldIds) && fieldIds.length === 1 && this.initFormValues.hasOwnProperty(fieldIds[0])) {
       return this.initFormValues[fieldIds[0]].length;
     } else if (isNotEmpty(this.initFormValues) && isNotNull(fieldIds) && fieldIds.length > 1) {
@@ -94,7 +96,7 @@ export abstract class FieldParser {
   }
 
   protected getInitGroupValues(): FormFieldMetadataValueObject[] {
-    const fieldIds = this.getFieldId();
+    const fieldIds = this.getAllFieldIds();
     if (isNotEmpty(this.initFormValues) && isNotNull(fieldIds) && fieldIds.length === 1 && this.initFormValues.hasOwnProperty(fieldIds[0])) {
       return this.initFormValues[fieldIds[0]];
     }
@@ -107,7 +109,7 @@ export abstract class FieldParser {
   }
 
   protected getInitFieldValue(outerIndex = 0, innerIndex = 0, fieldId?): FormFieldMetadataValueObject {
-    const fieldIds = fieldId || this.getFieldId();
+    const fieldIds = fieldId || this.getAllFieldIds();
     if (isNotEmpty(this.initFormValues)
       && isNotNull(fieldIds)
       && fieldIds.length === 1
@@ -131,7 +133,7 @@ export abstract class FieldParser {
   }
 
   protected getInitArrayIndex() {
-    const fieldIds: any = this.getFieldId();
+    const fieldIds: any = this.getAllFieldIds();
     if (isNotEmpty(this.initFormValues) && isNotNull(fieldIds) && fieldIds.length === 1 && this.initFormValues.hasOwnProperty(fieldIds)) {
       return this.initFormValues[fieldIds].length;
     } else if (isNotEmpty(this.initFormValues) && isNotNull(fieldIds) && fieldIds.length > 1) {
@@ -147,7 +149,12 @@ export abstract class FieldParser {
     }
   }
 
-  protected getFieldId(): string[] {
+  protected getFieldId(): string {
+    const ids = this.getAllFieldIds();
+    return isNotNull(ids) ? ids[0] : null;
+  }
+
+  protected getAllFieldIds(): string[] {
     if (Array.isArray(this.configData.selectableMetadata)) {
       if (this.configData.selectableMetadata.length === 1) {
         return [this.configData.selectableMetadata[0].metadata];
@@ -166,7 +173,7 @@ export abstract class FieldParser {
     const controlModel = Object.create(null);
 
     // Sets input ID
-    this.fieldId = id ? id : this.getFieldId()[0];
+    this.fieldId = id ? id : this.getFieldId();
 
     // Sets input name (with the original field's id value)
     controlModel.name = this.fieldId;
@@ -175,17 +182,20 @@ export abstract class FieldParser {
     controlModel.id = (this.fieldId).replace(/\./g, '_');
 
     // Set read only option
-    controlModel.readOnly = this.readOnly;
-    controlModel.disabled = this.readOnly;
+    controlModel.readOnly = this.parserOptions.readOnly;
+    controlModel.disabled = this.parserOptions.readOnly;
 
-    if (label) {
-      controlModel.label = (labelEmpty) ? '&nbsp;' : this.configData.label;
-    }
+    // Set label
+    this.setLabel(controlModel, label, labelEmpty);
 
     controlModel.placeholder = this.configData.label;
 
     if (this.configData.mandatory && setErrors) {
-      this.setErrors(controlModel);
+      this.markAsRequired(controlModel);
+    }
+
+    if (this.hasRegex()) {
+      this.addPatternValidator(controlModel);
     }
 
     // Available Languages
@@ -196,13 +206,33 @@ export abstract class FieldParser {
     return controlModel;
   }
 
-  protected setErrors(controlModel) {
+  protected hasRegex() {
+    return hasValue(this.configData.input.regex);
+  }
+
+  protected addPatternValidator(controlModel) {
+    const regex = new RegExp(this.configData.input.regex);
+    controlModel.validators = Object.assign({}, controlModel.validators, {pattern: regex});
+    controlModel.errorMessages = Object.assign(
+      {},
+      controlModel.errorMessages,
+      {pattern: 'error.validation.pattern'});
+
+  }
+
+  protected markAsRequired(controlModel) {
     controlModel.required = true;
     controlModel.validators = Object.assign({}, controlModel.validators, {required: null});
     controlModel.errorMessages = Object.assign(
       {},
       controlModel.errorMessages,
       {required: this.configData.mandatoryMessage});
+  }
+
+  protected setLabel(controlModel, label = true, labelEmpty = false) {
+    if (label) {
+      controlModel.label = (labelEmpty) ? '&nbsp;' : this.configData.label;
+    }
   }
 
   protected setOptions(controlModel) {

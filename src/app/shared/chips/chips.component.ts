@@ -16,7 +16,7 @@ import { UploaderService } from '../uploader/uploader.service';
 export class ChipsComponent implements OnChanges {
   @Input() chips: Chips;
   @Input() wrapperClass: string;
-  @Input() editable: boolean;
+  @Input() editable = true;
 
   @Output() selected: EventEmitter<number> = new EventEmitter<number>();
   @Output() remove: EventEmitter<number> = new EventEmitter<number>();
@@ -34,12 +34,6 @@ export class ChipsComponent implements OnChanges {
       filter: '.chips-sort-ignore',
       ghostClass: 'm-0'
     };
-  }
-
-  ngOnInit() {
-    if (!this.editable) {
-      this.editable = false;
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -71,8 +65,7 @@ export class ChipsComponent implements OnChanges {
     }
   }
 
-  onDragStart(tooltip: NgbTooltip, index) {
-    tooltip.close();
+  onDragStart(index) {
     this.uploaderService.overrideDragOverPage();
     this.dragged = index;
   }
@@ -83,10 +76,16 @@ export class ChipsComponent implements OnChanges {
     this.chips.updateOrder();
   }
 
-  showTooltip(tooltip: NgbTooltip, index, content) {
+  showTooltip(tooltip: NgbTooltip, index, field?) {
     tooltip.close();
-    if (!this.chips.getChipByIndex(index).editMode && this.dragged === -1) {
-      this.tipText = content;
+    const item = this.chips.getChipByIndex(index);
+    if (!item.editMode && this.dragged === -1) {
+      if (field) {
+        this.tipText = item.item[field].display;
+      } else {
+        this.tipText = item.display;
+      }
+
       this.cdr.detectChanges();
       tooltip.open();
     }

@@ -47,6 +47,7 @@ export const SubmissionObjectActionTypes = {
   SECTION_STATUS_CHANGE: type('dspace/submission/SECTION_STATUS_CHANGE'),
   SECTION_LOADING_STATUS_CHANGE: type('dspace/submission/SECTION_LOADING_STATUS_CHANGE'),
   UPLOAD_SECTION_DATA: type('dspace/submission/UPLOAD_SECTION_DATA'),
+  REMOVE_SECTION_ERRORS: type('dspace/submission/REMOVE_SECTION_ERRORS'),
   SAVE_AND_DEPOSIT_SUBMISSION: type('dspace/submission/SAVE_AND_DEPOSIT_SUBMISSION'),
   DEPOSIT_SUBMISSION: type('dspace/submission/DEPOSIT_SUBMISSION'),
   DEPOSIT_SUBMISSION_SUCCESS: type('dspace/submission/DEPOSIT_SUBMISSION_SUCCESS'),
@@ -249,6 +250,26 @@ export class UpdateSectionDataAction implements Action {
               data: WorkspaceitemSectionDataType,
               errors: SubmissionSectionError[]) {
     this.payload = { submissionId, sectionId, data, errors };
+  }
+}
+
+export class RemoveSectionErrorsAction implements Action {
+  type = SubmissionObjectActionTypes.REMOVE_SECTION_ERRORS;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+  };
+
+  /**
+   * Create a new RemoveSectionErrorsAction
+   *
+   * @param submissionId
+   *    the submission's ID to remove
+   * @param sectionId
+   *    the section's ID to add
+   */
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
   }
 }
 
@@ -991,6 +1012,7 @@ export type SubmissionObjectAction = DisableSectionAction
   | DeleteSectionErrorsAction
   | ClearSectionErrorsAction
   | UpdateSectionDataAction
+  | RemoveSectionErrorsAction
   | SaveForLaterSubmissionFormAction
   | SaveForLaterSubmissionFormSuccessAction
   | SaveForLaterSubmissionFormErrorAction

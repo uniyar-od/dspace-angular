@@ -14,7 +14,7 @@ import {
   DepositSubmissionAction, DepositSubmissionSuccessAction, DepositSubmissionErrorAction,
   ChangeSubmissionCollectionAction, SaveSubmissionFormSuccessAction, SaveSubmissionFormErrorAction,
   SaveSubmissionSectionFormSuccessAction, SaveSubmissionSectionFormErrorAction, SetWorkspaceDuplicatedAction,
-  SetWorkflowDuplicatedAction, InitSectionAction
+  SetWorkflowDuplicatedAction, InitSectionAction, RemoveSectionErrorsAction
 } from './submission-objects.actions';
 import { deleteProperty } from '../../shared/object.util';
 import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
@@ -172,6 +172,10 @@ export function submissionObjectReducer(state = initialState, action: Submission
 
     case SubmissionObjectActionTypes.UPLOAD_SECTION_DATA: {
       return updateSectionData(state, action as UpdateSectionDataAction);
+    }
+
+    case SubmissionObjectActionTypes.REMOVE_SECTION_ERRORS: {
+      return removeSectionErrors(state, action as RemoveSectionErrorsAction);
     }
 
     case SubmissionObjectActionTypes.DISABLE_SECTION: {
@@ -558,6 +562,33 @@ function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDa
             enabled: true,
             data: action.payload.data,
             errors: action.payload.errors
+          })
+        })
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Remove section's errors.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    an RemoveSectionErrorsAction
+ * @return SubmissionObjectState
+ *    the new state, with the section's errors updated.
+ */
+function removeSectionErrors(state: SubmissionObjectState, action: RemoveSectionErrorsAction): SubmissionObjectState {
+  if (isNotEmpty(state[ action.payload.submissionId ])
+      && isNotEmpty(state[ action.payload.submissionId ].sections[ action.payload.sectionId])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
+          [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+            errors: []
           })
         })
       })

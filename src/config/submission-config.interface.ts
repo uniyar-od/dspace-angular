@@ -1,5 +1,5 @@
 import { Config } from './config.interface';
-import { SubmissionSectionObject } from '../app/submission/objects/submission-objects.reducer';
+import { MetadataIconsConfig } from '../app/shared/chips/models/chips.model';
 
 interface AutosaveConfig extends Config {
   metadata: string[],
@@ -7,9 +7,7 @@ interface AutosaveConfig extends Config {
 }
 
 interface MetadataConfig extends Config {
-  icons: {
-    [metadata: string]: string;
-  }
+  icons: MetadataIconsConfig[]
 }
 
 export interface SubmissionConfig extends Config {

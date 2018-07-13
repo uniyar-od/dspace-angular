@@ -7,7 +7,9 @@ import {
   CompleteInitSubmissionFormAction,
   DepositSubmissionAction,
   DepositSubmissionErrorAction,
-  DepositSubmissionSuccessAction, DiscardSubmissionAction, DiscardSubmissionErrorAction, DiscardSubmissionSuccessAction,
+  DepositSubmissionSuccessAction,
+  DiscardSubmissionErrorAction,
+  DiscardSubmissionSuccessAction,
   InitSectionAction,
   LoadSubmissionFormAction,
   ResetSubmissionFormAction,
@@ -32,7 +34,6 @@ import {
 import { SectionService } from '../section/section.service';
 import { isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import { Workspaceitem } from '../../core/submission/models/workspaceitem.model';
-import { default as parseSectionErrorPaths, SectionErrorPath } from '../utils/parseSectionErrorPaths';
 import { Observable } from 'rxjs/Observable';
 import { JsonPatchOperationsService } from '../../core/json-patch/json-patch-operations.service';
 import { SubmitDataResponseDefinitionObject } from '../../core/shared/submit-data-response-definition.model';
@@ -40,12 +41,13 @@ import { SubmissionService } from '../submission.service';
 import { Action, Store } from '@ngrx/store';
 import { Workflowitem } from '../../core/submission/models/workflowitem.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
-import { SubmissionObject, SubmissionObjectError } from '../../core/submission/models/submission-object.model';
+import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { TranslateService } from '@ngx-translate/core';
 import { DeduplicationService } from '../section/deduplication/deduplication.service';
 import { SubmissionState } from '../submission.reducers';
 import { SubmissionObjectEntry } from './submission-objects.reducer';
 import { SubmissionSectionModel } from '../../core/shared/config/config-submission-section.model';
+import parseSectionErrors from '../utils/parseSectionErrors';
 
 @Injectable()
 export class SubmissionObjectEffects {
@@ -304,25 +306,14 @@ export class SubmissionObjectEffects {
     if (isNotEmpty(response)) {
       this.notificationsService.success(null, this.translate.get('submission.sections.general.save_success_notice'));
 
-      const errorsList = {};
-
       // to avoid dispatching an action for every error, create an array of errors per section
       response.forEach((item: Workspaceitem | Workflowitem) => {
 
+        let errorsList = Object.create({});
         const {errors} = item;
 
         if (errors && !isEmpty(errors)) {
-          errors.forEach((error: SubmissionObjectError) => {
-            const paths: SectionErrorPath[] = parseSectionErrorPaths(error.paths);
-
-            paths.forEach((path: SectionErrorPath) => {
-              const sectionError = {path: path.originalPath, message: error.message};
-              if (!errorsList[path.sectionId]) {
-                errorsList[path.sectionId] = [];
-              }
-              errorsList[path.sectionId].push(sectionError);
-            });
-          });
+          errorsList = parseSectionErrors(errors);
           this.notificationsService.warning(null, this.translate.get('submission.sections.general.sections_not_valid'));
         }
 

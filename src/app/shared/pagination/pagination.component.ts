@@ -209,8 +209,10 @@ export class PaginationComponent implements OnDestroy, OnInit {
     this.pageSizeOptions = this.paginationOptions.pageSizeOptions;
     this.currentPage = this.paginationOptions.currentPage;
     this.pageSize = this.paginationOptions.pageSize;
-    this.sortDirection = this.sortOptions.direction;
-    this.sortField = this.sortOptions.field;
+    if (this.sortOptions) {
+      this.sortDirection = this.sortOptions.direction;
+      this.sortField = this.sortOptions.field;
+    }
     this.currentQueryParams = Object.assign({}, queryParams, {
       pageId: this.id,
       page: this.currentPage,

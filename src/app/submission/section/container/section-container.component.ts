@@ -7,6 +7,7 @@ import { SectionDataObject } from '../section-data.model';
 import { SubmissionState } from '../../submission.reducers';
 import { rendersSectionType } from '../section-decorator';
 import { SectionType } from '../section-type';
+import { AlertType } from '../../../shared/alerts/aletrs-type';
 
 @Component({
   selector: 'ds-submission-form-section-container',
@@ -18,6 +19,7 @@ export class SectionContainerComponent implements OnInit {
   @Input() sectionData: SectionDataObject;
   @Input() submissionId: string;
 
+  public AlertTypeEnum = AlertType;
   public active = true;
   public objectInjector: Injector;
   public sectionComponentType: SectionType;

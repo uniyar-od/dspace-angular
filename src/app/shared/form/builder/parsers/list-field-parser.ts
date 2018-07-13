@@ -1,5 +1,4 @@
 import { FieldParser } from './field-parser';
-import { FormFieldModel } from '../models/form-field.model';
 import { isNotEmpty } from '../../../empty.util';
 import { IntegrationSearchOptions } from '../../../../core/integration/models/integration-options.model';
 import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
@@ -9,15 +8,8 @@ import { DynamicListRadioGroupModel } from '../ds-dynamic-form-ui/models/list/dy
 export class ListFieldParser extends FieldParser {
   searchOptions: IntegrationSearchOptions;
 
-  constructor(protected configData: FormFieldModel,
-              protected initFormValues,
-              protected readOnly: boolean,
-              protected authorityUuid: string) {
-    super(configData, initFormValues, readOnly);
-  }
-
-  public modelFactory(fieldValue: FormFieldMetadataValueObject): any {
-    const listModelConfig = this.initModel();
+  public modelFactory(fieldValue?: FormFieldMetadataValueObject | any, label?: boolean): any {
+    const listModelConfig = this.initModel(null, label);
     listModelConfig.repeatable = this.configData.repeatable;
 
     if (this.configData.selectableMetadata[0].authority
@@ -34,7 +26,7 @@ export class ListFieldParser extends FieldParser {
           }
         });
       }
-      this.setAuthorityOptions(listModelConfig, this.authorityUuid);
+      this.setAuthorityOptions(listModelConfig, this.parserOptions.authorityUuid);
     }
 
     let listModel;

@@ -1,22 +1,22 @@
-import { FormFieldModel } from '../models/form-field.model';
+import { FieldParser } from './field-parser';
+import {
+  DynamicLookupNameModel,
+  DynamicLookupNameModelConfig
+} from '../ds-dynamic-form-ui/models/lookup/dynamic-lookup-name.model';
 import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
-import { LookupFieldParser } from './lookup-field-parser';
 
-export class LookupNameFieldParser extends LookupFieldParser {
+export class LookupNameFieldParser extends FieldParser {
 
-  constructor(protected configData: FormFieldModel,
-              protected initFormValues,
-              protected readOnly: boolean,
-              protected authorityUuid: string) {
-    super(configData, initFormValues, readOnly, authorityUuid);
+  public modelFactory(fieldValue?: FormFieldMetadataValueObject | any, label?: boolean): any {
+    if (this.configData.selectableMetadata[0].authority) {
+      const lookupModelConfig: DynamicLookupNameModelConfig = this.initModel(null, label);
+
+      this.setAuthorityOptions(lookupModelConfig, this.parserOptions.authorityUuid);
+
+      this.setValues(lookupModelConfig, fieldValue, true);
+
+      return new DynamicLookupNameModel(lookupModelConfig);
+    }
   }
 
-  public modelFactory(fieldValue: FormFieldMetadataValueObject | any): any {
-    const lookupModel = super.modelFactory(fieldValue);
-    lookupModel.separator = ',';
-    lookupModel.placeholder = 'form.last-name';
-    lookupModel.placeholder2 = 'form.first-name';
-    return lookupModel;
-
-  }
 }

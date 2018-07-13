@@ -1,30 +1,39 @@
-import { findIndex, isEqual } from 'lodash';
+import { findIndex, isEqual, isObject } from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ChipsItem, ChipsItemIcon } from './chips-item.model';
-import { hasValue } from '../../empty.util';
-import { FormFieldMetadataValueObject } from '../../form/builder/models/form-field-metadata-value.model';
-import { AuthorityValueModel } from '../../../core/integration/models/authority-value.model';
+import { hasValue, isNotEmpty } from '../../empty.util';
 
-export interface ChipsIconsConfig {
-  [metadata: string]: string;
+export interface IconsConfig {
+  withAuthority?: {
+    style: string;
+  };
+
+  withoutAuthority?: {
+    style: string;
+  };
+}
+
+export interface MetadataIconsConfig {
+  name: string;
+  config: IconsConfig;
 }
 
 export class Chips {
   chipsItems: BehaviorSubject<ChipsItem[]>;
   displayField: string;
   displayObj: string;
-  iconsConfig: ChipsIconsConfig;
+  iconsConfig: MetadataIconsConfig[];
 
   private _items: ChipsItem[];
 
   constructor(items: any[] = [],
               displayField: string = 'display',
               displayObj?: string,
-              iconsConfig?: ChipsIconsConfig) {
+              iconsConfig?: MetadataIconsConfig[]) {
 
     this.displayField = displayField;
     this.displayObj = displayObj;
-    this.iconsConfig = iconsConfig || Object.create({});
+    this.iconsConfig = iconsConfig || [];
     if (Array.isArray(items)) {
       this.setInitialItems(items);
     }
@@ -96,18 +105,38 @@ export class Chips {
 
   private getChipsIcons(item) {
     const icons = [];
+    const defaultConfigIndex: number = findIndex(this.iconsConfig, {name: 'default'});
+    const defaultConfig: IconsConfig = (defaultConfigIndex !== -1) ? this.iconsConfig[defaultConfigIndex].config : undefined;
+    let config: IconsConfig;
+    let configIndex: number;
+    let value: any;
+
     Object.keys(item)
       .forEach((metadata) => {
-        const value = item[metadata];
-        if (hasValue(value)
-          && (value instanceof FormFieldMetadataValueObject || value instanceof AuthorityValueModel)
-          && ((value as FormFieldMetadataValueObject).authority || (value as AuthorityValueModel).id)
-          && this.iconsConfig.hasOwnProperty(metadata)) {
 
-          const icon: ChipsItemIcon = {
-            style: this.iconsConfig[metadata]
-          };
-          icons.push(icon);
+        value = item[metadata];
+        configIndex = findIndex(this.iconsConfig, {name: metadata});
+
+        config = (configIndex !== -1) ? this.iconsConfig[configIndex].config : defaultConfig;
+
+        if (hasValue(value) && isNotEmpty(config)) {
+
+          let icon: ChipsItemIcon;
+          const hasAuthority: boolean = !!(isObject(value) && ((value.hasOwnProperty('authority') && value.authority) || (value.hasOwnProperty('id') && value.id)));
+
+          // Set icons
+          if ((this.displayObj && this.displayObj === metadata && hasAuthority)
+            || (this.displayObj && this.displayObj !== metadata)) {
+
+            icon = {
+              metadata,
+              hasAuthority: hasAuthority,
+              style: (hasAuthority) ? config.withAuthority.style : config.withoutAuthority.style
+            };
+          }
+          if (icon) {
+            icons.push(icon);
+          }
         }
       });
 

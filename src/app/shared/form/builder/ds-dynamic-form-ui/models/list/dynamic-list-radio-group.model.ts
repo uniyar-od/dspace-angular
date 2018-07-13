@@ -9,7 +9,7 @@ import { hasValue } from '../../../../../empty.util';
 
 export interface DynamicListModelConfig extends DynamicRadioGroupModelConfig<any> {
   authorityOptions: AuthorityOptions;
-  groupLength: number;
+  groupLength?: number;
   repeatable: boolean;
   value?: any;
 }
@@ -19,6 +19,7 @@ export class DynamicListRadioGroupModel extends DynamicRadioGroupModel<any> {
   @serializable() authorityOptions: AuthorityOptions;
   @serializable() repeatable: boolean;
   @serializable() groupLength: number;
+  isListGroup = true;
 
   constructor(config: DynamicListModelConfig, layout?: DynamicFormControlLayout) {
     super(config, layout);

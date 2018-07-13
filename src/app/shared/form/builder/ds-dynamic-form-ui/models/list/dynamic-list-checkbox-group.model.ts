@@ -11,7 +11,7 @@ import { hasValue } from '../../../../../empty.util';
 
 export interface DynamicListCheckboxGroupModelConfig extends DynamicFormGroupModelConfig {
   authorityOptions: AuthorityOptions;
-  groupLength: number;
+  groupLength?: number;
   repeatable: boolean;
   value?: any;
 }
@@ -22,6 +22,7 @@ export class DynamicListCheckboxGroupModel extends DynamicCheckboxGroupModel {
   @serializable() repeatable: boolean;
   @serializable() groupLength: number;
   @serializable() _value: AuthorityValueModel[];
+  isListGroup = true;
   valueUpdates: Subject<any>;
 
   constructor(config: DynamicListCheckboxGroupModelConfig, layout?: DynamicFormControlLayout) {

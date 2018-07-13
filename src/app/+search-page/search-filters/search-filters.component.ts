@@ -20,6 +20,7 @@ import { SearchConfigOption } from './search-switch-config/search-config-option.
 
 export class SearchFiltersComponent {
   @Input() configurationList: SearchConfigOption[];
+  @Input() defaultOptions: any;
 
   filters: Observable<RemoteData<SearchFilterConfig[]>>;
   clearParams;
@@ -28,7 +29,7 @@ export class SearchFiltersComponent {
   }
 
   ngOnInit(): void {
-    this.filters = this.filterService.getSearchOptions()
+    this.filters = this.filterService.getSearchOptions(this.defaultOptions)
       .distinctUntilChanged()
       .flatMap((options) => this.searchService.getConfig(options.scope, options.configuration));
 

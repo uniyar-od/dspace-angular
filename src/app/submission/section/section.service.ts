@@ -49,7 +49,7 @@ export class SectionService {
             const fieldId = path.fieldId.replace(/\./g, '_');
 
             // Dispatch action to the form state;
-            const formAddErrorAction = new FormAddError(formId, fieldId, error.message);
+            const formAddErrorAction = new FormAddError(formId, fieldId, path.fieldIndex, error.message);
             this.store.dispatch(formAddErrorAction);
             dispatchedErrors.push(fieldId);
           }
@@ -64,7 +64,7 @@ export class SectionService {
             const fieldId = path.fieldId.replace(/\./g, '_');
 
             if (!dispatchedErrors.includes(fieldId)) {
-              const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId);
+              const formRemoveErrorAction = new FormRemoveErrorAction(formId, fieldId, path.fieldIndex);
               this.store.dispatch(formRemoveErrorAction);
             }
           }
@@ -127,7 +127,7 @@ export class SectionService {
     this.store.dispatch(new DisableSectionAction(submissionId, sectionId))
   }
 
-  public updateSectionData(submissionId, sectionId, data) {
+  public updateSectionData(submissionId, sectionId, data, errors = []) {
     if (isNotEmpty(data)) {
       const isAvailable$ = this.isSectionAvailable(submissionId, sectionId);
       const isEnabled$ = this.isSectionEnabled(submissionId, sectionId);
@@ -143,7 +143,7 @@ export class SectionService {
                 this.notificationsService.info(null, m, null, true);
               });
           }
-          this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, []));
+          this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, errors));
         });
     }
   }

@@ -12,13 +12,14 @@ import {
 import { isEmpty, isNotEmpty, isNotNull, isNotUndefined, isNull, isUndefined } from '../empty.util';
 import { JsonPatchOperationPathCombiner } from '../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { FormFieldPreviousValueObject } from './builder/models/form-field-previous-value-object';
-import { DynamicComboboxModel } from './builder/ds-dynamic-form-ui/models/ds-dynamic-combobox.model';
 import { JsonPatchOperationsBuilder } from '../../core/json-patch/builder/json-patch-operations-builder';
 import { FormFieldLanguageValueObject } from './builder/models/form-field-language-value.model';
 import { DsDynamicInputModel } from './builder/ds-dynamic-form-ui/models/ds-dynamic-input.model';
 import { AuthorityValueModel } from '../../core/integration/models/authority-value.model';
 import { FormBuilderService } from './builder/form-builder.service';
 import { FormFieldMetadataValueObject } from './builder/models/form-field-metadata-value.model';
+import { DynamicQualdropModel } from './builder/ds-dynamic-form-ui/models/ds-dynamic-qualdrop.model';
+import { DynamicGroupModel } from './builder/ds-dynamic-form-ui/models/dynamic-group/dynamic-group.model';
 
 @Injectable()
 export class FormOperationsService {
@@ -31,7 +32,7 @@ export class FormOperationsService {
                                               previousValue: FormFieldPreviousValueObject) {
     const path = this.getFieldPathFromChangeEvent(event);
     const value = this.getFieldValueFromChangeEvent(event);
-    if (this.formBuilder.isComboboxGroup(event.model.parent as DynamicFormControlModel)) {
+    if (this.formBuilder.isQualdropGroup(event.model.parent as DynamicFormControlModel)) {
       this.dispatchOperationsFromMap(this.getComboboxMap(event), pathCombiner, event, previousValue);
     } else if (isNotEmpty(value)) {
       this.operationsBuilder.remove(pathCombiner.getPath(path));
@@ -46,13 +47,13 @@ export class FormOperationsService {
     const segmentedPath = this.getFieldPathSegmentedFromChangeEvent(event);
     const value = this.getFieldValueFromChangeEvent(event);
     // Detect which operation must be dispatched
-    if (this.formBuilder.isComboboxGroup(event.model.parent as DynamicFormControlModel)) {
+    if (this.formBuilder.isQualdropGroup(event.model.parent as DynamicFormControlModel)) {
       // It's a qualdrup model
       this.dispatchOperationsFromMap(this.getComboboxMap(event), pathCombiner, event, previousValue);
     } else if (this.formBuilder.isRelationGroup(event.model)) {
       // It's a relation model
       this.dispatchOperationsFromMap(this.getValueMap(value), pathCombiner, event, previousValue);
-    } else if (this.formBuilder.isModelInAuthorityGroup(event.model)) {
+    } else if (this.formBuilder.hasArrayGroupValue(event.model)) {
       // Model has as value an array, so dispatch an add operation with entire block of values
       this.operationsBuilder.add(
         pathCombiner.getPath(segmentedPath),
@@ -164,7 +165,7 @@ export class FormOperationsService {
     const metadataValueMap = new Map();
 
     (event.model.parent.parent as DynamicFormArrayGroupModel).context.groups.forEach((arrayModel: DynamicFormArrayGroupModel) => {
-      const groupModel = arrayModel.group[0] as DynamicComboboxModel;
+      const groupModel = arrayModel.group[0] as DynamicQualdropModel;
       const metadataValueList = metadataValueMap.get(groupModel.qualdropId) ? metadataValueMap.get(groupModel.qualdropId) : [];
       if (groupModel.value) {
         metadataValueList.push(groupModel.value);
@@ -183,7 +184,7 @@ export class FormOperationsService {
 
   public getFieldPathSegmentedFromChangeEvent(event: DynamicFormControlEvent) {
     let fieldId;
-    if (this.formBuilder.isComboboxGroup(event.model.parent as DynamicFormControlModel)) {
+    if (this.formBuilder.isQualdropGroup(event.model.parent as DynamicFormControlModel)) {
       fieldId = (event.model.parent as any).qualdropId;
     } else {
       fieldId = this.formBuilder.getId(event.model);
@@ -197,6 +198,8 @@ export class FormOperationsService {
 
     if (this.formBuilder.isModelInCustomGroup(event.model)) {
       fieldValue = (event.model.parent as any).value;
+    } else if (this.formBuilder.isRelationGroup(event.model)) {
+      fieldValue = (event.model as DynamicGroupModel).getGroupValue();
     } else if ((event.model as any).hasLanguages) {
       const language = (event.model as any).language;
       if ((event.model as DsDynamicInputModel).hasAuthority) {

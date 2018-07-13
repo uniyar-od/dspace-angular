@@ -142,7 +142,11 @@ export class SectionDirective implements OnDestroy, OnInit {
     }
   }
 
+  public removeError(index) {
+    this.sectionErrors.splice(index);
+  }
+
   public resetErrors() {
-    return this.sectionErrors = [];
+    this.sectionErrors = [];
   }
 }

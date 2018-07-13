@@ -11,12 +11,7 @@ import {
 } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
-import {
-  DynamicFormControlEvent,
-  DynamicFormControlModel,
-  DynamicFormGroupModel,
-  DynamicInputModel
-} from '@ng-dynamic-forms/core';
+import { DynamicFormControlModel, DynamicFormGroupModel, DynamicInputModel } from '@ng-dynamic-forms/core';
 import { isEqual } from 'lodash';
 
 import { DynamicGroupModel, PLACEHOLDER_PARENT_METADATA } from './dynamic-group.model';
@@ -25,7 +20,6 @@ import { SubmissionFormsModel } from '../../../../../../core/shared/config/confi
 import { FormService } from '../../../../form.service';
 import { FormComponent } from '../../../../form.component';
 import { Chips } from '../../../../../chips/models/chips.model';
-import { DynamicLookupModel } from '../lookup/dynamic-lookup.model';
 import { hasValue, isEmpty, isNotEmpty } from '../../../../../empty.util';
 import { shrinkInOut } from '../../../../../animations/shrink';
 import { ChipsItem } from '../../../../../chips/models/chips-item.model';
@@ -33,7 +27,7 @@ import { GlobalConfig } from '../../../../../../../config/global-config.interfac
 import { GLOBAL_CONFIG } from '../../../../../../../config';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { isObjectEmpty } from '../../../../../object.util';
+import { hasOnlyEmptyProperties } from '../../../../../object.util';
 import { FormFieldMetadataValueObject } from '../../../models/form-field-metadata-value.model';
 import { AuthorityValueModel } from '../../../../../../core/integration/models/authority-value.model';
 
@@ -76,13 +70,27 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
       this.formCollapsed = Observable.of(true);
     }
     this.model.valueUpdates.subscribe((value: any[]) => {
-      this.formCollapsed = (isNotEmpty(value) && !(value.length === 1 && isObjectEmpty(value[0]))) ? Observable.of(true) : Observable.of(false);
+      if ((isNotEmpty(value) && !(value.length === 1 && hasOnlyEmptyProperties(value[0])))) {
+        this.collapseForm();
+      } else {
+        this.expandForm();
+      }
+      // this.formCollapsed = (isNotEmpty(value) && !(value.length === 1 && hasOnlyEmptyProperties(value[0]))) ? Observable.of(true) : Observable.of(false);
     });
 
     this.formId = this.formService.getUniqueId(this.model.id);
-    this.formModel = this.formBuilderService.modelFromConfiguration(config, this.model.scopeUUID, {}, this.model.submissionScope, this.model.readOnly);
+    this.formModel = this.formBuilderService.modelFromConfiguration(
+      config,
+      this.model.scopeUUID,
+      {},
+      this.model.submissionScope,
+      this.model.readOnly);
     const initChipsValue = this.model.isEmpty() ? [] : this.model.value;
-    this.chips = new Chips(initChipsValue, 'value', this.model.mandatoryField, this.EnvConfig.submission.metadata.icons);
+    this.chips = new Chips(
+      initChipsValue,
+      'value',
+      this.model.mandatoryField,
+      this.EnvConfig.submission.metadata.icons);
     this.subs.push(
       this.chips.chipsItems
         .subscribe((subItems: any[]) => {
@@ -126,13 +134,14 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
       modelRow.group.forEach((model: DynamicInputModel) => {
         const value = (this.selectedChipItem.item[model.name] === PLACEHOLDER_PARENT_METADATA
           || this.selectedChipItem.item[model.name].value === PLACEHOLDER_PARENT_METADATA)
-            ? null
-            : this.selectedChipItem.item[model.name];
-        if (value instanceof FormFieldMetadataValueObject || value instanceof AuthorityValueModel) {
-          model.valueUpdates.next(value.display);
-        } else {
-          model.valueUpdates.next(value);
-        }
+          ? null
+          : this.selectedChipItem.item[model.name];
+        // if (value instanceof FormFieldMetadataValueObject || value instanceof AuthorityValueModel) {
+        //   model.valueUpdates.next(value.display);
+        // } else {
+        //   model.valueUpdates.next(value);
+        // }
+        model.valueUpdates.next(value);
       });
     });
 
@@ -218,7 +227,9 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
   }
 
   private resetForm() {
-    this.formService.resetForm(this.formRef.formGroup, this.formModel, this.formId);
+    if (this.formRef) {
+      this.formService.resetForm(this.formRef.formGroup, this.formModel, this.formId);
+    }
   }
 
   ngOnDestroy(): void {
