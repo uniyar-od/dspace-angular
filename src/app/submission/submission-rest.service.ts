@@ -5,7 +5,12 @@ import { Store } from '@ngrx/store';
 import { ResponseCacheService } from '../core/cache/response-cache.service';
 import { RequestService } from '../core/data/request.service';
 import { ResponseCacheEntry } from '../core/cache/response-cache.reducer';
-import { ErrorResponse, RestResponse, SubmissionSuccessResponse } from '../core/cache/response-cache.models';
+import {
+  ErrorResponse,
+  PostPatchSuccessResponse,
+  RestResponse,
+  SubmissionSuccessResponse
+} from '../core/cache/response-cache.models';
 import { isNotEmpty } from '../shared/empty.util';
 import {
   ConfigRequest,
@@ -19,12 +24,11 @@ import {
 } from '../core/data/request.models';
 import { SubmitDataResponseDefinitionObject } from '../core/shared/submit-data-response-definition.model';
 import { CoreState } from '../core/core.reducers';
-import { PostPatchDataService } from '../core/data/postpatch-data.service';
 import { HttpOptions } from '../core/dspace-rest-v2/dspace-rest-v2.service';
 import { HALEndpointService } from '../core/shared/hal-endpoint.service';
 
 @Injectable()
-export class SubmissionRestService extends PostPatchDataService<SubmitDataResponseDefinitionObject> {
+export class SubmissionRestService {
   protected linkPath = 'workspaceitems';
   protected overrideRequest = true;
 
@@ -33,7 +37,19 @@ export class SubmissionRestService extends PostPatchDataService<SubmitDataRespon
     protected requestService: RequestService,
     protected store: Store<CoreState>,
     protected halService: HALEndpointService) {
-    super();
+  }
+
+  protected submitData(request: RestRequest): Observable<SubmitDataResponseDefinitionObject> {
+    const [successResponse, errorResponse] = this.responseCache.get(request.href)
+      .map((entry: ResponseCacheEntry) => entry.response)
+      .partition((response: RestResponse) => response.isSuccessful);
+    return Observable.merge(
+      errorResponse.flatMap((response: ErrorResponse) =>
+        Observable.throw(new Error(`Couldn't send data to server`))),
+      successResponse
+        .filter((response: PostPatchSuccessResponse) => isNotEmpty(response))
+        .map((response: PostPatchSuccessResponse) => response.dataDefinition)
+        .distinctUntilChanged());
   }
 
   protected fetchRequest(request: RestRequest): Observable<SubmitDataResponseDefinitionObject> {
@@ -48,6 +64,10 @@ export class SubmissionRestService extends PostPatchDataService<SubmitDataRespon
         .filter((response: SubmissionSuccessResponse) => isNotEmpty(response))
         .map((response: SubmissionSuccessResponse) => response.dataDefinition)
         .distinctUntilChanged());
+  }
+
+  protected getEndpointByIDHref(endpoint, resourceID): string {
+    return isNotEmpty(resourceID) ? `${endpoint}/${resourceID}` : `${endpoint}`;
   }
 
   public deleteById(scopeId: string, linkName?: string): Observable<SubmitDataResponseDefinitionObject> {

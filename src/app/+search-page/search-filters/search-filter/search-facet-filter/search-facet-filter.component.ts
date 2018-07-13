@@ -29,6 +29,7 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
   @Input() selectedValues: string[];
   filterValues: Array<Observable<RemoteData<PaginatedList<FacetValue>>>> = [];
   filterValues$: BehaviorSubject<any> = new BehaviorSubject(this.filterValues);
+  selectedFilterValues$: Observable<FacetValue[]>;
   currentPage: Observable<number>;
   isLastPage$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   filter: string;
@@ -60,6 +61,8 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
         .filter((rd) => rd.payload.hasPageInfo())
         .subscribe((rd) => this.isLastPage$.next(hasNoValue(rd.payload.next)));
     });
+
+    this.selectedFilterValues$ = this.getSelectedFilterLabel();
   }
 
   isChecked(value: FacetValue): Observable<boolean> {
@@ -68,6 +71,20 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
 
   getSearchLink() {
     return this.searchService.getSearchLink();
+  }
+
+  getSelectedFilterLabel(): Observable<FacetValue[]> {
+    return this.filterValues
+      .map((filterValue$: Observable<RemoteData<PaginatedList<FacetValue>>>) => {
+        return filterValue$
+          .map((rd: RemoteData<PaginatedList<FacetValue>>) => {
+            return rd.payload.page
+              .filter((filterValue: FacetValue) => this.selectedValues.includes(filterValue.value));
+          })
+      })
+      .reduce((facetValue$: Observable<FacetValue[]>) => facetValue$)
+      .distinctUntilChanged()
+      .startWith([]);
   }
 
   showMore() {
@@ -91,7 +108,7 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
     if (isNotEmpty(data)) {
       this.router.navigate([this.getSearchLink()], {
         queryParams:
-          { [this.filterConfig.paramName]: [...this.selectedValues, data[this.filterConfig.paramName]] },
+          {[this.filterConfig.paramName]: [...this.selectedValues, data[this.filterConfig.paramName]]},
         queryParamsHandling: 'merge'
       });
       this.filter = '';
@@ -101,6 +118,7 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
   hasValue(o: any): boolean {
     return hasValue(o);
   }
+
   getRemoveParams(value: string) {
     return {
       [this.filterConfig.paramName]: this.selectedValues.filter((v) => v !== value),

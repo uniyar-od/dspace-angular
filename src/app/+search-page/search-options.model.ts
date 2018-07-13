@@ -30,7 +30,7 @@ export class SearchOptions {
     }
     if (isNotEmpty(this.filters)) {
       Object.entries(this.filters).forEach(([key, values]) => {
-        values.forEach((value) => args.push(`${key}=${value},equals`));
+        values.forEach((value) => args.push(`${key}=${value}`));
       });
     }
     if (isNotEmpty(args)) {
