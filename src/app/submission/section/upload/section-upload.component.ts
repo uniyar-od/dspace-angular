@@ -34,6 +34,7 @@ export class FilesSectionComponent extends SectionModelComponent implements OnIn
   public AlertTypeEnum = AlertType;
   public fileIndexes = [];
   public fileList = [];
+  public fileNames = [];
 
   public collectionName: string;
 
@@ -153,11 +154,14 @@ export class FilesSectionComponent extends SectionModelComponent implements OnIn
             let sectionStatus = false;
             this.fileList = [];
             this.fileIndexes = [];
+            this.fileNames = [];
             if (isNotUndefined(fileList) && Object.keys(fileList).length > 0) {
               Object.keys(fileList)
                 .forEach((key) => {
                   this.fileList.push(fileList[key]);
                   this.fileIndexes.push(fileList[key].uuid);
+                  const fileName = fileList[key].metadata['dc.title'][0].display || fileList[key].uuid;
+                  this.fileNames.push(fileName);
                 });
               sectionStatus = true;
             }

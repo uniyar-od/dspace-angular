@@ -31,6 +31,7 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
   @Input() configMetadataForm: SubmissionFormsModel;
   @Input() fileId;
   @Input() fileIndex;
+  @Input() fileName
   @Input() sectionId;
   @Input() submissionId;
 
@@ -120,8 +121,10 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
             });
           const accessConditionsToSave = [];
           formData.accessConditions
+            .filter((accessCondition) => isNotEmpty(accessCondition))
             .forEach((accessCondition, index) => {
               let accessConditionOpt;
+              console.log(this.availableAccessConditionOptions, accessCondition);
               this.availableAccessConditionOptions
                 .filter((element) => isNotNull(accessCondition.name) && element.name === accessCondition.name[0].value)
                 .forEach((element) => accessConditionOpt = element);
