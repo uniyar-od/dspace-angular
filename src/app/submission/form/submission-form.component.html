@@ -31,6 +31,7 @@
   </div>
   <div *ngIf="!(isLoading() | async)" class="submission-form-footer mt-3 mb-3">
     <ds-submission-form-footer
-      [submissionId]="submissionId"></ds-submission-form-footer>
+      [submissionId]="submissionId"
+      [taskId]="taskId"></ds-submission-form-footer>
   </div>
 </div>

@@ -27,6 +27,7 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
   public selfUrl: string;
   public submissionDefinition: SubmissionDefinitionsModel;
   public submissionId: string;
+  public taskId: string;
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -50,6 +51,7 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
       this.subs.push(this.route.paramMap
         .subscribe((params: ParamMap) => {
           this.submissionId = params.get('id');
+          this.taskId = params.get('taskid');
           this.subs.push(
             this.restService.getDataById(this.submissionService.getSubmissionObjectLinkName(), this.submissionId)
               .filter((submissionObjects: SubmissionObject[]) => isNotUndefined(submissionObjects))
