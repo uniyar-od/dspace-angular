@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     // set loading
     this.isNavBarCollapsed = this.store.select(navCollapsedSelector);
-    this.homeHref = this.config.auth.target.host + '/home'
+    this.homeHref = this.config.auth.target.host;
   }
 
   public toggle(): void {
