@@ -1,30 +1,32 @@
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { SectionService } from './section.service';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { isEmpty, uniq } from 'lodash';
+
+import { SectionsService } from './sections.service';
 import { hasValue, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
 import { submissionSectionFromIdSelector } from '../selectors';
-import { Store } from '@ngrx/store';
 import { SubmissionState } from '../submission.reducers';
 import { SubmissionSectionError, SubmissionSectionObject } from '../objects/submission-objects.reducer';
-import { isEmpty, uniq } from 'lodash';
-import { SectionErrorPath } from '../utils/parseSectionErrorPaths';
-import parseSectionErrorPaths from '../utils/parseSectionErrorPaths';
+import parseSectionErrorPaths, { SectionErrorPath } from '../utils/parseSectionErrorPaths';
 import {
-  DeleteSectionErrorsAction, SaveSubmissionSectionFormAction,
+  DeleteSectionErrorsAction,
+  SaveSubmissionSectionFormAction,
   SetActiveSectionAction
 } from '../objects/submission-objects.actions';
 import { SubmissionService } from '../submission.service';
-import { Observable } from 'rxjs/Observable';
 
 @Directive({
   selector: '[dsSection]',
   exportAs: 'sectionRef'
 })
-export class SectionDirective implements OnDestroy, OnInit {
+export class SectionsDirective implements OnDestroy, OnInit {
   @Input() mandatory = true;
   @Input() sectionId;
   @Input() submissionId;
-
+  public sectionErrors: string[] = [];
   private active = true;
   private animation = !this.mandatory;
   private enabled: Observable<boolean>;
@@ -32,12 +34,10 @@ export class SectionDirective implements OnDestroy, OnInit {
   private subs: Subscription[] = [];
   private valid: Observable<boolean>;
 
-  public sectionErrors: string[] = [];
-
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private store: Store<SubmissionState>,
               private submissionService: SubmissionService,
-              private sectionService: SectionService) {
+              private sectionService: SectionsService) {
   }
 
   ngOnInit() {

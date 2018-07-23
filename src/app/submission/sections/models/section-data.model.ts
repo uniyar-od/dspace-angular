@@ -1,6 +1,6 @@
-import { SubmissionSectionError } from '../objects/submission-objects.reducer';
-import { WorkspaceitemSectionDataType, WorkspaceitemSectionsObject } from '../../core/submission/models/workspaceitem-sections.model';
-import { SectionType } from './section-type';
+import { SubmissionSectionError } from '../../objects/submission-objects.reducer';
+import { WorkspaceitemSectionDataType, WorkspaceitemSectionsObject } from '../../../core/submission/models/workspaceitem-sections.model';
+import { SectionsType } from '../sections-type';
 
 export interface SectionDataObject {
   config: string;
@@ -9,6 +9,6 @@ export interface SectionDataObject {
   header: string;
   id: string;
   mandatory: boolean;
-  sectionType: SectionType;
+  sectionType: SectionsType;
   [propName: string]: any;
 }

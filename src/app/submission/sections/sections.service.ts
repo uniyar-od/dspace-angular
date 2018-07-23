@@ -27,7 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 
 @Injectable()
-export class SectionService {
+export class SectionsService {
 
   constructor(private notificationsService: NotificationsService,
               private scrollToService: ScrollToService,

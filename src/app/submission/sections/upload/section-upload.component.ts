@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Inject, OnChanges, OnInit } from '@angular/core';
 import {Store} from '@ngrx/store';
-import {SectionModelComponent} from '../section.model';
+import {SectionModelComponent} from '../models/section.model';
 import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
 import {SectionUploadService} from './section-upload.service';
 import {SectionStatusChangeAction} from '../../objects/submission-objects.actions';
@@ -13,9 +13,9 @@ import { Observable } from 'rxjs/Observable';
 import { Group } from '../../../core/eperson/models/group.model';
 import { EpersonData } from '../../../core/eperson/eperson-data';
 import { SubmissionFormsModel } from '../../../core/shared/config/config-submission-forms.model';
-import { SectionType } from '../section-type';
-import { renderSectionFor } from '../section-decorator';
-import { SectionDataObject } from '../section-data.model';
+import { SectionsType } from '../sections-type';
+import { renderSectionFor } from '../sections-decorator';
+import { SectionDataObject } from '../models/section-data.model';
 import { submissionObjectFromIdSelector } from '../../selectors';
 import { SubmissionObjectEntry } from '../../objects/submission-objects.reducer';
 import { AlertType } from '../../../shared/alerts/aletrs-type';
@@ -24,12 +24,12 @@ export const POLICY_DEFAULT_NO_LIST = 1; // Banner1
 export const POLICY_DEFAULT_WITH_LIST = 2; // Banner2
 
 @Component({
-  selector: 'ds-submission-section-files',
+  selector: 'ds-submission-section-upload',
   styleUrls: ['./section-upload.component.scss'],
   templateUrl: './section-upload.component.html',
 })
-@renderSectionFor(SectionType.Upload)
-export class FilesSectionComponent extends SectionModelComponent implements OnInit {
+@renderSectionFor(SectionsType.Upload)
+export class UploadSectionComponent extends SectionModelComponent implements OnInit {
 
   public AlertTypeEnum = AlertType;
   public fileIndexes = [];
