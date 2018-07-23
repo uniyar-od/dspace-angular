@@ -19,7 +19,6 @@ import { submissionReducers } from './submission.reducers';
 import { submissionEffects } from './submission.effects';
 import { FilesSectionComponent } from './section/upload/section-upload.component';
 import { SectionUploadService } from './section/upload/section-upload.service';
-import { SubmissionService } from './submission.service';
 import { SubmissionUploadFilesComponent } from './form/submission-upload-files/submission-upload-files.component';
 import { SubmissionRestService } from './submission-rest.service';
 import { LicenseSectionComponent } from './section/license/section-license.component';
@@ -82,7 +81,6 @@ import { SubmissionSubmitComponent } from './submit/submission-submit.component'
   providers: [
     SectionUploadService,
     SectionService,
-    SubmissionService,
     SubmissionRestService,
     SubmissionUploadsConfigService,
     DeduplicationService

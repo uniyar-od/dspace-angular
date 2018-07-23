@@ -1,9 +1,4 @@
-import {
-  NgModule,
-  Optional,
-  SkipSelf,
-  ModuleWithProviders
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
@@ -42,11 +37,9 @@ import { BrowseService } from './browse/browse.service';
 import { BrowseResponseParsingService } from './data/browse-response-parsing.service';
 import { ConfigResponseParsingService } from './data/config-response-parsing.service';
 import { RouteService } from '../shared/services/route.service';
-
 import { SubmissionDefinitionsConfigService } from './config/submission-definitions-config.service';
 import { SubmissionFormsConfigService } from './config/submission-forms-config.service';
 import { SubmissionSectionsConfigService } from './config/submission-sections-config.service';
-
 import { SubmissionResponseParsingService } from './submission/submission-response-parsing.service';
 import { EpersonResponseParsingService } from './eperson/eperson-response-parsing.service';
 import { JsonPatchOperationsBuilder } from './json-patch/builder/json-patch-operations-builder';
@@ -59,7 +52,6 @@ import { AuthRequestService } from './auth/auth-request.service';
 import { AuthResponseParsingService } from './auth/auth-response-parsing.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { PlatformService } from '../shared/services/platform.service';
 import { HALEndpointService } from './shared/hal-endpoint.service';
 import { FacetValueResponseParsingService } from './data/facet-value-response-parsing.service';
 import { FacetValueMapResponseParsingService } from './data/facet-value-map-response-parsing.service';
@@ -86,7 +78,7 @@ import { FileService } from './shared/file.service';
 const IMPORTS = [
   CommonModule,
   StoreModule.forFeature('core', coreReducers, {}),
-  EffectsModule.forFeature(coreEffects),
+  EffectsModule.forFeature(coreEffects)
 ];
 
 const DECLARATIONS = [
@@ -120,7 +112,6 @@ const PROVIDERS = [
   MetadataService,
   ObjectCacheService,
   PaginationComponentOptions,
-  PlatformService,
   RegistryService,
   RemoteDataBuildService,
   RequestService,

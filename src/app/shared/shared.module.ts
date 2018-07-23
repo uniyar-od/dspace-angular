@@ -94,7 +94,6 @@ import { ObjectDetailComponent } from './object-detail/object-detail.component';
 import { WrapperDetailElementComponent } from './object-detail/wrapper-detail-element/wrapper-detail-element.component';
 import { ItemDetailPreviewComponent } from './object-detail/my-dspace-result-detail-element/item-detail-preview/item-detail-preview.component';
 import { ItemStatusComponent } from './object-collection/shared/mydspace-item-status/item-status.component';
-import { SubmissionService } from '../submission/submission.service';
 import { SubmissionRestService } from '../submission/submission-rest.service';
 import { WorkspaceitemActionsComponent } from './mydspace-actions/workspaceitem/workspaceitem-actions.component';
 import { WorkflowitemActionsComponent } from './mydspace-actions/workflowitem/workflowitem-actions.component';
@@ -218,7 +217,6 @@ const ENTRY_COMPONENTS = [
 
 const PROVIDERS = [
   MockAdminGuard,
-  SubmissionService,
   SubmissionRestService,
   TruncatableService,
 ];

@@ -124,10 +124,11 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
             .filter((accessCondition) => isNotEmpty(accessCondition))
             .forEach((accessCondition, index) => {
               let accessConditionOpt;
-              console.log(this.availableAccessConditionOptions, accessCondition);
+
               this.availableAccessConditionOptions
                 .filter((element) => isNotNull(accessCondition.name) && element.name === accessCondition.name[0].value)
                 .forEach((element) => accessConditionOpt = element);
+
               if (accessConditionOpt) {
                 const path = `accessConditions/${index}`;
                 if (accessConditionOpt.hasStartDate !== true && accessConditionOpt.hasEndDate !== true) {
