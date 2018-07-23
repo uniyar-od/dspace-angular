@@ -18,7 +18,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpOptions } from '../core/dspace-rest-v2/dspace-rest-v2.service';
 import { SubmissionRestService } from './submission-rest.service';
 import { Router } from '@angular/router';
-import { SectionDataObject } from './section/section-data.model';
+import { SectionDataObject } from './sections/models/section-data.model';
 import { SubmissionScopeType } from '../core/submission/submission-scope-type';
 import { SubmissionObject } from '../core/submission/models/submission-object.model';
 

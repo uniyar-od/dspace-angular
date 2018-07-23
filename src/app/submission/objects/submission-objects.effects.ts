@@ -31,7 +31,7 @@ import {
   SubmissionObjectActionTypes,
   UpdateSectionDataAction
 } from './submission-objects.actions';
-import { SectionService } from '../section/section.service';
+import { SectionsService } from '../sections/sections.service';
 import { isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import { Workspaceitem } from '../../core/submission/models/workspaceitem.model';
 import { Observable } from 'rxjs/Observable';
@@ -43,7 +43,7 @@ import { Workflowitem } from '../../core/submission/models/workflowitem.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { TranslateService } from '@ngx-translate/core';
-import { DeduplicationService } from '../section/deduplication/deduplication.service';
+import { DeduplicationService } from '../sections/deduplication/deduplication.service';
 import { SubmissionState } from '../submission.reducers';
 import { SubmissionObjectEntry } from './submission-objects.reducer';
 import { SubmissionSectionModel } from '../../core/shared/config/config-submission-section.model';
@@ -278,7 +278,7 @@ export class SubmissionObjectEffects {
   constructor(private actions$: Actions,
               private notificationsService: NotificationsService,
               private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
-              private sectionService: SectionService,
+              private sectionService: SectionsService,
               private store$: Store<any>,
               private submissionService: SubmissionService,
               private deduplicationService: DeduplicationService,

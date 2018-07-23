@@ -3,7 +3,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { SectionService } from '../../section/section.service';
+import { SectionsService } from '../../sections/sections.service';
 import { hasValue, isNotEmpty } from '../../../shared/empty.util';
 import { Workspaceitem } from '../../../core/submission/models/workspaceitem.model';
 import { normalizeSectionData } from '../../../core/submission/models/workspaceitem-sections.model';
@@ -42,7 +42,7 @@ export class SubmissionUploadFilesComponent implements OnChanges {
 
   constructor(private notificationsService: NotificationsService,
               private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
-              private sectionService: SectionService,
+              private sectionService: SectionsService,
               private submissionService: SubmissionService,
               private translate: TranslateService) {
   }

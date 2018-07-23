@@ -3,35 +3,35 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { FormSectionComponent } from './section/form/section-form.component';
-import { SectionDirective } from './section/section.directive';
-import { SectionService } from './section/section.service';
-import { DefaultSectionComponent } from './section/default/section-default.component';
+import { FormSectionComponent } from './sections/form/section-form.component';
+import { SectionsDirective } from './sections/sections.directive';
+import { SectionsService } from './sections/sections.service';
+import { DefaultSectionComponent } from './sections/default/section-default.component';
 import { SubmissionFormCollectionComponent } from './form/collection/submission-form-collection.component';
 import { SubmissionFormFooterComponent } from './form/footer/submission-form-footer.component';
 import { SubmissionFormComponent } from './form/submission-form.component';
 import { SubmissionFormSectionAddComponent } from './form/section-add/submission-form-section-add.component';
-import { SectionContainerComponent } from './section/container/section-container.component';
+import { SectionContainerComponent } from './sections/container/section-container.component';
 import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { submissionReducers } from './submission.reducers';
 import { submissionEffects } from './submission.effects';
-import { FilesSectionComponent } from './section/upload/section-upload.component';
-import { SectionUploadService } from './section/upload/section-upload.service';
+import { UploadSectionComponent } from './sections/upload/section-upload.component';
+import { SectionUploadService } from './sections/upload/section-upload.service';
 import { SubmissionUploadFilesComponent } from './form/submission-upload-files/submission-upload-files.component';
 import { SubmissionRestService } from './submission-rest.service';
-import { LicenseSectionComponent } from './section/license/section-license.component';
+import { LicenseSectionComponent } from './sections/license/section-license.component';
 import { SubmissionUploadsConfigService } from '../core/config/submission-uploads-config.service';
 import { SubmissionEditComponent } from './edit/submission-edit.component';
-import { UploadSectionFileComponent } from './section/upload/file/file.component';
-import { UploadSectionFileEditComponent } from './section/upload/file/edit/file-edit.component';
-import { UploadSectionFileViewComponent } from './section/upload/file/view/file-view.component';
-import { AccessConditionsComponent } from './section/upload/accessConditions/accessConditions.component';
-import { RecycleSectionComponent } from './section/recycle/section-recycle.component';
-import { DeduplicationSectionComponent } from './section/deduplication/section-deduplication.component';
-import { DeduplicationMatchComponent } from './section/deduplication/match/deduplication-match.component';
-import { DeduplicationService } from './section/deduplication/deduplication.service';
+import { UploadSectionFileComponent } from './sections/upload/file/file.component';
+import { UploadSectionFileEditComponent } from './sections/upload/file/edit/file-edit.component';
+import { UploadSectionFileViewComponent } from './sections/upload/file/view/file-view.component';
+import { AccessConditionsComponent } from './sections/upload/accessConditions/accessConditions.component';
+import { RecycleSectionComponent } from './sections/recycle/section-recycle.component';
+import { DeduplicationSectionComponent } from './sections/deduplication/section-deduplication.component';
+import { DeduplicationMatchComponent } from './sections/deduplication/match/deduplication-match.component';
+import { DeduplicationService } from './sections/deduplication/deduplication.service';
 import { SubmissionSubmitComponent } from './submit/submission-submit.component';
 
 @NgModule({
@@ -46,10 +46,10 @@ import { SubmissionSubmitComponent } from './submit/submission-submit.component'
   declarations: [
     AccessConditionsComponent,
     DefaultSectionComponent,
-    FilesSectionComponent,
+    UploadSectionComponent,
     FormSectionComponent,
     LicenseSectionComponent,
-    SectionDirective,
+    SectionsDirective,
     SectionContainerComponent,
     SubmissionEditComponent,
     SubmissionFormSectionAddComponent,
@@ -67,7 +67,7 @@ import { SubmissionSubmitComponent } from './submit/submission-submit.component'
   ],
   entryComponents: [
     DefaultSectionComponent,
-    FilesSectionComponent,
+    UploadSectionComponent,
     FormSectionComponent,
     LicenseSectionComponent,
     SectionContainerComponent,
@@ -80,7 +80,7 @@ import { SubmissionSubmitComponent } from './submit/submission-submit.component'
   ],
   providers: [
     SectionUploadService,
-    SectionService,
+    SectionsService,
     SubmissionRestService,
     SubmissionUploadsConfigService,
     DeduplicationService

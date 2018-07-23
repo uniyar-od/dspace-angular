@@ -2,12 +2,9 @@
 
 .submission-form-header {
   background-color: rgba($white, .97);
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0.5rem 0 0.5rem 0;
-  position: sticky;
+  padding: ($spacer / 2) 0 ($spacer / 2) 0;
   top: 0;
-  z-index: 1001;
+  z-index: $submission-header-z-index;
 }
 
 .submission-form-header-item {
@@ -16,10 +13,9 @@
 
 .submission-form-footer {
   border-radius: $card-border-radius;
-  position: sticky;
   bottom: 0;
   background-color: $gray-400;
-  padding: 0.5rem;
-  z-index: 1000;
+  padding: $spacer / 2;
+  z-index: $submission-footer-z-index;
 }
 

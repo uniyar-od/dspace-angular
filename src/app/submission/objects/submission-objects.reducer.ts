@@ -19,7 +19,7 @@ import {
 import { deleteProperty } from '../../shared/object.util';
 import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
 import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
-import { SectionType } from '../section/section-type';
+import { SectionsType } from '../sections/sections-type';
 
 export interface SectionVisibility {
   main: any;
@@ -30,7 +30,7 @@ export interface SubmissionSectionObject {
   header: string;
   config: string;
   mandatory: boolean;
-  sectionType: SectionType;
+  sectionType: SectionsType;
   visibility: SectionVisibility;
   collapsed: boolean,
   enabled: boolean;

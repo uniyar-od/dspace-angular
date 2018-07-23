@@ -2,10 +2,10 @@ import { Component, Input, OnInit, } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
-import { SectionService } from '../../section/section.service';
+import { SectionsService } from '../../sections/sections.service';
 import { HostWindowService } from '../../../shared/host-window.service';
 import { SubmissionService } from '../../submission.service';
-import { SectionDataObject } from '../../section/section-data.model';
+import { SectionDataObject } from '../../sections/models/section-data.model';
 
 @Component({
   selector: 'ds-submission-form-section-add',
@@ -18,7 +18,7 @@ export class SubmissionFormSectionAddComponent implements OnInit {
 
   public sectionList: Observable<SectionDataObject[]>;
 
-  constructor(private sectionService: SectionService,
+  constructor(private sectionService: SectionsService,
               private submissionService: SubmissionService,
               public windowService: HostWindowService) {
   }
