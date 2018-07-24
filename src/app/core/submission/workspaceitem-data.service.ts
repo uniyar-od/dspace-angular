@@ -33,39 +33,4 @@ export class WorkspaceitemDataService extends DataService<NormalizedWorkspaceIte
     return this.halService.getEndpoint(this.linkPath);
   }
 
-/*
-  findAll(options: FindAllOptions = {}): Observable<RemoteData<PaginatedList<Workspaceitem>>> {
-    const hrefObs = this.getEndpoint().filter((href: string) => isNotEmpty(href))
-      .flatMap((endpoint: string) => this.getFindAllHref(endpoint, options));
-
-    hrefObs
-      .filter((href: string) => hasValue(href))
-      .take(1)
-      .subscribe((href: string) => {
-        const request = new SubmissionFindAllRequest(this.requestService.generateRequestId(), href, options);
-        this.requestService.configure(request);
-      });
-
-    return this.rdbService.buildList<NormalizedWorkspaceItem, Workspaceitem>(hrefObs, this.normalizedResourceType) as Observable<RemoteData<PaginatedList<Workspaceitem>>>;
-  }
-
-  findById(id: string): Observable<RemoteData<Workspaceitem>> {
-    const hrefObs = this.getEndpoint()
-      .map((endpoint: string) => this.getFindByIDHref(endpoint, id));
-
-    hrefObs
-      .filter((href: string) => hasValue(href))
-      .take(1)
-      .subscribe((href: string) => {
-        const request = new SubmissionFindByIDRequest(this.requestService.generateRequestId(), href, id);
-        this.requestService.configure(request);
-      });
-
-    return this.rdbService.buildSingle<NormalizedWorkspaceItem, Workspaceitem>(hrefObs, this.normalizedResourceType);
-  }
-
-  findByHref(href: string): Observable<RemoteData<Workspaceitem>> {
-    this.requestService.configure(new SubmissionRequest(this.requestService.generateRequestId(), href));
-    return this.rdbService.buildSingle<NormalizedWorkspaceItem, Workspaceitem>(href, this.normalizedResourceType);
-  }*/
 }
