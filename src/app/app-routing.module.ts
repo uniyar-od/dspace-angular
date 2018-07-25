@@ -6,14 +6,14 @@ import { PageNotFoundComponent } from './pagenotfound/pagenotfound.component';
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
-      { path: 'home', loadChildren: './+home-page/home-page.module#HomePageModule' },
-      { path: 'communities', loadChildren: './+community-page/community-page.module#CommunityPageModule' },
-      { path: 'collections', loadChildren: './+collection-page/collection-page.module#CollectionPageModule' },
+      { path: '', redirectTo: '/mydspace', pathMatch: 'full' },
+      // { path: 'home', loadChildren: './+home-page/home-page.module#HomePageModule' },
+      // { path: 'communities', loadChildren: './+community-page/community-page.module#CommunityPageModule' },
+      // { path: 'collections', loadChildren: './+collection-page/collection-page.module#CollectionPageModule' },
       { path: 'items', loadChildren: './+item-page/item-page.module#ItemPageModule' },
       { path: 'mydspace', loadChildren: './+my-dspace-page/my-dspace-page.module#MyDSpacePageModule' },
-      { path: 'search', loadChildren: './+search-page/search-page.module#SearchPageModule' },
-      { path: 'admin', loadChildren: './+admin/admin.module#AdminModule' },
+      // { path: 'search', loadChildren: './+search-page/search-page.module#SearchPageModule' },
+      // { path: 'admin', loadChildren: './+admin/admin.module#AdminModule' },
       { path: 'login', loadChildren: './+login-page/login-page.module#LoginPageModule' },
       { path: 'logout', loadChildren: './+logout-page/logout-page.module#LogoutPageModule' },
       { path: 'submit', loadChildren: './+submit-page/submit-page.module#SubmitPageModule' },
