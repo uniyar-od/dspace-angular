@@ -2,11 +2,11 @@ import { Component, Injector, Input, OnInit, ViewChild } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { SectionDirective } from '../section.directive';
-import { SectionDataObject } from '../section-data.model';
+import { SectionsDirective } from '../sections.directive';
+import { SectionDataObject } from '../models/section-data.model';
 import { SubmissionState } from '../../submission.reducers';
-import { rendersSectionType } from '../section-decorator';
-import { SectionType } from '../section-type';
+import { rendersSectionType } from '../sections-decorator';
+import { SectionsType } from '../sections-type';
 import { AlertType } from '../../../shared/alerts/aletrs-type';
 
 @Component({
@@ -22,9 +22,9 @@ export class SectionContainerComponent implements OnInit {
   public AlertTypeEnum = AlertType;
   public active = true;
   public objectInjector: Injector;
-  public sectionComponentType: SectionType;
+  public sectionComponentType: SectionsType;
 
-  @ViewChild('sectionRef') sectionRef: SectionDirective;
+  @ViewChild('sectionRef') sectionRef: SectionsDirective;
 
   constructor(private injector: Injector, private store: Store<SubmissionState>) {
   }

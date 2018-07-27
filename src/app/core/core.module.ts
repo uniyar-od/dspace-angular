@@ -1,9 +1,4 @@
-import {
-  NgModule,
-  Optional,
-  SkipSelf,
-  ModuleWithProviders
-} from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StoreModule } from '@ngrx/store';
@@ -24,7 +19,7 @@ import { DSOResponseParsingService } from './data/dso-response-parsing.service';
 import { SearchResponseParsingService } from './data/search-response-parsing.service';
 import { DSpaceRESTv2Service } from './dspace-rest-v2/dspace-rest-v2.service';
 import { FormBuilderService } from '../shared/form/builder/form-builder.service';
-import { FormOperationsService } from '../shared/form/form-operations.service';
+import { FormOperationsService } from '../submission/sections/form/form-operations.service';
 import { FormService } from '../shared/form/form.service';
 import { GroupEpersonService } from './eperson/group-eperson.service';
 import { HostWindowService } from '../shared/host-window.service';
@@ -42,11 +37,9 @@ import { BrowseService } from './browse/browse.service';
 import { BrowseResponseParsingService } from './data/browse-response-parsing.service';
 import { ConfigResponseParsingService } from './data/config-response-parsing.service';
 import { RouteService } from '../shared/services/route.service';
-
 import { SubmissionDefinitionsConfigService } from './config/submission-definitions-config.service';
 import { SubmissionFormsConfigService } from './config/submission-forms-config.service';
 import { SubmissionSectionsConfigService } from './config/submission-sections-config.service';
-
 import { SubmissionResponseParsingService } from './submission/submission-response-parsing.service';
 import { EpersonResponseParsingService } from './eperson/eperson-response-parsing.service';
 import { JsonPatchOperationsBuilder } from './json-patch/builder/json-patch-operations-builder';
@@ -59,7 +52,6 @@ import { AuthRequestService } from './auth/auth-request.service';
 import { AuthResponseParsingService } from './auth/auth-response-parsing.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
-import { PlatformService } from '../shared/services/platform.service';
 import { HALEndpointService } from './shared/hal-endpoint.service';
 import { FacetValueResponseParsingService } from './data/facet-value-response-parsing.service';
 import { FacetValueMapResponseParsingService } from './data/facet-value-map-response-parsing.service';
@@ -82,11 +74,12 @@ import { TaskResponseParsingService } from './tasks/task-response-parsing.servic
 import { UploaderService } from '../shared/uploader/uploader.service';
 import { MyDSpaceResponseParsingService } from './data/mydspace-response-parsing.service';
 import { FileService } from './shared/file.service';
+import { SubmissionRestService } from '../submission/submission-rest.service';
 
 const IMPORTS = [
   CommonModule,
   StoreModule.forFeature('core', coreReducers, {}),
-  EffectsModule.forFeature(coreEffects),
+  EffectsModule.forFeature(coreEffects)
 ];
 
 const DECLARATIONS = [
@@ -120,7 +113,6 @@ const PROVIDERS = [
   MetadataService,
   ObjectCacheService,
   PaginationComponentOptions,
-  PlatformService,
   RegistryService,
   RemoteDataBuildService,
   RequestService,
@@ -143,6 +135,7 @@ const PROVIDERS = [
   RouteService,
   SubmissionDefinitionsConfigService,
   SubmissionFormsConfigService,
+  SubmissionRestService,
   SubmissionSectionsConfigService,
   SubmissionResponseParsingService,
   JsonPatchOperationsBuilder,

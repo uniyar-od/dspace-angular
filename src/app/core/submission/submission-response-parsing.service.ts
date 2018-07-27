@@ -1,12 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 
 import { ResponseParsingService } from '../data/parsing.service';
-import { RestRequest, RestRequestMethod } from '../data/request.models';
+import { RestRequest } from '../data/request.models';
 import { DSpaceRESTV2Response } from '../dspace-rest-v2/dspace-rest-v2-response.model';
-import {
-  DSOSuccessResponse, ErrorResponse, RestResponse,
-  SubmissionSuccessResponse
-} from '../cache/response-cache.models';
+import { ErrorResponse, RestResponse, SubmissionSuccessResponse } from '../cache/response-cache.models';
 import { isEmpty, isNotEmpty, isNotNull } from '../../shared/empty.util';
 
 import { ConfigObject } from '../shared/config/config.model';
@@ -35,10 +32,9 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
 
   parse(request: RestRequest, data: DSpaceRESTV2Response): RestResponse {
     if (isNotEmpty(data.payload)
-        && isNotEmpty(data.payload._links)
-        && (data.statusCode === '201' || data.statusCode === '200' || data.statusCode === 'OK' || data.statusCode === 'Created')) {
-      let dataDefinition = this.process<NormalizedObject | ConfigObject, SubmissionResourceType>(data.payload, request.href);
-      dataDefinition = this.postProcess<NormalizedObject | ConfigObject, SubmissionResourceType>(dataDefinition);
+      && isNotEmpty(data.payload._links)
+      && (data.statusCode === '201' || data.statusCode === '200')) {
+      const dataDefinition = this.processResponse<NormalizedObject | ConfigObject, SubmissionResourceType>(data.payload, request.href);
       return new SubmissionSuccessResponse(dataDefinition[Object.keys(dataDefinition)[0]], data.statusCode, this.processPageInfo(data.payload));
     } else if (isEmpty(data.payload) && data.statusCode === '204') {
       // Response from a DELETE request
@@ -53,7 +49,8 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
     }
   }
 
-  protected postProcess<ObjectDomain, ObjectType>(dataDefinition): ProcessRequestDTO<ObjectDomain> {
+  protected processResponse<ObjectDomain, ObjectType>(data: any, requestHref: string): ProcessRequestDTO<ObjectDomain> {
+    const dataDefinition = this.process<NormalizedObject | ConfigObject, SubmissionResourceType>(data, requestHref);
     const normalizedDefinition = Object.create({});
     normalizedDefinition[Object.keys(dataDefinition)[0]] = [];
     dataDefinition[Object.keys(dataDefinition)[0]].forEach((item, index) => {
@@ -90,7 +87,7 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
                 precessedSection[sectionId] = normalizedSectionData;
               }
             });
-          normalizedItem = Object.assign({}, item, {sections :precessedSection});
+          normalizedItem = Object.assign({}, item, {sections: precessedSection});
         }
       }
       normalizedDefinition[Object.keys(dataDefinition)[0]][index] = normalizedItem;

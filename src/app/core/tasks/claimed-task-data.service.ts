@@ -9,14 +9,13 @@ import { CoreState } from '../core.reducers';
 import { RequestService } from '../data/request.service';
 import { NormalizedClaimedTask } from './models/normalized-claimed-task-object.model';
 import { ClaimedTask } from './models/claimed-task-object.model';
-import { isNotEmpty } from '../../shared/empty.util';
 import { TasksService } from './tasks.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 
 @Injectable()
 export class ClaimedTaskDataService extends TasksService<NormalizedClaimedTask, ClaimedTask> {
   protected linkPath = 'claimedtasks';
-  protected overrideRequest = true;
+  protected forceBypassCache = true;
 
   constructor(
     protected responseCache: ResponseCacheService,

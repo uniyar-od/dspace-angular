@@ -19,7 +19,7 @@ import { HALEndpointService } from '../shared/hal-endpoint.service';
 @Injectable()
 export class ItemDataService extends DataService<NormalizedItem, Item> {
   protected linkPath = 'items';
-  protected overrideRequest = false;
+  protected forceBypassCache = false;
 
   constructor(
     protected responseCache: ResponseCacheService,

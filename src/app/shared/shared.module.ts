@@ -60,7 +60,6 @@ import { TruncatePipe } from './utils/truncate.pipe';
 import { TruncatableComponent } from './truncatable/truncatable.component';
 import { TruncatableService } from './truncatable/truncatable.service';
 import { TruncatablePartComponent } from './truncatable/truncatable-part/truncatable-part.component';
-import { MockAdminGuard } from './mocks/mock-admin-guard.service';
 import { UploaderComponent } from './uploader/uploader.component';
 import { ChipsComponent } from './chips/chips.component';
 import { DsDynamicTagComponent } from './form/builder/ds-dynamic-form-ui/models/tag/dynamic-tag.component';
@@ -69,8 +68,10 @@ import { DsDynamicGroupComponent } from './form/builder/ds-dynamic-form-ui/model
 import { SortablejsModule } from 'angular-sortablejs';
 import { NumberPickerComponent } from './number-picker/number-picker.component';
 import { DsDatePickerComponent } from './form/builder/ds-dynamic-form-ui/models/date-picker/date-picker.component';
-import { MyDSpaceResultListElementComponent } from './object-list/my-dspace-result-list-element/my-dspace-result-list-element.component';
 import { DsDynamicLookupComponent } from './form/builder/ds-dynamic-form-ui/models/lookup/dynamic-lookup.component';
+import { MockAdminGuard } from './mocks/mock-admin-guard.service';
+import { AlertsComponent } from './alerts/alerts.component';
+import { MyDSpaceResultListElementComponent } from './object-list/my-dspace-result-list-element/my-dspace-result-list-element.component';
 import { MessageBoardComponent } from './message-board/message-board.component';
 import { MessageComponent } from './message-board/message/message.component';
 import { ItemListPreviewComponent } from './object-list/item-list-preview/item-list-preview.component';
@@ -94,13 +95,11 @@ import { ObjectDetailComponent } from './object-detail/object-detail.component';
 import { WrapperDetailElementComponent } from './object-detail/wrapper-detail-element/wrapper-detail-element.component';
 import { ItemDetailPreviewComponent } from './object-detail/my-dspace-result-detail-element/item-detail-preview/item-detail-preview.component';
 import { ItemStatusComponent } from './object-collection/shared/mydspace-item-status/item-status.component';
-import { SubmissionService } from '../submission/submission.service';
 import { SubmissionRestService } from '../submission/submission-rest.service';
 import { WorkspaceitemActionsComponent } from './mydspace-actions/workspaceitem/workspaceitem-actions.component';
 import { WorkflowitemActionsComponent } from './mydspace-actions/workflowitem/workflowitem-actions.component';
 import { ItemSubmitterComponent } from './object-collection/shared/mydspace-item-submitter/item-submitter.component';
 import { ItemActionsComponent } from './mydspace-actions/item/item-actions.component';
-import { AlertsComponent } from './alerts/alerts.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -162,6 +161,7 @@ const COMPONENTS = [
   AbstractListableElementComponent,
   WrapperListElementComponent,
   WrapperDetailElementComponent,
+  ObjectGridComponent,
   WrapperGridElementComponent,
   ObjectCollectionComponent,
   PaginationComponent,
@@ -218,7 +218,6 @@ const ENTRY_COMPONENTS = [
 
 const PROVIDERS = [
   MockAdminGuard,
-  SubmissionService,
   SubmissionRestService,
   TruncatableService,
 ];

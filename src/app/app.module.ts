@@ -31,7 +31,6 @@ import { DSpaceRouterStateSerializer } from './shared/ngrx/dspace-router-state-s
 import { NotificationsBoardComponent } from './shared/notifications/notifications-board/notifications-board.component';
 import { NotificationComponent } from './shared/notifications/notification/notification.component';
 import { SharedModule } from './shared/shared.module';
-import { SortablejsModule } from 'angular-sortablejs';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 export function getConfig() {
@@ -60,7 +59,6 @@ if (!ENV_CONFIG.production) {
     HttpClientModule,
     AppRoutingModule,
     CoreModule.forRoot(),
-    SortablejsModule.forRoot({ animation: 150 }),
     ScrollToModule.forRoot(),
     NgbModule.forRoot(),
     TranslateModule.forRoot(),

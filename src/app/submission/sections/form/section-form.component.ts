@@ -8,7 +8,7 @@ import { FormBuilderService } from '../../../shared/form/builder/form-builder.se
 import { FormComponent } from '../../../shared/form/form.component';
 import { FormService } from '../../../shared/form/form.service';
 import { SaveSubmissionFormAction, SectionStatusChangeAction, } from '../../objects/submission-objects.actions';
-import { SectionModelComponent } from '../section.model';
+import { SectionModelComponent } from '../models/section.model';
 import { SubmissionState } from '../../submission.reducers';
 import { SubmissionFormsConfigService } from '../../../core/config/submission-forms-config.service';
 import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
@@ -22,14 +22,14 @@ import { WorkspaceitemSectionDataType } from '../../../core/submission/models/wo
 import { Subscription } from 'rxjs/Subscription';
 import { GLOBAL_CONFIG } from '../../../../config';
 import { GlobalConfig } from '../../../../config/global-config.interface';
-import { SectionDataObject } from '../section-data.model';
-import { renderSectionFor } from '../section-decorator';
-import { SectionType } from '../section-type';
+import { SectionDataObject } from '../models/section-data.model';
+import { renderSectionFor } from '../sections-decorator';
+import { SectionsType } from '../sections-type';
 import { SubmissionService } from '../../submission.service';
-import { FormOperationsService } from '../../../shared/form/form-operations.service';
+import { FormOperationsService } from './form-operations.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { SectionService } from '../section.service';
+import { SectionsService } from '../sections.service';
 import { difference } from '../../../shared/object.util';
 
 @Component({
@@ -37,7 +37,7 @@ import { difference } from '../../../shared/object.util';
   styleUrls: ['./section-form.component.scss'],
   templateUrl: './section-form.component.html',
 })
-@renderSectionFor(SectionType.SubmissionForm)
+@renderSectionFor(SectionsType.SubmissionForm)
 export class FormSectionComponent extends SectionModelComponent implements OnDestroy {
 
   public formId;
@@ -60,7 +60,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
               protected formConfigService: SubmissionFormsConfigService,
               protected notificationsService: NotificationsService,
               protected store: Store<SubmissionState>,
-              protected sectionService: SectionService,
+              protected sectionService: SectionsService,
               protected submissionService: SubmissionService,
               protected translate: TranslateService,
               @Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
@@ -118,11 +118,23 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
   }
 
   initForm(sectionData: WorkspaceitemSectionDataType) {
-    this.formModel = this.formBuilderService.modelFromConfiguration(
-      this.formConfig,
-      this.collectionId,
-      sectionData,
-      this.submissionService.getSubmissionScope());
+    try {
+      this.formModel = this.formBuilderService.modelFromConfiguration(
+        this.formConfig,
+        this.collectionId,
+        sectionData,
+        this.submissionService.getSubmissionScope());
+    } catch (e) {
+      this.translate.get('error.submission.sections.init-form-error')
+        .subscribe((msg) => {
+          const sectionError: SubmissionSectionError = {
+            message: msg + e.toString(),
+            path: '/sections/' + this.sectionData.id
+          };
+          this.sectionService.setSectionError(this.submissionId, this.sectionData.id, [sectionError])
+        })
+
+    }
   }
 
   updateForm(sectionData: WorkspaceitemSectionDataType, errors: SubmissionSectionError[]) {
@@ -136,11 +148,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
       this.isUpdating = true;
       this.formModel = null;
       this.cdr.detectChanges();
-      this.formModel = this.formBuilderService.modelFromConfiguration(
-        this.formConfig,
-        this.collectionId,
-        sectionData,
-        this.submissionService.getSubmissionScope());
+      this.initForm(sectionData);
       this.checksForErrors(errors);
       this.sectionData.data = sectionData;
       this.isUpdating = false;

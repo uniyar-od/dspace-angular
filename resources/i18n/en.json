@@ -79,13 +79,6 @@
       "help": "Select a community to browse its collections."
     }
   },
-  "uploader": {
-    "drag-message": "Drag & Drop your files here",
-    "or": ", or",
-    "browse": "browse",
-    "queue-lenght": "Queue length",
-    "processing": "Processing"
-  },
   "mydspace": {
     "title": "MyDSpace",
     "description": "",
@@ -297,6 +290,11 @@
       "license": {
         "notgranted": "You must grant this license to complete your submission. If you are unable to grant this license at this time you may save your work and return later or remove the submission."
       }
+    },
+    "submission": {
+      "sections": {
+        "init-form-error": "An error occurred during section initialize, please check your input-form configuration. Details are below : <br> <br>"
+      }
     }
   },
   "form": {
@@ -480,5 +478,12 @@
         }
       }
     }
+  },
+  "uploader": {
+    "drag-message": "Drag & Drop your files here",
+    "or": ", or",
+    "browse": "browse",
+    "queue-lenght": "Queue length",
+    "processing": "Processing"
   }
 }

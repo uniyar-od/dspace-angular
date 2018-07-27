@@ -16,14 +16,14 @@ export class NormalizedCollection extends NormalizedDSpaceObject {
   handle: string;
 
   /**
-   * The Bitstream that represents the logo of this Collection
+   * The Bitstream that represents the license of this Collection
    */
   @autoserialize
   @relationship(ResourceType.License, false)
   license: string;
 
   /**
-   * The Bitstream that represents the logo of this Collection
+   * The Bitstream that represents the default Access Conditions of this Collection
    */
   @autoserialize
   @relationship(ResourceType.ResourcePolicy, false)

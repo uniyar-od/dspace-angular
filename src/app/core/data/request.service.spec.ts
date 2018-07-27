@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/of'
 import { getMockObjectCacheService } from '../../shared/mocks/mock-object-cache.service';
 import { getMockResponseCacheService } from '../../shared/mocks/mock-response-cache.service';
 import { getMockStore } from '../../shared/mocks/mock-store';
@@ -235,6 +235,7 @@ describe('RequestService', () => {
         service.configure(request);
         expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).toHaveBeenCalledWith(request);
       });
+
       describe('and it isn\'t cached or pending', () => {
         beforeEach(() => {
           spyOn(serviceAsAny, 'isCachedOrPending').and.returnValue(false);
@@ -276,28 +277,6 @@ describe('RequestService', () => {
 
         service.configure(testPatchRequest);
         expect(serviceAsAny.dispatchRequest).toHaveBeenCalledWith(testPatchRequest);
-      });
-
-      it('shouldn\'t track it on it\'s way to the store', () => {
-        spyOn(serviceAsAny, 'trackRequestsOnTheirWayToTheStore');
-
-        serviceAsAny.dispatchRequest(testPostRequest);
-        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
-
-        serviceAsAny.dispatchRequest(testPutRequest);
-        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
-
-        serviceAsAny.dispatchRequest(testDeleteRequest);
-        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
-
-        serviceAsAny.dispatchRequest(testOptionsRequest);
-        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
-
-        serviceAsAny.dispatchRequest(testHeadRequest);
-        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
-
-        serviceAsAny.dispatchRequest(testPatchRequest);
-        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
       });
     });
   });
@@ -408,6 +387,30 @@ describe('RequestService', () => {
       const request = testGetRequest;
       serviceAsAny.dispatchRequest(request);
       expect(store.dispatch).toHaveBeenCalledWith(new RequestExecuteAction(request.uuid));
+    });
+
+    describe('when it\'s not a GET request', () => {
+      it('shouldn\'t track it', () => {
+        spyOn(serviceAsAny, 'trackRequestsOnTheirWayToTheStore');
+
+        serviceAsAny.dispatchRequest(testPostRequest);
+        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
+
+        serviceAsAny.dispatchRequest(testPutRequest);
+        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
+
+        serviceAsAny.dispatchRequest(testDeleteRequest);
+        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
+
+        serviceAsAny.dispatchRequest(testOptionsRequest);
+        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
+
+        serviceAsAny.dispatchRequest(testHeadRequest);
+        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
+
+        serviceAsAny.dispatchRequest(testPatchRequest);
+        expect(serviceAsAny.trackRequestsOnTheirWayToTheStore).not.toHaveBeenCalled();
+      });
     });
   });
 

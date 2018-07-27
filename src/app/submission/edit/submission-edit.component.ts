@@ -3,16 +3,12 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs/Subscription';
 
-import { SubmissionRestService } from '../submission-rest.service';
 import { WorkspaceitemSectionsObject } from '../../core/submission/models/workspaceitem-sections.model';
-import { hasValue, isEmpty, isNotUndefined } from '../../shared/empty.util';
+import { hasValue, isEmpty, isNotNull } from '../../shared/empty.util';
 import { SubmissionDefinitionsModel } from '../../core/shared/config/config-submission-definitions.model';
 import { SubmissionService } from '../submission.service';
-import { Workspaceitem } from '../../core/submission/models/workspaceitem.model';
-import { Workflowitem } from '../../core/submission/models/workflowitem.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PlatformService } from '../../shared/services/platform.service';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 
 @Component({
@@ -36,8 +32,6 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private notificationsService: NotificationsService,
-              private platform: PlatformService,
-              private restService: SubmissionRestService,
               private route: ActivatedRoute,
               private router: Router,
               private submissionService: SubmissionService,
@@ -45,17 +39,14 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
-    if (this.platform.isBrowser) {
-      // NOTE execute the code on the browser side only, otherwise it is executed twice
-      this.subs.push(this.route.paramMap
-        .subscribe((params: ParamMap) => {
-          this.submissionId = params.get('id');
-          this.subs.push(
-            this.restService.getDataById(this.submissionService.getSubmissionObjectLinkName(), this.submissionId)
-              .filter((submissionObjects: SubmissionObject[]) => isNotUndefined(submissionObjects))
-              .take(1)
-              .map((submissionObjects: SubmissionObject[]) => submissionObjects[0])
-              .subscribe((submissionObject: SubmissionObject) => {
+    this.subs.push(this.route.paramMap
+      .subscribe((params: ParamMap) => {
+        this.submissionId = params.get('id');
+        this.subs.push(
+          this.submissionService.retrieveSubmission(this.submissionId)
+            .subscribe((submissionObject: SubmissionObject) => {
+              // NOTE new submission is retrieved on the browser side only
+              if (isNotNull(submissionObject)) {
                 if (isEmpty(submissionObject)) {
                   this.notificationsService.info(null, this.translate.get('submission.general.cannot_submit'));
                   this.router.navigate(['/mydspace']);
@@ -66,10 +57,10 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
                   this.submissionDefinition = submissionObject.submissionDefinition[0];
                   this.changeDetectorRef.detectChanges();
                 }
-              })
-          )
-        }));
-    }
+              }
+            })
+        )
+      }));
   }
 
   /**

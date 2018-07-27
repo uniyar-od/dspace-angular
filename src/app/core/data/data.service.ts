@@ -20,7 +20,7 @@ export abstract class DataService<TNormalized extends NormalizedObject, TDomain>
   protected abstract store: Store<CoreState>;
   protected abstract linkPath: string;
   protected abstract halService: HALEndpointService;
-  protected abstract overrideRequest = false;
+  protected abstract forceBypassCache = false;
 
   public abstract getScopedEndpoint(scope: string): Observable<string>
 
@@ -93,7 +93,7 @@ export abstract class DataService<TNormalized extends NormalizedObject, TDomain>
       .take(1)
       .subscribe((href: string) => {
         const request = new FindAllRequest(this.requestService.generateRequestId(), href, options);
-        this.requestService.configure(request, this.overrideRequest);
+        this.requestService.configure(request, this.forceBypassCache);
       });
 
     return this.rdbService.buildList<TNormalized, TDomain>(hrefObs) as Observable<RemoteData<PaginatedList<TDomain>>>;
@@ -112,14 +112,14 @@ export abstract class DataService<TNormalized extends NormalizedObject, TDomain>
       .take(1)
       .subscribe((href: string) => {
         const request = new FindByIDRequest(this.requestService.generateRequestId(), href, id);
-        this.requestService.configure(request, this.overrideRequest);
+        this.requestService.configure(request, this.forceBypassCache);
       });
 
     return this.rdbService.buildSingle<TNormalized, TDomain>(hrefObs);
   }
 
   findByHref(href: string, options?: HttpOptions): Observable<RemoteData<TDomain>> {
-    this.requestService.configure(new GetRequest(this.requestService.generateRequestId(), href, null, options), this.overrideRequest);
+    this.requestService.configure(new GetRequest(this.requestService.generateRequestId(), href, null, options), this.forceBypassCache);
     return this.rdbService.buildSingle<TNormalized, TDomain>(href);
   }
 
@@ -154,7 +154,7 @@ export abstract class DataService<TNormalized extends NormalizedObject, TDomain>
       .take(1)
       .subscribe((href: string) => {
         const request = new FindAllRequest(this.requestService.generateRequestId(), href, options);
-        this.requestService.configure(request, this.overrideRequest);
+        this.requestService.configure(request, this.forceBypassCache);
       });
 
     return this.rdbService.buildList<TNormalized, TDomain>(hrefObs) as Observable<RemoteData<PaginatedList<TDomain>>>;

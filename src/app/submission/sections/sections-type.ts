@@ -1,4 +1,4 @@
-export enum SectionType {
+export enum SectionsType {
   SubmissionForm = 'submission-form',
   Upload = 'upload',
   License = 'license',

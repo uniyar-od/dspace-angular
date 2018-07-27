@@ -18,8 +18,9 @@ import { HttpHeaders } from '@angular/common/http';
 import { HttpOptions } from '../core/dspace-rest-v2/dspace-rest-v2.service';
 import { SubmissionRestService } from './submission-rest.service';
 import { Router } from '@angular/router';
-import { SectionDataObject } from './section/section-data.model';
+import { SectionDataObject } from './sections/models/section-data.model';
 import { SubmissionScopeType } from '../core/submission/submission-scope-type';
+import { SubmissionObject } from '../core/submission/models/submission-object.model';
 
 @Injectable()
 export class SubmissionService {
@@ -27,10 +28,16 @@ export class SubmissionService {
   protected autoSaveSub: Subscription;
   protected timerObs: Observable<any>;
 
-  constructor(private router: Router,
-              private store: Store<SubmissionState>,
-              private restService: SubmissionRestService,
-              @Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig) {
+  constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
+              protected restService: SubmissionRestService,
+              protected router: Router,
+              protected store: Store<SubmissionState>) {
+  }
+
+  createSubmission(): Observable<SubmissionObject> {
+    return this.restService.postToEndpoint('workspaceitems', {})
+      .map((workspaceitems) => workspaceitems[0])
+      .catch(() => Observable.of({}))
   }
 
   depositSubmission(selfUrl: string): Observable<any> {
@@ -81,7 +88,7 @@ export class SubmissionService {
       .distinctUntilChanged();
   }
 
-  public getDisabledSectionsList(submissionId: string): Observable<SectionDataObject[]> {
+  getDisabledSectionsList(submissionId: string): Observable<SectionDataObject[]> {
     return this.getSubmissionObject(submissionId)
       .filter((submission: SubmissionObjectEntry) => isNotUndefined(submission.sections) && !submission.isLoading)
       .map((submission: SubmissionObjectEntry) => submission.sections)
@@ -102,14 +109,14 @@ export class SubmissionService {
       .distinctUntilChanged();
   }
 
-  public isSectionHidden(sectionData: SubmissionSectionObject) {
+  isSectionHidden(sectionData: SubmissionSectionObject) {
     return (isNotUndefined(sectionData.visibility)
       && sectionData.visibility.main === 'HIDDEN'
       && sectionData.visibility.other === 'HIDDEN');
 
   }
 
-  public isSubmissionLoading(submissionId: string): Observable<boolean> {
+  isSubmissionLoading(submissionId: string): Observable<boolean> {
     return this.getSubmissionObject(submissionId)
       .map((submission: SubmissionObjectEntry) => submission.isLoading)
       .distinctUntilChanged()
@@ -185,6 +192,13 @@ export class SubmissionService {
 
   redirectToMyDSpace() {
     this.router.navigate(['/mydspace']);
+  }
+
+  retrieveSubmission(submissionId): Observable<SubmissionObject> {
+    return this.restService.getDataById(this.getSubmissionObjectLinkName(), submissionId)
+      .filter((submissionObjects: SubmissionObject[]) => isNotUndefined(submissionObjects))
+      .take(1)
+      .map((submissionObjects: SubmissionObject[]) => submissionObjects[0]);
   }
 
   startAutoSave(submissionId) {

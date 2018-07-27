@@ -3,8 +3,8 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 
-import { SectionService } from '../../section/section.service';
-import { hasValue, isNotEmpty } from '../../../shared/empty.util';
+import { SectionsService } from '../../sections/sections.service';
+import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
 import { Workspaceitem } from '../../../core/submission/models/workspaceitem.model';
 import { normalizeSectionData } from '../../../core/submission/models/workspaceitem-sections.model';
 import { JsonPatchOperationsService } from '../../../core/json-patch/json-patch-operations.service';
@@ -42,7 +42,7 @@ export class SubmissionUploadFilesComponent implements OnChanges {
 
   constructor(private notificationsService: NotificationsService,
               private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
-              private sectionService: SectionService,
+              private sectionService: SectionsService,
               private submissionService: SubmissionService,
               private translate: TranslateService) {
   }
@@ -55,9 +55,9 @@ export class SubmissionUploadFilesComponent implements OnChanges {
     // Checks if upload section is enabled so do upload
     this.subs.push(
       this.uploadEnabled
+        .first()
         .subscribe((isUploadEnabled) => {
           if (isUploadEnabled) {
-            this.notificationsService.success(null, this.translate.get('submission.sections.upload.upload-successful'));
 
             const {sections} = workspaceitem;
             const {errors} = workspaceitem;
@@ -68,9 +68,18 @@ export class SubmissionUploadFilesComponent implements OnChanges {
                 .forEach((sectionId) => {
                   const sectionData = normalizeSectionData(sections[sectionId]);
                   const sectionErrors = errorsList[sectionId];
+                  if (sectionId === 'upload') {
+                    // Look for errors on upload
+                    if ((isEmpty(sectionErrors))) {
+                      this.notificationsService.success(null, this.translate.get('submission.sections.upload.upload-successful'));
+                    } else {
+                      this.notificationsService.error(null, this.translate.get('submission.sections.upload.upload-failed'));
+                    }
+                  }
                   this.sectionService.updateSectionData(this.submissionId, sectionId, sectionData, sectionErrors)
                 })
             }
+
           }
         })
     );
