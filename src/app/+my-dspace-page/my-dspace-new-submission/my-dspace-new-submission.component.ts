@@ -11,6 +11,7 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { NotificationOptions } from '../../shared/notifications/models/notification-options.model';
 import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ds-my-dspace-new-submission',
@@ -19,8 +20,7 @@ import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 })
 
 export class MyDSpaceNewSubmissionComponent implements OnInit {
-  @Output()
-  wsiUploaded = new EventEmitter<Array<MyDSpaceResult<DSpaceObject>>>();
+  @Output() uploadEnd = new EventEmitter<Array<MyDSpaceResult<DSpaceObject>>>();
 
   public uploadFilesOptions: UploaderOptions = {
     url: '',
@@ -33,6 +33,7 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
               private changeDetectorRef: ChangeDetectorRef,
               private halService: HALEndpointService,
               private notificationsService: NotificationsService,
+              private router: Router,
               private store: Store<SubmissionState>,
               private translate: TranslateService) {
   }
@@ -53,7 +54,7 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
   public onCompleteItem(res) {
     if (res && res._embedded && res._embedded.workspaceitems && res._embedded.workspaceitems.length > 0) {
       const workspaceitems = res._embedded.workspaceitems;
-      this.wsiUploaded.emit(workspaceitems);
+      this.uploadEnd.emit(workspaceitems);
 
       if (workspaceitems.length === 1) {
         const options = new NotificationOptions();
@@ -62,7 +63,7 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
         this.translate.get('mydspace.general.text-here')
           .take(1)
           .subscribe((textHere) => {
-            const here = `<a class="btn btn-link p-0 m-0 pb-1" href="${link}" >
+            const here = `<a class="btn btn-link p-0 m-0" href="${link}" >
                         <strong>${textHere}</strong>
                       </a>`;
             this.translate.get('mydspace.upload.upload-successful', {here})
