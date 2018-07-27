@@ -6,7 +6,7 @@ import { default as parseSectionErrorPaths, SectionErrorPath } from './parseSect
  * @param {errors: SubmissionObjectError[]} errors
  * @returns {any}
  */
-const parseSectionErrors = (errors: SubmissionObjectError[]): any => {
+const parseSectionErrors = (errors: SubmissionObjectError[] = []): any => {
   const errorsList = Object.create({});
 
   errors.forEach((error: SubmissionObjectError) => {

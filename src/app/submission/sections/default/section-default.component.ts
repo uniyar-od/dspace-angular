@@ -1,7 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { SectionModelComponent } from '../models/section.model';
-import { CoreState } from '../../../core/core.reducers';
-import { Store } from '@ngrx/store';
 import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
 import { SectionDataObject } from '../models/section-data.model';
 

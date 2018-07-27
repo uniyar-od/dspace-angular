@@ -603,12 +603,14 @@ function removeSectionErrors(state: SubmissionObjectState, action: RemoveSection
 }
 
 /**
- * Set a section disabled.
+ * Set a section state.
  *
  * @param state
  *    the current state
  * @param action
  *    an DisableSectionAction
+ * @param enabled
+ *    enabled or disabled section.
  * @return SubmissionObjectState
  *    the new state, with the section removed.
  */
@@ -838,6 +840,5 @@ function updateDeduplication(state: SubmissionObjectState, action: SetWorkspaceD
     }
   });
   // const updatedMatches = Object.assign({}, matches, newMatch);
-  const newState = Object.assign({}, state, {[(action.payload as any).submissionId]: {sections: {deduplication: {data: {matches}}}}});
-  return newState;
+  return Object.assign({}, state, {[(action.payload as any).submissionId]: {sections: {deduplication: {data: {matches}}}}});
 }

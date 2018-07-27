@@ -1,5 +1,7 @@
 import { SortOptions } from '../cache/models/sort-options.model';
 import { GenericConstructor } from '../shared/generic-constructor';
+import { GlobalConfig } from '../../../config/global-config.interface';
+import { RESTURLCombiner } from '../url-combiner/rest-url-combiner';
 import { BrowseEntriesResponseParsingService } from './browse-entries-response-parsing.service';
 import { DSOResponseParsingService } from './dso-response-parsing.service';
 import { ResponseParsingService } from './parsing.service';
@@ -346,5 +348,4 @@ export class TaskDeleteRequest extends DeleteRequest {
 export class RequestError extends Error {
   statusText: string;
 }
-
 /* tslint:enable:max-classes-per-file */

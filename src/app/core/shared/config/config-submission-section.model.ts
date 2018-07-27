@@ -1,4 +1,4 @@
-import { autoserialize, autoserializeAs, inheritSerialization } from 'cerialize';
+import { autoserialize, inheritSerialization } from 'cerialize';
 import { ConfigObject } from './config.model';
 import { SectionsType } from '../../../submission/sections/sections-type';
 

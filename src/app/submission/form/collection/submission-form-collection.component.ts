@@ -1,27 +1,35 @@
 import {
-  ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
   SimpleChanges
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { isNullOrUndefined } from 'util';
 import { Collection } from '../../../core/shared/collection.model';
 import { CommunityDataService } from '../../../core/data/community-data.service';
 import { Community } from '../../../core/shared/community.model';
-import { hasUndefinedValue, hasValue, isNotEmpty } from '../../../shared/empty.util';
+import { hasValue, isNotEmpty } from '../../../shared/empty.util';
 import { RemoteData } from '../../../core/data/remote-data';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
-import { SubmissionRestService } from '../../submission-rest.service';
 import { Workspaceitem } from '../../../core/submission/models/workspaceitem.model';
 import { PaginatedList } from '../../../core/data/paginated-list';
 import { JsonPatchOperationsService } from '../../../core/json-patch/json-patch-operations.service';
 import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-data-response-definition.model';
 import { SubmissionService } from '../../submission.service';
 import { SubmissionState } from '../../submission.reducers';
-import { Store } from '@ngrx/store';
 import { ChangeSubmissionCollectionAction } from '../../objects/submission-objects.actions';
+import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
 
 @Component({
   selector: 'ds-submission-form-collection',
@@ -52,6 +60,16 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
   private scrollableTop = false;
   private subs: Subscription[] = [];
 
+  formatter = (x: { collection: string }) => x.collection;
+
+  constructor(protected cdr: ChangeDetectorRef,
+              private communityDataService: CommunityDataService,
+              private operationsBuilder: JsonPatchOperationsBuilder,
+              private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
+              private store: Store<SubmissionState>,
+              private submissionService: SubmissionService) {
+  }
+
   @HostListener('mousewheel', ['$event']) onMousewheel(event) {
     if (event.wheelDelta > 0 && this.scrollableTop) {
       event.preventDefault();
@@ -60,13 +78,6 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
       event.preventDefault();
     }
   }
-
-  constructor(protected cdr: ChangeDetectorRef,
-              private communityDataService: CommunityDataService,
-              private operationsBuilder: JsonPatchOperationsBuilder,
-              private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
-              private store: Store<SubmissionState>,
-              private submissionService: SubmissionService) {}
 
   onScroll(event) {
     this.scrollableBottom = (event.target.scrollTop + event.target.clientHeight === event.target.scrollHeight);
@@ -85,10 +96,12 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
         .first()
         .switchMap((communities: RemoteData<PaginatedList<Community>>) => communities.payload.page)
         .subscribe((communityData: Community) => {
-          this.subs.push( communityData.collections
-            .filter((collections: RemoteData<Collection[]>) => isNotEmpty(collections.payload) && !hasUndefinedValue(collections.payload))
+
+          this.subs.push(communityData.collections
+            .filter((collections: RemoteData<Collection[]>) => !collections.isResponsePending && collections.hasSucceeded)
             .first()
             .switchMap((collections: RemoteData<Collection[]>) => collections.payload)
+            .filter((collectionData: Collection) => isNotEmpty(collectionData))
             .subscribe((collectionData: Collection) => {
               if (collectionData.id === this.selectedCollectionId) {
                 this.selectedCollectionName = collectionData.name;
@@ -129,8 +142,6 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
     }
   }
 
-  formatter = (x: {collection: string}) => x.collection;
-
   onSelect(event) {
     this.searchField.reset();
     this.searchListCollection = this.listCollection;
@@ -141,10 +152,10 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
       this.submissionId,
       'sections',
       'collection')
-      .subscribe((workspaceitems: Workspaceitem[]) => {
+      .subscribe((submissionObject: SubmissionObject[]) => {
         this.selectedCollectionId = event.collection.id;
         this.selectedCollectionName = event.collection.name;
-        this.collectionChange.emit(workspaceitems[0]);
+        this.collectionChange.emit(submissionObject[0]);
         this.store.dispatch(new ChangeSubmissionCollectionAction(this.submissionId, event.collection.id));
         this.disabled = false;
         this.cdr.detectChanges();

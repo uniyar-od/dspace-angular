@@ -1,8 +1,7 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
 import { BrowseService } from '../browse/browse.service';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { ResponseCacheService } from '../cache/response-cache.service';
@@ -17,7 +16,7 @@ import { HALEndpointService } from '../shared/hal-endpoint.service';
 @Injectable()
 export class WorkflowitemDataService extends DataService<NormalizedWorkflowItem, Workflowitem> {
   protected linkPath = 'workflowitems';
-  protected overrideRequest = true;
+  protected forceBypassCache = true;
 
   constructor(
     protected responseCache: ResponseCacheService,

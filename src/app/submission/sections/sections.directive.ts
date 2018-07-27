@@ -53,25 +53,21 @@ export class SectionsDirective implements OnDestroy, OnInit {
       this.store.select(submissionSectionFromIdSelector(this.submissionId, this.sectionId))
         .filter((state: SubmissionSectionObject) => isNotUndefined(state))
         .map((state: SubmissionSectionObject) => state.errors)
-        .filter((errors: SubmissionSectionError[]) => isNotEmpty(errors))
+        // .filter((errors: SubmissionSectionError[]) => isNotEmpty(errors))
         .subscribe((errors: SubmissionSectionError[]) => {
-          errors.forEach((errorItem: SubmissionSectionError) => {
-            const parsedErrors: SectionErrorPath[] = parseSectionErrorPaths(errorItem.path);
+          if (isNotEmpty(errors)) {
+            errors.forEach((errorItem: SubmissionSectionError) => {
+              const parsedErrors: SectionErrorPath[] = parseSectionErrorPaths(errorItem.path);
 
-            if (!isEmpty(parsedErrors)) {
               parsedErrors.forEach((error: SectionErrorPath) => {
                 if (!error.fieldId) {
                   this.sectionErrors = uniq(this.sectionErrors.concat(errorItem.message));
-
-                  // because it has been shown, remove the error from the state
-                  const removeAction = new DeleteSectionErrorsAction(this.submissionId, this.sectionId, errorItem);
-                  this.store.dispatch(removeAction);
                 }
               });
-            } else {
-              this.resetErrors();
-            }
-          });
+            });
+          } else {
+            this.resetErrors();
+          }
         }),
       this.submissionService.getActiveSectionId(this.submissionId)
         .subscribe((activeSectionId) => {
@@ -147,6 +143,13 @@ export class SectionsDirective implements OnDestroy, OnInit {
   }
 
   public resetErrors() {
+    this.sectionErrors
+      .forEach((errorItem) => {
+        // because it has been deleted, remove the error from the state
+        const removeAction = new DeleteSectionErrorsAction(this.submissionId, this.sectionId, errorItem);
+        this.store.dispatch(removeAction);
+      })
     this.sectionErrors = [];
+
   }
 }

@@ -31,7 +31,6 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
   }
 
   parse(request: RestRequest, data: DSpaceRESTV2Response): RestResponse {
-    console.log(data.statusCode);
     if (isNotEmpty(data.payload)
       && isNotEmpty(data.payload._links)
       && (data.statusCode === '201' || data.statusCode === '200')) {

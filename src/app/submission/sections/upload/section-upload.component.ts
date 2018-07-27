@@ -1,16 +1,15 @@
-import { ChangeDetectorRef, Component, Inject, OnChanges, OnInit } from '@angular/core';
-import {Store} from '@ngrx/store';
-import {SectionModelComponent} from '../models/section.model';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { SectionModelComponent } from '../models/section.model';
 import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
-import {SectionUploadService} from './section-upload.service';
-import {SectionStatusChangeAction} from '../../objects/submission-objects.actions';
-import {SubmissionState} from '../../submission.reducers';
-import {CollectionDataService} from '../../../core/data/collection-data.service';
-import {GroupEpersonService} from '../../../core/eperson/group-eperson.service';
-import {SubmissionUploadsConfigService} from '../../../core/config/submission-uploads-config.service';
-import {SubmissionUploadsModel} from '../../../core/shared/config/config-submission-uploads.model';
+import { SectionUploadService } from './section-upload.service';
+import { SectionStatusChangeAction } from '../../objects/submission-objects.actions';
+import { SubmissionState } from '../../submission.reducers';
+import { CollectionDataService } from '../../../core/data/collection-data.service';
+import { GroupEpersonService } from '../../../core/eperson/group-eperson.service';
+import { SubmissionUploadsConfigService } from '../../../core/config/submission-uploads-config.service';
+import { SubmissionUploadsModel } from '../../../core/shared/config/config-submission-uploads.model';
 import { Observable } from 'rxjs/Observable';
-import { Group } from '../../../core/eperson/models/group.model';
 import { EpersonData } from '../../../core/eperson/eperson-data';
 import { SubmissionFormsModel } from '../../../core/shared/config/config-submission-forms.model';
 import { SectionsType } from '../sections-type';
@@ -65,9 +64,9 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
   constructor(private bitstreamService: SectionUploadService,
               private changeDetectorRef: ChangeDetectorRef,
               private collectionDataService: CollectionDataService,
-              private store:Store<SubmissionState>,
-              private uploadsConfigService: SubmissionUploadsConfigService,
               private groupService: GroupEpersonService,
+              private store: Store<SubmissionState>,
+              private uploadsConfigService: SubmissionUploadsConfigService,
               @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
               @Inject('submissionIdProvider') public injectedSubmissionId: string) {
     super(undefined, injectedSectionData, injectedSubmissionId);
@@ -123,7 +122,7 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
                         .flatMap((group) => group)
                         .take(groupsObs.length)
                         .subscribe((data: EpersonData) => {
-                          const group = data.payload[0] as Group;
+                          const group = data.payload[0] as any;
                           if (isUndefined(this.availableGroups.get(group.uuid))) {
                             if (Array.isArray(group.groups)) {
                               const groupArrayData = [];

@@ -202,13 +202,6 @@ export class SubmissionObjectEffects {
     .ofType(SubmissionObjectActionTypes.DISCARD_SUBMISSION_ERROR)
     .do(() => this.notificationsService.error(null, this.translate.get('submission.sections.general.discard_error_notice')));
 
-  // @Effect({dispatch: false}) updateSectionData$ = this.actions$
-  //   .ofType(SubmissionObjectActionTypes.UPLOAD_SECTION_DATA)
-  //   .withLatestFrom(this.store$)
-  //   .do(([action, state]: [UpdateSectionDataAction, any]) => {
-  //     console.log(state.submission.objects[action.payload.submissionId].sections[action.payload.sectionId])
-  //   });
-
   @Effect()
   public wsDuplication: Observable<Action> = this.actions$
     .ofType(SubmissionObjectActionTypes.SET_WORKSPACE_DUPLICATION)
