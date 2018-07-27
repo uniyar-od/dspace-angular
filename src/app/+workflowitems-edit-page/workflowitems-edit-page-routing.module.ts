@@ -10,7 +10,7 @@ import { SubmissionEditComponent } from '../submission/edit/submission-edit.comp
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       {
         canActivate: [AuthenticatedGuard],
-        path: ':id/edit',
+        path: ':id/:taskid/edit',
         component: SubmissionEditComponent,
         data: { title: 'submission.edit.title' }
       }

@@ -1,6 +1,10 @@
 <div class="row" *ngIf="!!submissionId">
   <div class="col">
     <button *ngIf="(showDepositAndDiscard | async)" type="button" class="btn btn-danger" (click)="$event.preventDefault();confirmDiscard(content)">{{'submission.general.discard.submit' | translate}}</button>
+    <ds-claimed-task-actions-reject *ngIf="(showApproveAndReject | async)"
+                                    [processingReject]="(processingReject | async)"
+                                    [taskId]="taskId"
+                                    (reject)="reject($event)"></ds-claimed-task-actions-reject>
   </div>
   <div class="col text-right">
 
@@ -32,6 +36,10 @@
             [disabled]="submissionIsInvalid" (click)="deposit()">
       <span>{{'submission.general.deposit' | translate}}</span>
     </button>
+    <ds-claimed-task-actions-approve *ngIf="(showApproveAndReject | async)"
+                                     [processingApprove]="(processingApprove | async)"
+                                     [taskId]="taskId"
+                                     (approve)="approve()"></ds-claimed-task-actions-approve>
   </div>
 </div>
 
