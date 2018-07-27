@@ -2,6 +2,7 @@ import { findIndex, isEqual, isObject } from 'lodash';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ChipsItem, ChipsItemIcon } from './chips-item.model';
 import { hasValue, isNotEmpty } from '../../empty.util';
+import { PLACEHOLDER_PARENT_METADATA } from '../../form/builder/ds-dynamic-form-ui/models/dynamic-group/dynamic-group.model';
 
 export interface IconsConfig {
   withAuthority?: {
@@ -119,7 +120,7 @@ export class Chips {
 
         config = (configIndex !== -1) ? this.iconsConfig[configIndex].config : defaultConfig;
 
-        if (hasValue(value) && isNotEmpty(config)) {
+        if (hasValue(value) && isNotEmpty(config) && value !== PLACEHOLDER_PARENT_METADATA) {
 
           let icon: ChipsItemIcon;
           const hasAuthority: boolean = !!(isObject(value) && ((value.hasOwnProperty('authority') && value.authority) || (value.hasOwnProperty('id') && value.id)));

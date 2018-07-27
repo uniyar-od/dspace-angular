@@ -14,7 +14,7 @@ import { HALEndpointService } from '../shared/hal-endpoint.service';
 @Injectable()
 export class PoolTaskDataService extends TasksService<NormalizedPoolTask, PoolTask> {
   protected linkPath = 'pooltasks';
-  protected overrideRequest = true;
+  protected forceBypassCache = true;
 
   constructor(
     protected responseCache: ResponseCacheService,

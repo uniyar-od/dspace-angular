@@ -33,20 +33,6 @@ export class NormalizedCollection extends NormalizedDSpaceObject {
    * The Bitstream that represents the logo of this Collection
    */
   @autoserialize
-  @relationship(ResourceType.License, false)
-  license: string;
-
-  /**
-   * The Bitstream that represents the logo of this Collection
-   */
-  @autoserialize
-  @relationship(ResourceType.ResourcePolicy, false)
-  defaultAccessConditions: string;
-
-  /**
-   * The Bitstream that represents the logo of this Collection
-   */
-  @autoserialize
   @relationship(ResourceType.Bitstream, false)
   logo: string;
 
