@@ -84,6 +84,14 @@ export class Chips {
     return this._items.length > 0;
   }
 
+  private hasPlaceholder(value) {
+    if (isObject(value)) {
+      return value.value === PLACEHOLDER_PARENT_METADATA;
+    } else {
+      return value === PLACEHOLDER_PARENT_METADATA;
+    }
+  }
+
   public remove(chipsItem: ChipsItem): void {
     const index = findIndex(this._items, {id: chipsItem.id});
     this._items.splice(index, 1);
@@ -120,7 +128,7 @@ export class Chips {
 
         config = (configIndex !== -1) ? this.iconsConfig[configIndex].config : defaultConfig;
 
-        if (hasValue(value) && isNotEmpty(config) && value !== PLACEHOLDER_PARENT_METADATA) {
+        if (hasValue(value) && isNotEmpty(config) && !this.hasPlaceholder(value)) {
 
           let icon: ChipsItemIcon;
           const hasAuthority: boolean = !!(isObject(value) && ((value.hasOwnProperty('authority') && value.authority) || (value.hasOwnProperty('id') && value.id)));
