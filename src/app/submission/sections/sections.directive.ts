@@ -1,30 +1,32 @@
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
-import { SectionService } from './section.service';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { isEmpty, uniq } from 'lodash';
+
+import { SectionsService } from './sections.service';
 import { hasValue, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
 import { submissionSectionFromIdSelector } from '../selectors';
-import { Store } from '@ngrx/store';
 import { SubmissionState } from '../submission.reducers';
 import { SubmissionSectionError, SubmissionSectionObject } from '../objects/submission-objects.reducer';
-import { isEmpty, uniq } from 'lodash';
-import { SectionErrorPath } from '../utils/parseSectionErrorPaths';
-import parseSectionErrorPaths from '../utils/parseSectionErrorPaths';
+import parseSectionErrorPaths, { SectionErrorPath } from '../utils/parseSectionErrorPaths';
 import {
-  DeleteSectionErrorsAction, SaveSubmissionSectionFormAction,
+  DeleteSectionErrorsAction,
+  SaveSubmissionSectionFormAction,
   SetActiveSectionAction
 } from '../objects/submission-objects.actions';
 import { SubmissionService } from '../submission.service';
-import { Observable } from 'rxjs/Observable';
 
 @Directive({
   selector: '[dsSection]',
   exportAs: 'sectionRef'
 })
-export class SectionDirective implements OnDestroy, OnInit {
+export class SectionsDirective implements OnDestroy, OnInit {
   @Input() mandatory = true;
   @Input() sectionId;
   @Input() submissionId;
-
+  public sectionErrors: string[] = [];
   private active = true;
   private animation = !this.mandatory;
   private enabled: Observable<boolean>;
@@ -32,12 +34,10 @@ export class SectionDirective implements OnDestroy, OnInit {
   private subs: Subscription[] = [];
   private valid: Observable<boolean>;
 
-  public sectionErrors: string[] = [];
-
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private store: Store<SubmissionState>,
               private submissionService: SubmissionService,
-              private sectionService: SectionService) {
+              private sectionService: SectionsService) {
   }
 
   ngOnInit() {
@@ -53,25 +53,21 @@ export class SectionDirective implements OnDestroy, OnInit {
       this.store.select(submissionSectionFromIdSelector(this.submissionId, this.sectionId))
         .filter((state: SubmissionSectionObject) => isNotUndefined(state))
         .map((state: SubmissionSectionObject) => state.errors)
-        .filter((errors: SubmissionSectionError[]) => isNotEmpty(errors))
+        // .filter((errors: SubmissionSectionError[]) => isNotEmpty(errors))
         .subscribe((errors: SubmissionSectionError[]) => {
-          errors.forEach((errorItem: SubmissionSectionError) => {
-            const parsedErrors: SectionErrorPath[] = parseSectionErrorPaths(errorItem.path);
+          if (isNotEmpty(errors)) {
+            errors.forEach((errorItem: SubmissionSectionError) => {
+              const parsedErrors: SectionErrorPath[] = parseSectionErrorPaths(errorItem.path);
 
-            if (!isEmpty(parsedErrors)) {
               parsedErrors.forEach((error: SectionErrorPath) => {
                 if (!error.fieldId) {
                   this.sectionErrors = uniq(this.sectionErrors.concat(errorItem.message));
-
-                  // because it has been shown, remove the error from the state
-                  const removeAction = new DeleteSectionErrorsAction(this.submissionId, this.sectionId, errorItem);
-                  this.store.dispatch(removeAction);
                 }
               });
-            } else {
-              this.resetErrors();
-            }
-          });
+            });
+          } else {
+            this.resetErrors();
+          }
         }),
       this.submissionService.getActiveSectionId(this.submissionId)
         .subscribe((activeSectionId) => {
@@ -147,6 +143,13 @@ export class SectionDirective implements OnDestroy, OnInit {
   }
 
   public resetErrors() {
+    this.sectionErrors
+      .forEach((errorItem) => {
+        // because it has been deleted, remove the error from the state
+        const removeAction = new DeleteSectionErrorsAction(this.submissionId, this.sectionId, errorItem);
+        this.store.dispatch(removeAction);
+      })
     this.sectionErrors = [];
+
   }
 }

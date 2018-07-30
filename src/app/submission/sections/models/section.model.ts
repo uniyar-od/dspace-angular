@@ -1,4 +1,4 @@
-import { Inject, Input } from '@angular/core';
+import { Inject } from '@angular/core';
 import { SectionDataObject } from './section-data.model';
 
 export interface SectionDataModel {

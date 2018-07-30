@@ -1,8 +1,8 @@
-import { SectionType } from '../section-type';
+import { SectionsType } from '../sections-type';
 import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
-import { SectionModelComponent } from '../section.model';
-import { renderSectionFor } from '../section-decorator';
-import { SectionDataObject } from '../section-data.model';
+import { SectionModelComponent } from '../models/section.model';
+import { renderSectionFor } from '../sections-decorator';
+import { SectionDataObject } from '../models/section-data.model';
 import { SubmissionState } from '../../submission.reducers';
 import { Store } from '@ngrx/store';
 import { SortDirection, SortOptions } from '../../../core/cache/models/sort-options.model';
@@ -21,7 +21,7 @@ import { SubmissionScopeType } from '../../../core/submission/submission-scope-t
   changeDetection: ChangeDetectionStrategy.Default
 })
 
-@renderSectionFor(SectionType.Deduplication)
+@renderSectionFor(SectionsType.Deduplication)
 export class DeduplicationSectionComponent extends SectionModelComponent implements OnInit {
   public isLoading = true;
   public sectionDataObs: Observable<any>;

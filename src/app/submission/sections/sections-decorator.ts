@@ -1,8 +1,8 @@
 
-import { SectionType } from './section-type';
+import { SectionsType } from './sections-type';
 
 const submissionSectionsMap = new Map();
-export function renderSectionFor(sectionType: SectionType) {
+export function renderSectionFor(sectionType: SectionsType) {
   return function decorator(objectElement: any) {
     if (!objectElement) {
       return;
@@ -11,6 +11,6 @@ export function renderSectionFor(sectionType: SectionType) {
   };
 }
 
-export function rendersSectionType(sectionType: SectionType) {
+export function rendersSectionType(sectionType: SectionsType) {
   return submissionSectionsMap.get(sectionType);
 }

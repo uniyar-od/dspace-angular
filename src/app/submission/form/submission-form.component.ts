@@ -16,7 +16,7 @@ import { SubmissionService } from '../submission.service';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from '../../core/auth/auth.service';
 import { Observable } from 'rxjs/Observable';
-import { SectionDataObject } from '../section/section-data.model';
+import { SectionDataObject } from '../sections/models/section-data.model';
 import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 

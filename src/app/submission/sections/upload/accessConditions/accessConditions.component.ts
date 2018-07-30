@@ -22,7 +22,7 @@ export class AccessConditionsComponent implements OnInit {
       if (isEmpty(accessCondition.name)) {
         this.groupService.getDataByUuid(accessCondition.groupUUID)
           .subscribe((data: EpersonData) => {
-            const group = data.payload[0] as Group;
+            const group = data.payload[0] as any;
             const accessConditionEntry = Object.assign({}, accessCondition);
             accessConditionEntry.name = group.name;
             this.accessConditionsList.push(accessConditionEntry);

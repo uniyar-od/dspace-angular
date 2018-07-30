@@ -1,8 +1,8 @@
-import { SectionType } from '../section-type';
+import { SectionsType } from '../sections-type';
 import { Component, Inject } from '@angular/core';
-import { SectionModelComponent } from '../section.model';
-import { renderSectionFor } from '../section-decorator';
-import { SectionDataObject } from '../section-data.model';
+import { SectionModelComponent } from '../models/section.model';
+import { renderSectionFor } from '../sections-decorator';
+import { SectionDataObject } from '../models/section-data.model';
 import { SubmissionState } from '../../submission.reducers';
 import { Store } from '@ngrx/store';
 import { WorkspaceitemSectionRecycleObject } from '../../../core/submission/models/workspaceitem-section-recycle.model';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './section-recycle.component.html',
 })
 
-@renderSectionFor(SectionType.Recycle)
+@renderSectionFor(SectionsType.Recycle)
 export class RecycleSectionComponent extends SectionModelComponent {
   public sectionDataObs: Observable<any>;
   public isLoading = true;

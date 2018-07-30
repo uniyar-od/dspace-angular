@@ -1,10 +1,5 @@
 import { Observable } from 'rxjs/Observable';
-import { CoreState } from '../core.reducers';
 import { DataService } from '../data/data.service';
-import { ResponseCacheService } from '../cache/response-cache.service';
-import { RequestService } from '../data/request.service';
-import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
-import { Store } from '@ngrx/store';
 import { RestRequest, TaskDeleteRequest, TaskPostRequest } from '../data/request.models';
 import { isNotEmpty } from '../../shared/empty.util';
 import { HttpOptions } from '../dspace-rest-v2/dspace-rest-v2.service';
@@ -14,16 +9,12 @@ import { ProcessTaskResponse } from './models/process-task-response';
 import { RemoteDataError } from '../data/remote-data-error';
 import { HttpHeaders } from '@angular/common/http';
 import { NormalizedObject } from '../cache/models/normalized-object.model';
-import { HALEndpointService } from '../shared/hal-endpoint.service';
 
 export abstract class TasksService<TNormalized extends NormalizedObject, TDomain> extends DataService<TNormalized, TDomain> {
-  protected abstract responseCache: ResponseCacheService;
-  protected abstract requestService: RequestService;
-  protected abstract rdbService: RemoteDataBuildService;
-  protected abstract store: Store<CoreState>;
-  protected abstract linkPath: string;
-  protected abstract halService: HALEndpointService;
-  protected abstract overrideRequest = false;
+
+  public getScopedEndpoint(scopeID: string): Observable<string> {
+    return this.halService.getEndpoint(this.linkPath);
+  }
 
   protected fetchRequest(request: RestRequest): Observable<any> {
     const [successResponse, errorResponse] = this.responseCache.get(request.href)
@@ -47,17 +38,13 @@ export abstract class TasksService<TNormalized extends NormalizedObject, TDomain
     return isNotEmpty(method) ? `${endpoint}/${method}` : `${endpoint}`;
   }
 
-  public getScopedEndpoint(scopeID: string): Observable<string> {
-    return this.halService.getEndpoint(this.linkPath);
-  }
-
   protected postToEndpoint(linkName: string, body: any, scopeId?: string, options?: HttpOptions): Observable<any> {
     return this.halService.getEndpoint(linkName)
       .filter((href: string) => isNotEmpty(href))
       .map((endpointURL: string) => this.getEndpointByIDHref(endpointURL, scopeId))
       .distinctUntilChanged()
       .map((endpointURL: string) => new TaskPostRequest(this.requestService.generateRequestId(), endpointURL, body, options))
-      .do((request: TaskPostRequest) => this.requestService.configure(request, true))
+      .do((request: TaskPostRequest) => this.requestService.configure(request, this.forceBypassCache))
       .flatMap((request: TaskPostRequest) => this.fetchRequest(request))
       .distinctUntilChanged();
   }
@@ -68,7 +55,7 @@ export abstract class TasksService<TNormalized extends NormalizedObject, TDomain
       .map((endpointURL: string) => this.getEndpointByIDHref(endpointURL, scopeId))
       .distinctUntilChanged()
       .map((endpointURL: string) => new TaskDeleteRequest(this.requestService.generateRequestId(), endpointURL, body, options))
-      .do((request: TaskDeleteRequest) => this.requestService.configure(request, true))
+      .do((request: TaskDeleteRequest) => this.requestService.configure(request, this.forceBypassCache))
       .flatMap((request: TaskDeleteRequest) => this.fetchRequest(request))
       .distinctUntilChanged();
   }

@@ -12,7 +12,7 @@ import {
 import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { SubmissionDefinitionsModel } from '../../core/shared/config/config-submission-definitions.model';
-import { SectionType } from '../section/section-type';
+import { SectionsType } from '../sections/sections-type';
 
 /**
  * For each action type in an action group, make a simple
@@ -140,7 +140,7 @@ export class InitSectionAction implements Action {
     header: string;
     config: string;
     mandatory: boolean;
-    sectionType: SectionType;
+    sectionType: SectionsType;
     visibility: SectionVisibility;
     enabled: boolean;
     data: WorkspaceitemSectionDataType;
@@ -174,7 +174,7 @@ export class InitSectionAction implements Action {
               header: string,
               config: string,
               mandatory: boolean,
-              sectionType: SectionType,
+              sectionType: SectionsType,
               visibility: SectionVisibility,
               enabled: boolean,
               data: WorkspaceitemSectionDataType,

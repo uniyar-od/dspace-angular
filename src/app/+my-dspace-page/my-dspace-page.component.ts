@@ -21,7 +21,7 @@ import { getAuthenticatedUser } from '../core/auth/selectors';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.reducer';
 import { Eperson } from '../core/eperson/models/eperson.model';
-import { hasValue, isEmpty, isNotEmpty, isNotNull } from '../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty } from '../shared/empty.util';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ViewMode } from '../+search-page/search-options.model';
 import { SearchConfigOption } from '../+search-page/search-filters/search-switch-config/search-config-option.model';
@@ -39,7 +39,6 @@ export const MYDSPACE_ROUTE = '/mydspace';
 export class MyDSpacePageComponent implements OnDestroy, OnInit {
 
   private sub;
-  private scope: string;
 
   configuration: MyDSpaceConfigurationType;
   configurationList$: Observable<SearchConfigOption[]>;
@@ -176,5 +175,15 @@ export class MyDSpacePageComponent implements OnDestroy, OnInit {
     }
     this.user$ = null;
     this.searchOptions$ = null;
+  }
+
+  public reload() {
+    // override the route reuse strategy
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
+    this.router.navigated = false;
+    const url = decodeURIComponent(this.router.url);
+    this.router.navigateByUrl(url);
   }
 }

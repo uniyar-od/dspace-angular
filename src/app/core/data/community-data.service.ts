@@ -16,7 +16,7 @@ import { HALEndpointService } from '../shared/hal-endpoint.service';
 export class CommunityDataService extends ComColDataService<NormalizedCommunity, Community> {
   protected linkPath = 'communities';
   protected cds = this;
-  protected overrideRequest = false;
+  protected forceBypassCache = false;
 
   constructor(
     protected responseCache: ResponseCacheService,
