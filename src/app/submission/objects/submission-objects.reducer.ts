@@ -204,10 +204,6 @@ export function submissionObjectReducer(state = initialState, action: Submission
       return updateDeduplication(state, action as SetWorkspaceDuplicatedAction);
     }
 
-    case SubmissionObjectActionTypes.SET_WORKFLOW_DUPLICATION: {
-      return updateDeduplication(state, action as SetWorkflowDuplicatedAction);
-    }
-
     // errors actions
     case SubmissionObjectActionTypes.INSERT_ERRORS: {
       return insertError(state, action as InertSectionErrorsAction);
