@@ -31,6 +31,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
   @Input() selfUrl: string;
   @Input() submissionDefinition: SubmissionDefinitionsModel;
   @Input() submissionId: string;
+  @Input() taskId: string;
 
   public definitionId: string;
   public test = true;

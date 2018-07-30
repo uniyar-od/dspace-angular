@@ -100,6 +100,8 @@ import { WorkspaceitemActionsComponent } from './mydspace-actions/workspaceitem/
 import { WorkflowitemActionsComponent } from './mydspace-actions/workflowitem/workflowitem-actions.component';
 import { ItemSubmitterComponent } from './object-collection/shared/mydspace-item-submitter/item-submitter.component';
 import { ItemActionsComponent } from './mydspace-actions/item/item-actions.component';
+import { ClaimedTaskActionsApproveComponent } from './mydspace-actions/claimed-task/approve/claimed-task-actions-approve.component';
+import { ClaimedTaskActionsRejectComponent } from './mydspace-actions/claimed-task/reject/claimed-task-actions-reject.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -161,7 +163,6 @@ const COMPONENTS = [
   AbstractListableElementComponent,
   WrapperListElementComponent,
   WrapperDetailElementComponent,
-  ObjectGridComponent,
   WrapperGridElementComponent,
   ObjectCollectionComponent,
   PaginationComponent,
@@ -177,6 +178,8 @@ const COMPONENTS = [
   ItemSubmitterComponent,
   ItemDetailPreviewComponent,
   ClaimedTaskActionsComponent,
+  ClaimedTaskActionsApproveComponent,
+  ClaimedTaskActionsRejectComponent,
   ItemActionsComponent,
   PoolTaskActionsComponent,
   WorkflowitemActionsComponent,
