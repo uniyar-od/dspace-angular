@@ -4,7 +4,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { union } from 'lodash';
 
 import {
-  CompleteInitSubmissionFormAction,
+  CompleteInitSubmissionFormAction, CompleteSaveSubmissionFormAction,
   DepositSubmissionAction,
   DepositSubmissionErrorAction,
   DepositSubmissionSuccessAction,
@@ -127,9 +127,7 @@ export class SubmissionObjectEffects {
     .map(([action, currentState]: [SaveSubmissionFormSuccessAction | SaveSubmissionSectionFormSuccessAction, any]) => {
       return this.parseSaveResponse((currentState.submission as SubmissionState).objects[action.payload.submissionId], action.payload.submissionObject, action.payload.submissionId);
     })
-    .mergeMap((actions) => {
-      return Observable.from(actions);
-    });
+    .mergeMap((actions) => Observable.from(actions));
 
   @Effect() saveSection$ = this.actions$
     .ofType(SubmissionObjectActionTypes.SAVE_SUBMISSION_SECTION_FORM)
@@ -153,14 +151,17 @@ export class SubmissionObjectEffects {
         'sections')
         .map((response: SubmissionObject[]) => {
           if (this.canDeposit(response)) {
-            return new DepositSubmissionAction(action.payload.submissionId);
+            return [new DepositSubmissionAction(action.payload.submissionId)];
           } else {
-            this.notificationsService.warning(null, this.translate.get('submission.sections.general.sections_not_valid'));
-            return this.parseSaveResponse((currentState.submission as SubmissionState).objects[action.payload.submissionId], response, action.payload.submissionId);
+            const actions: any[] = this.parseSaveResponse((currentState.submission as SubmissionState).objects[action.payload.submissionId], response, action.payload.submissionId);
+            actions.push(new CompleteSaveSubmissionFormAction(action.payload.submissionId));
+            actions.push(new DepositSubmissionErrorAction(action.payload.submissionId));
+            return actions;
           }
         })
-        .catch(() => Observable.of(new SaveSubmissionSectionFormErrorAction(action.payload.submissionId)));
-    });
+        .catch(() => Observable.of([new SaveSubmissionSectionFormErrorAction(action.payload.submissionId)]));
+    })
+    .mergeMap((actions) => Observable.from(actions));
 
   @Effect() depositSubmission$ = this.actions$
     .ofType(SubmissionObjectActionTypes.DEPOSIT_SUBMISSION)
