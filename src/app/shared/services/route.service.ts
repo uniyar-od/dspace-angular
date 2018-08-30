@@ -41,23 +41,6 @@ export class RouteService {
       }).distinctUntilChanged();
   }
 
-  public saveRouting(): void {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(({urlAfterRedirects}: NavigationEnd) => {
-        this.history = [...this.history, urlAfterRedirects];
-      });
-  }
-
-  public getHistory(): string[] {
-    return this.history;
-  }
-
-  public getPreviousUrl(): string {
-    return this.history[this.history.length - 2] || '';
-  }
-
-
   public getQueryParamMap(): Observable<any> {
     return this.route.queryParamMap.map((map) => {
       const snapshot: RouterStateSnapshot = this.router.routerState.snapshot;
