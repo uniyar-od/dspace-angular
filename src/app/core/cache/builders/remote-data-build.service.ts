@@ -130,7 +130,7 @@ export class RemoteDataBuildService {
     );
 
     const pageInfo$ = responseCache$.pipe(
-      filterSuccessfulResponses(),
+      // filterSuccessfulResponses(),
       map((entry: ResponseCacheEntry) => {
         if (hasValue((entry.response as DSOSuccessResponse).pageInfo)) {
           const resPageInfo = (entry.response as DSOSuccessResponse).pageInfo;
