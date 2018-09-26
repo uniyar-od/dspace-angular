@@ -43,7 +43,7 @@ import { Workflowitem } from '../../core/submission/models/workflowitem.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { TranslateService } from '@ngx-translate/core';
-import { DeduplicationService } from '../sections/deduplication/deduplication.service';
+import { DeduplicationService } from '../sections/detect-duplicate/deduplication.service';
 import { SubmissionState } from '../submission.reducers';
 import { SubmissionObjectEntry } from './submission-objects.reducer';
 import { SubmissionSectionModel } from '../../core/shared/config/config-submission-section.model';

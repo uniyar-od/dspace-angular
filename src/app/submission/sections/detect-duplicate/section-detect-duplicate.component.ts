@@ -17,15 +17,16 @@ import { SubmissionScopeType } from '../../../core/submission/submission-scope-t
 @Component({
   selector: 'ds-deduplication-section',
   // styleUrls: ['./section-deduplication.component.scss'],
-  templateUrl: './section-deduplication.component.html',
+  templateUrl: './section-detect-duplicate.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
 
-@renderSectionFor(SectionsType.Deduplication)
-export class DeduplicationSectionComponent extends SectionModelComponent implements OnInit {
+@renderSectionFor(SectionsType.DetectDuplicate)
+export class DetectDuplicateSectionComponent extends SectionModelComponent implements OnInit {
   public isLoading = true;
-  public sectionDataObs: Observable<any>;
-  public matches = [];
+  public sectionData$: Observable<any>;
+  public matches = {};
+  public totalMatch$: Observable<number>;
 
   config: PaginationComponentOptions;
   sortConfig: SortOptions;
@@ -48,13 +49,16 @@ export class DeduplicationSectionComponent extends SectionModelComponent impleme
     this.config.pageSize = 2;
     this.sortConfig = new SortOptions('dc.title', SortDirection.ASC);
 
-    this.sectionDataObs = this.store.select(submissionSectionDataFromIdSelector(this.submissionId, this.sectionData.id))
+    this.sectionData$ = this.store.select(submissionSectionDataFromIdSelector(this.submissionId, this.sectionData.id))
       .filter((sd) => isNotEmpty(sd))
-      .startWith({matches: []})
-      .distinctUntilChanged()
-      .map((sd) => {
-        return sd;
-      });
+      .startWith({matches: {}})
+      .distinctUntilChanged();
+
+    this.totalMatch$ = this.store.select(submissionSectionDataFromIdSelector(this.submissionId, this.sectionData.id))
+      .filter((sd) => isNotEmpty(sd))
+      .startWith({matches: {}})
+      .map((sd) => Object.keys(sd.matches).length)
+      .distinctUntilChanged();
 
     this.isWorkFlow = this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkflowItem;
 
@@ -66,7 +70,6 @@ export class DeduplicationSectionComponent extends SectionModelComponent impleme
   }
 
   setPage(page) {
-    console.log('Select page #', page);
     this.config.currentPage = page;
   }
 
