@@ -102,6 +102,7 @@ import { ItemSubmitterComponent } from './object-collection/shared/mydspace-item
 import { ItemActionsComponent } from './mydspace-actions/item/item-actions.component';
 import { ClaimedTaskActionsApproveComponent } from './mydspace-actions/claimed-task/approve/claimed-task-actions-approve.component';
 import { ClaimedTaskActionsRejectComponent } from './mydspace-actions/claimed-task/reject/claimed-task-actions-reject.component';
+import { ObjNgFor } from './utils/object-ngfor.pipe';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -129,7 +130,8 @@ const PIPES = [
   FileSizePipe,
   SafeUrlPipe,
   TruncatePipe,
-  ConsolePipe
+  ConsolePipe,
+  ObjNgFor
 ];
 
 const COMPONENTS = [
