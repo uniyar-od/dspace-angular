@@ -23,6 +23,11 @@ import { SectionDataObject } from './sections/models/section-data.model';
 import { SubmissionScopeType } from '../core/submission/submission-scope-type';
 import { SubmissionObject } from '../core/submission/models/submission-object.model';
 import { RouteService } from '../shared/services/route.service';
+import { SectionsType } from './sections/sections-type';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationsService } from '../shared/notifications/notifications.service';
+import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
+import { NotificationOptions } from '../shared/notifications/models/notification-options.model';
 
 @Injectable()
 export class SubmissionService {
@@ -31,10 +36,13 @@ export class SubmissionService {
   protected timerObs: Observable<any>;
 
   constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
+              protected notificationsService: NotificationsService,
               protected restService: SubmissionRestService,
               protected router: Router,
               protected routeService: RouteService,
-              protected store: Store<SubmissionState>) {
+              protected scrollToService: ScrollToService,
+              protected store: Store<SubmissionState>,
+              protected translate: TranslateService) {
   }
 
   createSubmission(): Observable<SubmissionObject> {
@@ -209,6 +217,29 @@ export class SubmissionService {
     }
   }
 
+  notifyNewSection(submissionId: string, sectionId: string, sectionType?: SectionsType) {
+
+    if (sectionType === SectionsType.DetectDuplicate) {
+      this.setActiveSection(submissionId, sectionId);
+      this.translate.get('submission.sections.detect-duplicate.duplicate-detected', {sectionId})
+        .take(1)
+        .subscribe((msg) => {
+          this.notificationsService.warning(null, msg, new NotificationOptions(0));
+        });
+      const config: ScrollToConfigOptions = {
+        target: sectionId,
+        offset: -70
+      };
+
+      this.scrollToService.scrollTo(config);
+    } else {
+      this.translate.get('submission.sections.general.metadata-extracted-new-section', {sectionId})
+        .take(1)
+        .subscribe((msg) => {
+          this.notificationsService.info(null, msg, null, true);
+        });
+    }
+  }
   retrieveSubmission(submissionId): Observable<SubmissionObject> {
     return this.restService.getDataById(this.getSubmissionObjectLinkName(), submissionId)
       .filter((submissionObjects: SubmissionObject[]) => isNotUndefined(submissionObjects))
