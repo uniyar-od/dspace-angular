@@ -31,7 +31,7 @@ import { AccessConditionsComponent } from './sections/upload/accessConditions/ac
 import { RecycleSectionComponent } from './sections/recycle/section-recycle.component';
 import { DetectDuplicateSectionComponent } from './sections/detect-duplicate/section-detect-duplicate.component';
 import { DuplicateMatchComponent } from './sections/detect-duplicate/duplicate-match/duplicate-match.component';
-import { DeduplicationService } from './sections/detect-duplicate/deduplication.service';
+import { DetectDuplicateService } from './sections/detect-duplicate/detect-duplicate.service';
 import { SubmissionSubmitComponent } from './submit/submission-submit.component';
 
 @NgModule({
@@ -83,7 +83,7 @@ import { SubmissionSubmitComponent } from './submit/submission-submit.component'
     SectionsService,
     SubmissionRestService,
     SubmissionUploadsConfigService,
-    DeduplicationService
+    DetectDuplicateService
   ]
 })
 export class SubmissionModule {
