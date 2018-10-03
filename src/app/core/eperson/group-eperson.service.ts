@@ -43,7 +43,7 @@ export class GroupEpersonService extends EpersonService<NormalizedGroupModel, Gr
     return this.searchBy(searchHref, options).pipe(
         filter((groups: RemoteData<PaginatedList<Group>>) => !groups.isResponsePending),
         take(1),
-        map((groups: RemoteData<PaginatedList<Group>>) => groups.payload as any > 0)
+        map((groups: RemoteData<PaginatedList<Group>>) => (groups.payload as any).length > 0)
       );
   }
 }
