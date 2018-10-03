@@ -12,6 +12,7 @@ import { NotificationOptions } from '../../shared/notifications/models/notificat
 import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { Router } from '@angular/router';
+import { NotificationType } from '../../shared/notifications/models/notification-type';
 
 @Component({
   selector: 'ds-my-dspace-new-submission',
@@ -60,18 +61,13 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
         const options = new NotificationOptions();
         options.timeOut = 0;
         const link = '/workspaceitems/' + workspaceitems[0].id + '/edit';
-        this.translate.get('mydspace.general.text-here')
-          .take(1)
-          .subscribe((textHere) => {
-            const here = `<a class="btn btn-link p-0 m-0" href="${link}" >
-                        <strong>${textHere}</strong>
-                      </a>`;
-            this.translate.get('mydspace.upload.upload-successful', {here})
-              .take(1)
-              .subscribe((m) => {
-                this.notificationsService.success(null, m, options, true);
-              });
-          });
+        this.notificationsService.notificationWithAnchor(
+          NotificationType.Success,
+          options,
+          link,
+          'mydspace.general.text-here',
+          'mydspace.upload.upload-successful',
+          'here');
       } else if (workspaceitems.length > 1) {
         this.notificationsService.success(null, this.translate.get('mydspace.upload.upload-multiple-successful', {qty: workspaceitems.length}));
       }
