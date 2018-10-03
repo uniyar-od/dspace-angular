@@ -36,7 +36,7 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
       && (data.statusCode === '201' || data.statusCode === '200' || data.statusCode === 'OK')) {
       const dataDefinition = this.processResponse<NormalizedObject | ConfigObject, SubmissionResourceType>(data.payload, request.href);
       return new SubmissionSuccessResponse(dataDefinition[Object.keys(dataDefinition)[0]], data.statusCode, this.processPageInfo(data.payload));
-    } else if (isEmpty(data.payload) && data.statusCode === '204') {
+    } else if (isEmpty(data.payload) && data.statusCode === '204' || data.statusCode === 'OK') {
       // Response from a DELETE request
       return new SubmissionSuccessResponse(null, data.statusCode);
     } else {
