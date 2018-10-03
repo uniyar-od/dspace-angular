@@ -399,7 +399,7 @@
       "submit.progressbar.upload": "Upload files",
       "submit.progressbar.license": "Deposit license",
       "submit.progressbar.cclicense": "Creative commons license",
-      "submit.progressbar.detect-duplicate": "Potential duplicates",
+      "submit.progressbar.detectDuplicate": "Potential duplicates",
 
       "upload": {
         "info": "Here you will find all the files currently in the item. You can update the fle metadata and access conditions or <strong>upload additional files just dragging&dropping them everywhere in the page</strong>",
