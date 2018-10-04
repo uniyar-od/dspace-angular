@@ -258,7 +258,7 @@ export class SubmissionService {
       this.translate.get('submission.sections.detect-duplicate.duplicate-detected', {sectionId})
         .take(1)
         .subscribe((msg) => {
-          this.notificationsService.warning(null, msg, new NotificationOptions(0));
+          this.notificationsService.warning(null, msg, new NotificationOptions(10000));
         });
       const config: ScrollToConfigOptions = {
         target: sectionId,
