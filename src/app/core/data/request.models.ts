@@ -345,6 +345,6 @@ export class TaskDeleteRequest extends DeleteRequest {
 }
 
 export class RequestError extends Error {
-  statusText: string;
+  statusText: number;
 }
 /* tslint:enable:max-classes-per-file */
