@@ -229,10 +229,11 @@ export class MessageResponse extends RestResponse {
   public toCache = false;
 
   constructor(
-    public statusCode: string,
+    public statusCode: number,
+    public statusText: string,
     public pageInfo?: PageInfo
   ) {
-    super(true, statusCode);
+    super(true, statusCode, statusText);
   }
 }
 
@@ -240,10 +241,11 @@ export class TaskResponse extends RestResponse {
   public toCache = false;
 
   constructor(
-    public statusCode: string,
+    public statusCode: number,
+    public statusText: string,
     public pageInfo?: PageInfo
   ) {
-    super(true, statusCode);
+    super(true, statusCode, statusText);
   }
 }
 

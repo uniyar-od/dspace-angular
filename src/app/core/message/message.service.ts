@@ -1,14 +1,16 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
 import { ResponseCacheService } from '../cache/response-cache.service';
 import { RequestService } from '../data/request.service';
-import { GLOBAL_CONFIG } from '../../../config';
-import { GlobalConfig } from '../../../config/global-config.interface';
 import { Observable } from 'rxjs/Observable';
-import { isEmpty, isNotEmpty } from '../../shared/empty.util';
+import { isNotEmpty } from '../../shared/empty.util';
 import {
-  AuthGetRequest, AuthPostRequest, GetRequest, MessageGetRequest, MessagePostRequest, PostRequest,
-  RestRequest, RestRequestMethod
+  GetRequest,
+  MessageGetRequest,
+  MessagePostRequest,
+  PostRequest,
+  RestRequest,
+  RestRequestMethod
 } from '../data/request.models';
 import { ResponseCacheEntry } from '../cache/response-cache.reducer';
 import { ErrorResponse, MessageResponse, RestResponse } from '../cache/response-cache.models';
@@ -35,7 +37,7 @@ export class MessageService {
       .partition((response: RestResponse) => response.isSuccessful);
     return Observable.merge(
       errorResponse.flatMap((response: ErrorResponse) => {
-        return Observable.of(new MessageDataResponse(response.isSuccessful, new RemoteDataError(response.statusCode, response.errorMessage)))
+        return Observable.of(new MessageDataResponse(response.isSuccessful, new RemoteDataError(response.statusText, response.errorMessage)))
       }),
       successResponse
         .map((response: MessageResponse) => new MessageDataResponse(response.isSuccessful))
