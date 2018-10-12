@@ -279,7 +279,7 @@ export class AuthService {
    */
   public isTokenExpiring(): Observable<boolean> {
     return this.store.select(isTokenRefreshing)
-      .take(1)
+      .first()
       .map((isRefreshing: boolean) => {
         if (this.isTokenExpired() || isRefreshing) {
           return false;
@@ -343,7 +343,7 @@ export class AuthService {
    * Redirect to the login route when token has expired
    */
   public redirectToLoginWhenTokenExpired() {
-    const redirectUrl = LOGIN_ROUTE;
+    const redirectUrl = LOGIN_ROUTE + '?expired=true';
     if (this._window.nativeWindow.location) {
       // Hard redirect to login page, so that all state is definitely lost
       this._window.nativeWindow.location.href = redirectUrl;
@@ -357,7 +357,7 @@ export class AuthService {
    */
   public redirectToPreviousUrl() {
     this.getRedirectUrl()
-      .take(1)
+      .first()
       .subscribe((redirectUrl) => {
         if (isNotEmpty(redirectUrl)) {
           this.clearRedirectUrl();
@@ -380,9 +380,9 @@ export class AuthService {
    * Refresh route navigated
    */
   public refreshAfterLogout() {
-    // this.router.navigate(['/home']);
+    this.router.navigate(['/home']);
     // Hard redirect to home page, so that all state is definitely lost
-    this._window.nativeWindow.location.href = this.config.auth.target.host + '/logout';
+    this._window.nativeWindow.location.href = '/home';
   }
 
   /**

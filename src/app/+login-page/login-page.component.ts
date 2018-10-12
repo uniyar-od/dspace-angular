@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
@@ -10,12 +10,11 @@ import {
   ResetAuthenticationMessagesAction
 } from '../core/auth/auth.actions';
 import { Subscription } from 'rxjs/Subscription';
-import {hasValue, isEmpty, isNotEmpty} from '../shared/empty.util';
-import {ActivatedRoute, Router} from '@angular/router';
+import { hasValue, isNotEmpty } from '../shared/empty.util';
+import { ActivatedRoute } from '@angular/router';
 import { AuthTokenInfo } from '../core/auth/models/auth-token-info.model';
 import { Observable } from 'rxjs/Observable';
-import {getSSOLoginUrl, isAuthenticated} from '../core/auth/selectors';
-import {NativeWindowRef, NativeWindowService} from '../shared/services/window.service';
+import { isAuthenticated } from '../core/auth/selectors';
 
 @Component({
   selector: 'ds-login-page',
@@ -23,18 +22,15 @@ import {NativeWindowRef, NativeWindowService} from '../shared/services/window.se
   templateUrl: './login-page.component.html'
 })
 export class LoginPageComponent implements OnDestroy, OnInit {
-  subs: Subscription[] = [];
+  sub: Subscription;
 
-  constructor(@Inject(NativeWindowService) protected _window: NativeWindowRef,
-              private route: ActivatedRoute,
-              private router: Router,
+  constructor(private route: ActivatedRoute,
               private store: Store<AppState>) {}
 
   ngOnInit() {
     const queryParamsObs = this.route.queryParams;
     const authenticated = this.store.select(isAuthenticated);
-    const SSOLoginUrl = this.store.select(getSSOLoginUrl);
-    this.subs.push(Observable.combineLatest(queryParamsObs, authenticated)
+    this.sub = Observable.combineLatest(queryParamsObs, authenticated)
       .filter(([params, auth]) => isNotEmpty(params.token) || isNotEmpty(params.expired))
       .take(1)
       .subscribe(([params, auth]) => {
@@ -53,23 +49,13 @@ export class LoginPageComponent implements OnDestroy, OnInit {
             this.store.dispatch(new AuthenticationSuccessAction(authToken));
           }
         }
-      }),
-      Observable.combineLatest(queryParamsObs, authenticated, SSOLoginUrl)
-        .filter(([params, auth, url]) => isEmpty(params) && hasValue(url))
-        .take(1)
-        .subscribe(([params, auth, url]) => {
-          if (!auth) {
-            this._window.nativeWindow.location.href = url;
-          }
-        })
-    )
+      })
   }
 
   ngOnDestroy() {
-    this.subs
-      .filter((subscription) => hasValue(subscription))
-      .forEach((subscription) => subscription.unsubscribe());
-
+    if (hasValue(this.sub)) {
+      this.sub.unsubscribe();
+    }
     // Clear all authentication messages when leaving login page
     this.store.dispatch(new ResetAuthenticationMessagesAction());
   }

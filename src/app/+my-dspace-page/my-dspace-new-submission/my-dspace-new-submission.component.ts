@@ -77,4 +77,7 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
     }
   }
 
+  public onUploadError() {
+    this.notificationsService.error(null, this.translate.get('mydspace.upload.upload-failed'));
+  }
 }

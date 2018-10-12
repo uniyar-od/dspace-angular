@@ -1,9 +1,16 @@
 // import actions
 import {
   AddAuthenticationMessageAction,
-  AuthActions, AuthActionTypes, AuthenticatedSuccessAction, AuthenticationErrorAction,
-  AuthenticationSuccessAction, LogOutErrorAction, RedirectWhenAuthenticationIsRequiredAction,
-  RedirectWhenTokenExpiredAction, RefreshTokenSuccessAction, RetrieveAuthMethodsSuccessAction, SetRedirectUrlAction
+  AuthActions,
+  AuthActionTypes,
+  AuthenticatedSuccessAction,
+  AuthenticationErrorAction,
+  LogOutErrorAction,
+  RedirectWhenAuthenticationIsRequiredAction,
+  RedirectWhenTokenExpiredAction,
+  RefreshTokenSuccessAction,
+  RetrieveAuthMethodsSuccessAction,
+  SetRedirectUrlAction
 } from './auth.actions';
 // import models
 import { Eperson } from '../eperson/models/eperson.model';
@@ -70,11 +77,6 @@ export function authReducer(state: any = initialState, action: AuthActions): Aut
         error: undefined,
         loading: true,
         info: undefined
-      });
-
-    case AuthActionTypes.AUTHENTICATED:
-      return Object.assign({}, state, {
-        loading: true
       });
 
     case AuthActionTypes.AUTHENTICATED_ERROR:

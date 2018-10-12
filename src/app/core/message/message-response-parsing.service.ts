@@ -26,12 +26,12 @@ export class MessageResponseParsingService extends BaseResponseParsingService im
 
   parse(request: RestRequest, data: DSpaceRESTV2Response): RestResponse {
     if (this.isSuccessStatus(data.statusCode)) {
-      return new MessageResponse( data.statusCode);
+      return new MessageResponse( data.statusCode, data.statusText);
     } else {
       return new ErrorResponse(
         Object.assign(
           new Error('Unexpected response from server'),
-          {statusText: data.statusCode}
+          { statusCode: data.statusCode, statusText: data.statusText }
         )
       );
     }
