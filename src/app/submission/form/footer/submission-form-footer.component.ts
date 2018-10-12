@@ -69,11 +69,11 @@ export class SubmissionFormFooterComponent implements OnChanges {
     this.submissionService.dispatchSaveForLater(this.submissionId);
   }
 
-  public deposit(event) {
+  deposit(event) {
     this.submissionService.dispatchDeposit(this.submissionId);
   }
 
-  public confirmDiscard(content) {
+  confirmDiscard(content) {
     this.modalService.open(content).result.then(
       (result) => {
         if (result === 'ok') {
