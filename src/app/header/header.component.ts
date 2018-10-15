@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { RouterReducerState } from '@ngrx/router-store';
