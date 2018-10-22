@@ -1,5 +1,5 @@
 import { SectionsType } from '../sections-type';
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnDestroy } from '@angular/core';
 import { SectionModelComponent } from '../models/section.model';
 import { renderSectionFor } from '../sections-decorator';
 import { SectionDataObject } from '../models/section-data.model';
@@ -23,7 +23,7 @@ import { hasValue } from '../../../shared/empty.util';
 })
 
 @renderSectionFor(SectionsType.DetectDuplicate)
-export class DetectDuplicateSectionComponent extends SectionModelComponent implements OnDestroy, OnInit {
+export class DetectDuplicateSectionComponent extends SectionModelComponent implements OnDestroy {
   public AlertTypeEnum = AlertType;
   public isLoading = true;
   public sectionData$: Observable<any>;
@@ -37,17 +37,17 @@ export class DetectDuplicateSectionComponent extends SectionModelComponent imple
   disclaimer: Observable<string>;
   sub: Subscription;
 
-  constructor(private detectDuplicateService: DetectDuplicateService,
-              private translate: TranslateService,
-              private sectionService: SectionsService,
-              private submissionService: SubmissionService,
+  constructor(protected detectDuplicateService: DetectDuplicateService,
+              protected translate: TranslateService,
+              protected sectionService: SectionsService,
+              protected submissionService: SubmissionService,
               @Inject('collectionIdProvider') public injectedCollectionId: string,
               @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
               @Inject('submissionIdProvider') public injectedSubmissionId: string) {
     super(injectedCollectionId, injectedSectionData, injectedSubmissionId);
   }
 
-  ngOnInit() {
+  onSectionInit() {
     this.config = new PaginationComponentOptions();
     this.config.id = 'duplicated_items';
     this.config.pageSize = 2;
@@ -71,6 +71,11 @@ export class DetectDuplicateSectionComponent extends SectionModelComponent imple
       .subscribe((status: boolean) => {
         this.sectionService.setSectionStatus(this.submissionId, this.sectionData.id, status);
       })
+  }
+
+  protected getSectionStatus(): Observable<boolean> {
+    return this.totalMatch$
+      .map((totalMatches: number) => totalMatches === 0);
   }
 
   setPage(page) {
