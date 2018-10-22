@@ -41,19 +41,36 @@
               (click)="$event.stopPropagation(); sdRef.close();"
               (input)="onInput($event)">
     </div>
-    <div *ngIf="!isInputDisabled()" class="col-auto text-center">
-      <button ngbDropdownAnchor
-               class="btn btn-secondary"
+    <div class="col-auto text-center">
+      <button *ngIf="!isInputDisabled()" ngbDropdownAnchor
+              class="btn btn-secondary"
               type="button"
+              ngbTooltip="{{'form.search-help' | translate}}"
+              placement="top"
               [disabled]="model.readOnly || isSearchDisabled()"
               (click)="sdRef.open(); search(); $event.stopPropagation();">{{'form.search' | translate}}
       </button>
-    </div>
-    <div *ngIf="isInputDisabled()" class="col-auto text-center">
-      <button  class="btn btn-secondary"
+      <button *ngIf="isInputDisabled()" class="btn btn-secondary"
               type="button"
+              ngbTooltip="{{'form.clear-help' | translate}}"
+              placement="top"
               [disabled]="model.readOnly"
-              (click)="remove($event)">{{'form.remove' | translate}}
+              (click)="remove($event)">{{'form.clear' | translate}}
+      </button>
+    </div>
+    <div class="col-auto text-center">
+      <button *ngIf="!editMode" class="btn btn-secondary"
+              type="button"
+              ngbTooltip="{{'form.edit-help' | translate}}"
+              placement="top"
+              [disabled]="isEditDisabled()"
+              (click)="switchEditMode()">{{'form.edit' | translate}}
+      </button>
+      <button *ngIf="editMode" class="btn btn-secondary"
+              type="button"
+              ngbTooltip="{{'form.save-help' | translate}}"
+              placement="top"
+              (click)="saveChanges()">{{'form.save' | translate}}
       </button>
     </div>
   </div>
