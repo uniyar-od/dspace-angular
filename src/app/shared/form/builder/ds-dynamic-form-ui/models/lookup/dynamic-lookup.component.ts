@@ -130,10 +130,7 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
   }
 
   public isEditDisabled() {
-    console.log(this.model);
-    const ret = !this.hasAuthorityValue();
-    console.log(ret);
-    return ret;
+    return !this.hasAuthorityValue();
   }
 
   public isInputDisabled() {
