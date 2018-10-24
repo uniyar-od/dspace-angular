@@ -23,7 +23,7 @@ import { hasValue } from '../../../shared/empty.util';
 })
 
 @renderSectionFor(SectionsType.DetectDuplicate)
-export class DetectDuplicateSectionComponent extends SectionModelComponent implements OnDestroy {
+export class DetectDuplicateSectionComponent extends SectionModelComponent {
   public AlertTypeEnum = AlertType;
   public isLoading = true;
   public sectionData$: Observable<any>;
@@ -82,7 +82,7 @@ export class DetectDuplicateSectionComponent extends SectionModelComponent imple
     this.config.currentPage = page;
   }
 
-  ngOnDestroy(): void {
+  onSectionDestroy(): void {
     if (hasValue(this.sub)) {
       this.sub.unsubscribe();
     }

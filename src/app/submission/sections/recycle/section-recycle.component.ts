@@ -57,4 +57,7 @@ export class RecycleSectionComponent extends SectionModelComponent {
     return Observable.of(true);
   }
 
+  onSectionDestroy() {
+    return;
+  }
 }
