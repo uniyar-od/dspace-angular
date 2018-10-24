@@ -138,11 +138,9 @@ export abstract class BaseResponseParsingService {
     return obj[keys[0]];
   }
 
-  protected isSuccessStatus(statusCode) {
-    return (statusCode === '201'
-      || statusCode === '200'
-      || statusCode === '204'
-      || statusCode === 'OK'
-      || statusCode === 'Created')
+  protected isSuccessStatus(statusCode: number) {
+    return (statusCode === 201
+      || statusCode === 200
+      || statusCode === 204)
   }
 }
