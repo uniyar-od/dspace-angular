@@ -16,6 +16,8 @@ import { AuthTokenInfo } from '../core/auth/models/auth-token-info.model';
 import { Observable } from 'rxjs/Observable';
 import {getSSOLoginUrl, isAuthenticated} from '../core/auth/selectors';
 import {NativeWindowRef, NativeWindowService} from '../shared/services/window.service';
+import { ServerResponseService } from '../shared/services/server-response.service';
+import { AuthService } from '../core/auth/auth.service';
 
 @Component({
   selector: 'ds-login-page',
@@ -26,7 +28,9 @@ export class LoginPageComponent implements OnDestroy, OnInit {
   subs: Subscription[] = [];
 
   constructor(@Inject(NativeWindowService) protected _window: NativeWindowRef,
+              private authService: AuthService,
               private route: ActivatedRoute,
+              private responseService: ServerResponseService,
               private router: Router,
               private store: Store<AppState>) {}
 
@@ -39,7 +43,12 @@ export class LoginPageComponent implements OnDestroy, OnInit {
       .take(1)
       .subscribe(([params, auth]) => {
         const token = params.token;
+        const redirectUrl = params.redirectUrl;
         let authToken: AuthTokenInfo;
+
+        if (isNotEmpty(redirectUrl)) {
+          this.authService.setRedirectUrl(redirectUrl);
+        }
         if (!auth) {
           if (isNotEmpty(token)) {
             authToken = new AuthTokenInfo(token);
@@ -55,11 +64,11 @@ export class LoginPageComponent implements OnDestroy, OnInit {
         }
       }),
       Observable.combineLatest(queryParamsObs, authenticated, SSOLoginUrl)
-        .filter(([params, auth, url]) => isEmpty(params) && hasValue(url))
+        .filter(([params, auth, url]) => isEmpty(params) && isNotEmpty(url))
         .take(1)
         .subscribe(([params, auth, url]) => {
           if (!auth) {
-            this._window.nativeWindow.location.href = url;
+            this.responseService.redirect(url);
           }
         })
     )
