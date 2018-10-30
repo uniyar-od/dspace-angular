@@ -53,22 +53,7 @@ export class ServerAuthService extends AuthService {
    * Redirect to the route navigated before the login
    */
   public redirectToPreviousUrl() {
-    this.getRedirectUrl()
-      .first()
-      .subscribe((redirectUrl) => {
-        if (isNotEmpty(redirectUrl)) {
-          // override the route reuse strategy
-          this.router.routeReuseStrategy.shouldReuseRoute = () => {
-            return false;
-          };
-          this.router.navigated = false;
-          const url = decodeURIComponent(redirectUrl);
-          this.router.navigateByUrl(url);
-        } else {
-          this.router.navigate(['/']);
-        }
-      })
-
+    return;
   }
 
 }
