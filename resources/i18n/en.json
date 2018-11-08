@@ -83,6 +83,7 @@
     "title": "MyDSpace",
     "description": "",
     "new-submission-btn": "New submission",
+    "find-by-identifier": "Find by Identifier",
     "results": {
       "head": "Your submissions",
       "no-title": "No title",

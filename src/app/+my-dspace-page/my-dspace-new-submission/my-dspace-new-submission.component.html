@@ -9,7 +9,12 @@
   </div>
   <div class="add">
     <a class="btn btn-lg btn-primary mt-1 ml-2" [routerLink]="['/submit']" role="button">
-      <i class="fa fa-plus-circle" aria-hidden="true"></i> New submission
+      <i class="fa fa-plus-circle" aria-hidden="true"></i> {{'mydspace.new-submission-btn' | translate}}
+    </a>
+  </div>
+  <div class="find">
+    <a class="btn btn-lg btn-primary mt-1 ml-2" [href]="findByHref" role="button">
+      <i class="fa fa-search-plus" aria-hidden="true"></i> {{'mydspace.find-by-identifier' | translate}}
     </a>
   </div>
 

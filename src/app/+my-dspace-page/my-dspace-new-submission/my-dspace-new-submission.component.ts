@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +13,7 @@ import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { Router } from '@angular/router';
 import { NotificationType } from '../../shared/notifications/models/notification-type';
+import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
 
 @Component({
   selector: 'ds-my-dspace-new-submission',
@@ -23,6 +24,7 @@ import { NotificationType } from '../../shared/notifications/models/notification
 export class MyDSpaceNewSubmissionComponent implements OnInit {
   @Output() uploadEnd = new EventEmitter<Array<MyDSpaceResult<DSpaceObject>>>();
 
+  public findByHref: string;
   public uploadFilesOptions: UploaderOptions = {
     url: '',
     authToken: null,
@@ -30,7 +32,8 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
     itemAlias: null
   };
 
-  constructor(private authService: AuthService,
+  constructor(@Inject(GLOBAL_CONFIG) public config: GlobalConfig,
+              private authService: AuthService,
               private changeDetectorRef: ChangeDetectorRef,
               private halService: HALEndpointService,
               private notificationsService: NotificationsService,
@@ -46,6 +49,7 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     );
+    this.findByHref = this.config.auth.target.host + '/submit';
   }
 
   onBeforeUpload = () => {
