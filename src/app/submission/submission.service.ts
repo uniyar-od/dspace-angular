@@ -253,7 +253,7 @@ export class SubmissionService {
 
   notifyNewSection(submissionId: string, sectionId: string, sectionType?: SectionsType) {
 
-    if (sectionType === SectionsType.DetectDuplicate) {
+    if (sectionType === SectionsType.DetectDuplicate || sectionId === 'detect-duplicate') {
       this.setActiveSection(submissionId, sectionId);
       this.translate.get('submission.sections.detect-duplicate.duplicate-detected', {sectionId})
         .take(1)
