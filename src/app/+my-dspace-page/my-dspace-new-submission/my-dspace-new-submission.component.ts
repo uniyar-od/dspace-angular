@@ -49,7 +49,7 @@ export class MyDSpaceNewSubmissionComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
       }
     );
-    this.findByHref = this.config.auth.target.host + '/submit';
+    this.findByHref = this.config.auth.target.host + this.config.auth.target.nameSpace + '/submit';
   }
 
   onBeforeUpload = () => {

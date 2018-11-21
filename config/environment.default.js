@@ -26,6 +26,7 @@ module.exports = {
   auth: {
     target: {
       host: 'https://dspace7.4science.it',
+      nameSpace: '',
       page: '/dspace-spring-rest/shib.html'
     }
   },
