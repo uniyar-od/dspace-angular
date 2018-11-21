@@ -1,21 +1,13 @@
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
 
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { uniq } from 'lodash';
 
 import { SectionsService } from './sections.service';
-import { hasValue, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
-import { submissionSectionFromIdSelector } from '../selectors';
-import { SubmissionState } from '../submission.reducers';
+import { hasValue, isNotEmpty, isNotNull } from '../../shared/empty.util';
 import { SubmissionSectionError, SubmissionSectionObject } from '../objects/submission-objects.reducer';
 import parseSectionErrorPaths, { SectionErrorPath } from '../utils/parseSectionErrorPaths';
-import {
-  RemoveSectionErrorsAction,
-  SaveSubmissionSectionFormAction,
-  SetActiveSectionAction
-} from '../objects/submission-objects.actions';
 import { SubmissionService } from '../submission.service';
 
 @Directive({
@@ -26,7 +18,8 @@ export class SectionsDirective implements OnDestroy, OnInit {
   @Input() mandatory = true;
   @Input() sectionId;
   @Input() submissionId;
-  public sectionErrors: string[] = [];
+  public genericSectionErrors: string[] = [];
+  public allSectionErrors: string[] = [];
   private active = true;
   private animation = !this.mandatory;
   private enabled: Observable<boolean>;
@@ -35,7 +28,6 @@ export class SectionsDirective implements OnDestroy, OnInit {
   private valid: Observable<boolean>;
 
   constructor(private changeDetectorRef: ChangeDetectorRef,
-              private store: Store<SubmissionState>,
               private submissionService: SubmissionService,
               private sectionService: SectionsService) {
   }
@@ -50,10 +42,8 @@ export class SectionsDirective implements OnDestroy, OnInit {
       });
 
     this.subs.push(
-      this.store.select(submissionSectionFromIdSelector(this.submissionId, this.sectionId))
-        .filter((state: SubmissionSectionObject) => isNotUndefined(state))
+      this.sectionService.getSectionState(this.submissionId, this.sectionId)
         .map((state: SubmissionSectionObject) => state.errors)
-        // .filter((errors: SubmissionSectionError[]) => isNotEmpty(errors))
         .subscribe((errors: SubmissionSectionError[]) => {
           if (isNotEmpty(errors)) {
             errors.forEach((errorItem: SubmissionSectionError) => {
@@ -61,7 +51,9 @@ export class SectionsDirective implements OnDestroy, OnInit {
 
               parsedErrors.forEach((error: SectionErrorPath) => {
                 if (!error.fieldId) {
-                  this.sectionErrors = uniq(this.sectionErrors.concat(errorItem.message));
+                  this.genericSectionErrors = uniq(this.genericSectionErrors.concat(errorItem.message));
+                } else {
+                  this.allSectionErrors.push(errorItem.message);
                 }
               });
             });
@@ -77,7 +69,7 @@ export class SectionsDirective implements OnDestroy, OnInit {
             this.changeDetectorRef.detectChanges();
             // If section is no longer active dispatch save action
             if (!this.active && isNotNull(activeSectionId)) {
-              this.store.dispatch(new SaveSubmissionSectionFormAction(this.submissionId, this.sectionId));
+              this.submissionService.dispatchSaveSection(this.submissionId, this.sectionId);
             }
           }
         })
@@ -124,12 +116,17 @@ export class SectionsDirective implements OnDestroy, OnInit {
     this.sectionService.removeSection(submissionId, sectionId)
   }
 
+  public hasGenericErrors() {
+    return this.genericSectionErrors && this.genericSectionErrors.length > 0
+  }
+
   public hasErrors() {
-    return this.sectionErrors && this.sectionErrors.length > 0
+    return (this.genericSectionErrors && this.genericSectionErrors.length > 0) ||
+      (this.allSectionErrors && this.allSectionErrors.length > 0)
   }
 
   public getErrors() {
-    return this.sectionErrors;
+    return this.genericSectionErrors;
   }
 
   public setFocus(event) {
@@ -139,14 +136,15 @@ export class SectionsDirective implements OnDestroy, OnInit {
   }
 
   public removeError(index) {
-    this.sectionErrors.splice(index);
+    this.genericSectionErrors.splice(index);
   }
 
   public resetErrors() {
-    if (isNotEmpty(this.sectionErrors)) {
-      this.store.dispatch(new RemoveSectionErrorsAction(this.submissionId, this.sectionId));
+    if (isNotEmpty(this.genericSectionErrors)) {
+      this.sectionService.dispatchRemoveSectionErrors(this.submissionId, this.sectionId);
     }
-    this.sectionErrors = [];
+    this.genericSectionErrors = [];
+    this.allSectionErrors = [];
 
   }
 }

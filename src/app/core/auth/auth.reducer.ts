@@ -1,9 +1,16 @@
 // import actions
 import {
   AddAuthenticationMessageAction,
-  AuthActions, AuthActionTypes, AuthenticatedSuccessAction, AuthenticationErrorAction,
-  AuthenticationSuccessAction, LogOutErrorAction, RedirectWhenAuthenticationIsRequiredAction,
-  RedirectWhenTokenExpiredAction, RefreshTokenSuccessAction, RetrieveAuthMethodsSuccessAction, SetRedirectUrlAction
+  AuthActions,
+  AuthActionTypes,
+  AuthenticatedSuccessAction,
+  AuthenticationErrorAction,
+  LogOutErrorAction,
+  RedirectWhenAuthenticationIsRequiredAction,
+  RedirectWhenTokenExpiredAction,
+  RefreshTokenSuccessAction,
+  RetrieveAuthMethodsSuccessAction,
+  SetRedirectUrlAction
 } from './auth.actions';
 // import models
 import { Eperson } from '../eperson/models/eperson.model';

@@ -27,12 +27,12 @@ export class TaskResponseParsingService extends BaseResponseParsingService imple
 
   parse(request: RestRequest, data: DSpaceRESTV2Response): RestResponse {
     if (this.isSuccessStatus(data.statusCode)) {
-      return new TaskResponse( data.statusCode);
+      return new TaskResponse( data.statusCode, data.statusText);
     } else {
       return new ErrorResponse(
         Object.assign(
           new Error('Unexpected response from server'),
-          {statusText: data.statusCode}
+          { statusCode: data.statusCode, statusText: data.statusText }
         )
       );
     }

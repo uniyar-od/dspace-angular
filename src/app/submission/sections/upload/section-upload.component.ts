@@ -1,24 +1,24 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+
 import { SectionModelComponent } from '../models/section.model';
 import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
 import { SectionUploadService } from './section-upload.service';
-import { SectionStatusChangeAction } from '../../objects/submission-objects.actions';
-import { SubmissionState } from '../../submission.reducers';
 import { CollectionDataService } from '../../../core/data/collection-data.service';
 import { GroupEpersonService } from '../../../core/eperson/group-eperson.service';
 import { SubmissionUploadsConfigService } from '../../../core/config/submission-uploads-config.service';
 import { SubmissionUploadsModel } from '../../../core/shared/config/config-submission-uploads.model';
-import { Observable } from 'rxjs/Observable';
 import { SubmissionFormsModel } from '../../../core/shared/config/config-submission-forms.model';
 import { SectionsType } from '../sections-type';
 import { renderSectionFor } from '../sections-decorator';
 import { SectionDataObject } from '../models/section-data.model';
-import { submissionObjectFromIdSelector } from '../../selectors';
 import { SubmissionObjectEntry } from '../../objects/submission-objects.reducer';
 import { AlertType } from '../../../shared/alerts/aletrs-type';
 import { RemoteData } from '../../../core/data/remote-data';
 import { Group } from '../../../core/eperson/models/group.model';
+import { SectionsService } from '../sections.service';
+import { SubmissionService } from '../../submission.service';
 
 export const POLICY_DEFAULT_NO_LIST = 1; // Banner1
 export const POLICY_DEFAULT_WITH_LIST = 2; // Banner2
@@ -29,7 +29,7 @@ export const POLICY_DEFAULT_WITH_LIST = 2; // Banner2
   templateUrl: './section-upload.component.html',
 })
 @renderSectionFor(SectionsType.Upload)
-export class UploadSectionComponent extends SectionModelComponent implements OnInit {
+export class UploadSectionComponent extends SectionModelComponent {
 
   public AlertTypeEnum = AlertType;
   public fileIndexes = [];
@@ -48,7 +48,7 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
    */
   public collectionPolicyType;
 
-  public configMetadataForm: SubmissionFormsModel;
+  public configMetadataForm$: Observable<SubmissionFormsModel>;
 
   /*
    * List of available access conditions that could be setted to files
@@ -66,16 +66,24 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
               private changeDetectorRef: ChangeDetectorRef,
               private collectionDataService: CollectionDataService,
               private groupService: GroupEpersonService,
-              private store: Store<SubmissionState>,
+              protected sectionService: SectionsService,
+              private submissionService: SubmissionService,
               private uploadsConfigService: SubmissionUploadsConfigService,
               @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
               @Inject('submissionIdProvider') public injectedSubmissionId: string) {
     super(undefined, injectedSectionData, injectedSubmissionId);
   }
 
-  ngOnInit() {
+  onSectionInit() {
+    const config$ = this.uploadsConfigService.getConfigByHref(this.sectionData.config)
+      .flatMap((config) => config.payload);
+
+    this.configMetadataForm$ = config$
+      .take(1)
+      .map((config: SubmissionUploadsModel) => config.metadata[0]);
+
     this.subs.push(
-      this.store.select(submissionObjectFromIdSelector(this.submissionId))
+      this.submissionService.getSubmissionObject(this.submissionId)
         .filter((submissionObject: SubmissionObjectEntry) => isNotUndefined(submissionObject) && !submissionObject.isLoading)
         .filter((submissionObject: SubmissionObjectEntry) => isUndefined(this.collectionId) || this.collectionId !== submissionObject.collection)
         .subscribe((submissionObject: SubmissionObjectEntry) => {
@@ -98,13 +106,11 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
                   }
 
                   // Edit Form Configuration, access policy list
-                  this.subs.push(this.uploadsConfigService.getConfigByHref(this.sectionData.config)
-                    .flatMap((config) => config.payload)
+                  this.subs.push(config$
                     .take(1)
                     .subscribe((config: SubmissionUploadsModel) => {
                       this.availableAccessConditionOptions = isNotEmpty(config.accessConditionOptions) ? config.accessConditionOptions : [];
 
-                      this.configMetadataForm = config.metadata[0];
                       this.collectionPolicyType = this.availableAccessConditionOptions.length > 0
                         ? POLICY_DEFAULT_WITH_LIST
                         : POLICY_DEFAULT_NO_LIST;
@@ -149,12 +155,13 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
             })
         })
       ,
-      this.bitstreamService
-        .getUploadedFileList(this.submissionId, this.sectionData.id)
-        .filter((bitstreamList) => isNotUndefined(bitstreamList))
+      Observable.combineLatest(this.configMetadataForm$,
+        this.bitstreamService.getUploadedFileList(this.submissionId, this.sectionData.id))
+        .filter(([configMetadataForm, fileList]:[SubmissionFormsModel, any[]]) => {
+          return isNotEmpty(configMetadataForm) && isNotUndefined(fileList)
+        })
         .distinctUntilChanged()
-        .subscribe((fileList: any[]) => {
-            let sectionStatus = false;
+        .subscribe(([configMetadataForm, fileList]:[SubmissionFormsModel, any[]]) => {
             this.fileList = [];
             this.fileIndexes = [];
             this.fileNames = [];
@@ -163,24 +170,36 @@ export class UploadSectionComponent extends SectionModelComponent implements OnI
               fileList.forEach((file) => {
                 this.fileList.push(file);
                 this.fileIndexes.push(file.uuid);
-                const fileName = file.metadata['dc.title'][0].display || file.uuid;
-                this.fileNames.push(fileName);
+                this.fileNames.push(this.getFileName(configMetadataForm, file));
               });
-              sectionStatus = true;
             }
-            this.store.dispatch(new SectionStatusChangeAction(this.submissionId,
-              this.sectionData.id,
-              sectionStatus));
             this.changeDetectorRef.detectChanges();
           }
         )
     );
   }
 
+  private getFileName(configMetadataForm: SubmissionFormsModel, fileData: any): string {
+    const metadataName: string = configMetadataForm.rows[0].fields[0].selectableMetadata[0].metadata;
+    let title: string;
+    if (isNotEmpty(fileData.metadata) && isNotEmpty(fileData.metadata[metadataName])) {
+      title = fileData.metadata[metadataName][0].display;
+    } else {
+      title = fileData.uuid;
+    }
+
+    return title;
+  }
+
+  protected getSectionStatus(): Observable<boolean> {
+    return this.bitstreamService.getUploadedFileList(this.submissionId, this.sectionData.id)
+      .map((fileList: any[]) => (isNotUndefined(fileList) && fileList.length > 0));
+  }
+
   /**
    * Method provided by Angular. Invoked when the instance is destroyed.
    */
-  ngOnDestroy() {
+  onSectionDestroy() {
     this.subs
       .filter((subscription) => hasValue(subscription))
       .forEach((subscription) => subscription.unsubscribe());

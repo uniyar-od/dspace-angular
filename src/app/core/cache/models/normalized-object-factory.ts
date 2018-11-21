@@ -57,6 +57,9 @@ export class NormalizedObjectFactory {
       case ResourceType.PoolTask: {
         return NormalizedPoolTask
       }
+      case ResourceType.Workflowitem: {
+        return NormalizedWorkflowItem
+      }
       default: {
         return undefined;
       }

@@ -20,10 +20,19 @@
           </ds-truncatable-part>
       </span>
 
-        <ds-truncatable-part [id]="item.id" [minLines]="1" class="item-list-abstract">
-          <span [ngClass]="{'text-muted': !getFirstValue('dc.description.abstract')}"
-                [innerHTML]="(getFirstValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
-        </ds-truncatable-part>
+      <ds-truncatable-part [id]="item.id" [minLines]="1" class="item-list-abstract">
+        <span [ngClass]="{'text-muted': !getFirstValue('dc.description.abstract')}"
+              [innerHTML]="(getFirstValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
+      </ds-truncatable-part>
+
+      <ng-container *ngIf="metadataList && metadataList.length > 0">
+        <ng-container *ngFor="let matadata of metadataList">
+          <ng-container *ngIf="getFirstValue(matadata.name)">
+            <span class="text-muted">{{matadata.label}} : </span>
+            <span>{{getFirstValue(matadata.name)}}</span>
+          </ng-container>
+        </ng-container>
+      </ng-container>
 
     </div>
   </ds-truncatable>
