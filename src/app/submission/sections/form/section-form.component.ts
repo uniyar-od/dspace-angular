@@ -1,25 +1,23 @@
 import { ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { DynamicFormControlEvent, DynamicFormControlModel } from '@ng-dynamic-forms/core';
 
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 import { isEqual } from 'lodash';
 
 import { FormBuilderService } from '../../../shared/form/builder/form-builder.service';
 import { FormComponent } from '../../../shared/form/form.component';
 import { FormService } from '../../../shared/form/form.service';
-import { SaveSubmissionFormAction, SectionStatusChangeAction, } from '../../objects/submission-objects.actions';
 import { SectionModelComponent } from '../models/section.model';
-import { SubmissionState } from '../../submission.reducers';
 import { SubmissionFormsConfigService } from '../../../core/config/submission-forms-config.service';
-import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
+import { hasValue, isNotEmpty, isUndefined } from '../../../shared/empty.util';
 import { ConfigData } from '../../../core/config/config-data';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
-import { submissionSectionDataFromIdSelector, submissionSectionFromIdSelector } from '../../selectors';
 import { SubmissionFormsModel } from '../../../core/shared/config/config-submission-forms.model';
 import { SubmissionSectionError, SubmissionSectionObject } from '../../objects/submission-objects.reducer';
 import { FormFieldPreviousValueObject } from '../../../shared/form/builder/models/form-field-previous-value-object';
 import { WorkspaceitemSectionDataType } from '../../../core/submission/models/workspaceitem-sections.model';
-import { Subscription } from 'rxjs/Subscription';
 import { GLOBAL_CONFIG } from '../../../../config';
 import { GlobalConfig } from '../../../../config/global-config.interface';
 import { SectionDataObject } from '../models/section-data.model';
@@ -28,7 +26,6 @@ import { SectionsType } from '../sections-type';
 import { SubmissionService } from '../../submission.service';
 import { FormOperationsService } from './form-operations.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import { TranslateService } from '@ngx-translate/core';
 import { SectionsService } from '../sections.service';
 import { difference } from '../../../shared/object.util';
 
@@ -38,7 +35,7 @@ import { difference } from '../../../shared/object.util';
   templateUrl: './section-form.component.html',
 })
 @renderSectionFor(SectionsType.SubmissionForm)
-export class FormSectionComponent extends SectionModelComponent implements OnDestroy {
+export class FormSectionComponent extends SectionModelComponent {
 
   public formId;
   public formModel: DynamicFormControlModel[];
@@ -59,7 +56,6 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
               protected formService: FormService,
               protected formConfigService: SubmissionFormsConfigService,
               protected notificationsService: NotificationsService,
-              protected store: Store<SubmissionState>,
               protected sectionService: SectionsService,
               protected submissionService: SubmissionService,
               protected translate: TranslateService,
@@ -70,14 +66,15 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
     super(injectedCollectionId, injectedSectionData, injectedSubmissionId);
   }
 
-  ngOnInit() {
+  onSectionInit() {
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionData.id);
+    this.formId = this.formService.getUniqueId(this.sectionData.id);
+
     this.formConfigService.getConfigByHref(this.sectionData.config)
       .flatMap((config: ConfigData) => config.payload)
       .subscribe((config: SubmissionFormsModel) => {
         this.formConfig = config;
-        this.formId = this.formService.getUniqueId(this.sectionData.id);
-        this.store.select(submissionSectionDataFromIdSelector(this.submissionId, this.sectionData.id))
+        this.sectionService.getSectionData(this.submissionId, this.sectionData.id)
           .take(1)
           .subscribe((sectionData: WorkspaceitemSectionDataType) => {
             if (isUndefined(this.formModel)) {
@@ -93,10 +90,14 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
       });
   }
 
-  ngOnDestroy() {
+  onSectionDestroy() {
     this.subs
       .filter((subscription) => hasValue(subscription))
       .forEach((subscription) => subscription.unsubscribe());
+  }
+
+  protected getSectionStatus(): Observable<boolean> {
+    return this.formService.isValid(this.formId);
   }
 
   hasMetadataEnrichment(sectionData): boolean {
@@ -172,16 +173,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
 
   subscriptions() {
     this.subs.push(
-      /**
-       * Subscribe to form status
-       */
-      this.formService.isValid(this.formId)
-        .filter((formValid) => isNotUndefined(formValid))
-        .filter((formValid) => formValid !== this.valid)
-        .subscribe((formState) => {
-          this.valid = formState;
-          this.store.dispatch(new SectionStatusChangeAction(this.submissionId, this.sectionData.id, this.valid));
-        }),
+
       /**
        * Subscribe to form's data
        */
@@ -193,7 +185,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
       /**
        * Subscribe to section state
        */
-      this.store.select(submissionSectionFromIdSelector(this.submissionId, this.sectionData.id))
+      this.sectionService.getSectionState(this.submissionId, this.sectionData.id)
         .filter((sectionState: SubmissionSectionObject) => {
           return isNotEmpty(sectionState) && (isNotEmpty(sectionState.data) || isNotEmpty(sectionState.errors))
         })
@@ -214,7 +206,7 @@ export class FormSectionComponent extends SectionModelComponent implements OnDes
     const value = this.formOperationsService.getFieldValueFromChangeEvent(event);
 
     if (this.EnvConfig.submission.autosave.metadata.indexOf(metadata) !== -1 && isNotEmpty(value)) {
-      this.store.dispatch(new SaveSubmissionFormAction(this.submissionId));
+      this.submissionService.dispatchSave(this.submissionId);
     }
   }
 

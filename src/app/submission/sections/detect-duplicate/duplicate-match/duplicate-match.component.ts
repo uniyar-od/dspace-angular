@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Item } from '../../../../core/shared/item.model';
 import { DetectDuplicateMatch } from '../../../../core/submission/models/workspaceitem-section-deduplication.model';
 import { SubmissionService } from '../../../submission.service';
@@ -15,6 +15,8 @@ import { DuplicateDecision } from '../models/duplicate-decision.model';
 import { DuplicateDecisionType } from '../models/duplicate-decision-type';
 import { isNotEmpty } from '../../../../shared/empty.util';
 import { SectionsService } from '../../sections.service';
+import { GLOBAL_CONFIG, GlobalConfig } from '../../../../../config';
+import { DuplicateMatchMetadataDetailConfig } from '../models/duplicate-detail-metadata.model';
 
 @Component({
   selector: 'ds-duplicate-match',
@@ -47,18 +49,20 @@ export class DuplicateMatchComponent implements OnInit {
   decisionLabelClass: string;
   duplicateBtnLabel$: Observable<string>;
   notDuplicateBtnLabel$: Observable<string>;
+  metadataList: DuplicateMatchMetadataDetailConfig[];
 
-  constructor(private detectDuplicateService: DetectDuplicateService,
+  constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
+              private detectDuplicateService: DetectDuplicateService,
               private formBuilder: FormBuilder,
               private modalService: NgbModal,
               private operationsBuilder: JsonPatchOperationsBuilder,
               private sectionService: SectionsService,
               private submissionService: SubmissionService,
               private translate: TranslateService) {
+    this.metadataList = this.EnvConfig.submission.detectDuplicate.metadataDetailsList || [];
   }
 
   ngOnInit(): void {
-
     this.isWorkFlow = this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkflowItem;
     this.decisionType = this.isWorkFlow ? DuplicateDecisionType.WORKFLOW : DuplicateDecisionType.WORKSPACE;
     this.item = Object.assign(new Item(), this.match.matchObject);

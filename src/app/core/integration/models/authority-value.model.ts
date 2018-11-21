@@ -19,6 +19,10 @@ export class AuthorityValueModel extends IntegrationModel {
   @autoserialize
   language: string;
 
+  hasAuthority(): boolean {
+    return isNotEmpty(this.id);
+  }
+
   hasValue(): boolean {
     return isNotEmpty(this.value);
   }

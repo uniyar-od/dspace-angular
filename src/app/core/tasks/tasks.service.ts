@@ -23,7 +23,7 @@ export abstract class TasksService<TNormalized extends NormalizedObject, TDomain
       .partition((response: RestResponse) => response.isSuccessful);
     return Observable.merge(
       errorResponse.flatMap((response: ErrorResponse) => {
-        return Observable.of(new ProcessTaskResponse(response.isSuccessful, new RemoteDataError(response.statusCode, response.errorMessage)))
+        return Observable.of(new ProcessTaskResponse(response.isSuccessful, new RemoteDataError(response.statusText, response.errorMessage)))
       }),
       successResponse
         .map((response: TaskResponse) => new ProcessTaskResponse(response.isSuccessful))

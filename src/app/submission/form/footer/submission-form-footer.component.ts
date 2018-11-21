@@ -1,15 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { SubmissionRestService } from '../../submission-rest.service';
 import { SubmissionService } from '../../submission.service';
-import { SubmissionState } from '../../submission.reducers';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  DiscardSubmissionAction,
-  SaveAndDepositSubmissionAction,
-  SaveForLaterSubmissionFormAction,
-  SaveSubmissionFormAction
-} from '../../objects/submission-objects.actions';
 import { Observable } from 'rxjs/Observable';
 import { SubmissionScopeType } from '../../../core/submission/submission-scope-type';
 import { ProcessTaskResponse } from '../../../core/tasks/models/process-task-response';
@@ -44,7 +36,6 @@ export class SubmissionFormFooterComponent implements OnChanges {
               private restService: SubmissionRestService,
               private router: Router,
               private submissionService: SubmissionService,
-              private store: Store<SubmissionState>,
               private translate: TranslateService) {
   }
 
@@ -62,20 +53,34 @@ export class SubmissionFormFooterComponent implements OnChanges {
     }
   }
 
-  save(event) {
-    this.store.dispatch(new SaveSubmissionFormAction(this.submissionId));
-  }
-
-  saveLater(event) {
-    this.store.dispatch(new SaveForLaterSubmissionFormAction(this.submissionId));
-  }
-
   approve() {
     this.processingApprove = Observable.of(true);
     this.claimedTaskService.approveTask(this.taskId)
       .subscribe((res: ProcessTaskResponse) => {
         this.responseHandle(res);
       });
+  }
+
+  save(event) {
+    this.submissionService.dispatchSave(this.submissionId);
+  }
+
+  saveLater(event) {
+    this.submissionService.dispatchSaveForLater(this.submissionId);
+  }
+
+  deposit(event) {
+    this.submissionService.dispatchDeposit(this.submissionId);
+  }
+
+  confirmDiscard(content) {
+    this.modalService.open(content).result.then(
+      (result) => {
+        if (result === 'ok') {
+          this.submissionService.dispatchDiscard(this.submissionId)
+        }
+      }
+    );
   }
 
   reload() {
@@ -87,26 +92,12 @@ export class SubmissionFormFooterComponent implements OnChanges {
     this.router.navigate([MYDSPACE_ROUTE], navigationExtras);
   }
 
-  deposit(event) {
-    this.store.dispatch(new SaveAndDepositSubmissionAction(this.submissionId));
-  }
-
   reject(reason) {
     this.processingReject = Observable.of(true);;
     this.claimedTaskService.rejectTask(reason, this.taskId)
       .subscribe((res: ProcessTaskResponse) => {
         this.responseHandle(res);
       });
-  }
-
-  confirmDiscard(content) {
-    this.modalService.open(content).result.then(
-      (result) => {
-        if (result === 'ok') {
-          this.store.dispatch(new DiscardSubmissionAction(this.submissionId));
-        }
-      }
-    );
   }
 
   private responseHandle(res: ProcessTaskResponse) {
