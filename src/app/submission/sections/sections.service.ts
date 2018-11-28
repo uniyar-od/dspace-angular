@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { isEqual } from 'lodash';
 
@@ -40,8 +39,7 @@ export class SectionsService {
   constructor(private notificationsService: NotificationsService,
               private scrollToService: ScrollToService,
               private submissionService: SubmissionService,
-              private store: Store<SubmissionState>,
-              private translate: TranslateService) {
+              private store: Store<SubmissionState>) {
   }
 
   public checkSectionErrors(
@@ -171,11 +169,7 @@ export class SectionsService {
         .filter(([available, enabled]: [boolean, boolean]) => available)
         .subscribe(([available, enabled]: [boolean, boolean]) => {
           if (!enabled) {
-            this.translate.get('submission.sections.general.metadata-extracted-new-section', {sectionId})
-              .take(1)
-              .subscribe((m) => {
-                this.notificationsService.info(null, m, null, true);
-              });
+            this.submissionService.notifyNewSection(submissionId, sectionId);
           }
           this.store.dispatch(new UpdateSectionDataAction(submissionId, sectionId, data, errors));
         });

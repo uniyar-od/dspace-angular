@@ -26,6 +26,29 @@ import { JsonPatchOperationsService } from '../../../core/json-patch/json-patch-
 import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-data-response-definition.model';
 import { SubmissionService } from '../../submission.service';
 import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
+import { Observable } from 'rxjs/Observable';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  first,
+  flatMap,
+  map,
+  mergeMap,
+  scan,
+  startWith,
+  tap
+} from 'rxjs/operators';
+
+interface CollectionListEntryItem {
+  id: string;
+  name: string;
+}
+
+interface CollectionListEntry {
+  communities: CollectionListEntryItem[],
+  collection: CollectionListEntryItem
+}
 
 @Component({
   selector: 'ds-submission-form-collection',
