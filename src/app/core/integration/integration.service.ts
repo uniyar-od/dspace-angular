@@ -14,7 +14,8 @@ export abstract class IntegrationService {
   protected abstract responseCache: ResponseCacheService;
   protected abstract requestService: RequestService;
   protected abstract linkPath: string;
-  protected abstract browseEndpoint: string;
+  protected abstract entriesEndpoint: string;
+  protected abstract entryValueEndpoint: string;
   protected abstract halService: HALEndpointService;
 
   protected getData(request: GetRequest): Observable<IntegrationData> {
@@ -30,12 +31,12 @@ export abstract class IntegrationService {
         .distinctUntilChanged());
   }
 
-  protected getIntegrationHref(endpoint, options: IntegrationSearchOptions = new IntegrationSearchOptions()): string {
+  protected getEntriesHref(endpoint, options: IntegrationSearchOptions = new IntegrationSearchOptions()): string {
     let result;
     const args = [];
 
     if (hasValue(options.name)) {
-      result = `${endpoint}/${options.name}/${this.browseEndpoint}`;
+      result = `${endpoint}/${options.name}/${this.entriesEndpoint}`;
     } else {
       result = endpoint;
     }
@@ -71,9 +72,30 @@ export abstract class IntegrationService {
     return result;
   }
 
+  protected getEntryValueHref(endpoint, options: IntegrationSearchOptions = new IntegrationSearchOptions()): string {
+    let result;
+    const args = [];
+
+    if (hasValue(options.name) && hasValue(options.query)) {
+      result = `${endpoint}/${options.name}/${this.entryValueEndpoint}/${options.query}`;
+    } else {
+      result = endpoint;
+    }
+
+    if (hasValue(options.metadata)) {
+      args.push(`metadata=${options.metadata}`);
+    }
+
+    if (isNotEmpty(args)) {
+      result = `${result}?${args.join('&')}`;
+    }
+
+    return result;
+  }
+
   public getEntriesByName(options: IntegrationSearchOptions): Observable<IntegrationData> {
     return this.halService.getEndpoint(this.linkPath)
-      .map((endpoint: string) => this.getIntegrationHref(endpoint, options))
+      .map((endpoint: string) => this.getEntriesHref(endpoint, options))
       .filter((href: string) => isNotEmpty(href))
       .distinctUntilChanged()
       .map((endpointURL: string) => new IntegrationRequest(this.requestService.generateRequestId(), endpointURL))
@@ -82,4 +104,14 @@ export abstract class IntegrationService {
       .distinctUntilChanged();
   }
 
+  public getEntryByValue(options: IntegrationSearchOptions): Observable<IntegrationData> {
+    return this.halService.getEndpoint(this.linkPath)
+      .map((endpoint: string) => this.getEntryValueHref(endpoint, options))
+      .filter((href: string) => isNotEmpty(href))
+      .distinctUntilChanged()
+      .map((endpointURL: string) => new IntegrationRequest(this.requestService.generateRequestId(), endpointURL))
+      .do((request: GetRequest) => this.requestService.configure(request))
+      .flatMap((request: GetRequest) => this.getData(request))
+      .distinctUntilChanged();
+  }
 }
