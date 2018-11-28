@@ -26,4 +26,8 @@ export class AuthorityValueModel extends IntegrationModel {
   hasValue(): boolean {
     return isNotEmpty(this.value);
   }
+
+  hasOtherInformation(): boolean {
+    return isNotEmpty(this.otherInformation);
+  }
 }
