@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { FormFieldMetadataValueObject } from '../../../models/form-field-metadata-value.model';
 import { AuthorityValueModel } from '../../../../../../core/integration/models/authority-value.model';
 import { DynamicLookupNameModel } from './dynamic-lookup-name.model';
+import { ConfidenceType } from '../../../../../../core/integration/models/confidence-type';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'ds-dynamic-lookup',
@@ -122,6 +124,10 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
       && this.model.value.hasAuthority();
   }
 
+  public hasEmptyValue() {
+    return isNotEmpty(this.getCurrentValue());
+  }
+
   public clearFields() {
     // Clear inputs whether there is no results and authority is closed
     if (this.model.authorityOptions.closed) {
@@ -229,6 +235,13 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
 
   public switchEditMode() {
     this.editMode = !this.editMode;
+  }
+
+  public whenClickOnConfidenceNotAccepted(sdRef: NgbDropdown, confidence: ConfidenceType) {
+    if (!this.model.readOnly) {
+      sdRef.open();
+      this.search();
+    }
   }
 
   ngOnDestroy() {

@@ -103,6 +103,7 @@ import { ItemActionsComponent } from './mydspace-actions/item/item-actions.compo
 import { ClaimedTaskActionsApproveComponent } from './mydspace-actions/claimed-task/approve/claimed-task-actions-approve.component';
 import { ClaimedTaskActionsRejectComponent } from './mydspace-actions/claimed-task/reject/claimed-task-actions-reject.component';
 import { ObjNgFor } from './utils/object-ngfor.pipe';
+import { AuthorityConfidenceStateDirective } from './authority-confidence/authority-confidence-state.directive';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -229,7 +230,8 @@ const PROVIDERS = [
 
 const DIRECTIVES = [
   VarDirective,
-  DragClickDirective
+  DragClickDirective,
+  AuthorityConfidenceStateDirective
 ];
 
 @NgModule({
