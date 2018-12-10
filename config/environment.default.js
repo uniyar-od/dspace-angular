@@ -116,32 +116,6 @@ module.exports = {
         ]
       }
     },
-/*    metadata: {
-      // NOTE: allow to set icons used to represent metadata belonging to a relation group
-      icons: [
-        // NOTE: example of configuration
-        {
-           // NOTE: metadata name
-           name: 'dc.author',
-           config: {
-             // NOTE: used when metadata value has an authority
-             withAuthority: {
-               // NOTE: fontawesome (v4.x) icon classes and bootstrap color utility classes can be used
-               style: 'fa-user'
-             },
-             // NOTE: used when metadata value has not an authority
-             withoutAuthority: {
-               style: 'fa-user text-muted'
-             }
-          }
-        },
-        // default configuration
-        {
-          name: 'default',
-          config: {}
-        }
-      ]
-    },*/
     detectDuplicate: {
       // NOTE: list of additional item metadata to show for duplicate match presentation list
       metadataDetailsList: [
