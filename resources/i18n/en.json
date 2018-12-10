@@ -321,6 +321,8 @@
     "group-expand-help": "Click here to expand and add more element",
     "other-information": {
       "orcid": "Orcid",
+      "dept": "Affiliation",
+      "staffNo": "Staff No.",
       "journalsissn": "ISSN"
     }
   },
