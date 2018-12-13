@@ -102,7 +102,7 @@ export class Chips {
 
   private getChipsIcons(item) {
     const icons = [];
-    if (item instanceof FormFieldMetadataValueObject || item instanceof AuthorityValueModel) {
+    if (typeof item === 'string' || item instanceof FormFieldMetadataValueObject || item instanceof AuthorityValueModel) {
       return icons;
     }
 
