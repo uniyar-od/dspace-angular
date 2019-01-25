@@ -8,7 +8,7 @@ import { NotificationsService } from '../notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { hasNoUndefinedValue, hasValue, isNotEmpty } from '../empty.util';
+import { hasValue, isNotEmpty } from '../empty.util';
 import { Item } from '../../core/shared/item.model';
 import { RemoteData } from '../../core/data/remote-data';
 import { MessageDataResponse } from '../../core/message/message-data-response';
@@ -70,7 +70,7 @@ export class MessageBoardComponent implements OnDestroy {
       .map((user: Eperson) => user);
 
     this.item = this.dso.item
-      .filter((rd: RemoteData<any>) => ((!rd.isRequestPending) && hasNoUndefinedValue(rd.payload)))
+      .filter((rd: RemoteData<any>) => (rd.hasSucceeded && isNotEmpty(rd.payload)))
       .take(1)
       .map((rd: RemoteData<Eperson[]>) => rd.payload[0]);
 
@@ -92,7 +92,7 @@ export class MessageBoardComponent implements OnDestroy {
       .flatMap((item: Item) =>
         item.getBitstreamsByBundleName('MESSAGE')
           .filter((bitStreams: Bitstream[]) => isNotEmpty(bitStreams))
-          .take(1)
+          .distinctUntilChanged()
           .map((bitStreams: Bitstream[]) => {
             this.unRead = [];
             bitStreams.forEach((m) => {
@@ -198,21 +198,16 @@ export class MessageBoardComponent implements OnDestroy {
     const type = m.findMetadata('dc.type');
     return this.isSubmitter
       .filter((isSubmitter) => isNotEmpty(isSubmitter))
-      .map((isSubmitter) => {
-        if (!accessioned &&
-          ((isSubmitter && type === 'outbound') || (!isSubmitter && type === 'inbound'))
-        ) {
-          return true;
-        }
-        return false;
-      });
+      .map((isSubmitter) => (!accessioned &&
+        ((isSubmitter && type === 'outbound') || (!isSubmitter && type === 'inbound')))
+      );
   }
 
   openMessageBoard(content) {
     this.rememberEmitUnread = false;
     this.rememberEmitRead = false;
     this.markAsRead();
-    this.modalRef = this.modalService.open(content, {size: 'lg'});
+    this.modalRef = this.modalService.open(content, { size: 'lg' });
     this.modalRef.result.then((result) => {
       this.emitRefresh();
     }, (reason) => {

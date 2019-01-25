@@ -13,7 +13,9 @@ import { hasValue, isEmpty, isNotUndefined } from '../shared/empty.util';
 import {
   CancelSubmissionFormAction,
   ChangeSubmissionCollectionAction,
-  DiscardSubmissionAction, InitSubmissionFormAction, ResetSubmissionFormAction,
+  DiscardSubmissionAction,
+  InitSubmissionFormAction,
+  ResetSubmissionFormAction,
   SaveAndDepositSubmissionAction,
   SaveForLaterSubmissionFormAction,
   SaveSubmissionFormAction,
@@ -21,7 +23,8 @@ import {
 } from './objects/submission-objects.actions';
 import {
   SubmissionObjectEntry,
-  SubmissionSectionEntry, SubmissionSectionError,
+  SubmissionSectionEntry,
+  SubmissionSectionError,
   SubmissionSectionObject
 } from './objects/submission-objects.reducer';
 import { submissionObjectFromIdSelector } from './selectors';
@@ -277,11 +280,18 @@ export class SubmissionService {
 
   redirectToMyDSpace() {
     const previousUrl = this.routeService.getPreviousUrl();
-    if (isEmpty(previousUrl)) {
-      this.router.navigate(['/mydspace']);
+    let redirectUrl;
+    if (isEmpty(previousUrl) || !previousUrl.startsWith('/mydspace')) {
+      redirectUrl = '/mydspace';
     } else {
-      this.router.navigateByUrl(previousUrl);
+      redirectUrl = previousUrl;
     }
+    // override the route reuse strategy
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
+    this.router.navigated = false;
+    this.router.navigateByUrl(redirectUrl);
   }
 
   resetAllSubmissionObjects() {
