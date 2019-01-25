@@ -88,10 +88,9 @@ export class Item extends DSpaceObject {
    */
   getBitstreamsByBundleName(bundleName: string): Observable<Bitstream[]> {
     return this.bitstreams
-      .filter((rd: RemoteData<Bitstream[]>) => !rd.isResponsePending)
+      .filter((rd: RemoteData<Bitstream[]>) => !rd.isRequestPending && !rd.isResponsePending)
       .map((rd: RemoteData<Bitstream[]>) => rd.payload)
-      .filter((bitstreams: Bitstream[]) => hasValue(bitstreams))
-      .take(1)
+      .filter((bitstreams: Bitstream[]) => isNotEmpty(bitstreams))
       .startWith([])
       .map((bitstreams) => {
         return bitstreams
