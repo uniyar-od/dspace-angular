@@ -57,7 +57,7 @@ export class MyDSpacePageComponent implements OnDestroy, OnInit {
       id: 'mydspace-results-pagination',
       pageSize: 10
     },
-    sort: new SortOptions('score', SortDirection.DESC),
+    sort: new SortOptions('dc.date.issued', SortDirection.DESC),
     configuration: '',
     query: '',
     scope: ''
