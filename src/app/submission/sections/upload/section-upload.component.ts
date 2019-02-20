@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -98,12 +98,11 @@ export class UploadSectionComponent extends SectionModelComponent {
               this.subs.push(collectionData.payload.defaultAccessConditions
                 .filter((accessConditions) => isNotUndefined((accessConditions.payload)))
                 .take(1)
+                .startWith(new RemoteData(false, false, true, null, []))
                 .subscribe((defaultAccessConditions) => {
 
-                  if (isNotEmpty(defaultAccessConditions.payload)) {
-                    this.collectionDefaultAccessConditions = Array.isArray(defaultAccessConditions.payload)
-                      ? defaultAccessConditions.payload : [defaultAccessConditions.payload];
-                  }
+                  this.collectionDefaultAccessConditions = Array.isArray(defaultAccessConditions.payload)
+                    ? defaultAccessConditions.payload : [defaultAccessConditions.payload];
 
                   // Edit Form Configuration, access policy list
                   this.subs.push(config$
