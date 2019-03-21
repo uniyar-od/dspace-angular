@@ -23,7 +23,7 @@ import { SubmissionFormsModel } from '../../../../../../core/shared/config/confi
 import { FormService } from '../../../../form.service';
 import { FormComponent } from '../../../../form.component';
 import { Chips } from '../../../../../chips/models/chips.model';
-import { hasValue, isEmpty, isNotEmpty } from '../../../../../empty.util';
+import { hasValue, isEmpty, isNotEmpty, isNotNull } from '../../../../../empty.util';
 import { shrinkInOut } from '../../../../../animations/shrink';
 import { ChipsItem } from '../../../../../chips/models/chips-item.model';
 import { GlobalConfig } from '../../../../../../../config/global-config.interface';
@@ -120,7 +120,9 @@ export class DsDynamicGroupComponent implements OnDestroy, OnInit {
           || this.selectedChipItem.item[model.name].value === PLACEHOLDER_PARENT_METADATA)
           ? null
           : this.selectedChipItem.item[model.name];
-        model.valueUpdates.next(this.formBuilderService.isInputModel(model) ? value.value : value);
+        if (isNotNull(value)) {
+          model.valueUpdates.next(this.formBuilderService.isInputModel(model) ? value.value : value);
+        }
       });
     });
 
