@@ -18,6 +18,7 @@ import { WorkspaceitemMyDSpaceResultDetailElementComponent } from '../shared/obj
 import { WorkflowitemMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/wfi-my-dspace-result/wfi-my-dspace-result-detail-element.component';
 import { ClaimedTaskMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/ct-my-dspace-result/ct-my-dspace-result-detail-element.component';
 import { PoolTaskMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pt-my-dspace-result/pt-my-dspace-result-detail-lement.component';
+import { MyDSpaceGuard } from './mydspace.guard';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { PoolTaskMyDSpaceResultDetailElementComponent } from '../shared/object-d
     MyDSpaceNewSubmissionComponent
   ],
   providers: [
+    MyDSpaceGuard
   ],
   entryComponents: [
     ItemMyDSpaceResultListElementComponent,

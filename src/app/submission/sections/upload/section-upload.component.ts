@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { SectionModelComponent } from '../models/section.model';
-import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
+import { hasNoUndefinedValue, hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shared/empty.util';
 import { SectionUploadService } from './section-upload.service';
 import { CollectionDataService } from '../../../core/data/collection-data.service';
 import { GroupEpersonService } from '../../../core/eperson/group-eperson.service';
@@ -23,6 +23,14 @@ import { SubmissionService } from '../../submission.service';
 export const POLICY_DEFAULT_NO_LIST = 1; // Banner1
 export const POLICY_DEFAULT_WITH_LIST = 2; // Banner2
 
+export interface AccessConditionGroupsMapEntry {
+  accessCondition: string;
+  groups: Group[]
+}
+
+/**
+ * This component represents a section that contains submission's bitstreams
+ */
 @Component({
   selector: 'ds-submission-section-upload',
   styleUrls: ['./section-upload.component.scss'],
@@ -115,35 +123,43 @@ export class UploadSectionComponent extends SectionModelComponent {
                         : POLICY_DEFAULT_NO_LIST;
 
                       this.availableGroups = new Map();
-                      const groupsObs = [];
+                      const mapGroups$: Array<Observable<AccessConditionGroupsMapEntry>> = [];
                       // Retrieve Groups for accessConditionPolicies
                       this.availableAccessConditionOptions.forEach((accessCondition) => {
                         if (accessCondition.hasEndDate === true || accessCondition.hasStartDate === true) {
-                          groupsObs.push(
-                            this.groupService.findById(accessCondition.groupUUID)
-                              .filter((rd: RemoteData<Group>) => !rd.isResponsePending && rd.hasSucceeded)
-                              .take(1)
-                          );
+                          if (accessCondition.groupUUID) {
+                            mapGroups$.push(
+                              this.groupService.findById(accessCondition.groupUUID)
+                                .filter((rd: RemoteData<Group>) => !rd.isResponsePending && rd.hasSucceeded)
+                                .take(1)
+                                .map((rd: RemoteData<Group>) => ({
+                                  accessCondition: accessCondition.name,
+                                  groups: [rd.payload]
+                                } as AccessConditionGroupsMapEntry))
+                            );
+                          } else if (accessCondition.selectGroupUUID) {
+                            mapGroups$.push(
+                              this.groupService.findById(accessCondition.selectGroupUUID)
+                                .filter((rd: RemoteData<Group>) => !rd.isResponsePending && rd.hasSucceeded)
+                                .take(1)
+                                .flatMap((group: RemoteData<Group>) => group.payload.groups)
+                                .filter((rd: RemoteData<Group[]>) => !rd.isResponsePending && rd.hasSucceeded && hasNoUndefinedValue(rd.payload))
+                                .take(1)
+                                .map((rd: RemoteData<Group[]>) => ({
+                                  accessCondition: accessCondition.name,
+                                  groups: rd.payload
+                                } as AccessConditionGroupsMapEntry))
+                              );
+                          }
                         }
                       });
                       let obsCounter = 1;
-                      Observable.forkJoin(groupsObs)
-                        .flatMap((group) => group)
-                        .take(groupsObs.length)
-                        .subscribe((rd: RemoteData<Group>) => {
-                          const group: Group = rd.payload;
-                          if (isUndefined(this.availableGroups.get(group.uuid))) {
-                            if (Array.isArray(group.groups)) {
-                              const groupArrayData = [];
-                              for (const groupData of group.groups) {
-                                groupArrayData.push({name: groupData.name, uuid: groupData.uuid});
-                              }
-                              this.availableGroups.set(group.uuid, groupArrayData);
-                            } else {
-                              this.availableGroups.set(group.uuid, {name: group.name, uuid: group.uuid});
-                            }
-                          }
-                          if (obsCounter++ === groupsObs.length) {
+                      Observable.forkJoin(mapGroups$)
+                        .flatMap((entry) => entry)
+                        .take(mapGroups$.length)
+                        .subscribe((entry: AccessConditionGroupsMapEntry) => {
+                          this.availableGroups.set(entry.accessCondition, entry.groups);
+                          if (obsCounter++ === mapGroups$.length) {
                             this.changeDetectorRef.detectChanges();
                           }
                         })
