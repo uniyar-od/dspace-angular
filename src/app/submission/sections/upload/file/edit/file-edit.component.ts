@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, ViewChild } from '@angular/core';
 
 import { WorkspaceitemSectionUploadFileObject } from '../../../../../core/submission/models/workspaceitem-section-upload-file.model';
 import {
@@ -33,6 +33,9 @@ import { SubmissionFormsModel } from '../../../../../core/shared/config/config-s
 import { FormFieldModel } from '../../../../../shared/form/builder/models/form-field.model';
 import { AccessConditionOption } from '../../../../../core/shared/config/config-access-condition-option.model';
 import { SubmissionService } from '../../../../submission.service';
+import { Group } from '../../../../../core/eperson/models/group.model';
+import { FormControl } from '@angular/forms';
+import { FormComponent } from '../../../../../shared/form/form.component';
 
 @Component({
   selector: 'ds-submission-upload-section-file-edit',
@@ -41,7 +44,7 @@ import { SubmissionService } from '../../../../submission.service';
 export class UploadSectionFileEditComponent implements OnChanges {
 
   @Input() availableAccessConditionOptions: any[];
-  @Input() availableAccessConditionGroups: Map<string, any>;
+  @Input() availableAccessConditionGroups: Map<string, Group[]>;
   @Input() collectionId;
   @Input() collectionPolicyType;
   @Input() configMetadataForm: SubmissionFormsModel;
@@ -54,6 +57,18 @@ export class UploadSectionFileEditComponent implements OnChanges {
 
   public formModel: DynamicFormControlModel[];
 
+  /**
+   * The FormComponent reference
+   */
+  @ViewChild('formRef') public formRef: FormComponent;
+
+  /**
+   * Initialize instance variables
+   *
+   * @param {ChangeDetectorRef} cdr
+   * @param {FormBuilderService} formBuilderService
+   * @param {SubmissionService} submissionService
+   */
   constructor(private cdr: ChangeDetectorRef,
               private formBuilderService: FormBuilderService,
               private submissionService: SubmissionService) {
@@ -67,12 +82,11 @@ export class UploadSectionFileEditComponent implements OnChanges {
   }
 
   protected buildFileEditForm() {
-    // TODO check in the rest server configuration whether dc.description may be repeatable
-    const configDescr: FormFieldModel = Object.assign({}, this.configMetadataForm.rows[ 0 ].fields[ 0 ]);
+    const configDescr: FormFieldModel = Object.assign({}, this.configMetadataForm.rows[0].fields[0]);
     configDescr.repeatable = false;
     const configForm = Object.assign({}, this.configMetadataForm, {
-      fields: Object.assign([], this.configMetadataForm.rows[ 0 ].fields[ 0 ], [
-        this.configMetadataForm.rows[ 0 ].fields[ 0 ],
+      fields: Object.assign([], this.configMetadataForm.rows[0].fields[0], [
+        this.configMetadataForm.rows[0].fields[0],
         configDescr
       ])
     });
@@ -100,7 +114,7 @@ export class UploadSectionFileEditComponent implements OnChanges {
       }
       accessConditionTypeModelConfig.options = accessConditionTypeOptions;
 
-      // Dynamic assign of relation in config. For startdate, endDate, groups.
+      // Dynamically assign of relation in config. For startdate, endDate, groups.
       const hasStart = [];
       const hasEnd = [];
       const hasGroups = [];
@@ -118,9 +132,9 @@ export class UploadSectionFileEditComponent implements OnChanges {
           hasGroups.push({ id: 'name', value: condition.name });
         }
       });
-      const confStart = { relation: [ { action: 'ENABLE', connective: 'OR', when: hasStart } ] };
-      const confEnd = { relation: [ { action: 'ENABLE', connective: 'OR', when: hasEnd } ] };
-      const confGroup = { relation: [ { action: 'ENABLE', connective: 'OR', when: hasGroups } ] };
+      const confStart = { relation: [{ action: 'ENABLE', connective: 'OR', when: hasStart }] };
+      const confEnd = { relation: [{ action: 'ENABLE', connective: 'OR', when: hasEnd }] };
+      const confGroup = { relation: [{ action: 'ENABLE', connective: 'OR', when: hasGroups }] };
 
       accessConditionsArrayConfig.groupFactory = () => {
         const type = new DynamicSelectModel(accessConditionTypeModelConfig, BITSTREAM_FORM_ACCESS_CONDITION_TYPE_LAYOUT);
@@ -132,7 +146,7 @@ export class UploadSectionFileEditComponent implements OnChanges {
         const endDate = new DynamicDatePickerModel(endDateConfig, BITSTREAM_FORM_ACCESS_CONDITION_END_DATE_LAYOUT);
         const groups = new DynamicSelectModel(groupsConfig, BITSTREAM_FORM_ACCESS_CONDITION_GROUPS_LAYOUT);
 
-        return [ type, startDate, endDate, groups ];
+        return [type, startDate, endDate, groups];
       };
 
       // Number of access conditions blocks in form
@@ -153,8 +167,8 @@ export class UploadSectionFileEditComponent implements OnChanges {
         .forEach((key) => {
           const metadataModel: any = this.formBuilderService.findById(key, formModel, index);
           if (metadataModel) {
-            if (key === 'groupUUID') {
-              this.availableAccessConditionGroups.forEach((group) => {
+            if (key === 'groupUUID' && this.availableAccessConditionGroups.get(accessCondition.name)) {
+              this.availableAccessConditionGroups.get(accessCondition.name).forEach((group) => {
                 metadataModel.options.push({
                   label: group.name,
                   value: group.uuid
@@ -189,14 +203,20 @@ export class UploadSectionFileEditComponent implements OnChanges {
     if (isNotEmpty(accessCondition)) {
       const showGroups: boolean = accessCondition.hasStartDate === true || accessCondition.hasEndDate === true;
 
-      const groupControl = control.parent.get('groupUUID');
-      const startDateControl = control.parent.get('startDate');
-      const endDateControl = control.parent.get('endDate');
+      const groupControl: FormControl = control.parent.get('groupUUID') as FormControl;
+      const startDateControl: FormControl = control.parent.get('startDate') as FormControl;
+      const endDateControl: FormControl = control.parent.get('endDate') as FormControl;
+
+      // Clear previous state
+      groupControl.markAsUntouched();
+      startDateControl.markAsUntouched();
+      endDateControl.markAsUntouched();
 
       // Clear previous values
       if (showGroups) {
         groupControl.setValue(null);
       } else {
+        groupControl.clearValidators();
         groupControl.setValue(accessCondition.groupUUID);
       }
       startDateControl.setValue(null);
@@ -204,15 +224,15 @@ export class UploadSectionFileEditComponent implements OnChanges {
       endDateControl.setValue(null);
 
       if (showGroups) {
-        if (isNotUndefined(accessCondition.groupUUID)) {
+        if (isNotUndefined(accessCondition.groupUUID) || isNotUndefined(accessCondition.selectGroupUUID)) {
 
           const groupOptions = [];
-          if (isNotUndefined(this.availableAccessConditionGroups.get(accessCondition.groupUUID))) {
+          if (isNotUndefined(this.availableAccessConditionGroups.get(accessCondition.name))) {
             const groupModel = this.formBuilderService.findById(
               'groupUUID',
               (model.parent as DynamicFormArrayGroupModel).group) as DynamicSelectModel<any>;
 
-            this.availableAccessConditionGroups.forEach((group) => {
+            this.availableAccessConditionGroups.get(accessCondition.name).forEach((group) => {
               groupOptions.push({
                 label: group.name,
                 value: group.uuid

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SectionUploadService } from '../section-upload.service';
 import { isNotEmpty, isNotNull, isNotUndefined } from '../../../../shared/empty.util';
@@ -17,6 +17,8 @@ import { SubmitDataResponseDefinitionObject } from '../../../../core/shared/subm
 import { SubmissionService } from '../../../submission.service';
 import { FileService } from '../../../../core/shared/file.service';
 import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service';
+import { Group } from '../../../../core/eperson/models/group.model';
+import { UploadSectionFileEditComponent } from './edit/file-edit.component';
 
 @Component({
   selector: 'ds-submission-upload-section-file',
@@ -26,7 +28,7 @@ import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service
 export class UploadSectionFileComponent implements OnChanges, OnInit {
 
   @Input() availableAccessConditionOptions: any[];
-  @Input() availableAccessConditionGroups: Map<string, any>;
+  @Input() availableAccessConditionGroups: Map<string, Group[]>;
   @Input() collectionId;
   @Input() collectionPolicyType;
   @Input() configMetadataForm: SubmissionFormsModel;
@@ -45,6 +47,25 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
   protected pathCombiner: JsonPatchOperationPathCombiner;
   protected subscriptions = [];
 
+  /**
+   * The [[UploadSectionFileEditComponent]] reference
+   * @type {UploadSectionFileEditComponent}
+   */
+  @ViewChild(UploadSectionFileEditComponent) fileEditComp: UploadSectionFileEditComponent;
+
+  /**
+   * Initialize instance variables
+   *
+   * @param {ChangeDetectorRef} cdr
+   * @param {FileService} fileService
+   * @param {FormService} formService
+   * @param {HALEndpointService} halService
+   * @param {NgbModal} modalService
+   * @param {JsonPatchOperationsBuilder} operationsBuilder
+   * @param {JsonPatchOperationsService} operationsService
+   * @param {SubmissionService} submissionService
+   * @param {SectionUploadService} uploadService
+   */
   constructor(private cdr: ChangeDetectorRef,
               private fileService: FileService,
               private formService: FormService,
@@ -109,8 +130,14 @@ export class UploadSectionFileComponent implements OnChanges, OnInit {
 
   public saveBitstreamData(event) {
     event.preventDefault();
+
+    // validate form
+    this.formService.validateAllFormFields(this.fileEditComp.formRef.formGroup);
     this.subscriptions.push(
-      this.formService.getFormData(this.formId)
+      this.formService.isValid(this.formId)
+        .take(1)
+        .filter((isValid) => isValid)
+        .flatMap(() => this.formService.getFormData(this.formId))
         .take(1)
         .subscribe((formData: any) => {
           Object.keys((formData.metadata))
