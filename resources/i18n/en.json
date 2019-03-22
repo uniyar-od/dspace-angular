@@ -190,7 +190,18 @@
         },
         "namedresourcetype": {
           "placeholder": "Status",
-          "head": "Status"
+          "head": "Status",
+          "labels": {
+            "workspace":{
+              "workspace": "To Do",
+              "workflow": "Under review"
+            },
+            "workflow":{
+              "waitingforcontroller": "Claim",
+              "workspace": "Rejected",
+              "validation": "Validate"
+            }
+          }
         },
         "dateSubmitted": {
           "placeholder": "Date submitted",

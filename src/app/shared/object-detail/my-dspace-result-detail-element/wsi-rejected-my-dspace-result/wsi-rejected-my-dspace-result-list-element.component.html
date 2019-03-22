@@ -1,0 +1,11 @@
+<ds-item-list-preview
+  *ngIf="status && item"
+  [item]="item"
+  [object]="object"
+  [status]="status"></ds-item-list-preview>
+
+<ds-message-board *ngIf="dso && dso.item && dso.submitter"
+                  [dso]="dso"
+                  [tooltipMessage]="'mydspace.messages.controller-help'"
+                  (refresh)="refresh()">
+</ds-message-board>

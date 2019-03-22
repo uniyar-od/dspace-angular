@@ -4,7 +4,7 @@
            [routerLink]="[getSearchLink()]"
            [queryParams]="getRemoveParams(value.value)" queryParamsHandling="merge">
             <input type="checkbox" [checked]="true"/>
-            <span class="filter-value">{{value.label}}</span>
+            <span class="filter-value">{{getFacetLabel(value) | async}}</span>
         </a>
         <ng-container *ngFor="let page of (filterValues$ | async)">
             <ng-container *ngFor="let value of (page | async)?.payload.page; let i=index">
@@ -12,7 +12,7 @@
                    [routerLink]="[getSearchLink()]"
                    [queryParams]="getAddParams(value.value)" queryParamsHandling="merge" >
                     <input type="checkbox" [checked]="false"/>
-                        <span class="filter-value">{{value.label}}</span>
+                        <span class="filter-value">{{getFacetLabel(value) | async}}</span>
                         <span class="float-right filter-value-count">
                         <span class="badge badge-secondary badge-pill">{{value.count}}</span>
                     </span>

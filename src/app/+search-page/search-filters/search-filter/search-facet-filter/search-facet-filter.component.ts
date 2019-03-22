@@ -11,6 +11,7 @@ import { SearchService } from '../../../search-service/search.service';
 import { SearchOptions } from '../../../search-options.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * This component renders a simple item page.
@@ -36,7 +37,11 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
   pageChange = false;
   sub: Subscription;
 
-  constructor(private searchService: SearchService, private filterService: SearchFilterService, private router: Router) {
+  constructor(
+    private searchService: SearchService,
+    private filterService: SearchFilterService,
+    private router: Router,
+    private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -140,6 +145,18 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
   unsubscribe(): void {
     if (hasValue(this.sub)) {
       this.sub.unsubscribe();
+    }
+  }
+
+  getFacetLabel(facet: FacetValue): Observable<string> {
+    if (this.filterConfig.name === 'namedresourcetype') {
+      return this.filterService.getCurrentConfiguration()
+        .flatMap((configuration) => {
+          const labelKey = `search.filters.filter.namedresourcetype.labels.${configuration}.${facet.filterValue}`;
+          return this.translate.get(labelKey)
+        })
+    } else {
+      return Observable.of(facet.label);
     }
   }
 }
