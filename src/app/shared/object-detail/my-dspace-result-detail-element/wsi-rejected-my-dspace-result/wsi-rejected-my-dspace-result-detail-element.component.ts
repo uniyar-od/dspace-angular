@@ -12,8 +12,8 @@ import { WorkspaceitemRejectedMyDSpaceResult } from '../../../object-collection/
 
 @Component({
   selector: 'ds-workspaceitem-my-dspace-result-list-element',
-  styleUrls: ['../my-dspace-result-list-element.component.scss', './wsi-rejected-my-dspace-result-list-element.component.scss'],
-  templateUrl: './wsi-rejected-my-dspace-result-list-element.component.html',
+  styleUrls: ['../my-dspace-result-detail-element.component.scss', './wsi-rejected-my-dspace-result-detail-element.component.scss'],
+  templateUrl: './wsi-rejected-my-dspace-result-detail-element.component.html',
 })
 
 @renderElementsFor(WorkspaceitemRejectedMyDSpaceResult, ViewMode.Detail)

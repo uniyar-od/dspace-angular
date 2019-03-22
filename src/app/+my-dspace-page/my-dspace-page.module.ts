@@ -20,7 +20,7 @@ import { WorkflowitemMyDSpaceResultDetailElementComponent } from '../shared/obje
 import { ClaimedTaskMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/ct-my-dspace-result/ct-my-dspace-result-detail-element.component';
 import { PoolTaskMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pt-my-dspace-result/pt-my-dspace-result-detail-lement.component';
 import { MyDSpaceGuard } from './mydspace.guard';
-import { WorkspaceitemRejectedMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/wsi-rejected-my-dspace-result/wsi-rejected-my-dspace-result-list-element.component';
+import { WorkspaceitemRejectedMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/wsi-rejected-my-dspace-result/wsi-rejected-my-dspace-result-detail-element.component';
 
 @NgModule({
   imports: [
