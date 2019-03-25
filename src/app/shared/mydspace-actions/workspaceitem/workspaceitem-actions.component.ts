@@ -20,6 +20,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Workspaceitem, NormalizedWorkspaceItem, WorkspaceitemDataService> {
   @Input() object: Workspaceitem;
+  @Input() showOnlyMessageBoard = false;
+  @Input() tooltipMessage = 'mydspace.messages.submitter-help';
 
   public processingDelete = Observable.of(false);
 

@@ -4,8 +4,6 @@
   [object]="object"
   [status]="status"></ds-item-list-preview>
 
-<ds-message-board *ngIf="dso && dso.item && dso.submitter"
-                  [dso]="dso"
-                  [tooltipMessage]="'mydspace.messages.controller-help'"
-                  (refresh)="refresh()">
-</ds-message-board>
+<ds-workspaceitem-actions [object]="dso"
+                          [showOnlyMessageBoard]="true"
+                          [tooltipMessage]="'mydspace.messages.submitter-help'"></ds-workspaceitem-actions>
