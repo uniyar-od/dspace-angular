@@ -193,6 +193,7 @@
           "head": "Status",
           "labels": {
             "workspace":{
+              "item": "Under review",
               "workspace": "To Do",
               "workflow": "Under review"
             },
