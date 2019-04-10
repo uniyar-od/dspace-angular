@@ -32,4 +32,20 @@ export class CollectionDataService extends ComColDataService<NormalizedCollectio
   ) {
     super();
   }
+
+  /**
+   * Get all collections whom user has authorization to submit to by community
+   *
+   * @return boolean
+   *    true if the user has at least one collection to submit to
+   */
+  getAuthorizedCollectionByCommunity(communityId): Observable<RemoteData<PaginatedList<Collection>>> {
+    const searchHref = 'findAuthorizedByCommunity';
+    const options = new FindAllOptions();
+    options.elementsPerPage = 1000;
+    options.searchParams = [new SearchParam('uuid', communityId)];
+
+    return this.searchBy(searchHref, options)
+      .filter((collections: RemoteData<PaginatedList<Collection>>) => !collections.isResponsePending);
+  }
 }

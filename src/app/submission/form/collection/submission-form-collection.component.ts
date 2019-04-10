@@ -71,6 +71,7 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
 
   constructor(protected cdr: ChangeDetectorRef,
               private communityDataService: CommunityDataService,
+              private collectionDataService: CollectionDataService,
               private operationsBuilder: JsonPatchOperationsBuilder,
               private operationsService: JsonPatchOperationsService<SubmitDataResponseDefinitionObject>,
               private submissionService: SubmissionService) {
@@ -103,10 +104,11 @@ export class SubmissionFormCollectionComponent implements OnChanges, OnInit {
         .switchMap((communities: RemoteData<PaginatedList<Community>>) => communities.payload.page)
         .subscribe((communityData: Community) => {
 
-          this.subs.push(communityData.collections
-            .filter((collections: RemoteData<Collection[]>) => !collections.isResponsePending && collections.hasSucceeded)
+          this.subs.push(this.collectionDataService.getAuthorizedCollectionByCommunity(communityData.uuid)
+            .filter((collections: RemoteData<PaginatedList<Collection>>) => !collections.isResponsePending && collections.hasSucceeded)
             .first()
-            .switchMap((collections: RemoteData<Collection[]>) => collections.payload)
+            .filter((collections: RemoteData<PaginatedList<Collection>>) => collections.payload.totalElements > 0)
+            .switchMap((collections: RemoteData<PaginatedList<Collection>>) => collections.payload.page)
             .filter((collectionData: Collection) => isNotEmpty(collectionData))
             .subscribe((collectionData: Collection) => {
               if (collectionData.id === this.selectedCollectionId) {
