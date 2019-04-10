@@ -26,19 +26,7 @@ import { JsonPatchOperationsService } from '../../../core/json-patch/json-patch-
 import { SubmitDataResponseDefinitionObject } from '../../../core/shared/submit-data-response-definition.model';
 import { SubmissionService } from '../../submission.service';
 import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
-import { Observable } from 'rxjs/Observable';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  first,
-  flatMap,
-  map,
-  mergeMap,
-  scan,
-  startWith,
-  tap
-} from 'rxjs/operators';
+import { CollectionDataService } from '../../../core/data/collection-data.service';
 
 interface CollectionListEntryItem {
   id: string;

@@ -1,6 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { NormalizedCollection } from '../cache/models/normalized-collection.model';
 import { ObjectCacheService } from '../cache/object-cache.service';
@@ -11,6 +10,11 @@ import { ComColDataService } from './comcol-data.service';
 import { CommunityDataService } from './community-data.service';
 import { RequestService } from './request.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
+import { Observable } from 'rxjs/Observable';
+import { FindAllOptions } from './request.models';
+import { RemoteData } from './remote-data';
+import { PaginatedList } from './paginated-list';
+import { SearchParam } from '../cache/models/search-param.model';
 
 @Injectable()
 export class CollectionDataService extends ComColDataService<NormalizedCollection, Collection> {
