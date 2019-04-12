@@ -155,6 +155,12 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
     this.blur.emit(event);
   }
 
+  public onChange(event) {
+    if (this.model.authorityOptions.closed) {
+      event.stopPropagation();
+    }
+  }
+
   public onFocusEvent(event) {
     this.focus.emit(event);
   }
@@ -164,7 +170,7 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
       if (isNotEmpty(this.getCurrentValue())) {
         const currentValue = new FormFieldMetadataValueObject(this.getCurrentValue());
         if (!this.editMode) {
-          this.onSelect(currentValue);
+          this.updateModel(currentValue);
         }
       } else {
         this.remove();
@@ -180,12 +186,8 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
   }
 
   public onSelect(event) {
-    this.group.markAsDirty();
-    this.model.valueUpdates.next(event);
-    this.setInputsValue(event);
+    this.updateModel(event);
     this.change.emit(event);
-    this.optionsList = null;
-    this.pageInfo = null;
   }
 
   public openChange(isOpened: boolean) {
@@ -242,6 +244,14 @@ export class DsDynamicLookupComponent implements OnDestroy, OnInit {
       sdRef.open();
       this.search();
     }
+  }
+
+  protected updateModel(value) {
+    this.group.markAsDirty();
+    this.model.valueUpdates.next(value);
+    this.setInputsValue(value);
+    this.optionsList = null;
+    this.pageInfo = null;
   }
 
   ngOnDestroy() {
