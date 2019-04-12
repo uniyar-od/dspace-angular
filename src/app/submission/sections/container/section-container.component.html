@@ -1,6 +1,6 @@
 <div dsSection #sectionRef="sectionRef"
      [attr.id]="sectionData.id"
-     [ngClass]="{ 'section-focus' : sectionRef.isSectionActive() }"
+     [ngClass]="{ 'section-focus' : sectionRef.isSectionActive() && !(isRemoving | async) }"
      [mandatory]="sectionData.mandatory"
      [submissionId]="submissionId"
      [sectionId]="sectionData.id">
@@ -25,10 +25,12 @@
             <span *ngIf="!sectionRef.isOpen()" class="fa fa-chevron-down fa-fw"
                   aria-hidden="true"></span>
           </a>
-          <a href="#" class="close mr-3" *ngIf="!sectionRef.isMandatory()"
+          <button class="close mr-3 btn btn-link" *ngIf="!sectionRef.isMandatory()"
+             [disabled]="(isRemoving | async)"
              (click)="removeSection($event)">
-            <i class="fa fa-trash-o" aria-hidden="true"></i>
-          </a>
+            <i *ngIf="!(isRemoving | async)" class="fa fa-trash-o" aria-hidden="true"></i>
+            <i *ngIf="(isRemoving | async)" class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+          </button>
         </div>
       </ng-template>
       <ng-template ngbPanelContent>

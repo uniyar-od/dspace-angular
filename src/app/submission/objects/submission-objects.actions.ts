@@ -3,13 +3,10 @@ import { Action } from '@ngrx/store';
 import { type } from '../../shared/ngrx/type';
 import { SectionVisibility, SubmissionSectionError } from './submission-objects.reducer';
 import { WorkspaceitemSectionUploadFileObject } from '../../core/submission/models/workspaceitem-section-upload-file.model';
-import { WorkspaceitemSectionFormObject } from '../../core/submission/models/workspaceitem-section-form.model';
-import { WorkspaceitemSectionLicenseObject } from '../../core/submission/models/workspaceitem-section-license.model';
 import {
   WorkspaceitemSectionDataType,
   WorkspaceitemSectionsObject
 } from '../../core/submission/models/workspaceitem-sections.model';
-import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { SubmissionDefinitionsModel } from '../../core/shared/config/config-submission-definitions.model';
 import { SectionsType } from '../sections/sections-type';
@@ -42,6 +39,8 @@ export const SubmissionObjectActionTypes = {
   INIT_SECTION: type('dspace/submission/INIT_SECTION'),
   ENABLE_SECTION: type('dspace/submission/ENABLE_SECTION'),
   DISABLE_SECTION: type('dspace/submission/DISABLE_SECTION'),
+  DISABLE_SECTION_SUCCESS: type('dspace/submission/DISABLE_SECTION_SUCCESS'),
+  DISABLE_SECTION_ERROR: type('dspace/submission/DISABLE_SECTION_ERROR'),
   SECTION_STATUS_CHANGE: type('dspace/submission/SECTION_STATUS_CHANGE'),
   SECTION_LOADING_STATUS_CHANGE: type('dspace/submission/SECTION_LOADING_STATUS_CHANGE'),
   UPLOAD_SECTION_DATA: type('dspace/submission/UPLOAD_SECTION_DATA'),
@@ -132,7 +131,9 @@ export class InitSectionAction implements Action {
    * @param sectionId
    *    the section's ID to add
    * @param header
-   *    the section's header
+   *    the config's header
+   * @param config
+   *    the section's config url
    * @param mandatory
    *    the section's mandatory
    * @param sectionType
@@ -201,6 +202,45 @@ export class DisableSectionAction implements Action {
   }
 }
 
+export class DisableSectionSuccessAction implements Action {
+  type = SubmissionObjectActionTypes.DISABLE_SECTION_SUCCESS;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+  };
+
+  /**
+   * Create a new DisableSectionSuccessAction
+   *
+   * @param submissionId
+   *    the submission's ID to remove
+   * @param sectionId
+   *    the section's ID to remove
+   */
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
+  }
+}
+
+export class DisableSectionErrorAction implements Action {
+  type = SubmissionObjectActionTypes.DISABLE_SECTION_ERROR;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+  };
+
+  /**
+   * Create a new DisableSectionErrorAction
+   *
+   * @param submissionId
+   *    the submission's ID to remove
+   * @param sectionId
+   *    the section's ID to remove
+   */
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
+  }
+}
 export class UpdateSectionDataAction implements Action {
   type = SubmissionObjectActionTypes.UPLOAD_SECTION_DATA;
   payload: {
@@ -335,7 +375,7 @@ export class SaveForLaterSubmissionFormSuccessAction implements Action {
    *
    * @param submissionId
    *    the submission's ID
-   * @param submissionObjects
+   * @param submissionObject
    *    the submission's Object
    */
   constructor(submissionId: string, submissionObject: SubmissionObject[]) {
@@ -389,7 +429,7 @@ export class SaveSubmissionFormSuccessAction implements Action {
    *
    * @param submissionId
    *    the submission's ID
-   * @param submissionObjects
+   * @param submissionObject
    *    the submission's Object
    */
   constructor(submissionId: string, submissionObject: SubmissionObject[]) {
@@ -446,7 +486,7 @@ export class SaveSubmissionSectionFormSuccessAction implements Action {
    *
    * @param submissionId
    *    the submission's ID
-   * @param submissionObjects
+   * @param submissionObject
    *    the submission's Object
    */
   constructor(submissionId: string, submissionObject: SubmissionObject[]) {
@@ -514,6 +554,8 @@ export class ChangeSubmissionCollectionAction implements Action {
   /**
    * Create a new ChangeSubmissionCollectionAction
    *
+   * @param submissionId
+   *    the submission's ID
    * @param collectionId
    *    the new collection's ID
    */
@@ -795,7 +837,7 @@ export class SetDuplicateDecisionSuccessAction implements Action {
    *    the submission's ID
    * @param sectionId
    *    the section's ID
-   * @param submissionObjects
+   * @param submissionObject
    *    the submission's Object
    */
   constructor(submissionId: string, sectionId: string,  submissionObject: SubmissionObject[]) {

@@ -155,7 +155,7 @@ export class SectionsService {
     this.scrollToService.scrollTo(config);
   }
 
-  public removeSection(submissionId: string, sectionId: string) {
+  public dispatchRemoveSection(submissionId: string, sectionId: string) {
     this.store.dispatch(new DisableSectionAction(submissionId, sectionId))
   }
 

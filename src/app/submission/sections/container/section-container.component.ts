@@ -5,6 +5,9 @@ import { SectionDataObject } from '../models/section-data.model';
 import { rendersSectionType } from '../sections-decorator';
 import { SectionsType } from '../sections-type';
 import { AlertType } from '../../../shared/alerts/aletrs-type';
+import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
+import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'ds-submission-form-section-container',
@@ -18,12 +21,15 @@ export class SectionContainerComponent implements OnInit {
 
   public AlertTypeEnum = AlertType;
   public active = true;
+  public isRemoving: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public objectInjector: Injector;
   public sectionComponentType: SectionsType;
 
+  protected pathCombiner: JsonPatchOperationPathCombiner;
+
   @ViewChild('sectionRef') sectionRef: SectionsDirective;
 
-  constructor(private injector: Injector) {
+  constructor(private injector: Injector, private operationsBuilder: JsonPatchOperationsBuilder) {
   }
 
   ngOnInit() {
@@ -35,11 +41,15 @@ export class SectionContainerComponent implements OnInit {
       ],
       parent: this.injector
     });
+    this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionData.id);
   }
 
   public removeSection(event) {
     event.preventDefault();
     event.stopPropagation();
+
+    this.isRemoving.next(true);
+    this.operationsBuilder.remove(this.pathCombiner.getPath());
     this.sectionRef.removeSection(this.submissionId, this.sectionData.id);
   }
 

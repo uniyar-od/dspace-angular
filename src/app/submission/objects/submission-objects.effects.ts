@@ -7,7 +7,7 @@ import {
   CompleteInitSubmissionFormAction,
   DepositSubmissionAction,
   DepositSubmissionErrorAction,
-  DepositSubmissionSuccessAction,
+  DepositSubmissionSuccessAction, DisableSectionAction, DisableSectionErrorAction, DisableSectionSuccessAction,
   DiscardSubmissionErrorAction,
   DiscardSubmissionSuccessAction,
   InitSectionAction,
@@ -139,6 +139,18 @@ export class SubmissionObjectEffects {
         action.payload.sectionId)
         .map((response: SubmissionObject[]) => new SaveSubmissionSectionFormSuccessAction(action.payload.submissionId, response))
         .catch(() => Observable.of(new SaveSubmissionSectionFormErrorAction(action.payload.submissionId)));
+    });
+
+  @Effect() removeSection$ = this.actions$
+    .ofType(SubmissionObjectActionTypes.DISABLE_SECTION)
+    .switchMap((action: DisableSectionAction) => {
+      return this.operationsService.jsonPatchByResourceID(
+        this.submissionService.getSubmissionObjectLinkName(),
+        action.payload.submissionId,
+        'sections',
+        action.payload.sectionId)
+        .map((response: SubmissionObject[]) => new DisableSectionSuccessAction(action.payload.submissionId, action.payload.sectionId))
+        .catch(() => Observable.of(new DisableSectionErrorAction(action.payload.submissionId, action.payload.sectionId)));
     });
 
   @Effect() saveDuplicateDecision$ = this.actions$

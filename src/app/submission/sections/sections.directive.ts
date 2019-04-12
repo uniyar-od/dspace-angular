@@ -113,7 +113,7 @@ export class SectionsDirective implements OnDestroy, OnInit {
   }
 
   public removeSection(submissionId, sectionId) {
-    this.sectionService.removeSection(submissionId, sectionId)
+    this.sectionService.dispatchRemoveSection(submissionId, sectionId)
   }
 
   public hasGenericErrors() {
