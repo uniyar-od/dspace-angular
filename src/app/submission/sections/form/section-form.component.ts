@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
 import { DynamicFormControlEvent, DynamicFormControlModel } from '@ng-dynamic-forms/core';
 
 import { Observable } from 'rxjs/Observable';
@@ -140,20 +140,24 @@ export class FormSectionComponent extends SectionModelComponent {
 
   updateForm(sectionData: WorkspaceitemSectionDataType, errors: SubmissionSectionError[]) {
 
-    if (isNotEmpty(sectionData) && !isEqual(sectionData, this.sectionData.data) && this.hasMetadataEnrichment(sectionData)) {
-      this.translate.get('submission.sections.general.metadata-extracted', {sectionId: this.sectionData.id})
-        .take(1)
-        .subscribe((m) => {
-          this.notificationsService.info(null, m, null, true);
-        });
-      this.isUpdating = true;
-      this.formModel = null;
-      this.cdr.detectChanges();
-      this.initForm(sectionData);
-      this.checksForErrors(errors);
+    if (isNotEmpty(sectionData) && !isEqual(sectionData, this.sectionData.data)) {
       this.sectionData.data = sectionData;
-      this.isUpdating = false;
-      this.cdr.detectChanges();
+      if (this.hasMetadataEnrichment(sectionData)) {
+        this.translate.get('submission.sections.general.metadata-extracted', {sectionId: this.sectionData.id})
+          .take(1)
+          .subscribe((m) => {
+            this.notificationsService.info(null, m, null, true);
+          });
+        this.isUpdating = true;
+        this.formModel = null;
+        this.cdr.detectChanges();
+        this.initForm(sectionData);
+        this.checksForErrors(errors);
+        this.isUpdating = false;
+        this.cdr.detectChanges();
+      } else if (isNotEmpty(errors) || isNotEmpty(this.sectionData.errors)) {
+        this.checksForErrors(errors);
+      }
     } else if (isNotEmpty(errors) || isNotEmpty(this.sectionData.errors)) {
       this.checksForErrors(errors);
     }
@@ -231,8 +235,8 @@ export class FormSectionComponent extends SectionModelComponent {
   }
 
   hasStoredValue(fieldId, index) {
-    if (isNotEmpty(this.sectionData.data) && isNotEmpty(this.sectionData.data[index])) {
-      return this.sectionData.data.hasOwnProperty(fieldId);
+    if (isNotEmpty(this.sectionData.data)) {
+      return this.sectionData.data.hasOwnProperty(fieldId) && isNotEmpty(this.sectionData.data[fieldId][index]);
     } else {
       return false;
     }
