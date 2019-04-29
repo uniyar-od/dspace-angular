@@ -29,6 +29,14 @@ module.exports = {
       timePerMethod: {'PATCH': 3} //time in seconds
     }
   },
+  // Authentications
+  auth: {
+    target: {
+      host: 'https://dspace7.4science.it',
+      nameSpace: '',
+      page: '/dspace-spring-rest/shib.html'
+    }
+  },
   // Form settings
   form: {
     // NOTE: Map server-side validators to comparative Angular form validators
@@ -36,6 +44,10 @@ module.exports = {
       required: 'required',
       regex: 'pattern'
     }
+  },
+  filters: {
+    // NOTE: which filter must be show expanded when Search or MyDSpace page is loaded
+    loadOpened: ['namedresourcetype']
   },
   // Notifications
   notifications: {
@@ -108,6 +120,13 @@ module.exports = {
 
         ]
       }
+    },
+    detectDuplicate: {
+      // NOTE: list of additional item metadata to show for duplicate match presentation list
+      metadataDetailsList: [
+        { label: 'Document type', name: 'dc.type' },
+        { label: 'Source title', name: 'dc.bibliographicCitation.title' }
+      ]
     }
   },
   // Angular Universal settings

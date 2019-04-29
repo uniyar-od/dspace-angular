@@ -16,6 +16,8 @@ export class AuthStatus {
 
   eperson: Observable<RemoteData<EPerson>>;
 
+  ssoLoginUrl?: string;
+
   token?: AuthTokenInfo;
 
   self: string;

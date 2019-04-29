@@ -22,6 +22,8 @@ import { ResetAuthenticationMessagesAction, SetRedirectUrlAction } from './auth.
 import { NativeWindowRef, NativeWindowService } from '../../shared/services/window.service';
 import { Base64EncodeUrl } from '../../shared/utils/encode-decode.util';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
+import { GlobalConfig } from '../../../config/global-config.interface';
+import { GLOBAL_CONFIG } from '../../../config';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
@@ -40,7 +42,8 @@ export class AuthService {
    */
   protected _authenticated: boolean;
 
-  constructor(@Inject(REQUEST) protected req: any,
+  constructor(@Inject(GLOBAL_CONFIG) public config: GlobalConfig,
+              @Inject(REQUEST) protected req: any,
               @Inject(NativeWindowService) protected _window: NativeWindowRef,
               protected authRequestService: AuthRequestService,
               @Optional() @Inject(RESPONSE) private response: any,
@@ -198,6 +201,35 @@ export class AuthService {
   }
 
   /**
+   * Retrieve authentication methods available
+   * @returns {User}
+   */
+  public retrieveAuthMethods(): Observable<string> {
+    return this.authRequestService.getRequest('login').pipe(
+      map((status: AuthStatus) => {
+        let url = '';
+        if (isNotEmpty(status.ssoLoginUrl)) {
+          url = this.parseSSOLocation(status.ssoLoginUrl);
+        }
+        return url;
+      }));
+  }
+
+  private parseSSOLocation(url: string): string {
+    const parseUrl = decodeURIComponent(url);
+    // const urlTree: UrlTree = this.router.parseUrl(url);
+    // this.router.parseUrl(url);
+    // if (url.endsWith('/')) {
+    //   url += 'login';
+    // } else {
+    //   url = url.replace('/?target=http(.+)/g', 'https://hasselt-dspace.dev01.4science.it/dspace-spring-rest/shib.html');
+    // }
+    // console.log(url);
+    const target = `?target=${this.config.auth.target.host}${this.config.auth.target.page}`;
+    return parseUrl.replace(/\?target=http.+/g, target);
+  }
+
+  /**
    * Create a new user
    * @returns {User}
    */
@@ -326,7 +358,7 @@ export class AuthService {
    * Redirect to the login route when token has expired
    */
   public redirectToLoginWhenTokenExpired() {
-    const redirectUrl = LOGIN_ROUTE + '?expired=true';
+    const redirectUrl = LOGIN_ROUTE;
     if (this._window.nativeWindow.location) {
       // Hard redirect to login page, so that all state is definitely lost
       this._window.nativeWindow.location.href = redirectUrl;
@@ -367,9 +399,9 @@ export class AuthService {
    * Refresh route navigated
    */
   public refreshAfterLogout() {
-    this.router.navigate(['/home']);
+    // this.router.navigate(['/home']);
     // Hard redirect to home page, so that all state is definitely lost
-    this._window.nativeWindow.location.href = '/home';
+    this._window.nativeWindow.location.href = this.config.auth.target.host + '/4science/logout';
   }
 
   /**
