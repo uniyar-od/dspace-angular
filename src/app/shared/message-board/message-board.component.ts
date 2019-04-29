@@ -11,7 +11,7 @@ import {
   map,
   mergeMap,
   reduce,
-  startWith,
+  startWith, tap,
   withLatestFrom
 } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
@@ -99,6 +99,7 @@ export class MessageBoardComponent implements OnDestroy {
 
     this.unreadMessages$ = this.messages$.pipe(
       filter((messages: Bitstream[]) => isNotEmpty(messages)),
+      flatMap((bitStreams: Bitstream[]) => bitStreams),
       flatMap((bitStream: Bitstream) =>
         observableOf(bitStream).pipe(
           withLatestFrom(this.isUnread(bitStream))

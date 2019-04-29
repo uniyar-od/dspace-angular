@@ -1,4 +1,4 @@
-import { map, startWith, filter, take } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { DSpaceObject } from './dspace-object.model';
@@ -92,8 +92,7 @@ export class Item extends DSpaceObject {
     return this.bitstreams.pipe(
       filter((rd: RemoteData<PaginatedList<Bitstream>>) => !rd.isResponsePending && isNotUndefined(rd.payload)),
       map((rd: RemoteData<PaginatedList<Bitstream>>) => rd.payload.page),
-      filter((bitstreams: Bitstream[]) => hasValue(bitstreams)),
-      take(1),
+      filter((bitstreams: Bitstream[]) => isNotEmpty(bitstreams)),
       startWith([]),
       map((bitstreams) => {
         return bitstreams

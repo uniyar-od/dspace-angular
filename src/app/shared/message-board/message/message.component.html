@@ -35,7 +35,7 @@
       <div class="truncatable" *ngVar="'obj_'.concat(m.uuid) as obj_id">
         <ds-truncatable [id]="obj_id">
           <ds-truncatable-part [id]="obj_id" [minLines]="1">
-            <label>Object: <span>{{m.findMetadata('dc.title')}}</span></label>
+            <label>Object: <span>{{m.firstMetadataValue('dc.title')}}</span></label>
           </ds-truncatable-part>
         </ds-truncatable>
       </div>
