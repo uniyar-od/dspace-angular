@@ -34,6 +34,10 @@ export class MetadataValue implements MetadataValueInterface {
   /** The string value. */
   @autoserialize
   value: string;
+
+  /** The string value. */
+  @autoserialize
+  key: string;
 }
 
 /** Constraints for matching metadata values. */
@@ -83,8 +87,13 @@ export const MetadataMapSerializer = {
 
   Deserialize(json: any): MetadataMap {
     const metadataMap: MetadataMap = {};
-    Object.keys(json).forEach((key: string) => {
-      metadataMap[key] = Deserialize(json[key], MetadataValue);
+    Object.keys(json).forEach((index: string) => {
+      const normValue = Deserialize(json[index], MetadataValue);
+      if (metadataMap[normValue.key]) {
+        metadataMap[normValue.key].push(normValue);
+      } else {
+        metadataMap[normValue.key] = [normValue];
+      }
     });
     return metadataMap;
   }
