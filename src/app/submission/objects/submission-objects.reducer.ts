@@ -10,6 +10,7 @@ import {
   DepositSubmissionErrorAction,
   DepositSubmissionSuccessAction,
   DisableSectionAction,
+  DisableSectionErrorAction,
   EditFileDataAction,
   EnableSectionAction,
   InertSectionErrorsAction,
@@ -30,6 +31,9 @@ import {
   SaveSubmissionSectionFormSuccessAction,
   SectionStatusChangeAction,
   SetActiveSectionAction,
+  SetDuplicateDecisionAction,
+  SetDuplicateDecisionErrorAction,
+  SetDuplicateDecisionSuccessAction,
   SubmissionObjectAction,
   SubmissionObjectActionTypes,
   UpdateSectionDataAction
@@ -37,6 +41,7 @@ import {
 import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
 import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
 import { SectionsType } from '../sections/sections-type';
+import { WorkspaceitemSectionDetectDuplicateObject } from '../../core/submission/models/workspaceitem-section-deduplication.model';
 
 /**
  * An interface to represent section visibility
@@ -99,6 +104,11 @@ export interface SubmissionSectionObject {
    * A boolean representing if this section is loading
    */
   isLoading: boolean;
+
+  /**
+   * A boolean representing if this section removal is pending
+   */
+  removePending:boolean;
 
   /**
    * A boolean representing if this section is valid
@@ -166,6 +176,11 @@ export interface SubmissionObjectEntry {
    * A boolean representing if a submission save operation is pending
    */
   savePending?: boolean;
+
+  /**
+   * A boolean representing if a duplicate decision is pending
+   */
+  saveDecisionPending?: boolean;
 
   /**
    * A boolean representing if a submission deposit operation is pending
@@ -267,7 +282,15 @@ export function submissionObjectReducer(state = initialState, action: Submission
     }
 
     case SubmissionObjectActionTypes.DISABLE_SECTION: {
+      return changeSectionRemoveState(state, action as DisableSectionAction, true);
+    }
+
+    case SubmissionObjectActionTypes.DISABLE_SECTION_SUCCESS: {
       return changeSectionState(state, action as DisableSectionAction, false);
+    }
+
+    case SubmissionObjectActionTypes.DISABLE_SECTION_ERROR: {
+      return changeSectionRemoveState(state, action as DisableSectionErrorAction, false);
     }
 
     case SubmissionObjectActionTypes.SECTION_STATUS_CHANGE: {
@@ -298,6 +321,19 @@ export function submissionObjectReducer(state = initialState, action: Submission
 
     case SubmissionObjectActionTypes.REMOVE_SECTION_ERRORS: {
       return removeSectionErrors(state, action as RemoveSectionErrorsAction);
+    }
+
+    // detect duplicate
+    case SubmissionObjectActionTypes.SET_DUPLICATE_DECISION: {
+      return startSaveDecision(state, action as SetDuplicateDecisionAction);
+    }
+
+    case SubmissionObjectActionTypes.SET_DUPLICATE_DECISION_SUCCESS: {
+      return setDuplicateMatches(state, action as SetDuplicateDecisionSuccessAction);
+    }
+
+    case SubmissionObjectActionTypes.SET_DUPLICATE_DECISION_ERROR: {
+      return endSaveDecision(state, action as SetDuplicateDecisionErrorAction);
     }
 
     default: {
@@ -361,7 +397,7 @@ const addError = (state: SubmissionObjectState, action: InertSectionErrorsAction
  * @param state
  *    the current state
  * @param action
- *    an RemoveSectionErrorsAction
+ *    a RemoveSectionErrorsAction
  * @return SubmissionObjectState
  *    the new state, with the section's errors updated.
  */
@@ -405,6 +441,7 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     sections: Object.create(null),
     isLoading: true,
     savePending: false,
+    saveDecisionPending: false,
     depositPending: false,
   };
   return newState;
@@ -416,7 +453,7 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
  * @param state
  *    the current state
  * @param action
- *    an ResetSubmissionFormAction
+ *    a ResetSubmissionFormAction
  * @return SubmissionObjectState
  *    the new state, with the section removed.
  */
@@ -439,7 +476,7 @@ function resetSubmission(state: SubmissionObjectState, action: ResetSubmissionFo
  * @param state
  *    the current state
  * @param action
- *    an CompleteInitSubmissionFormAction
+ *    a CompleteInitSubmissionFormAction
  * @return SubmissionObjectState
  *    the new state, with the section removed.
  */
@@ -461,7 +498,7 @@ function completeInit(state: SubmissionObjectState, action: CompleteInitSubmissi
  * @param state
  *    the current state
  * @param action
- *    an SaveSubmissionFormAction | SaveSubmissionSectionFormAction
+ *    a SaveSubmissionFormAction | SaveSubmissionSectionFormAction
  *    | SaveForLaterSubmissionFormAction | SaveAndDepositSubmissionAction
  * @return SubmissionObjectState
  *    the new state, with the flag set to true.
@@ -491,7 +528,7 @@ function saveSubmission(state: SubmissionObjectState,
  * @param state
  *    the current state
  * @param action
- *    an SaveSubmissionFormSuccessAction | SaveForLaterSubmissionFormSuccessAction
+ *    a SaveSubmissionFormSuccessAction | SaveForLaterSubmissionFormSuccessAction
  *    | SaveSubmissionSectionFormSuccessAction | SaveSubmissionFormErrorAction
  *    | SaveForLaterSubmissionFormErrorAction | SaveSubmissionSectionFormErrorAction
  * @return SubmissionObjectState
@@ -521,7 +558,7 @@ function completeSave(state: SubmissionObjectState,
  * @param state
  *    the current state
  * @param action
- *    an DepositSubmissionAction
+ *    a DepositSubmissionAction
  * @return SubmissionObjectState
  *    the new state, with the deposit flag changed.
  */
@@ -544,7 +581,7 @@ function startDeposit(state: SubmissionObjectState, action: DepositSubmissionAct
  * @param state
  *    the current state
  * @param action
- *    an DepositSubmissionSuccessAction or DepositSubmissionErrorAction
+ *    a DepositSubmissionSuccessAction or a DepositSubmissionErrorAction
  * @return SubmissionObjectState
  *    the new state, with the deposit flag changed.
  */
@@ -586,7 +623,7 @@ function changeCollection(state: SubmissionObjectState, action: ChangeSubmission
  * @param state
  *    the current state
  * @param action
- *    an SetActiveSectionAction
+ *    a SetActiveSectionAction
  * @return SubmissionObjectState
  *    the new state, with the active section.
  */
@@ -631,7 +668,8 @@ function initSection(state: SubmissionObjectState, action: InitSectionAction): S
             data: action.payload.data,
             errors: action.payload.errors || [],
             isLoading: false,
-            isValid: false
+            isValid: false,
+            removePending: false
           }
         })
       })
@@ -676,7 +714,7 @@ function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDa
  * @param state
  *    the current state
  * @param action
- *    an DisableSectionAction
+ *    a DisableSectionAction
  * @param enabled
  *    enabled or disabled section.
  * @return SubmissionObjectState
@@ -689,7 +727,38 @@ function changeSectionState(state: SubmissionObjectState, action: EnableSectionA
         // sections: deleteProperty(state[ action.payload.submissionId ].sections, action.payload.sectionId),
         sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
           [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
-            enabled
+            enabled,
+            data: (enabled) ? state[ action.payload.submissionId ].sections [ action.payload.sectionId ] : {},
+            removePending: false
+          })
+        })
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Change removePending flag.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a DisableSectionAction or a DisableSectionErrorAction
+ * @param removePending
+ *    representing if remove operation is pending or not.
+ * @return SubmissionObjectState
+ *    the new state, with the section removed.
+ */
+function changeSectionRemoveState(state: SubmissionObjectState, action: DisableSectionAction | DisableSectionErrorAction, removePending: boolean): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        // sections: deleteProperty(state[ action.payload.submissionId ].sections, action.payload.sectionId),
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
+          [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+            removePending
           })
         })
       })
@@ -705,7 +774,7 @@ function changeSectionState(state: SubmissionObjectState, action: EnableSectionA
  * @param state
  *    the current state
  * @param action
- *    an SectionStatusChangeAction
+ *    a SectionStatusChangeAction
  * @return SubmissionObjectState
  *    the new state, with the section new validity status.
  */
@@ -769,7 +838,7 @@ function newFile(state: SubmissionObjectState, action: NewUploadedFileAction): S
  * @param state
  *    the current state
  * @param action
- *    a EditFileDataAction action
+ *    an EditFileDataAction action
  * @return SubmissionObjectState
  *    the new state, with the edited file.
  */
@@ -838,4 +907,76 @@ function deleteFile(state: SubmissionObjectState, action: DeleteUploadedFileActi
     }
   }
   return state;
+}
+
+// ------ Detect duplicate functions ------ //
+
+/**
+ * Set decision flag to true
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a SetDuplicateDecisionAction
+ * @return SubmissionObjectState
+ *    the new state, with the decision flag changed.
+ */
+function startSaveDecision(state: SubmissionObjectState, action: SetDuplicateDecisionAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        saveDecisionPending: true,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+function setDuplicateMatches(state: SubmissionObjectState, action: SetDuplicateDecisionSuccessAction) {
+  const index: any = findKey(
+    action.payload.submissionObject,
+    {id: parseInt(action.payload.submissionId, 10)});
+  const sectionData = action.payload.submissionObject[index].sections[ action.payload.sectionId ] as WorkspaceitemSectionDetectDuplicateObject;
+  const newData = (sectionData && sectionData.matches) ? sectionData : Object.create({});
+
+  if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections,
+          Object.assign({}, {
+            [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+              enabled: true,
+              data: newData
+            })
+          })
+        ),
+        saveDecisionPending: false
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Set decision flag to false
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a SetDuplicateDecisionSuccessAction or SetDuplicateDecisionErrorAction
+ * @return SubmissionObjectState
+ *    the new state, with the decision flag changed.
+ */
+function endSaveDecision(state: SubmissionObjectState, action: SetDuplicateDecisionSuccessAction | SetDuplicateDecisionErrorAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        saveDecisionPending: false,
+      })
+    });
+  } else {
+    return state;
+  }
 }

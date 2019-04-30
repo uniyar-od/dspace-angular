@@ -3,5 +3,7 @@ export enum SectionsType {
   Upload = 'upload',
   License = 'license',
   CcLicense = 'cclicense',
-  collection = 'collection'
+  collection = 'collection',
+  Recycle = 'recycle',
+  DetectDuplicate = 'detect-duplicate'
 }

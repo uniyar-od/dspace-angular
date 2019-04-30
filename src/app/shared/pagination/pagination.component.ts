@@ -94,6 +94,8 @@ export class PaginationComponent implements OnDestroy, OnInit {
    */
   @Input() public hidePagerWhenSinglePage = true;
 
+  @Input() public doUpdateRoute = true;
+
   /**
    * Current page.
    */
@@ -238,7 +240,11 @@ export class PaginationComponent implements OnDestroy, OnInit {
    *    The page being navigated to.
    */
   public doPageChange(page: number) {
-    this.updateRoute({ page: page.toString() });
+    if (this.doUpdateRoute) {
+      this.updateRoute({ page: page.toString() });
+    } else {
+      this.setPage(page);
+    }
   }
 
   /**

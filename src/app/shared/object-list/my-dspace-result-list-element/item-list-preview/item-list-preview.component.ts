@@ -5,6 +5,7 @@ import { fadeInOut } from '../../../animations/fade';
 import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
 import { Metadata } from '../../../../core/shared/metadata.utils';
 import { MyDSpaceResult } from '../../../../+my-dspace-page/my-dspace-result.model';
+import { DuplicateMatchMetadataDetailConfig } from '../../../../submission/sections/detect-duplicate/models/duplicate-detail-metadata.model';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -36,6 +37,8 @@ export class ItemListPreviewComponent {
    * A boolean representing if to show submitter information
    */
   @Input() showSubmitter = false;
+
+  @Input() metadataList: DuplicateMatchMetadataDetailConfig[] = [];
 
   /**
    * Gets all matching metadata string values from hitHighlights or dso metadata, preferring hitHighlights.

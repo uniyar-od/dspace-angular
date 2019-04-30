@@ -26,6 +26,15 @@
               [innerHTML]="(firstMetadataValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
       </ds-truncatable-part>
 
+      <ng-container *ngIf="metadataList && metadataList.length > 0">
+        <ng-container *ngFor="let matadata of metadataList">
+          <ng-container *ngIf="firstMetadataValue(matadata.name)">
+            <span class="text-muted">{{matadata.label}} : </span>
+            <span>{{firstMetadataValue(matadata.name)}}</span>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
     </div>
   </ds-truncatable>
   <ds-item-submitter *ngIf="showSubmitter" [object]="object.indexableObject"></ds-item-submitter>
