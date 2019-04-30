@@ -20,6 +20,7 @@ import { CacheableObject } from '../object-cache.reducer';
 import { NormalizedSubmissionDefinitionsModel } from '../../config/models/normalized-config-submission-definitions.model';
 import { NormalizedSubmissionFormsModel } from '../../config/models/normalized-config-submission-forms.model';
 import { NormalizedSubmissionSectionModel } from '../../config/models/normalized-config-submission-section.model';
+import { NormalizedEditItem } from '../../submission/models/normalized-edititem.model';
 
 export class NormalizedObjectFactory {
   public static getConstructor(type: ResourceType): GenericConstructor<NormalizedObject<CacheableObject>> {
@@ -65,6 +66,9 @@ export class NormalizedObjectFactory {
       }
       case ResourceType.Workflowitem: {
         return NormalizedWorkflowItem
+      }
+      case ResourceType.EditItem: {
+        return NormalizedEditItem
       }
       case ResourceType.ClaimedTask: {
         return NormalizedClaimedTask

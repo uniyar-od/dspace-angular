@@ -16,6 +16,7 @@ import { NormalizedWorkflowItem } from './models/normalized-workflowitem.model';
 import { FormFieldMetadataValueObject } from '../../shared/form/builder/models/form-field-metadata-value.model';
 import { SubmissionObject } from './models/submission-object.model';
 import { NormalizedObjectFactory } from '../cache/models/normalized-object-factory';
+import { NormalizedEditItem } from './models/normalized-edititem.model';
 
 /**
  * Export a function to check if object has same properties of FormFieldMetadataValueObject
@@ -126,7 +127,8 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
       let normalizedItem = Object.assign({}, item);
       // In case data is an Instance of NormalizedWorkspaceItem normalize field value of all the section of type form
       if (item instanceof NormalizedWorkspaceItem
-        || item instanceof NormalizedWorkflowItem) {
+        || item instanceof NormalizedWorkflowItem
+        || item instanceof NormalizedEditItem) {
         if (item.sections) {
           const precessedSection = Object.create({});
           // Iterate over all workspaceitem's sections

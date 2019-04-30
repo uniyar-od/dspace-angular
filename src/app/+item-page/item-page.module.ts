@@ -17,12 +17,14 @@ import { CollectionsComponent } from './field-components/collections/collections
 import { FullItemPageComponent } from './full/full-item-page.component';
 import { FullFileSectionComponent } from './full/field-components/file-section/full-file-section.component';
 import { EditItemPageModule } from './edit-item-page/edit-item-page.module';
+import { SubmissionModule } from '../submission/submission.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     EditItemPageModule,
+    SubmissionModule,
     ItemPageRoutingModule
   ],
   declarations: [

@@ -329,6 +329,9 @@ export class SubmissionService {
       case 'workflowitems':
         scope = SubmissionScopeType.WorkflowItem;
         break;
+      case 'edititems':
+        scope = SubmissionScopeType.EditItem;
+        break;
     }
     return scope;
   }

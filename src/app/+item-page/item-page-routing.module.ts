@@ -7,6 +7,7 @@ import { ItemPageResolver } from './item-page.resolver';
 import { URLCombiner } from '../core/url-combiner/url-combiner';
 import { getItemModulePath } from '../app-routing.module';
 import { AuthenticatedGuard } from '../core/auth/authenticated.guard';
+import { SubmissionEditComponent } from '../submission/edit/submission-edit.component';
 
 export function getItemPageRoute(itemId: string) {
   return new URLCombiner(getItemModulePath(), itemId).toString();
@@ -36,9 +37,10 @@ const ITEM_EDIT_PATH = ':id/edit';
         }
       },
       {
-        path: ITEM_EDIT_PATH,
-        loadChildren: './edit-item-page/edit-item-page.module#EditItemPageModule',
-        canActivate: [AuthenticatedGuard]
+        canActivate: [AuthenticatedGuard],
+        path: ':id/edit',
+        component: SubmissionEditComponent,
+        data: { title: 'submission.edit.title' }
       },
     ])
   ],

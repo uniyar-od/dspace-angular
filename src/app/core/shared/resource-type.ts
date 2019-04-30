@@ -14,6 +14,7 @@ export enum ResourceType {
   License = 'license',
   Workflowitem = 'workflowitem',
   Workspaceitem = 'workspaceitem',
+  EditItem = 'edititem',
   SubmissionDefinitions = 'submissiondefinitions',
   SubmissionDefinition = 'submissiondefinition',
   SubmissionForm = 'submissionform',
