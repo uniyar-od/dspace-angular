@@ -1,4 +1,5 @@
 import { autoserialize, autoserializeAs } from 'cerialize';
+import { FilterType } from './filter-type.model';
 
 /**
  * Class representing possible values for a certain filter
@@ -9,6 +10,15 @@ export class FacetValue {
    */
   @autoserialize
   label: string;
+
+  /**
+   * The value of the facet value
+   */
+  @autoserialize
+  filterValue: string;
+
+  @autoserialize
+  filterType: FilterType;
 
   /**
    * The value of the facet value
@@ -27,4 +37,7 @@ export class FacetValue {
    */
   @autoserialize
   search: string;
+
+  @autoserialize
+  sortValue: string;
 }

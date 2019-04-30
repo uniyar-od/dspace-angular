@@ -24,6 +24,7 @@ import { getSucceededRemoteData } from '../../../../core/shared/operators';
 import { InputSuggestion } from '../../../../shared/input-suggestions/input-suggestions.model';
 import { SearchOptions } from '../../../search-options.model';
 import { SEARCH_CONFIG_SERVICE } from '../../../../+my-dspace-page/my-dspace-page.component';
+import { FilterType } from '../../../search-service/filter-type.model';
 
 @Component({
   selector: 'ds-search-facet-filter',
@@ -280,7 +281,11 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
    * Retrieve facet value
    */
   protected getFacetValue(facet: FacetValue): string {
-    return facet.value;
+    if (facet.filterType === FilterType.authority) {
+      return facet.filterValue + ',' + facet.filterType;
+    } else {
+      return facet.value;
+    }
   }
 
   /**

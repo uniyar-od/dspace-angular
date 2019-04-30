@@ -86,16 +86,8 @@ export class SearchFacetSelectedOptionComponent implements OnInit, OnDestroy {
    * Retrieve facet value related to facet type
    */
   private getFacetValue(facetValue: FacetValue): string {
-    if (this.filterConfig.type === FilterType.authority) {
-      const search = facetValue.search;
-      const hashes = search.slice(search.indexOf('?') + 1).split('&');
-      const params = {};
-      hashes.map((hash) => {
-        const [key, val] = hash.split('=');
-        params[key] = decodeURIComponent(val)
-      });
-
-      return params[this.filterConfig.paramName];
+    if (facetValue.filterType === FilterType.authority) {
+      return facetValue.filterValue + ',' + facetValue.filterType;
     } else {
       return facetValue.value;
     }

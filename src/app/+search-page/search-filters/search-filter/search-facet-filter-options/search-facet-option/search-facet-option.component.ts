@@ -1,5 +1,5 @@
-import { combineLatest as observableCombineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest as observableCombineLatest, Observable, of as observableOf, Subscription } from 'rxjs';
+import { flatMap, map } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacetValue } from '../../../../search-service/facet-value.model';
@@ -9,6 +9,7 @@ import { SearchFilterService } from '../../search-filter.service';
 import { SearchConfigurationService } from '../../../../search-service/search-configuration.service';
 import { hasValue } from '../../../../../shared/empty.util';
 import { FilterType } from '../../../../search-service/filter-type.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'ds-search-facet-option',
@@ -53,7 +54,8 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
   constructor(protected searchService: SearchService,
               protected filterService: SearchFilterService,
               protected searchConfigService: SearchConfigurationService,
-              protected router: Router
+              protected router: Router,
+              protected translate: TranslateService
   ) {
   }
 
@@ -93,21 +95,25 @@ export class SearchFacetOptionComponent implements OnInit, OnDestroy {
     };
   }
 
+  getFacetLabel(facet: FacetValue): Observable<string> {
+    if (this.filterConfig.name === 'namedresourcetype') {
+      return this.searchConfigService.getCurrentConfiguration('').pipe(
+        flatMap((configuration) => {
+          const labelKey = `search.filters.filter.namedresourcetype.labels.${configuration}.${this.filterValue.filterValue}`;
+          return this.translate.get(labelKey)
+        }))
+    } else {
+      return observableOf(this.filterValue.value);
+    }
+  }
+
   /**
    * TODO to review after https://github.com/DSpace/dspace-angular/issues/368 is resolved
    * Retrieve facet value related to facet type
    */
   private getFacetValue(): string {
-    if (this.filterConfig.type === FilterType.authority) {
-      const search = this.filterValue.search;
-      const hashes = search.slice(search.indexOf('?') + 1).split('&');
-      const params = {};
-      hashes.map((hash) => {
-        const [key, val] = hash.split('=');
-        params[key] = decodeURIComponent(val)
-      });
-
-      return params[this.filterConfig.paramName];
+    if (this.filterValue.filterType === FilterType.authority) {
+      return this.filterValue.filterValue + ',' + this.filterValue.filterType;
     } else {
       return this.filterValue.value;
     }
