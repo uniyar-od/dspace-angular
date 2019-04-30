@@ -1,6 +1,12 @@
 <div class="row" *ngIf="!!submissionId">
   <div class="col">
     <button *ngIf="(showDepositAndDiscard | async)" type="button" class="btn btn-danger" (click)="$event.preventDefault();confirmDiscard(content)">{{'submission.general.discard.submit' | translate}}</button>
+    <ds-claimed-task-actions-reject *ngIf="(showApproveAndReject | async)"
+                                    [processingReject]="(processingReject | async)"
+                                    (reject)="reject($event)"></ds-claimed-task-actions-reject>
+  </div>
+  <div class="col text-right">
+
   </div>
   <div *ngIf="(processingSaveStatus | async) || (processingDepositStatus | async)" class="col d-flex justify-content-end align-items-center">
     <div class="progress w-75">
@@ -29,6 +35,9 @@
             [disabled]="(submissionIsInvalid | async)" (click)="deposit()">
       <span>{{'submission.general.deposit' | translate}}</span>
     </button>
+    <ds-claimed-task-actions-approve *ngIf="(showApproveAndReject | async)"
+                                     [processingApprove]="(processingApprove | async)"
+                                     (approve)="approve()"></ds-claimed-task-actions-approve>
   </div>
 </div>
 

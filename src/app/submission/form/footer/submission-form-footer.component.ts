@@ -1,13 +1,20 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
 
 import { SubmissionRestService } from '../../../core/submission/submission-rest.service';
 import { SubmissionService } from '../../submission.service';
 import { SubmissionScopeType } from '../../../core/submission/submission-scope-type';
 import { isNotEmpty } from '../../../shared/empty.util';
+import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
+import { NotificationsService } from '../../../shared/notifications/notifications.service';
+import { ProcessTaskResponse } from '../../../core/tasks/models/process-task-response';
+import { MYDSPACE_ROUTE } from '../../../+my-dspace-page/my-dspace-page.component';
+import { NotificationOptions } from '../../../shared/notifications/models/notification-options.model';
 
 /**
  * This component represents submission form footer bar.
@@ -24,6 +31,15 @@ export class SubmissionFormFooterComponent implements OnChanges {
    * @type {string}
    */
   @Input() submissionId: string;
+
+  /**
+   * The task id
+   * @type {string}
+   */
+  @Input() taskId;
+
+  public processingApprove: Observable<boolean>;
+  public processingReject: Observable<boolean>;
 
   /**
    * A boolean representing if a submission deposit operation is pending
@@ -43,6 +59,8 @@ export class SubmissionFormFooterComponent implements OnChanges {
    */
   public showDepositAndDiscard: Observable<boolean>;
 
+  public showApproveAndReject: Observable<boolean>;
+
   /**
    * A boolean representing if submission form is valid or not
    * @type {Observable<boolean>}
@@ -52,13 +70,21 @@ export class SubmissionFormFooterComponent implements OnChanges {
   /**
    * Initialize instance variables
    *
+   * @param {ClaimedTaskDataService} claimedTaskService
    * @param {NgbModal} modalService
+   * @param {NotificationsService} notificationsService
    * @param {SubmissionRestService} restService
+   * @param {Router} router
    * @param {SubmissionService} submissionService
+   * @param {TranslateService} translate
    */
-  constructor(private modalService: NgbModal,
+  constructor(private claimedTaskService: ClaimedTaskDataService,
+              private modalService: NgbModal,
+              private notificationsService: NotificationsService,
               private restService: SubmissionRestService,
-              private submissionService: SubmissionService) {
+              private router: Router,
+              private submissionService: SubmissionService,
+              private translate: TranslateService) {
   }
 
   /**
@@ -73,7 +99,16 @@ export class SubmissionFormFooterComponent implements OnChanges {
       this.processingSaveStatus = this.submissionService.getSubmissionSaveProcessingStatus(this.submissionId);
       this.processingDepositStatus = this.submissionService.getSubmissionDepositProcessingStatus(this.submissionId);
       this.showDepositAndDiscard = observableOf(this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkspaceItem);
+      this.showApproveAndReject = observableOf(this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkflowItem);
     }
+  }
+
+  approve() {
+    this.processingApprove = observableOf(true);
+    this.claimedTaskService.approveTask(this.taskId)
+      .subscribe((res: ProcessTaskResponse) => {
+        this.responseHandle(res);
+      });
   }
 
   /**
@@ -108,5 +143,36 @@ export class SubmissionFormFooterComponent implements OnChanges {
         }
       }
     );
+  }
+
+  reload() {
+    const navigationExtras: NavigationExtras = {
+      queryParams: {
+        configuration: 'workflow'
+      }
+    };
+    this.router.navigate([MYDSPACE_ROUTE], navigationExtras);
+  }
+
+  reject(reason) {
+    this.processingReject = observableOf(true);
+    this.claimedTaskService.rejectTask(reason, this.taskId)
+      .subscribe((res: ProcessTaskResponse) => {
+        this.responseHandle(res);
+      });
+  }
+
+  private responseHandle(res: ProcessTaskResponse) {
+    this.processingApprove = observableOf(false);
+    if (res.hasSucceeded) {
+      this.reload();
+      this.notificationsService.success(null,
+        this.translate.get('submission.workflow.tasks.generic.success'),
+        new NotificationOptions(5000, false));
+    } else {
+      this.notificationsService.error(null,
+        this.translate.get('submission.workflow.tasks.generic.error'),
+        new NotificationOptions(20000, true));
+    }
   }
 }

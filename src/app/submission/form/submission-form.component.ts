@@ -54,6 +54,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    * @type {string}
    */
   @Input() submissionId: string;
+  @Input() taskId: string;
 
   /**
    * The configuration id that define this submission

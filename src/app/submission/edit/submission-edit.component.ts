@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, tap } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 import { WorkspaceitemSectionsObject } from '../../core/submission/models/workspaceitem-sections.model';
@@ -53,6 +53,7 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
    * @type {string}
    */
   public submissionId: string;
+  public taskId: string;
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -83,6 +84,7 @@ export class SubmissionEditComponent implements OnDestroy, OnInit {
    */
   ngOnInit() {
     this.subs.push(this.route.paramMap.pipe(
+      tap((params: ParamMap) => this.taskId = params.get('taskid')),
       switchMap((params: ParamMap) => this.submissionService.retrieveSubmission(params.get('id'))),
       // NOTE new submission is retrieved on the browser side only, so get null on server side rendering
       filter((submissionObjectRD: RemoteData<SubmissionObject>) => isNotNull(submissionObjectRD))
