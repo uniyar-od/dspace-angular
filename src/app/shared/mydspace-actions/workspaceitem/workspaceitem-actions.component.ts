@@ -25,6 +25,8 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
    * The workspaceitem object
    */
   @Input() object: Workspaceitem;
+  @Input() showOnlyMessageBoard = false;
+  @Input() tooltipMessage = 'mydspace.messages.submitter-help';
 
   /**
    * A boolean representing if a delete operation is pending

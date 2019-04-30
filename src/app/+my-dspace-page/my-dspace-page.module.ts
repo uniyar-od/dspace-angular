@@ -20,6 +20,8 @@ import { ClaimedMyDSpaceResultDetailElementComponent } from '../shared/object-de
 import { PoolMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pool-my-dspace-result/pool-my-dspace-result-detail-lement.component';
 import { MyDSpaceGuard } from './my-dspace.guard';
 import { MyDSpaceConfigurationService } from './my-dspace-configuration.service';
+import { WorkspaceitemRejectedMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/workspaceitem-rejected-my-dspace-result/workspaceitem-rejected-my-dspace-result-detail-element.component';
+import { WorkspaceitemRejectedMyDSpaceResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workspaceitem-rejected-my-dspace-result/workspaceitem-rejected-my-dspace-result-list-element.component';
 
 @NgModule({
   imports: [
@@ -33,11 +35,13 @@ import { MyDSpaceConfigurationService } from './my-dspace-configuration.service'
     MyDSpaceResultsComponent,
     ItemMyDSpaceResultListElementComponent,
     WorkspaceitemMyDSpaceResultListElementComponent,
+    WorkspaceitemRejectedMyDSpaceResultListElementComponent,
     WorkflowitemMyDSpaceResultListElementComponent,
     ClaimedMyDSpaceResultListElementComponent,
     PoolMyDSpaceResultListElementComponent,
     ItemMyDSpaceResultDetailElementComponent,
     WorkspaceitemMyDSpaceResultDetailElementComponent,
+    WorkspaceitemRejectedMyDSpaceResultDetailElementComponent,
     WorkflowitemMyDSpaceResultDetailElementComponent,
     ClaimedMyDSpaceResultDetailElementComponent,
     PoolMyDSpaceResultDetailElementComponent,
@@ -50,11 +54,13 @@ import { MyDSpaceConfigurationService } from './my-dspace-configuration.service'
   entryComponents: [
     ItemMyDSpaceResultListElementComponent,
     WorkspaceitemMyDSpaceResultListElementComponent,
+    WorkspaceitemRejectedMyDSpaceResultListElementComponent,
     WorkflowitemMyDSpaceResultListElementComponent,
     ClaimedMyDSpaceResultListElementComponent,
     PoolMyDSpaceResultListElementComponent,
     ItemMyDSpaceResultDetailElementComponent,
     WorkspaceitemMyDSpaceResultDetailElementComponent,
+    WorkspaceitemRejectedMyDSpaceResultDetailElementComponent,
     WorkflowitemMyDSpaceResultDetailElementComponent,
     ClaimedMyDSpaceResultDetailElementComponent,
     PoolMyDSpaceResultDetailElementComponent
