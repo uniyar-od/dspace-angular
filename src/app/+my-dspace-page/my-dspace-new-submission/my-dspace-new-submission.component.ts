@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
@@ -15,6 +15,7 @@ import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { NotificationType } from '../../shared/notifications/models/notification-type';
 import { hasValue } from '../../shared/empty.util';
+import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
 
 /**
  * This component represents the whole mydspace page header
@@ -26,6 +27,8 @@ import { hasValue } from '../../shared/empty.util';
 })
 export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
   @Output() uploadEnd = new EventEmitter<Array<MyDSpaceResult<DSpaceObject>>>();
+
+  public findByHref: string;
 
   /**
    * The UploaderOptions object
@@ -45,6 +48,7 @@ export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
   /**
    * Initialize instance variables
    *
+   * @param {GlobalConfig} config
    * @param {AuthService} authService
    * @param {ChangeDetectorRef} changeDetectorRef
    * @param {HALEndpointService} halService
@@ -52,7 +56,8 @@ export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
    * @param {Store<SubmissionState>} store
    * @param {TranslateService} translate
    */
-  constructor(private authService: AuthService,
+  constructor(@Inject(GLOBAL_CONFIG) public config: GlobalConfig,
+              private authService: AuthService,
               private changeDetectorRef: ChangeDetectorRef,
               private halService: HALEndpointService,
               private notificationsService: NotificationsService,
@@ -70,6 +75,7 @@ export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
         this.changeDetectorRef.detectChanges();
       }
     );
+    this.findByHref = this.config.auth.target.host + this.config.auth.target.nameSpace + '/submit';
   }
 
   /**
