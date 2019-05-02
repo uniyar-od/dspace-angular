@@ -6,10 +6,6 @@ import { FacetValue } from '../../../../search-service/facet-value.model';
 import { SearchFilterConfig } from '../../../../search-service/search-filter-config.model';
 import { SearchService } from '../../../../search-service/search.service';
 import { SearchFilterService } from '../../search-filter.service';
-import {
-  RANGE_FILTER_MAX_SUFFIX,
-  RANGE_FILTER_MIN_SUFFIX
-} from '../../search-range-filter/search-range-filter.component';
 import { SearchConfigurationService } from '../../../../search-service/search-configuration.service';
 import { hasValue } from '../../../../../shared/empty.util';
 
@@ -85,12 +81,8 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
    * Calculates the parameters that should change if a given values for this range filter would be changed
    */
   private updateChangeParams(): void {
-    const parts = this.filterValue.value.split(rangeDelimiter);
-    const min = parts.length > 1 ? parts[0].trim() : this.filterValue.value;
-    const max = parts.length > 1 ? parts[1].trim() : this.filterValue.value;
     this.changeQueryParams = {
-      [this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX]: [min],
-      [this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX]: [max],
+      [this.filterConfig.paramName]:[this.filterValue.filterValue],
       page: 1
     };
   }
