@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { RoleType } from './role-types';
 import { CollectionDataService } from '../data/collection-data.service';
+import { GroupEpersonService } from '../eperson/group-eperson.service';
 
 /**
  * A service that provides methods to identify user role.
@@ -16,33 +17,30 @@ export class RoleService {
    * Initialize instance variables
    *
    * @param {CollectionDataService} collectionService
+   * @param {GroupEpersonService} groupService
    */
-  constructor(private collectionService: CollectionDataService) {
+  constructor(private collectionService: CollectionDataService, private groupService: GroupEpersonService) {
   }
 
   /**
    * Check if current user is a submitter
    */
   isSubmitter(): Observable<boolean> {
-    return this.collectionService.hasAuthorizedCollection().pipe(
-      distinctUntilChanged()
-    );
+    return this.groupExists('Submitters');
   }
 
   /**
    * Check if current user is a controller
    */
   isController(): Observable<boolean> {
-    // TODO find a way to check if user is a controller
-    return observableOf(true);
+    return this.groupExists('Controllers');
   }
 
   /**
    * Check if current user is an admin
    */
   isAdmin(): Observable<boolean> {
-    // TODO find a way to check if user is an admin
-    return observableOf(false);
+    return this.groupExists('Administrator');
   }
 
   /**
@@ -66,5 +64,11 @@ export class RoleService {
     }
 
     return check;
+  }
+
+  protected groupExists(groupName): Observable<boolean> {
+    return this.groupService.isMemberOf(groupName).pipe(
+      distinctUntilChanged()
+    )
   }
 }
