@@ -12,7 +12,7 @@
         <div class="sidebar-content">
             <ds-search-switch-configuration *ngIf="configurationList" [configurationList]="configurationList"></ds-search-switch-configuration>
             <ds-search-filters></ds-search-filters>
-            <ds-search-settings></ds-search-settings>
+            <ds-search-settings *ngIf="!hideOptions"></ds-search-settings>
         </div>
     </div>
 </div>

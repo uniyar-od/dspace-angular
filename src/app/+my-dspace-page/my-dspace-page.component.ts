@@ -47,6 +47,8 @@ export class MyDSpacePageComponent implements OnInit {
    */
   configurationList$: Observable<SearchConfigurationOption[]>;
 
+  hideOptions = true;
+
   /**
    * The current search results
    */

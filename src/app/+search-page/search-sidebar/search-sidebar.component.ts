@@ -24,6 +24,8 @@ export class SearchSidebarComponent {
    */
   @Input() configurationList: SearchConfigurationOption[];
 
+  @Input() hideOptions;
+
   /**
    * The total amount of results
    */

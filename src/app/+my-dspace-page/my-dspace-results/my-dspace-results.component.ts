@@ -43,6 +43,11 @@ export class MyDSpaceResultsComponent {
   hasBorder = true;
 
   /**
+   * A boolean representing if search results entry are separated by a line
+   */
+  hideGear = false;
+
+  /**
    * Check if mydspace search results are loading
    */
   isLoading() {

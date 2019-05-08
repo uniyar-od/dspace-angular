@@ -301,6 +301,10 @@
     "dc.title": {
       "ASC": "Title Ascending",
       "DESC": "Title Descending"
+    },
+    "lastModified": {
+      "ASC": "Last modified Ascending",
+      "DESC": "Last modified Descending"
     }
   },
   "title": "DSpace",
