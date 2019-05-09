@@ -157,7 +157,7 @@ export class SectionFormOperationsService {
    *    the field path
    */
   public getQualdropItemPathFromEvent(event: DynamicFormControlEvent): string {
-    const fieldIndex = this.getArrayIndexFromEvent(event);
+    const arrayIndex = this.getArrayIndexFromEvent(event);
     const metadataValueMap = new Map();
     let path = null;
 
@@ -172,8 +172,9 @@ export class SectionFormOperationsService {
         metadataValueList.push(groupModel.value);
         metadataValueMap.set(groupModel.qualdropId, metadataValueList);
       }
-      if (index === fieldIndex) {
-        path = groupModel.qualdropId + '/' + (metadataValueMap.get(groupModel.qualdropId).length - 1)
+      if (index === arrayIndex) {
+        const fieldIndex = (metadataValueMap.get(groupModel.qualdropId)) ? (metadataValueMap.get(groupModel.qualdropId).length - 1) : 0;
+        path = groupModel.qualdropId + '/' + fieldIndex;
       }
     });
 
@@ -369,8 +370,8 @@ export class SectionFormOperationsService {
                                       event: DynamicFormControlEvent,
                                       previousValue: FormFieldPreviousValueObject): void {
     const currentValueMap = valueMap;
+    const path = this.getQualdropItemPathFromEvent(event);
     if (event.type === 'remove') {
-      const path = this.getQualdropItemPathFromEvent(event);
       this.operationsBuilder.remove(pathCombiner.getPath(path));
     } else {
       if (previousValue.isPathEqual(this.formBuilder.getPath(event.model))) {
@@ -382,7 +383,8 @@ export class SectionFormOperationsService {
             }
             currentValueMap.delete(index);
           } else if (!currentValue) {
-            this.operationsBuilder.remove(pathCombiner.getPath(index));
+            const oldFieldIndex = (previousValue.value.get(index)) ? (previousValue.value.get(index).length - 1) : 0;
+            this.operationsBuilder.remove(pathCombiner.getPath(index + '/' + oldFieldIndex));
           }
         });
       }
