@@ -1,3 +1,4 @@
+/*
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -63,12 +64,12 @@ describe('SearchFacetRangeOptionComponent', () => {
           provide: SearchFilterService, useValue: {
             isFilterActiveWithValue: (paramName: string, filterValue: string) => observableOf(true),
             getPage: (paramName: string) => page,
-            /* tslint:disable:no-empty */
+            /!* tslint:disable:no-empty *!/
             incrementPage: (filterName: string) => {
             },
             resetPage: (filterName: string) => {
             }
-            /* tslint:enable:no-empty */
+            /!* tslint:enable:no-empty *!/
           }
         }
       ],
@@ -125,3 +126,4 @@ describe('SearchFacetRangeOptionComponent', () => {
     });
   });
 });
+*/
