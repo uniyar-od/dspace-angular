@@ -83,6 +83,30 @@ module.exports = {
           name: 'dc.author',
           style: 'fas fa-user'
         },
+        {
+          name: 'dc.contributor.author',
+          style: 'fas fa-user'
+        },
+        {
+          name: 'local.contributor.affiliation',
+          style: 'fas fa-university'
+        },
+        {
+          name: 'dc.bibliographicCitation.title',
+          style: 'fas fa-book'
+        },
+        {
+          name: 'dc.relation',
+          style: 'fas fa-user'
+        },
+        {
+          name: 'local.contributor.uhasselt',
+          style: 'fas fa-external-link-square-alt text-warning'
+        },
+        {
+          name: 'local.contributor.uhmissing',
+          style: 'fas fa-exclamation-triangle text-danger'
+        },
         // default configuration
         {
           name: 'default',
