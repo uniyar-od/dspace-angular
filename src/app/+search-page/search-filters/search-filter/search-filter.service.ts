@@ -1,5 +1,5 @@
 import { combineLatest as observableCombineLatest, Observable } from 'rxjs';
-import { Injectable, InjectionToken } from '@angular/core';
+import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SearchFiltersState, SearchFilterState } from './search-filter.reducer';
 import { createSelector, MemoizedSelector, select, Store } from '@ngrx/store';
@@ -16,7 +16,9 @@ import { hasValue, isNotEmpty, } from '../../../shared/empty.util';
 import { SearchFilterConfig } from '../../search-service/search-filter-config.model';
 import { RouteService } from '../../../shared/services/route.service';
 import { Params } from '@angular/router';
-import { SearchOptions } from '../../search-options.model';
+import { GlobalConfig } from '../../../../config/global-config.interface';
+import { GLOBAL_CONFIG } from '../../../../config';
+
 // const spy = create();
 const filterStateSelector = (state: SearchFiltersState) => state.searchFilter;
 
@@ -28,7 +30,8 @@ export const FILTER_CONFIG: InjectionToken<SearchFilterConfig> = new InjectionTo
 @Injectable()
 export class SearchFilterService {
 
-  constructor(private store: Store<SearchFiltersState>,
+  constructor(@Inject(GLOBAL_CONFIG) public config: GlobalConfig,
+              private store: Store<SearchFiltersState>,
               private routeService: RouteService
   ) {
   }
@@ -83,10 +86,11 @@ export class SearchFilterService {
     return this.store.pipe(
       select(filterByNameSelector(filterName)),
       map((object: SearchFilterState) => {
-        if (object) {
-          return object.filterCollapsed;
-        } else {
+        const isOpenByConfig = this.config.filters.loadOpened.includes(filterName);
+        if (isOpenByConfig || (object && !object.filterCollapsed)) {
           return false;
+        } else {
+          return true;
         }
       }),
       distinctUntilChanged()
