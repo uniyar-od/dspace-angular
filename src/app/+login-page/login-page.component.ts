@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { combineLatest as observableCombineLatest, Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { filter, find, take } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../app.reducer';
@@ -12,9 +12,11 @@ import {
   AuthenticationSuccessAction,
   ResetAuthenticationMessagesAction
 } from '../core/auth/auth.actions';
-import { hasValue, isNotEmpty } from '../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty } from '../shared/empty.util';
 import { AuthTokenInfo } from '../core/auth/models/auth-token-info.model';
-import { isAuthenticated } from '../core/auth/selectors';
+import { getSSOLoginUrl, isAuthenticated } from '../core/auth/selectors';
+import { ServerResponseService } from '../shared/services/server-response.service';
+import { AuthService } from '../core/auth/auth.service';
 
 /**
  * This component represents the login page
@@ -30,15 +32,19 @@ export class LoginPageComponent implements OnDestroy, OnInit {
    * Subscription to unsubscribe onDestroy
    * @type {Subscription}
    */
-  sub: Subscription;
+  subs: Subscription[] = [];
 
   /**
    * Initialize instance variables
    *
    * @param {ActivatedRoute} route
+   * @param {AuthService} authService
+   * @param {ServerResponseService} responseService
    * @param {Store<AppState>} store
    */
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
+              private responseService: ServerResponseService,
               private store: Store<AppState>) {}
 
   /**
@@ -47,12 +53,18 @@ export class LoginPageComponent implements OnDestroy, OnInit {
   ngOnInit() {
     const queryParamsObs = this.route.queryParams;
     const authenticated = this.store.select(isAuthenticated);
-    this.sub = observableCombineLatest(queryParamsObs, authenticated).pipe(
+    const SSOLoginUrl = this.store.select(getSSOLoginUrl);
+    this.subs.push(observableCombineLatest(queryParamsObs, authenticated).pipe(
       filter(([params, auth]) => isNotEmpty(params.token) || isNotEmpty(params.expired)),
       take(1)
     ).subscribe(([params, auth]) => {
       const token = params.token;
+      const redirectUrl = params.redirectUrl;
       let authToken: AuthTokenInfo;
+
+      if (isNotEmpty(redirectUrl)) {
+        this.authService.setRedirectUrl(redirectUrl);
+      }
       if (!auth) {
         if (isNotEmpty(token)) {
           authToken = new AuthTokenInfo(token);
@@ -66,16 +78,25 @@ export class LoginPageComponent implements OnDestroy, OnInit {
           this.store.dispatch(new AuthenticationSuccessAction(authToken));
         }
       }
-    })
+    }),
+      observableCombineLatest(queryParamsObs, authenticated, SSOLoginUrl).pipe(
+        find(([params, auth, url]) => isEmpty(params) && isNotEmpty(url))
+      ).subscribe(([params, auth, url]) => {
+          if (!auth) {
+            this.responseService.redirect(url);
+          }
+        })
+    )
   }
 
   /**
    * Unsubscribe from subscription
    */
   ngOnDestroy() {
-    if (hasValue(this.sub)) {
-      this.sub.unsubscribe();
-    }
+    this.subs
+      .filter((subscription) => hasValue(subscription))
+      .forEach((subscription) => subscription.unsubscribe());
+
     // Clear all authentication messages when leaving login page
     this.store.dispatch(new ResetAuthenticationMessagesAction());
   }
