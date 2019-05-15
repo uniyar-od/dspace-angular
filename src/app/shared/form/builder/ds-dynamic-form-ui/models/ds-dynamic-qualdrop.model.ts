@@ -12,6 +12,7 @@ export interface DsDynamicQualdropModelConfig extends DynamicFormGroupModelConfi
   languageCodes?: LanguageCode[];
   language?: string;
   readOnly: boolean;
+  hint?: string;
 }
 
 export class DynamicQualdropModel extends DynamicFormGroupModel {
@@ -20,6 +21,7 @@ export class DynamicQualdropModel extends DynamicFormGroupModel {
   @serializable() languageUpdates: Subject<string>;
   @serializable() hasLanguages = false;
   @serializable() readOnly: boolean;
+  @serializable() hint: string;
   isCustomGroup = true;
 
   constructor(config: DsDynamicQualdropModelConfig, layout?: DynamicFormControlLayout) {
@@ -33,6 +35,8 @@ export class DynamicQualdropModel extends DynamicFormGroupModel {
     this.languageUpdates.subscribe((lang: string) => {
       this.language = lang;
     });
+
+    this.hint = config.hint;
   }
 
   get value() {

@@ -28,6 +28,7 @@ export class DsDynamicInputModel extends DynamicInputModel {
   constructor(config: DsDynamicInputModelConfig, layout?: DynamicFormControlLayout) {
     super(config, layout);
 
+    this.hint = config.hint;
     this.readOnly = config.readOnly;
     this.value = config.value;
     this.language = config.language;
