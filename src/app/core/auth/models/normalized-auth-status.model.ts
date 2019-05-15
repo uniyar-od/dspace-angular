@@ -26,6 +26,9 @@ export class NormalizedAuthStatus extends NormalizedObject<AuthStatus> {
   @autoserialize
   authenticated: boolean;
 
+  @autoserialize
+  ssoLoginUrl?: string;
+
   @relationship(ResourceType.EPerson, false)
   @autoserialize
   eperson: string;
