@@ -97,6 +97,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       take(1),
       filter((authenticated) => !authenticated)
     ).subscribe((authenticated) => this.authService.checkAuthenticationToken());
+
     this.sidebarVisible = this.menuService.isMenuVisible(MenuID.ADMIN);
 
     this.collapsedSidebarWidth = this.cssService.getVariable('collapsedSidebarWidth');
