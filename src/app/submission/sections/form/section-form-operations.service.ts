@@ -370,8 +370,8 @@ export class SectionFormOperationsService {
                                       event: DynamicFormControlEvent,
                                       previousValue: FormFieldPreviousValueObject): void {
     const currentValueMap = valueMap;
-    const path = this.getQualdropItemPathFromEvent(event);
     if (event.type === 'remove') {
+      const path = this.getQualdropItemPathFromEvent(event);
       this.operationsBuilder.remove(pathCombiner.getPath(path));
     } else {
       if (previousValue.isPathEqual(this.formBuilder.getPath(event.model))) {
