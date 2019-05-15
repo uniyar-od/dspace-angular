@@ -488,6 +488,10 @@
         "objectou": {
           "placeholder": "Affiliation",
           "head": "Affiliation"
+        },
+        "providertype": {
+          "placeholder": "Provider by",
+          "head": "Provider by"
         }
       }
     }
