@@ -96,7 +96,7 @@ export class SearchFacetFilterComponent implements OnInit, OnDestroy {
     this.filterValues$ = new BehaviorSubject(new RemoteData(true, false, undefined, undefined, undefined));
     this.currentPage = this.getCurrentPage().pipe(distinctUntilChanged());
 
-    this.searchOptions$ = this.searchConfigService.searchOptions;
+    this.searchOptions$ = this.searchConfigService.searchOptions.pipe(distinctUntilChanged());
     this.subs.push(this.searchOptions$.subscribe(() => this.updateFilterValueList()));
     const facetValues$ = observableCombineLatest(this.searchOptions$, this.currentPage).pipe(
       map(([options, page]) => {

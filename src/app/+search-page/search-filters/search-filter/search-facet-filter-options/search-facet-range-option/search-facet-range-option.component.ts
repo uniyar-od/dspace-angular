@@ -1,5 +1,5 @@
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacetValue } from '../../../../search-service/facet-value.model';
@@ -58,7 +58,8 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.isVisible = this.isChecked().pipe(map((checked: boolean) => !checked));
-    this.sub = this.searchConfigService.searchOptions.subscribe(() => {
+    this.sub = this.searchConfigService.searchOptions.pipe(distinctUntilChanged())
+      .subscribe(() => {
       this.updateChangeParams()
     });
   }

@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { filter, first, map, startWith, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map, startWith, switchMap, take } from 'rxjs/operators';
 
 import { SearchFilterConfig } from '../../search-service/search-filter-config.model';
 import { SearchFilterService } from './search-filter.service';
@@ -130,6 +130,7 @@ export class SearchFilterComponent implements OnInit {
           return observableOf(true);
         } else {
           return this.searchConfigService.searchOptions.pipe(
+            distinctUntilChanged(),
             switchMap((options) => {
                 return this.searchService.getFacetValuesFor(this.filter, 1, options).pipe(
                   filter((RD) => !RD.isLoading),
