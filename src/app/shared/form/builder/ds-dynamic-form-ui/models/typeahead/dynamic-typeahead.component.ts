@@ -89,7 +89,9 @@ export class DsDynamicTypeaheadComponent extends DynamicFormControlComponent imp
     this.searchOptions = new IntegrationSearchOptions(
       this.model.authorityOptions.scope,
       this.model.authorityOptions.name,
-      this.model.authorityOptions.metadata);
+      this.model.authorityOptions.metadata,
+      '',
+      100);
     this.group.get(this.model.id).valueChanges.pipe(
       filter((value) => this.currentValue !== value))
       .subscribe((value) => {
