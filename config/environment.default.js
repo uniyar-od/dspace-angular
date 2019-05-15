@@ -101,7 +101,7 @@ module.exports = {
         },
         {
           name: 'local.contributor.uhasselt',
-          style: 'fas fa-external-link-square-alt text-warning'
+          style: 'fas fa-external-link-alt text-warning'
         },
         {
           name: 'local.contributor.uhmissing',
