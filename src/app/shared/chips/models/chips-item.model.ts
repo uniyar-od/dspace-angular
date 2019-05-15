@@ -8,6 +8,7 @@ export interface ChipsItemIcon {
   style: string;
   visibleWhenAuthorityEmpty: boolean;
   tooltip?: any;
+  valuesToDisplay?: string[];
 }
 
 export class ChipsItem {

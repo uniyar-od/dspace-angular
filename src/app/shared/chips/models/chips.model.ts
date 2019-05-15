@@ -123,13 +123,15 @@ export class Chips {
         if (hasValue(value) && isNotEmpty(config) && !this.hasPlaceholder(value)) {
 
           let icon: ChipsItemIcon;
-          const visibleWhenAuthorityEmpty = this.displayObj !== metadata;
+          const visibleWhenAuthorityEmpty = config.hasOwnProperty('visibleWhenAuthorityEmpty') ?
+            config.visibleWhenAuthorityEmpty : this.displayObj !== metadata;
 
           // Set icon
           icon = {
             metadata,
             visibleWhenAuthorityEmpty,
-            style: config.style
+            style: config.style,
+            valuesToDisplay: config.valuesToDisplay
           };
 
           icons.push(icon);

@@ -16,6 +16,8 @@ interface IconsConfig extends Config {
 export interface MetadataIconConfig extends Config {
   name: string,
   style: string;
+  visibleWhenAuthorityEmpty?: boolean;
+  valuesToDisplay?: string[]
 }
 
 export interface ConfidenceIconConfig extends Config {

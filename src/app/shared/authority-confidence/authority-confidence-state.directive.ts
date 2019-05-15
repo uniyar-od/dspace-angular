@@ -37,6 +37,8 @@ export class AuthorityConfidenceStateDirective implements OnChanges {
    */
   @Input() visibleWhenAuthorityEmpty = true;
 
+  @Input() valuesToDisplay: string[] = [];
+
   /**
    * The css class applied before directive changes
    */
@@ -131,7 +133,8 @@ export class AuthorityConfidenceStateDirective implements OnChanges {
    * @param confidence
    */
   private getClassByConfidence(confidence: any): string {
-    if (!this.visibleWhenAuthorityEmpty && confidence === ConfidenceType.CF_UNSET) {
+    if ((!this.visibleWhenAuthorityEmpty && (confidence === ConfidenceType.CF_UNSET || !this.hasValue())) ||
+      this.hasValueToHide()) {
       return 'd-none';
     }
 
@@ -145,4 +148,24 @@ export class AuthorityConfidenceStateDirective implements OnChanges {
     return (confidenceIndex !== -1) ? confidenceIcons[confidenceIndex].style : defaultClass;
   }
 
+  /**
+   * Check if authority has value
+   *
+   * @return boolean
+   *    Return true if authority has value, false otherwise
+   */
+  private hasValue() {
+    if (this.authorityValue instanceof AuthorityValue || this.authorityValue instanceof FormFieldMetadataValueObject) {
+      return this.authorityValue.hasValue();
+    } else {
+      return isNotEmpty(this.authorityValue);
+    }
+  }
+
+  private hasValueToHide() {
+    const value = (this.authorityValue instanceof AuthorityValue || this.authorityValue instanceof FormFieldMetadataValueObject) ?
+      this.authorityValue.value : this.authorityValue;
+    const toHide = (isNotEmpty(this.valuesToDisplay) && !this.valuesToDisplay.includes(value)) ? true : false;
+    return toHide;
+  }
 }

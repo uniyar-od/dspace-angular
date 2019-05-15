@@ -101,11 +101,15 @@ module.exports = {
         },
         {
           name: 'local.contributor.uhasselt',
-          style: 'fas fa-external-link-alt text-warning'
+          style: 'fas fa-external-link-alt text-warning',
+          visibleWhenAuthorityEmpty: false,
+          valuesToDisplay: ['no']
         },
         {
           name: 'local.contributor.uhmissing',
-          style: 'fas fa-exclamation-triangle text-danger'
+          style: 'fas fa-exclamation-triangle text-danger',
+          visibleWhenAuthorityEmpty: false,
+          valuesToDisplay: ['yes']
         },
         // default configuration
         {
