@@ -4,6 +4,7 @@ import { mapsTo, relationship } from '../../cache/builders/build-decorators';
 import { ResourceType } from '../../shared/resource-type';
 import { NormalizedObject } from '../../cache/models/normalized-object.model';
 import { IDToUUIDSerializer } from '../../cache/id-to-uuid-serializer';
+import { AuthTokenInfo } from './auth-token-info.model';
 
 @mapsTo(AuthStatus)
 @inheritSerialization(NormalizedObject)
@@ -25,6 +26,12 @@ export class NormalizedAuthStatus extends NormalizedObject<AuthStatus> {
    */
   @autoserialize
   authenticated: boolean;
+
+  @autoserialize
+  ssoLoginUrl?: string;
+
+  @autoserialize
+  token?: AuthTokenInfo;
 
   @relationship(ResourceType.EPerson, false)
   @autoserialize

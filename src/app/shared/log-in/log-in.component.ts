@@ -89,6 +89,12 @@ export class LogInComponent implements OnDestroy, OnInit {
   public ssoLoginUrl: Observable<string>;
 
   /**
+   * True if is present the url to login with sso.
+   * @type {Observable<boolean>}
+   */
+  public hasSsoLoginUrl: Observable<boolean>;
+
+  /**
    * @constructor
    * @param {AuthService} authService
    * @param {FormBuilder} formBuilder
@@ -148,6 +154,9 @@ export class LogInComponent implements OnDestroy, OnInit {
           this.authService.redirectToPreviousUrl();
         }
       );
+
+    this.hasSsoLoginUrl = this.ssoLoginUrl.pipe(
+      map((url) => isNotEmpty(url)));
   }
 
   /**
