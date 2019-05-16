@@ -870,7 +870,7 @@
       "submit.progressbar.describe.stepone": "Describe",
       "submit.progressbar.describe.steptwo": "Describe",
       "submit.progressbar.describe.stepcustom": "Describe",
-      "submit.progressbar.describe.basicinformation": "<strong>Basic Information:</strong> Mandatory to submit (as complete as possible). ",
+      "submit.progressbar.describe.basicinformation": "Basic Information: Mandatory to submit (as complete as possible). ",
       "submit.progressbar.describe.description": "Description",
       "submit.progressbar.describe.documenttype": "Document Type",
       "submit.progressbar.describe.source": "Source Info: Journal/Proceedings",
