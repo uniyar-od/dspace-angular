@@ -12,7 +12,8 @@ module.exports = {
         extensions: ['.ts', '.js', '.json']
     },
     output: {
-        path: root('dist')
+        path: root('dist'),
+        publicPath: '/ui/'
     },
     watchOptions: {
         aggregateTimeout: 50,

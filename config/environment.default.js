@@ -5,7 +5,7 @@ module.exports = {
     host: 'localhost',
     port: 3000,
     // NOTE: Space is capitalized because 'namespace' is a reserved string in TypeScript
-    nameSpace: '/'
+    nameSpace: '/ui'
   },
   // The REST API server settings.
   rest: {
