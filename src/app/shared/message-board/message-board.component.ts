@@ -95,7 +95,6 @@ export class MessageBoardComponent implements OnChanges, OnDestroy {
     if (hasValue(changes.dso)) {
       this.dso.item.pipe(
         filter((rd: RemoteData<Item>) => (rd.hasSucceeded && isNotEmpty(rd.payload))),
-        take(1),
         map((rd: RemoteData<Item>) => rd.payload),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
         .subscribe((item) => {
