@@ -1,7 +1,16 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { combineLatest, Observable, of as observableOf, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of as observableOf, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -11,7 +20,8 @@ import {
   map,
   mergeMap,
   reduce,
-  startWith, tap,
+  startWith,
+  take,
   withLatestFrom
 } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
@@ -38,18 +48,17 @@ import { EPerson } from '../../core/eperson/models/eperson.model';
   ]
 })
 
-export class MessageBoardComponent implements OnDestroy {
+export class MessageBoardComponent implements OnChanges, OnDestroy {
   @Input() dso: any;
   @Input() tooltipMessage: string;
   @Output() refresh = new EventEmitter<any>();
 
-  public item$: Observable<Item>;
   public submitter$: Observable<EPerson>;
   public user$: Observable<EPerson>;
-  public unreadMessages$: Observable<Bitstream[]> = observableOf([]);
+  public unreadMessages$: BehaviorSubject<Bitstream[]> = new BehaviorSubject<Bitstream[]>([]);
   public modalRef: NgbModalRef;
-  public itemUUID$: Observable<string>;
-  public messages$: Observable<Bitstream[]> = observableOf([]);
+  public itemUUID: string;
+  public messages$:  BehaviorSubject<Bitstream[]> = new BehaviorSubject<Bitstream[]>([]);
   public isSubmitter$: Observable<boolean>;
   public messageForm: FormGroup;
   public processingMessage = false;
@@ -58,7 +67,8 @@ export class MessageBoardComponent implements OnDestroy {
   private rememberEmitUnread = false;
   private rememberEmitRead = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(protected cdr: ChangeDetectorRef,
+              private formBuilder: FormBuilder,
               public msgService: MessageService,
               private modalService: NgbModal,
               private notificationsService: NotificationsService,
@@ -66,39 +76,56 @@ export class MessageBoardComponent implements OnDestroy {
               private translate: TranslateService) {
   }
 
-  ngOnInit() {
-    // set formGroup
-    this.messageForm = this.formBuilder.group({
-      textSubject: ['', Validators.required],
-      textDescription: ['', Validators.required]
-    });
+  ngOnChanges(changes: SimpleChanges): void {
+    if (hasValue(changes.dso.isFirstChange())) {
+      this.user$ = this.store.pipe(
+        select(getAuthenticatedUser),
+        find((user: EPerson) => isNotEmpty(user)),
+        map((user: EPerson) => user));
 
-    this.user$ = this.store.pipe(
-      select(getAuthenticatedUser),
-      find((user: EPerson) => isNotEmpty(user)),
-      map((user: EPerson) => user));
+      this.submitter$ = (this.dso.submitter as Observable<RemoteData<EPerson[]>>).pipe(
+        find((rd: RemoteData<EPerson>) => rd.hasSucceeded && isNotEmpty(rd.payload)),
+        map((rd: RemoteData<EPerson>) => rd.payload));
 
-    this.item$ = this.dso.item.pipe(
-      find((rd: RemoteData<Item>) => (rd.hasSucceeded && isNotEmpty(rd.payload))),
-      map((rd: RemoteData<Item>) => rd.payload));
+      this.isSubmitter$ = combineLatest(this.user$, this.submitter$).pipe(
+        filter(([user, submitter]) => isNotEmpty(user) && isNotEmpty(submitter)),
+        map(([user, submitter]) => user.uuid === submitter.uuid));
+    }
 
-    this.submitter$ = (this.dso.submitter as Observable<RemoteData<EPerson[]>>).pipe(
-      find((rd: RemoteData<EPerson>) => rd.hasSucceeded && isNotEmpty(rd.payload)),
-      map((rd: RemoteData<EPerson>) => rd.payload));
+    if (hasValue(changes.dso)) {
+      this.dso.item.pipe(
+        filter((rd: RemoteData<Item>) => (rd.hasSucceeded && isNotEmpty(rd.payload))),
+        take(1),
+        map((rd: RemoteData<Item>) => rd.payload),
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+        .subscribe((item) => {
+          this.itemUUID = item.uuid;
+          this.initMessages(item);
 
-    this.isSubmitter$ = combineLatest(this.user$, this.submitter$).pipe(
-      filter(([user, submitter]) => isNotEmpty(user) && isNotEmpty(submitter)),
-      map(([user, submitter]) => user.uuid === submitter.uuid));
+          // set formGroup
+          this.messageForm = this.formBuilder.group({
+            textSubject: ['', Validators.required],
+            textDescription: ['', Validators.required]
+          });
+        });
+    }
+  }
 
-    this.messages$ = this.item$.pipe(
-      find((item: Item) => isNotEmpty(item)),
-      flatMap((item: Item) => item.getBitstreamsByBundleName('MESSAGE')),
+  initMessages(item: Item) {
+    item.getBitstreamsByBundleName('MESSAGE').pipe(
       filter((bitStreams: Bitstream[]) => isNotEmpty(bitStreams)),
+      distinctUntilChanged((a, b) => a.length === b.length),
       startWith([]),
-      distinctUntilChanged());
+      distinctUntilChanged())
+      .subscribe((messages: Bitstream[]) => {
+        this.messages$.next(messages);
+        this.initUnreadMessages(messages);
+      });
+  }
 
-    this.unreadMessages$ = this.messages$.pipe(
-      filter((messages: Bitstream[]) => isNotEmpty(messages)),
+  initUnreadMessages(messages: Bitstream[]) {
+    observableOf(messages).pipe(
+      filter((bitStreams: Bitstream[]) => isNotEmpty(bitStreams)),
       flatMap((bitStreams: Bitstream[]) => bitStreams),
       flatMap((bitStream: Bitstream) =>
         observableOf(bitStream).pipe(
@@ -108,13 +135,10 @@ export class MessageBoardComponent implements OnDestroy {
       filter(([bitStream, isUnread]) => isUnread),
       map(([bitStream, isUnread]) => bitStream),
       reduce((acc: any, value: any) => [...acc, ...value], []),
-      startWith([])
-    );
-
-    this.itemUUID$ = this.item$.pipe(
-      find((item: Item) => isNotEmpty(item)),
-      map((item: Item) => item.uuid));
-
+      startWith([]))
+      .subscribe((unreadMessages: Bitstream[]) => {
+        this.unreadMessages$.next(unreadMessages)
+      });
   }
 
   sendMessage(itemUUID) {
@@ -228,6 +252,10 @@ export class MessageBoardComponent implements OnDestroy {
     }, (reason) => {
       this.emitRefresh();
     });
+  }
+
+  trackByFn(index, item) {
+    return index; // or item.id
   }
 
   ngOnDestroy() {
