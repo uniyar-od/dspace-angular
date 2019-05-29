@@ -5,7 +5,7 @@ import { DSpaceObject } from './dspace-object.model';
 import { Collection } from './collection.model';
 import { RemoteData } from '../data/remote-data';
 import { Bitstream } from './bitstream.model';
-import { hasValue, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
+import { hasNoUndefinedValue, hasValue, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import { PaginatedList } from '../data/paginated-list';
 
 export class Item extends DSpaceObject {
@@ -92,7 +92,7 @@ export class Item extends DSpaceObject {
     return this.bitstreams.pipe(
       filter((rd: RemoteData<PaginatedList<Bitstream>>) => !rd.isResponsePending && isNotUndefined(rd.payload)),
       map((rd: RemoteData<PaginatedList<Bitstream>>) => rd.payload.page),
-      filter((bitstreams: Bitstream[]) => isNotEmpty(bitstreams)),
+      filter((bitstreams: Bitstream[]) => hasNoUndefinedValue(bitstreams)),
       startWith([]),
       map((bitstreams) => {
         return bitstreams
