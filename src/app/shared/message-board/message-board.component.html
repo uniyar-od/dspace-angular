@@ -24,7 +24,7 @@
     <article id="content" class="rounded-bottom">
       <div id="list">
         <ul class="chat">
-          <ng-container *ngFor="let m of (messages$ | async); let i = index">
+          <ng-container *ngFor="let m of (messages$ | async); trackBy: trackByFn; let i = index">
             <ds-message
               [m]="m"
               [isSubmitter]="isSubmitter$ | async"
@@ -40,9 +40,8 @@
   </div>
 
   <div class="modal-footer">
-    <form *ngVar="(itemUUID$ | async) as itemUuid"
-          [formGroup]="messageForm"
-          (ngSubmit)="sendMessage(itemUuid)">
+    <form [formGroup]="messageForm"
+          (ngSubmit)="sendMessage(itemUUID)">
       <label *ngIf="!(isSubmitter$ | async)">{{'mydspace.messages.to' | translate}}: <span class="badge badge-pill badge-light">{{(submitter$ | async)?.name}}</span></label>
       <div class="form-group">
         <input formControlName="textSubject"
