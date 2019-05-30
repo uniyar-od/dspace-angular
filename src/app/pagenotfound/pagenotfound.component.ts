@@ -1,6 +1,7 @@
 import { ServerResponseService } from '../shared/services/server-response.service';
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../core/auth/auth.service';
+import { GLOBAL_CONFIG, GlobalConfig } from '../../config';
 
 /**
  * This component representing the `PageNotFound` DSpace page.
@@ -13,13 +14,19 @@ import { AuthService } from '../core/auth/auth.service';
 })
 export class PageNotFoundComponent implements OnInit {
 
+  public homeHref: string;
+
   /**
    * Initialize instance variables
    *
+   * @param {GlobalConfig} config
    * @param {AuthService} authservice
    * @param {ServerResponseService} responseService
    */
-  constructor(private authservice: AuthService, private responseService: ServerResponseService) {
+  constructor(
+    @Inject(GLOBAL_CONFIG) public config: GlobalConfig,
+    private authservice: AuthService,
+    private responseService: ServerResponseService) {
     this.responseService.setNotFound();
   }
 
@@ -28,6 +35,7 @@ export class PageNotFoundComponent implements OnInit {
    */
   ngOnInit(): void {
     this.authservice.clearRedirectUrl();
+    this.homeHref = this.config.auth.target.host + this.config.auth.target.nameSpace;
   }
 
 }
