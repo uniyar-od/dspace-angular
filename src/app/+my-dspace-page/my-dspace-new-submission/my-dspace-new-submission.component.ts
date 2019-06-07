@@ -89,7 +89,8 @@ export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
       if (workspaceitems.length === 1) {
         const options = new NotificationOptions();
         options.timeOut = 0;
-        const link = '/workspaceitems/' + workspaceitems[0].id + '/edit';
+        const namespace = (this.config.ui.nameSpace === '/') ? '' : this.config.ui.nameSpace;
+        const link = namespace + '/workspaceitems/' + workspaceitems[0].id + '/edit';
         this.notificationsService.notificationWithAnchor(
           NotificationType.Success,
           options,
