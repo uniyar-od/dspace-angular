@@ -322,11 +322,7 @@ export class SectionFormOperationsService {
       // Here model has a previous value changed or stored in the server
       if (!value.hasValue()) {
         // New value is empty, so dispatch a remove operation
-        if (this.getArrayIndexFromEvent(event) === 0) {
-          this.operationsBuilder.remove(pathCombiner.getPath(segmentedPath));
-        } else {
-          this.operationsBuilder.remove(pathCombiner.getPath(path));
-        }
+        this.operationsBuilder.remove(pathCombiner.getPath(path));
       } else {
         // New value is not equal from the previous one, so dispatch a replace operation
         this.operationsBuilder.replace(
