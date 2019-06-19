@@ -30,7 +30,7 @@ import {
   BITSTREAM_METADATA_FORM_GROUP_LAYOUT
 } from './section-upload-file-edit.model';
 import { POLICY_DEFAULT_WITH_LIST } from '../../section-upload.component';
-import { isNotEmpty, isNotUndefined } from '../../../../../shared/empty.util';
+import { isEmpty, isNotEmpty, isNotUndefined } from '../../../../../shared/empty.util';
 import { SubmissionFormsModel } from '../../../../../core/config/models/config-submission-forms.model';
 import { FormFieldModel } from '../../../../../shared/form/builder/models/form-field.model';
 import { AccessConditionOption } from '../../../../../core/config/models/config-access-condition-option.model';
@@ -205,9 +205,11 @@ export class SubmissionSectionUploadFileEditComponent implements OnChanges {
           hasGroups.push({ id: 'name', value: condition.name });
         }
       });
-      const confStart = { relation: [{ action: 'ENABLE', connective: 'OR', when: hasStart }] };
-      const confEnd = { relation: [{ action: 'ENABLE', connective: 'OR', when: hasEnd }] };
-      const confGroup = { relation: [{ action: 'ENABLE', connective: 'OR', when: hasGroups }] };
+
+      const disableConf = { disabled: true, relation: null };
+      const confStart = isEmpty(hasStart) ? disableConf : { relation: [{ action: 'ENABLE', connective: 'OR', when: hasStart }] };
+      const confEnd = isEmpty(hasEnd) ? disableConf : { relation: [{ action: 'ENABLE', connective: 'OR', when: hasEnd }] };
+      const confGroup = isEmpty(hasGroups) ? disableConf : { relation: [{ action: 'ENABLE', connective: 'OR', when: hasGroups }] };
 
       accessConditionsArrayConfig.groupFactory = () => {
         const type = new DynamicSelectModel(accessConditionTypeModelConfig, BITSTREAM_FORM_ACCESS_CONDITION_TYPE_LAYOUT);
