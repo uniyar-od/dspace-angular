@@ -762,6 +762,7 @@
     "group-collapse-help": "Click here to collapse",
     "group-expand-help": "Click here to expand and add more elements",
     "other-information": {
+      "employeeId": "Employee Id",
       "orcid": "Orcid",
       "dept": "Affiliation",
       "staffNo": "Staff No.",
