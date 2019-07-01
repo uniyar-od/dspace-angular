@@ -342,6 +342,28 @@ export class SubmissionService {
   }
 
   /**
+   * Return the submission scope
+   *
+   * @return SubmissionScopeType
+   *    the SubmissionScopeType
+   */
+  getSubmissionModelScope(): SubmissionScopeType {
+    let scope: SubmissionScopeType;
+    switch (this.getSubmissionObjectLinkName()) {
+      case 'workspaceitems':
+        scope = SubmissionScopeType.WorkspaceItem;
+        break;
+      case 'workflowitems':
+        scope = SubmissionScopeType.WorkflowItem;
+        break;
+      case 'edititems':
+        scope = SubmissionScopeType.WorkflowItem;
+        break;
+    }
+    return scope;
+  }
+
+  /**
    * Return the validity status of the submission
    *
    * @param submissionId
