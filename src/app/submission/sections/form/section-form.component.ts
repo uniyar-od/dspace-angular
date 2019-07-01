@@ -212,7 +212,7 @@ export class SubmissionSectionformComponent extends SectionModelComponent {
         this.formConfig,
         this.collectionId,
         sectionData,
-        this.submissionService.getSubmissionScope());
+        this.submissionService.getSubmissionModelScope());
     } catch (e) {
       const msg: string = this.translate.instant('error.submission.sections.init-form-error') + e.toString();
       const sectionError: SubmissionSectionError = {
