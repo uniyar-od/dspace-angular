@@ -79,7 +79,7 @@ let LOOKUP_TEST_GROUP = new FormGroup({
 
 const envConfig: GlobalConfig = MOCK_SUBMISSION_CONFIG;
 
-describe('Dynamic Lookup component', () => {
+fdescribe('Dynamic Lookup component', () => {
   function init() {
     LOOKUP_TEST_MODEL_CONFIG = {
       authorityOptions: {
@@ -283,7 +283,7 @@ describe('Dynamic Lookup component', () => {
           lookupComp.firstInputValue = 'test';
           lookupFixture.detectChanges();
 
-          lookupComp.onInput(new Event('input'));
+          lookupComp.onChange(new Event('change'));
           expect(lookupComp.model.value).toEqual(new FormFieldMetadataValueObject('test'))
 
         }));
@@ -293,7 +293,7 @@ describe('Dynamic Lookup component', () => {
           lookupComp.firstInputValue = 'test';
           lookupFixture.detectChanges();
 
-          lookupComp.onInput(new Event('input'));
+          lookupComp.onChange(new Event('change'));
           expect(lookupComp.model.value).not.toBeDefined();
 
         });
