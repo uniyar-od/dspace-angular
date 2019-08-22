@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewContainerRef } fro
 import { Router } from '@angular/router';
 
 import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { hasValue, isEmpty, isNotNull } from '../../shared/empty.util';
 import { SubmissionDefinitionsModel } from '../../core/config/models/config-submission-definitions.model';
@@ -10,6 +11,8 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { SubmissionService } from '../submission.service';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
 import { Collection } from '../../core/shared/collection.model';
+import { AppState } from '../../app.reducer';
+import { SetRedirectUrlAction } from '../../core/auth/auth.actions';
 
 /**
  * This component allows to submit a new workspaceitem.
@@ -58,12 +61,14 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
    * @param {NotificationsService} notificationsService
    * @param {SubmissionService} submissioService
    * @param {Router} router
+   * @param {Store} store
    * @param {TranslateService} translate
    * @param {ViewContainerRef} viewContainerRef
    */
   constructor(private changeDetectorRef: ChangeDetectorRef,
               private notificationsService: NotificationsService,
               private router: Router,
+              private store: Store<AppState>,
               private submissioService: SubmissionService,
               private translate: TranslateService,
               private viewContainerRef: ViewContainerRef) {
@@ -87,6 +92,8 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
               this.selfUrl = submissionObject.self;
               this.submissionDefinition = (submissionObject.submissionDefinition as SubmissionDefinitionsModel);
               this.submissionId = submissionObject.id;
+              // Set redirect url to workspaceitems edit page, so when session expired can redirect properly
+              this.store.dispatch(new SetRedirectUrlAction('/workspaceitems/' + this.submissionId + '/edit'));
               this.changeDetectorRef.detectChanges();
             }
           }
