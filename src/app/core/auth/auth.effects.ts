@@ -29,8 +29,7 @@ import {
   RegistrationSuccessAction,
   RetrieveAuthMethodsAction,
   RetrieveAuthMethodsErrorAction,
-  RetrieveAuthMethodsSuccessAction,
-  SetRedirectUrlAction
+  RetrieveAuthMethodsSuccessAction
 } from './auth.actions';
 import { EPerson } from '../eperson/models/eperson.model';
 import { AuthStatus } from './models/auth-status.model';
@@ -186,12 +185,6 @@ export class AuthEffects {
         map((location: any) => new RetrieveAuthMethodsSuccessAction(location)),
         catchError((error) => observableOf(new RetrieveAuthMethodsErrorAction())));
     }));
-
-  @Effect({ dispatch: false })
-  public setRedirecturl$: Observable<Action> = this.actions$
-    .pipe(ofType(AuthActionTypes.SET_REDIRECT_URL),
-      tap((action: SetRedirectUrlAction) => this.authService.setRedirectUrl(action.payload))
-    );
 
   /**
    * @constructor
