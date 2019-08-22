@@ -13,6 +13,7 @@ import { SubmissionObject } from '../../core/submission/models/submission-object
 import { Collection } from '../../core/shared/collection.model';
 import { AppState } from '../../app.reducer';
 import { SetRedirectUrlAction } from '../../core/auth/auth.actions';
+import { AuthService } from '../../core/auth/auth.service';
 
 /**
  * This component allows to submit a new workspaceitem.
@@ -57,6 +58,7 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
   /**
    * Initialize instance variables
    *
+   * @param {AuthService} authService
    * @param {ChangeDetectorRef} changeDetectorRef
    * @param {NotificationsService} notificationsService
    * @param {SubmissionService} submissioService
@@ -65,7 +67,8 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
    * @param {TranslateService} translate
    * @param {ViewContainerRef} viewContainerRef
    */
-  constructor(private changeDetectorRef: ChangeDetectorRef,
+  constructor(private authService: AuthService,
+              private changeDetectorRef: ChangeDetectorRef,
               private notificationsService: NotificationsService,
               private router: Router,
               private store: Store<AppState>,
@@ -93,7 +96,9 @@ export class SubmissionSubmitComponent implements OnDestroy, OnInit {
               this.submissionDefinition = (submissionObject.submissionDefinition as SubmissionDefinitionsModel);
               this.submissionId = submissionObject.id;
               // Set redirect url to workspaceitems edit page, so when session expired can redirect properly
-              this.store.dispatch(new SetRedirectUrlAction('/workspaceitems/' + this.submissionId + '/edit'));
+              const redirectUrl = '/workspaceitems/' + this.submissionId + '/edit';
+              this.store.dispatch(new SetRedirectUrlAction(redirectUrl));
+              this.authService.setRedirectUrl(redirectUrl);
               this.changeDetectorRef.detectChanges();
             }
           }
