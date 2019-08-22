@@ -351,14 +351,14 @@ export class AuthService {
    * Redirect to the login route
    */
   public redirectToLogin() {
-    this.router.navigate([LOGIN_ROUTE]);
+    this.router.navigate([this.getLoginUrl()]);
   }
 
   /**
    * Redirect to the login route when token has expired
    */
   public redirectToLoginWhenTokenExpired() {
-    const redirectUrl = LOGIN_ROUTE;
+    const redirectUrl = this.getLoginUrl();
     if (this._window.nativeWindow.location) {
       // Hard redirect to login page, so that all state is definitely lost
       this._window.nativeWindow.location.href = redirectUrl;
@@ -436,5 +436,19 @@ export class AuthService {
   clearRedirectUrl() {
     this.store.dispatch(new SetRedirectUrlAction(''));
     this.storage.remove(REDIRECT_COOKIE);
+  }
+
+  /**
+   * Get login url
+   */
+  getLoginUrl() {
+    return (this.config.ui.nameSpace !== '/') ? this.config.ui.nameSpace + LOGIN_ROUTE : LOGIN_ROUTE;
+  }
+
+  /**
+   * Get logout url
+   */
+  getLogoutUrl() {
+    return (this.config.ui.nameSpace !== '/') ? this.config.ui.nameSpace + LOGOUT_ROUTE : LOGOUT_ROUTE;
   }
 }
