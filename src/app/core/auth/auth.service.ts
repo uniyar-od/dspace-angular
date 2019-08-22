@@ -351,23 +351,22 @@ export class AuthService {
    * Redirect to the login route
    */
   public redirectToLogin() {
-    this.router.navigate([this.getLoginUrl()]);
+    this.router.navigate([LOGIN_ROUTE]);
   }
 
   /**
    * Redirect to the login route when token has expired
    */
   public redirectToLoginWhenTokenExpired() {
-    const redirectUrl = this.getLoginUrl();
     if (this._window.nativeWindow.location) {
       // Hard redirect to login page, so that all state is definitely lost
-      this._window.nativeWindow.location.href = redirectUrl;
+      this._window.nativeWindow.location.href = this.getLoginRedirectUrl();
     } else if (this.response) {
       if (!this.response._headerSent) {
-        this.response.redirect(302, redirectUrl);
+        this.response.redirect(302, this.getLoginRedirectUrl());
       }
     } else {
-      this.router.navigateByUrl(redirectUrl);
+      this.router.navigateByUrl(LOGIN_ROUTE);
     }
   }
 
@@ -441,14 +440,14 @@ export class AuthService {
   /**
    * Get login url
    */
-  getLoginUrl() {
+  getLoginRedirectUrl() {
     return (this.config.ui.nameSpace !== '/') ? this.config.ui.nameSpace + LOGIN_ROUTE : LOGIN_ROUTE;
   }
 
   /**
    * Get logout url
    */
-  getLogoutUrl() {
+  getLogoutRedirectUrl() {
     return (this.config.ui.nameSpace !== '/') ? this.config.ui.nameSpace + LOGOUT_ROUTE : LOGOUT_ROUTE;
   }
 }
