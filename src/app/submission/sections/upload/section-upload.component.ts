@@ -24,6 +24,7 @@ import { Collection } from '../../../core/shared/collection.model';
 import { ResourcePolicy } from '../../../core/shared/resource-policy.model';
 import { AccessConditionOption } from '../../../core/config/models/config-access-condition-option.model';
 import { PaginatedList } from '../../../core/data/paginated-list';
+import { SubmissionUploadFilesComponent } from '../../form/submission-upload-files/submission-upload-files.component';
 
 export const POLICY_DEFAULT_NO_LIST = 1; // Banner1
 export const POLICY_DEFAULT_WITH_LIST = 2; // Banner2
@@ -99,6 +100,12 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
   public availableAccessConditionOptions: AccessConditionOption[];  // List of accessConditions that an user can select
 
   /**
+   * i18n message label
+   * @type {string}
+   */
+  public dropMsg = 'submission.sections.upload.drop-message';
+
+  /**
    * List of Groups available for every access condition
    */
   protected availableGroups: Map<string, Group[]>; // Groups for any policy
@@ -121,6 +128,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
    * @param {SubmissionUploadsConfigService} uploadsConfigService
    * @param {SectionDataObject} injectedSectionData
    * @param {string} injectedSubmissionId
+   * @param {SubmissionUploadFilesComponent} injectedSubmissionUploaderRef
    */
   constructor(private bitstreamService: SectionUploadService,
               private changeDetectorRef: ChangeDetectorRef,
@@ -130,8 +138,9 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
               private submissionService: SubmissionService,
               private uploadsConfigService: SubmissionUploadsConfigService,
               @Inject('sectionDataProvider') public injectedSectionData: SectionDataObject,
-              @Inject('submissionIdProvider') public injectedSubmissionId: string) {
-    super(undefined, injectedSectionData, injectedSubmissionId);
+              @Inject('submissionIdProvider') public injectedSubmissionId: string,
+              @Inject('submissionUploaderRefProvider') public injectedSubmissionUploaderRef: SubmissionUploadFilesComponent) {
+    super(undefined, injectedSectionData, injectedSubmissionId, injectedSubmissionUploaderRef);
   }
 
   /**

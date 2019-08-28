@@ -15,6 +15,16 @@
   </div>
 </ng-container>
 
+<ds-alert [type]="AlertTypeEnum.Info">
+<p class="text-center m-0 p-0 d-flex justify-content-center align-items-center">
+        <span><i class="fas fa-cloud-upload" aria-hidden="true"></i>{{dropMsg | translate}}{{'uploader.or' | translate}}
+          <button class="btn btn-link m-0 p-0" (click)="submissionUploaderRef.uploader.browseBtn.nativeElement.click()">
+            {{'uploader.browse' | translate}}
+          </button>
+        </span>
+</p>
+</ds-alert>
+
 <ng-container *ngIf="fileList.length > 0">
 
   <div *ngIf="collectionDefaultAccessConditions.length > 0" class="row">

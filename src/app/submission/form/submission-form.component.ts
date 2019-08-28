@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 
-import { of as observableOf, Observable, Subscription } from 'rxjs';
+import { Observable, of as observableOf, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, flatMap, map } from 'rxjs/operators';
 
 import { hasValue, isNotEmpty } from '../../shared/empty.util';
@@ -14,6 +14,7 @@ import { UploaderOptions } from '../../shared/uploader/uploader-options.model';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { Collection } from '../../core/shared/collection.model';
 import { SubmissionObject } from '../../core/submission/models/submission-object.model';
+import { SubmissionUploadFilesComponent } from './submission-upload-files/submission-upload-files.component';
 
 /**
  * This component represents the submission form.
@@ -96,6 +97,11 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    * @type {Array}
    */
   protected subs: Subscription[] = [];
+
+  /**
+   * The SectionsDirective reference
+   */
+  @ViewChild(SubmissionUploadFilesComponent) submissionUploaderRef: SubmissionUploadFilesComponent;
 
   /**
    * Initialize instance variables

@@ -1,11 +1,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ElementRef,
   EventEmitter,
   HostListener,
   Input,
-  Output,
+  Output, ViewChild,
   ViewEncapsulation,
 } from '@angular/core'
 
@@ -67,6 +67,8 @@ export class UploaderComponent {
   public uploaderId: string;
   public isOverBaseDropZone = observableOf(false);
   public isOverDocumentDropZone = observableOf(false);
+
+  @ViewChild('browseBtn') browseBtn: ElementRef;
 
   @HostListener('window:dragover', ['$event'])
   onDragOver(event: any) {
