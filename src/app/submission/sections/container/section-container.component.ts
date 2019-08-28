@@ -7,6 +7,7 @@ import { AlertType } from '../../../shared/alert/aletr-type';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
+import { SubmissionUploadFilesComponent } from '../../form/submission-upload-files/submission-upload-files.component';
 
 /**
  * This component represents a section that contains the submission license form.
@@ -37,6 +38,12 @@ export class SubmissionSectionContainerComponent implements OnInit {
   @Input() submissionId: string;
 
   /**
+   * The submission uploader
+   * @type {SubmissionUploadFilesComponent}
+   */
+  @Input() submissionUploaderRef: SubmissionUploadFilesComponent;
+
+  /**
    * The AlertType enumeration
    * @type {AlertType}
    */
@@ -61,6 +68,7 @@ export class SubmissionSectionContainerComponent implements OnInit {
    * Initialize instance variables
    *
    * @param {Injector} injector
+   * @param {JsonPatchOperationsBuilder} operationsBuilder
    */
   constructor(private injector: Injector, private operationsBuilder: JsonPatchOperationsBuilder) {
   }
@@ -74,6 +82,7 @@ export class SubmissionSectionContainerComponent implements OnInit {
         {provide: 'collectionIdProvider', useFactory: () => (this.collectionId), deps: []},
         {provide: 'sectionDataProvider', useFactory: () => (this.sectionData), deps: []},
         {provide: 'submissionIdProvider', useFactory: () => (this.submissionId), deps: []},
+        {provide: 'submissionUploaderRefProvider', useFactory: () => (this.submissionUploaderRef), deps: []},
       ],
       parent: this.injector
     });
