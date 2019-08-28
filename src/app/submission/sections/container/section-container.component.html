@@ -27,8 +27,8 @@
           </a>
           <a href="#" class="close mr-3" *ngIf="!sectionRef.isMandatory()"
              (click)="removeSection($event)">
-            <i *ngIf="!(isRemoving | async)" class="far fa-trash-alt" aria-hidden="true"></i>
-            <i *ngIf="(isRemoving | async)" class="fas fa-circle-notch fa-spin" aria-hidden="true"></i>
+            <i *ngIf="!(sectionRef.isRemovePending() | async)" class="far fa-trash-alt" aria-hidden="true"></i>
+            <i *ngIf="(sectionRef.isRemovePending() | async)" class="fas fa-circle-notch fa-spin" aria-hidden="true"></i>
           </a>
         </div>
       </ng-template>

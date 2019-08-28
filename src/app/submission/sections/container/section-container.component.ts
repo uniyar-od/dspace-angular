@@ -4,7 +4,6 @@ import { SectionsDirective } from '../sections.directive';
 import { SectionDataObject } from '../models/section-data.model';
 import { rendersSectionType } from '../sections-decorator';
 import { AlertType } from '../../../shared/alert/aletr-type';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
 import { SubmissionUploadFilesComponent } from '../../form/submission-upload-files/submission-upload-files.component';
@@ -48,8 +47,6 @@ export class SubmissionSectionContainerComponent implements OnInit {
    * @type {AlertType}
    */
   public AlertTypeEnum = AlertType;
-
-  public isRemoving: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   /**
    * Injector to inject a section component with the @Input parameters
@@ -99,11 +96,8 @@ export class SubmissionSectionContainerComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    if (this.isRemoving.value === false) {
-      this.isRemoving.next(true);
-      this.operationsBuilder.remove(this.pathCombiner.getPath());
-      this.sectionRef.removeSection(this.submissionId, this.sectionData.id);
-    }
+    this.operationsBuilder.remove(this.pathCombiner.getPath());
+    this.sectionRef.removeSection(this.submissionId, this.sectionData.id);
   }
 
   /**

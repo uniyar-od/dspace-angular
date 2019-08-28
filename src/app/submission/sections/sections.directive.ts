@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Directive, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 import { uniq } from 'lodash';
 
 import { SectionsService } from './sections.service';
@@ -187,6 +187,20 @@ export class SectionsDirective implements OnDestroy, OnInit {
    */
   public isSectionActive(): boolean {
     return this.active;
+  }
+
+  /**
+   * Check if section remove operation is pending
+   *
+   * @returns {boolean}
+   *    Returns true when section remove operation is pending
+   */
+  public isRemovePending(): Observable<boolean> {
+    return this.sectionService.getSectionState(this.submissionId, this.sectionId).pipe(
+      map((sectionState: SubmissionSectionObject) => sectionState.removePending),
+      distinctUntilChanged(),
+      startWith(false)
+    );
   }
 
   /**
