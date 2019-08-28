@@ -66,7 +66,9 @@ export class SubmissionObjectEffects {
       definition.sections.page.forEach((sectionDefinition: SubmissionSectionModel) => {
         const sectionId = sectionDefinition._links.self.substr(sectionDefinition._links.self.lastIndexOf('/') + 1);
         const config = sectionDefinition._links.config || '';
-        const enabled = (sectionDefinition.mandatory && sectionDefinition.sectionType !== SectionsType.DetectDuplicate) || (isNotEmpty(action.payload.sections) && action.payload.sections.hasOwnProperty(sectionId));
+        const enabled = (sectionDefinition.sectionType === SectionsType.Upload) ||
+          (sectionDefinition.mandatory && sectionDefinition.sectionType !== SectionsType.DetectDuplicate) ||
+          (isNotEmpty(action.payload.sections) && action.payload.sections.hasOwnProperty(sectionId));
         const sectionData = (isNotUndefined(action.payload.sections) && isNotUndefined(action.payload.sections[sectionId])) ? action.payload.sections[sectionId] : Object.create(null);
         const sectionErrors = null;
         mappedActions.push(
