@@ -34,6 +34,7 @@
                  [visibleWhenAuthorityEmpty]="icon.visibleWhenAuthorityEmpty"
                  [valuesToDisplay]="icon.valuesToDisplay"
                  aria-hidden="true"
+                 (click)="onIconClick($event, icon);"
                  (dragstart)="tooltip.close();"
                  (mouseover)="showTooltip(t, i, icon.metadata)"
                  (mouseout)="t.close()"></i>

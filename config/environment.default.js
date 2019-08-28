@@ -85,7 +85,8 @@ module.exports = {
         },
         {
           name: 'dc.contributor.author',
-          style: 'fas fa-user'
+          style: 'fas fa-user',
+          link: '/cris/rp/:id'
         },
         {
           name: 'local.contributor.affiliation',
