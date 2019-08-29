@@ -7,6 +7,16 @@
           [dismissible]="true"
           [type]="AlertTypeEnum.Info"></ds-alert>
 
+<ds-alert [type]="AlertTypeEnum.Info">
+  <p class="text-center m-0 p-0 d-flex justify-content-center align-items-center">
+        <span><i class="fas fa-cloud-upload" aria-hidden="true"></i>{{dropMsg | translate}}{{'uploader.or' | translate}}
+          <button class="btn btn-link m-0 p-0" (click)="submissionUploaderRef.uploader.browseBtn.nativeElement.click()">
+            {{'uploader.browse' | translate}}
+          </button>
+        </span>
+  </p>
+</ds-alert>
+
 <ng-container *ngIf="fileList.length == 0">
   <div class="row">
     <div class="col-md-12">
@@ -15,32 +25,7 @@
   </div>
 </ng-container>
 
-<ds-alert [type]="AlertTypeEnum.Info">
-<p class="text-center m-0 p-0 d-flex justify-content-center align-items-center">
-        <span><i class="fas fa-cloud-upload" aria-hidden="true"></i>{{dropMsg | translate}}{{'uploader.or' | translate}}
-          <button class="btn btn-link m-0 p-0" (click)="submissionUploaderRef.uploader.browseBtn.nativeElement.click()">
-            {{'uploader.browse' | translate}}
-          </button>
-        </span>
-</p>
-</ds-alert>
-
 <ng-container *ngIf="fileList.length > 0">
-
-  <div *ngIf="collectionDefaultAccessConditions.length > 0" class="row">
-    <div class="col-sm-12" >
-      <ds-alert [type]="AlertTypeEnum.Warning">
-        <ng-container *ngIf="collectionPolicyType === 1">
-          {{ 'submission.sections.upload.header.policy.default.nolist' | translate:{ "collectionName": collectionName } }}
-        </ng-container>
-        <ng-container *ngIf="collectionPolicyType === 2">
-          {{ 'submission.sections.upload.header.policy.default.withlist' | translate:{ "collectionName": collectionName } }}
-        </ng-container>
-        <span class="clearfix"></span>
-        <ds-submission-section-upload-access-conditions [accessConditions]="collectionDefaultAccessConditions"></ds-submission-section-upload-access-conditions>
-      </ds-alert>
-    </div>
-  </div>
 
   <ng-container *ngFor="let fileEntry of fileList">
     <ds-submission-upload-section-file [availableAccessConditionGroups]="availableGroups"
