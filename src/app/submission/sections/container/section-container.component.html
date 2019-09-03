@@ -1,6 +1,6 @@
 <div dsSection #sectionRef="sectionRef"
      [attr.id]="sectionData.id"
-     [ngClass]="{ 'section-focus' : sectionRef.isSectionActive() && !(isRemoving | async) }"
+     [ngClass]="{ 'section-focus' : sectionRef.isSectionActive() && !(sectionRef.isRemovePending() | async) }"
      [mandatory]="sectionData.mandatory"
      [submissionId]="submissionId"
      [sectionId]="sectionData.id">
