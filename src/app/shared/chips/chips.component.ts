@@ -1,13 +1,25 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
 
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { SortablejsOptions } from 'angular-sortablejs';
 import { isObject } from 'lodash';
 
 import { Chips } from './models/chips.model';
-import { ChipsItem } from './models/chips-item.model';
+import { ChipsItem, ChipsItemIcon } from './models/chips-item.model';
 import { UploaderService } from '../uploader/uploader.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
+import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
+import { isNotEmpty } from '../empty.util';
 
 @Component({
   selector: 'ds-chips',
@@ -30,7 +42,9 @@ export class ChipsComponent implements OnChanges {
   tipText: string[];
 
   constructor(
+    @Inject(GLOBAL_CONFIG) public config: GlobalConfig,
     private cdr: ChangeDetectorRef,
+    private router: Router,
     private uploaderService: UploaderService,
     private translate: TranslateService) {
 
@@ -51,6 +65,7 @@ export class ChipsComponent implements OnChanges {
 
   chipsSelected(event: Event, index: number) {
     event.preventDefault();
+    event.stopPropagation();
     if (this.editable) {
       this.chips.getChips().forEach((item: ChipsItem, i: number) => {
         if (i === index) {
@@ -116,4 +131,12 @@ export class ChipsComponent implements OnChanges {
     }
   }
 
+  onIconClick(event: Event, icon: ChipsItemIcon) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (icon.hasLink) {
+      const url = this.config.auth.target.host + ((isNotEmpty(this.config.auth.target.nameSpace)) ? this.config.auth.target.nameSpace : '') + icon.link;
+      window.open(url, '_blank')
+    }
+  }
 }

@@ -126,12 +126,32 @@ export class Chips {
           const visibleWhenAuthorityEmpty = config.hasOwnProperty('visibleWhenAuthorityEmpty') ?
             config.visibleWhenAuthorityEmpty : this.displayObj !== metadata;
 
+          let iconLink = '';
+          if (config.link && isNotEmpty(config.link)) {
+            const regex = /:(id)/gm;
+            iconLink = config.link;
+            let m;
+            // tslint:disable-next-line:no-conditional-assignment
+            while ((m = regex.exec(config.link)) !== null) {
+              // This is necessary to avoid infinite loops with zero-width matches
+              if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+              }
+
+              const id = value.authority || value.id;
+
+              iconLink = config.link.replace(':id', id);
+            }
+          }
+
           // Set icon
           icon = {
             metadata,
             visibleWhenAuthorityEmpty,
             style: config.style,
-            valuesToDisplay: config.valuesToDisplay
+            valuesToDisplay: config.valuesToDisplay,
+            hasLink: isNotEmpty(iconLink),
+            link: iconLink
           };
 
           icons.push(icon);

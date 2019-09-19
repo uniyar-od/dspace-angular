@@ -9,6 +9,8 @@ export interface ChipsItemIcon {
   visibleWhenAuthorityEmpty: boolean;
   tooltip?: any;
   valuesToDisplay?: string[];
+  hasLink: boolean;
+  link?: string;
 }
 
 export class ChipsItem {
