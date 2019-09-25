@@ -89,6 +89,11 @@ module.exports = {
           link: '/cris/rp/:id'
         },
         {
+          name: 'dc.contributor.editor',
+          style: 'fas fa-user',
+          link: '/cris/rp/:id'
+        },
+        {
           name: 'local.contributor.affiliation',
           style: 'fas fa-university'
         },
