@@ -400,7 +400,7 @@ export class AuthService {
   public refreshAfterLogout() {
     // this.router.navigate(['/home']);
     // Hard redirect to home page, so that all state is definitely lost
-    this._window.nativeWindow.location.href = this.config.auth.target.host + '/4science/logout';
+    this._window.nativeWindow.location.href = this.config.auth.target.host + '/logout';
   }
 
   /**
