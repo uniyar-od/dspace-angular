@@ -101,13 +101,25 @@ module.exports = {
           style: 'fas fa-user'
         },
         {
-          name: 'local.contributor.uhasselt',
+          name: 'local.uhasselt.dc-contributor-author',
           style: 'fas fa-external-link-alt text-warning',
           visibleWhenAuthorityEmpty: false,
           valuesToDisplay: ['no']
         },
         {
-          name: 'local.contributor.uhmissing',
+          name: 'local.uhmissing.dc-contributor-author',
+          style: 'fas fa-exclamation-triangle text-danger',
+          visibleWhenAuthorityEmpty: false,
+          valuesToDisplay: ['yes']
+        },
+        {
+          name: 'local.uhasselt.dc-contributor-editor',
+          style: 'fas fa-external-link-alt text-warning',
+          visibleWhenAuthorityEmpty: false,
+          valuesToDisplay: ['no']
+        },
+        {
+          name: 'local.uhmissing.dc-contributor-editor',
           style: 'fas fa-exclamation-triangle text-danger',
           visibleWhenAuthorityEmpty: false,
           valuesToDisplay: ['yes']
