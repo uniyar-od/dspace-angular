@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MenuService } from '../shared/menu/menu.service';
 import { MenuID } from '../shared/menu/initial-menus-state';
 import { GLOBAL_CONFIG, GlobalConfig } from '../../config';
+import { Router } from '@angular/router';
 
 /**
  * Represents the header with the logo and simple navigation
@@ -27,7 +28,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     @Inject(GLOBAL_CONFIG) public config: GlobalConfig,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private router: Router
   ) {
   }
 
@@ -39,5 +41,11 @@ export class HeaderComponent implements OnInit {
 
   public toggleNavbar(): void {
     this.menuService.toggleMenu(this.menuID);
+  }
+
+  navigateToMydspace() {
+    if (!this.router.url.startsWith('/mydspace')) {
+      this.router.navigate(['mydspace']);
+    }
   }
 }
