@@ -17,7 +17,7 @@ import {
   DiscardSubmissionErrorAction,
   DiscardSubmissionSuccessAction,
   InitSectionAction,
-  InitSubmissionFormAction,
+  InitSubmissionFormAction, RemoveSectionDataAction, RemoveSectionDataErrorAction, RemoveSectionDataSuccessAction,
   ResetSubmissionFormAction,
   SaveAndDepositSubmissionAction,
   SaveForLaterSubmissionFormAction,
@@ -204,6 +204,18 @@ export class SubmissionObjectEffects {
         action.payload.sectionId).pipe(
         map(() => new DisableSectionSuccessAction(action.payload.submissionId, action.payload.sectionId)),
         catchError(() => observableOf(new DisableSectionErrorAction(action.payload.submissionId, action.payload.sectionId))));
+    }));
+
+  @Effect() removeSectionData$ = this.actions$.pipe(
+    ofType(SubmissionObjectActionTypes.REMOVE_SECTION_DATA),
+    switchMap((action: RemoveSectionDataAction) => {
+      return this.operationsService.jsonPatchByResourceID(
+        this.submissionService.getSubmissionObjectLinkName(),
+        action.payload.submissionId,
+        'sections',
+        action.payload.sectionId).pipe(
+        map(() => new RemoveSectionDataSuccessAction(action.payload.submissionId, action.payload.sectionId)),
+        catchError(() => observableOf(new RemoveSectionDataErrorAction(action.payload.submissionId, action.payload.sectionId))));
     }));
 
   @Effect() saveDuplicateDecision$ = this.actions$.pipe(

@@ -12,7 +12,7 @@ import { hasValue, isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empt
 import {
   DisableSectionAction,
   EnableSectionAction,
-  InertSectionErrorsAction,
+  InertSectionErrorsAction, RemoveSectionDataAction,
   RemoveSectionErrorsAction,
   SectionStatusChangeAction,
   UpdateSectionDataAction
@@ -298,6 +298,18 @@ export class SectionsService {
    */
   public dispatchRemoveSection(submissionId: string, sectionId: string) {
     this.store.dispatch(new DisableSectionAction(submissionId, sectionId))
+  }
+
+  /**
+   * Dispatch a new [DisableSectionAction] to remove section
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   */
+  public dispatchRemoveSectionData(submissionId: string, sectionId: string) {
+    this.store.dispatch(new RemoveSectionDataAction(submissionId, sectionId))
   }
 
   /**
