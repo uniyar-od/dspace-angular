@@ -41,6 +41,9 @@ export const SubmissionObjectActionTypes = {
   DISABLE_SECTION: type('dspace/submission/DISABLE_SECTION'),
   DISABLE_SECTION_SUCCESS: type('dspace/submission/DISABLE_SECTION_SUCCESS'),
   DISABLE_SECTION_ERROR: type('dspace/submission/DISABLE_SECTION_ERROR'),
+  REMOVE_SECTION_DATA: type('dspace/submission/REMOVE_SECTION_DATA'),
+  REMOVE_SECTION_DATA_SUCCESS: type('dspace/submission/REMOVE_SECTION_DATA_SUCCESS'),
+  REMOVE_SECTION_DATA_ERROR: type('dspace/submission/REMOVE_SECTION_DATA_ERROR'),
   SECTION_STATUS_CHANGE: type('dspace/submission/SECTION_STATUS_CHANGE'),
   SECTION_LOADING_STATUS_CHANGE: type('dspace/submission/SECTION_LOADING_STATUS_CHANGE'),
   UPLOAD_SECTION_DATA: type('dspace/submission/UPLOAD_SECTION_DATA'),
@@ -224,6 +227,66 @@ export class DisableSectionSuccessAction implements Action {
 
 export class DisableSectionErrorAction implements Action {
   type = SubmissionObjectActionTypes.DISABLE_SECTION_ERROR;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+  };
+
+  /**
+   * Create a new DisableSectionErrorAction
+   *
+   * @param submissionId
+   *    the submission's ID to remove
+   * @param sectionId
+   *    the section's ID to remove
+   */
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
+  }
+}
+
+export class RemoveSectionDataAction implements Action {
+  type = SubmissionObjectActionTypes.REMOVE_SECTION_DATA;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+  };
+
+  /**
+   * Create a new DisableSectionAction
+   *
+   * @param submissionId
+   *    the submission's ID to remove
+   * @param sectionId
+   *    the section's ID to remove
+   */
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
+  }
+}
+
+export class RemoveSectionDataSuccessAction implements Action {
+  type = SubmissionObjectActionTypes.REMOVE_SECTION_DATA_SUCCESS;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+  };
+
+  /**
+   * Create a new DisableSectionSuccessAction
+   *
+   * @param submissionId
+   *    the submission's ID to remove
+   * @param sectionId
+   *    the section's ID to remove
+   */
+  constructor(submissionId: string, sectionId: string) {
+    this.payload = { submissionId, sectionId };
+  }
+}
+
+export class RemoveSectionDataErrorAction implements Action {
+  type = SubmissionObjectActionTypes.REMOVE_SECTION_DATA_ERROR;
   payload: {
     submissionId: string;
     sectionId: string;

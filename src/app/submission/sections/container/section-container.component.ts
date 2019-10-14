@@ -7,6 +7,7 @@ import { AlertType } from '../../../shared/alert/aletr-type';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
 import { SubmissionUploadFilesComponent } from '../../form/submission-upload-files/submission-upload-files.component';
+import { SectionsType } from '../sections-type';
 
 /**
  * This component represents a section that contains the submission license form.
@@ -97,7 +98,11 @@ export class SubmissionSectionContainerComponent implements OnInit {
     event.stopPropagation();
 
     this.operationsBuilder.remove(this.pathCombiner.getPath());
-    this.sectionRef.removeSection(this.submissionId, this.sectionData.id);
+    if (this.sectionData.sectionType !== SectionsType.Upload) {
+      this.sectionRef.removeSection(this.submissionId, this.sectionData.id);
+    } else {
+      this.sectionRef.clearSectionData(this.submissionId, this.sectionData.id);
+    }
   }
 
   /**

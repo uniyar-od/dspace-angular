@@ -238,6 +238,20 @@ export class SectionsDirective implements OnDestroy, OnInit {
   }
 
   /**
+   * Remove section panel from submission form
+   *
+   * @param submissionId
+   *    the submission id
+   * @param sectionId
+   *    the section id
+   * @returns {Observable<boolean>}
+   *    Emits true whenever section is valid
+   */
+  public clearSectionData(submissionId: string, sectionId: string) {
+    this.sectionService.dispatchRemoveSectionData(submissionId, sectionId)
+  }
+
+  /**
    * Check if section has only generic errors
    *
    * @returns {boolean}

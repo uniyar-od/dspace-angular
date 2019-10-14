@@ -293,6 +293,18 @@ export function submissionObjectReducer(state = initialState, action: Submission
       return changeSectionRemoveState(state, action as DisableSectionErrorAction, false);
     }
 
+    case SubmissionObjectActionTypes.REMOVE_SECTION_DATA: {
+      return changeSectionRemoveState(state, action as DisableSectionAction, true);
+    }
+
+    case SubmissionObjectActionTypes.REMOVE_SECTION_DATA_SUCCESS: {
+      return removeSectionDataState(state, action as DisableSectionAction);
+    }
+
+    case SubmissionObjectActionTypes.REMOVE_SECTION_DATA_ERROR: {
+      return changeSectionRemoveState(state, action as DisableSectionErrorAction, false);
+    }
+
     case SubmissionObjectActionTypes.SECTION_STATUS_CHANGE: {
       return setIsValid(state, action as SectionStatusChangeAction);
     }
@@ -729,6 +741,36 @@ function changeSectionState(state: SubmissionObjectState, action: EnableSectionA
           [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
             enabled,
             data: (enabled) ? state[ action.payload.submissionId ].sections [ action.payload.sectionId ] : {},
+            removePending: false
+          })
+        })
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Remove section Data.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a DisableSectionAction
+ * @return SubmissionObjectState
+ *    the new state, with the section removed.
+ */
+function removeSectionDataState(state: SubmissionObjectState, action: EnableSectionAction | DisableSectionAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ].sections[ action.payload.sectionId ])) {
+    const sectionType = state[ action.payload.submissionId ].sections [ action.payload.sectionId ].sectionType;
+    const newData = (sectionType === SectionsType.Upload) ? { files: [] } : {};
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        // sections: deleteProperty(state[ action.payload.submissionId ].sections, action.payload.sectionId),
+        sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
+          [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+            data: newData,
             removePending: false
           })
         })

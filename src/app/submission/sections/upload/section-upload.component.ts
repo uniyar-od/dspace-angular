@@ -235,6 +235,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
         }),
         distinctUntilChanged())
         .subscribe(([configMetadataForm, fileList]: [SubmissionFormsModel, any[]]) => {
+            console.log('SubmissionSectionUploadComponent', fileList);
             this.fileList = [];
             this.fileIndexes = [];
             this.fileNames = [];
@@ -281,7 +282,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
    */
   protected getSectionStatus(): Observable<boolean> {
     return this.bitstreamService.getUploadedFileList(this.submissionId, this.sectionData.id).pipe(
-      map((fileList: any[]) => (isNotUndefined(fileList) && fileList.length > 0)));
+      map((fileList: any[]) => (isNotUndefined(fileList) && fileList.length > 0) || !this.sectionData.mandatory));
   }
 
   /**
