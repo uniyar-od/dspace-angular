@@ -84,12 +84,13 @@ export class DsDynamicScrollableDropdownComponent extends DynamicFormControlComp
 
   openDropdown(sdRef: NgbDropdown) {
     if (!this.model.readOnly) {
+      this.group.markAsUntouched();
       sdRef.open();
     }
   }
 
   onScroll() {
-    if (!this.loading && this.pageInfo.currentPage <= this.pageInfo.totalPages) {
+    if (!this.loading && this.pageInfo.currentPage < this.pageInfo.totalPages) {
       this.loading = true;
       this.searchOptions.currentPage++;
       this.authorityService.getEntriesByName(this.searchOptions).pipe(
@@ -122,14 +123,6 @@ export class DsDynamicScrollableDropdownComponent extends DynamicFormControlComp
     this.model.valueUpdates.next(event);
     this.change.emit(event);
     this.setCurrentValue(event);
-  }
-
-  onToggle(sdRef: NgbDropdown) {
-    if (sdRef.isOpen()) {
-      this.focus.emit(event);
-    } else {
-      this.blur.emit(event);
-    }
   }
 
   setCurrentValue(value): void {
