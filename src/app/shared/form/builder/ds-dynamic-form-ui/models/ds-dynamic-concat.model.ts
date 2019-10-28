@@ -17,11 +17,21 @@ export class DynamicConcatModel extends DynamicFormGroupModel {
   @serializable() hasLanguages = false;
   isCustomGroup = true;
 
+  private _id: string;
+
   constructor(config: DynamicConcatModelConfig, layout?: DynamicFormControlLayout) {
 
     super(config, layout);
 
     this.separator = config.separator + ' ';
+  }
+
+  get id() {
+    return this.name.replace(/\./g, '_');
+  }
+
+  set id(id) {
+    this._id = id;
   }
 
   get value() {

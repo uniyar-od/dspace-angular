@@ -1,14 +1,61 @@
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Params, Router, RouterStateSnapshot, } from '@angular/router';
 
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { select, Store } from '@ngrx/store';
+import { createSelector, MemoizedSelector, select, Store } from '@ngrx/store';
 import { isEqual } from 'lodash';
 
-import { AppState } from '../../app.reducer';
 import { AddUrlToHistoryAction } from '../history/history.actions';
 import { historySelector } from '../history/selectors';
+
+import { CoreState } from '../../core/core.reducers';
+import { hasValue } from '../empty.util';
+import { coreSelector } from '../../core/core.selectors';
+import { AppState } from '../../app.reducer';
+
+/**
+ * Selector to select all route parameters from the store
+ */
+export const routeParametersSelector = createSelector(
+  coreSelector,
+  (state: CoreState) => state.route.params
+);
+
+/**
+ * Selector to select all query parameters from the store
+ */
+export const queryParametersSelector = createSelector(
+  coreSelector,
+  (state: CoreState) => state.route.queryParams
+);
+
+/**
+ * Selector to select a specific route parameter from the store
+ * @param key The key of the parameter
+ */
+export const routeParameterSelector = (key: string) => parameterSelector(key, routeParametersSelector);
+
+/**
+ * Selector to select a specific query parameter from the store
+ * @param key The key of the parameter
+ */
+export const queryParameterSelector = (key: string) => parameterSelector(key, queryParametersSelector);
+
+/**
+ * Function to select a specific parameter from the store
+ * @param key The key to look for
+ * @param paramsSelector The selector that selects the parameters to search in
+ */
+export function parameterSelector(key: string, paramsSelector: (state: CoreState) => Params): MemoizedSelector<CoreState, string> {
+  return createSelector(paramsSelector, (state: Params) => {
+    if (hasValue(state)) {
+      return state[key];
+    } else {
+      return undefined;
+    }
+  });
+}
 
 /**
  * Service to keep track of the current query parameters
@@ -64,6 +111,14 @@ export class RouteService {
     );
   }
 
+  getRouteParameterValue(paramName: string): Observable<string> {
+    return this.store.pipe(select(routeParameterSelector(paramName)));
+  }
+
+  getRouteDataValue(datafield: string): Observable<any> {
+    return this.route.data.pipe(map((data) => data[datafield]), distinctUntilChanged(),);
+  }
+
   /**
    * Retrieves all query parameters of which the parameter name starts with the given prefix
    * @param prefix The prefix of the parameter name to look for
@@ -102,6 +157,14 @@ export class RouteService {
       .subscribe(({ urlAfterRedirects }: NavigationEnd) => {
         this.store.dispatch(new AddUrlToHistoryAction(urlAfterRedirects))
       });
+  }
+
+  private getRouteParams(): Observable<Params> {
+    let active = this.route;
+    while (active.firstChild) {
+      active = active.firstChild;
+    }
+    return active.params;
   }
 
   public getHistory(): Observable<string[]> {

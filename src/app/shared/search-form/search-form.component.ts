@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { Router } from '@angular/router';
 import { hasValue, isNotEmpty } from '../empty.util';
 import { QueryParamsHandling } from '@angular/router/src/config';
 import { MYDSPACE_ROUTE } from '../../+my-dspace-page/my-dspace-page.component';
+import { SearchService } from '../../+search-page/search-service/search.service';
 
 /**
  * This component renders a simple item page.
@@ -27,6 +28,11 @@ export class SearchFormComponent {
   @Input() query: string;
 
   /**
+   * True when the search component should show results on the current page
+   */
+  @Input() inPlaceSearch;
+
+  /**
    * The currently selected scope object's UUID
    */
   @Input()
@@ -39,7 +45,22 @@ export class SearchFormComponent {
    */
   @Input() scopes: DSpaceObject[];
 
-  constructor(private router: Router) {
+  /**
+   * Whether or not the search button should be displayed large
+   */
+  @Input() large = false;
+
+  /**
+   * The brand color of the search button
+   */
+  @Input() brandColor = 'primary';
+
+  /**
+   * Output the search data on submit
+   */
+  @Output() submitSearch = new EventEmitter<any>();
+
+  constructor(private router: Router, private searchService: SearchService) {
   }
 
   /**
@@ -48,6 +69,7 @@ export class SearchFormComponent {
    */
   onSubmit(data: any) {
     this.updateSearch(data);
+    this.submitSearch.emit(data);
   }
 
   /**
@@ -63,14 +85,9 @@ export class SearchFormComponent {
    * @param data Updated parameters
    */
   updateSearch(data: any) {
-    const newUrl = hasValue(this.currentUrl) ? this.currentUrl : '/search';
-    let handling: QueryParamsHandling = '' ;
-    if (this.currentUrl === '/search' || this.currentUrl === MYDSPACE_ROUTE) {
-      handling = 'merge';
-    }
-    this.router.navigate([newUrl], {
+    this.router.navigate(this.getSearchLinkParts(), {
       queryParams: Object.assign({}, { page: 1 }, data),
-      queryParamsHandling: handling
+      queryParamsHandling: 'merge'
     });
   }
 
@@ -81,4 +98,23 @@ export class SearchFormComponent {
     return isNotEmpty(object);
   }
 
+  /**
+   * @returns {string} The base path to the search page, or the current page when inPlaceSearch is true
+   */
+  public getSearchLink(): string {
+    if (this.inPlaceSearch) {
+      return './';
+    }
+    return this.searchService.getSearchLink();
+  }
+
+  /**
+   * @returns {string[]} The base path to the search page, or the current page when inPlaceSearch is true, split in separate pieces
+   */
+  public getSearchLinkParts(): string[] {
+    if (this.inPlaceSearch) {
+      return [];
+    }
+    return this.getSearchLink().split('/');
+  }
 }

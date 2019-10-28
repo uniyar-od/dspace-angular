@@ -217,16 +217,16 @@ export class AuthService {
 
   private parseSSOLocation(url: string): string {
     const parseUrl = decodeURIComponent(url);
-    // const urlTree: UrlTree = this.router.parseUrl(url);
-    // this.router.parseUrl(url);
-    // if (url.endsWith('/')) {
-    //   url += 'login';
-    // } else {
-    //   url = url.replace('/?target=http(.+)/g', 'https://hasselt-dspace.dev01.4science.it/dspace-spring-rest/shib.html');
-    // }
-    // console.log(url);
-    const target = `?target=${this.config.auth.target.host}${this.config.auth.target.page}`;
-    return parseUrl.replace(/\?target=http.+/g, target);
+    const urlTree: UrlTree = this.router.parseUrl(url);
+    this.router.parseUrl(url);
+    if (url.endsWith('/')) {
+      url += 'login';
+    } else {
+      const target = `?target=${this.config.auth.target.host}${this.config.auth.target.page}`;
+      url = parseUrl.replace(/\?target=http.+/g, target);
+      // url = url.replace('/?target=http(.+)/g', 'https://hasselt-dspace.dev01.4science.it/dspace-spring-rest/shib.html');
+    }
+    return url
   }
 
   /**

@@ -35,6 +35,11 @@ export class SearchFacetSelectedOptionComponent implements OnInit, OnDestroy {
   @Input() selectedValues$: Observable<FacetValue[]>;
 
   /**
+   * True when the search component should show results on the current page
+   */
+  @Input() inPlaceSearch;
+
+  /**
    * UI parameters when this filter is removed
    */
   removeQueryParams;
@@ -43,6 +48,11 @@ export class SearchFacetSelectedOptionComponent implements OnInit, OnDestroy {
    * Subscription to unsubscribe from on destroy
    */
   sub: Subscription;
+
+  /**
+   * Link to the search page
+   */
+  searchLink: string;
 
   constructor(protected searchService: SearchService,
               protected filterService: SearchFilterService,
@@ -59,12 +69,16 @@ export class SearchFacetSelectedOptionComponent implements OnInit, OnDestroy {
       .subscribe(([selectedValues, searchOptions]) => {
         this.updateRemoveParams(selectedValues)
       });
+    this.searchLink = this.getSearchLink();
   }
 
   /**
-   * @returns {string} The base path to the search page
+   * @returns {string} The base path to the search page, or the current page when inPlaceSearch is true
    */
-  getSearchLink() {
+  private getSearchLink(): string {
+    if (this.inPlaceSearch) {
+      return './';
+    }
     return this.searchService.getSearchLink();
   }
 

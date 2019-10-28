@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { distinctUntilChanged, filter, first, map, startWith, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith, switchMap, take } from 'rxjs/operators';
 
 import { SearchFilterConfig } from '../../search-service/search-filter-config.model';
 import { SearchFilterService } from './search-filter.service';
@@ -26,6 +26,11 @@ export class SearchFilterComponent implements OnInit {
    * The filter config for this component
    */
   @Input() filter: SearchFilterConfig;
+
+  /**
+   * True when the search component should show results on the current page
+   */
+  @Input() inPlaceSearch;
 
   /**
    * True when the filter is 100% collapsed in the UI

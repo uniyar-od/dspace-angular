@@ -42,25 +42,4 @@ export class NormalizedItem extends NormalizedDSpaceObject<Item> {
   @autoserializeAs(Boolean, 'withdrawn')
   isWithdrawn: boolean;
 
-  /**
-   * An array of Collections that are direct parents of this Item
-   */
-  @deserialize
-  @relationship(ResourceType.Collection, true)
-  parents: string[];
-
-  /**
-   * The Collection that owns this Item
-   */
-  @deserialize
-  @relationship(ResourceType.Collection, false)
-  owningCollection: string;
-
-  /**
-   * List of Bitstreams that are owned by this Item
-   */
-  @deserialize
-  @relationship(ResourceType.Bitstream, true)
-  bitstreams: string[];
-
 }

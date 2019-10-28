@@ -11,22 +11,22 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 
 import { RemoteData } from '../../core/data/remote-data';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { PaginationComponentOptions } from '../pagination/pagination-component-options.model';
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { ListableObject } from './shared/listable-object.model';
-import { hasValue, isNotEmpty } from '../empty.util';
-import { ViewMode } from '../../core/shared/view-mode.model';
+import { SetViewMode } from '../view-mode';
+import { hasValue, isEmpty, isNotEmpty } from '../empty.util';
 
 @Component({
   selector: 'ds-viewable-collection',
   styleUrls: ['./object-collection.component.scss'],
   templateUrl: './object-collection.component.html',
 })
-export class ObjectCollectionComponent implements OnChanges, OnInit {
+export class ObjectCollectionComponent implements OnInit {
 
   @Input() objects: RemoteData<ListableObject[]>;
   @Input() config?: PaginationComponentOptions;
@@ -34,7 +34,6 @@ export class ObjectCollectionComponent implements OnChanges, OnInit {
   @Input() hasBorder = false;
   @Input() hideGear = false;
   pageInfo: Observable<PageInfo>;
-  private sub;
   /**
    * An event fired when the page is changed.
    * Event's payload equals to the newly selected page.
@@ -61,25 +60,17 @@ export class ObjectCollectionComponent implements OnChanges, OnInit {
    */
   @Output() sortFieldChange: EventEmitter<string> = new EventEmitter<string>();
   data: any = {};
-  currentMode: ViewMode = ViewMode.List;
-  viewModeEnum = ViewMode;
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.objects && !changes.objects.isFirstChange()) {
-      // this.pageInfo = this.objects.pageInfo;
-    }
-  }
+  currentMode$: Observable<SetViewMode>;
+  viewModeEnum = SetViewMode;
 
   ngOnInit(): void {
-    // this.pageInfo = this.objects.pageInfo;
-
-    this.sub = this.route
+    this.currentMode$ = this.route
       .queryParams
-      .subscribe((params) => {
-        if (isNotEmpty(params.view)) {
-          this.currentMode = params.view;
-        }
-      });
+      .pipe(
+        filter((params) => isNotEmpty(params.view)),
+        map((params) => params.view),
+        startWith(SetViewMode.List)
+      );
   }
 
   /**
@@ -94,15 +85,6 @@ export class ObjectCollectionComponent implements OnChanges, OnInit {
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router) {
-  }
-
-  getViewMode(): ViewMode {
-    this.route.queryParams.pipe(map((params) => {
-      if (isNotEmpty(params.view) && hasValue(params.view)) {
-        this.currentMode = params.view;
-      }
-    }));
-    return this.currentMode;
   }
 
   onPageChange(event) {

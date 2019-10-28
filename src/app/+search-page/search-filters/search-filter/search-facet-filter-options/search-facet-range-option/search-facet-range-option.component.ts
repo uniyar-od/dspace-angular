@@ -1,11 +1,15 @@
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacetValue } from '../../../../search-service/facet-value.model';
 import { SearchFilterConfig } from '../../../../search-service/search-filter-config.model';
 import { SearchService } from '../../../../search-service/search.service';
 import { SearchFilterService } from '../../search-filter.service';
+import {
+  RANGE_FILTER_MAX_SUFFIX,
+  RANGE_FILTER_MIN_SUFFIX
+} from '../../search-range-filter/search-range-filter.component';
 import { SearchConfigurationService } from '../../../../search-service/search-configuration.service';
 import { hasValue } from '../../../../../shared/empty.util';
 
@@ -32,6 +36,11 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
   @Input() filterConfig: SearchFilterConfig;
 
   /**
+   * True when the search component should show results on the current page
+   */
+  @Input() inPlaceSearch;
+
+  /**
    * Emits true when this option should be visible and false when it should be invisible
    */
   isVisible: Observable<boolean>;
@@ -46,6 +55,11 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
    */
   sub: Subscription;
 
+  /**
+   * Link to the search page
+   */
+  searchLink: string;
+
   constructor(protected searchService: SearchService,
               protected filterService: SearchFilterService,
               protected searchConfigService: SearchConfigurationService,
@@ -57,9 +71,9 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
    * Initializes all observable instance variables and starts listening to them
    */
   ngOnInit(): void {
+    this.searchLink = this.getSearchLink();
     this.isVisible = this.isChecked().pipe(map((checked: boolean) => !checked));
-    this.sub = this.searchConfigService.searchOptions.pipe(distinctUntilChanged())
-      .subscribe(() => {
+    this.sub = this.searchConfigService.searchOptions.subscribe(() => {
       this.updateChangeParams()
     });
   }
@@ -72,9 +86,12 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @returns {string} The base path to the search page
+   * @returns {string} The base path to the search page, or the current page when inPlaceSearch is true
    */
-  getSearchLink() {
+  private getSearchLink(): string {
+    if (this.inPlaceSearch) {
+      return './';
+    }
     return this.searchService.getSearchLink();
   }
 
@@ -82,8 +99,12 @@ export class SearchFacetRangeOptionComponent implements OnInit, OnDestroy {
    * Calculates the parameters that should change if a given values for this range filter would be changed
    */
   private updateChangeParams(): void {
+    const parts = this.filterValue.value.split(rangeDelimiter);
+    const min = parts.length > 1 ? parts[0].trim() : this.filterValue.value;
+    const max = parts.length > 1 ? parts[1].trim() : this.filterValue.value;
     this.changeQueryParams = {
-      [this.filterConfig.paramName]:[this.filterValue.filterValue],
+      [this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX]: [min],
+      [this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX]: [max],
       page: 1
     };
   }

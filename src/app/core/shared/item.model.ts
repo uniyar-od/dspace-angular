@@ -1,5 +1,5 @@
 import { filter, map, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of as obesrvableOf } from 'rxjs';
 
 import { DSpaceObject } from './dspace-object.model';
 import { Collection } from './collection.model';
@@ -41,17 +41,6 @@ export class Item extends DSpaceObject {
   parents: Observable<RemoteData<Collection[]>>;
 
   /**
-   * The Collection that owns this Item
-   */
-  owningCollection: Observable<RemoteData<Collection>>;
-
-  get owner(): Observable<RemoteData<Collection>> {
-    return this.owningCollection;
-  }
-
-  bitstreams: Observable<RemoteData<PaginatedList<Bitstream>>>;
-
-  /**
    * Retrieves the thumbnail of this item
    * @returns {Observable<Bitstream>} the primaryBitstream of the 'THUMBNAIL' bundle
    */
@@ -89,7 +78,7 @@ export class Item extends DSpaceObject {
    * @returns {Observable<Bitstream[]>} the bitstreams with the given bundleName
    */
   getBitstreamsByBundleName(bundleName: string): Observable<Bitstream[]> {
-    return this.bitstreams.pipe(
+    return obesrvableOf([]).pipe(
       filter((rd: RemoteData<PaginatedList<Bitstream>>) => !rd.isResponsePending && isNotUndefined(rd.payload)),
       map((rd: RemoteData<PaginatedList<Bitstream>>) => rd.payload.page),
       filter((bitstreams: Bitstream[]) => hasNoUndefinedValue(bitstreams)),

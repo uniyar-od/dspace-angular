@@ -1,5 +1,6 @@
 import { GenericConstructor } from '../../../core/shared/generic-constructor';
 import { ListableObject } from './listable-object.model';
+import { SetViewMode } from '../../view-mode';
 import { ViewMode } from '../../../core/shared/view-mode.model';
 
 const dsoElementMap = new Map();
