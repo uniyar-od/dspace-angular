@@ -52,13 +52,6 @@ export class NormalizedItem extends NormalizedDSpaceObject<Item> {
   parents: string[];
 
   /**
-   * The Collection that owns this Item
-   */
-  @deserialize
-  @relationship(Collection, false)
-  owningCollection: string;
-
-  /**
    * List of Bitstreams that are owned by this Item
    */
   @deserialize

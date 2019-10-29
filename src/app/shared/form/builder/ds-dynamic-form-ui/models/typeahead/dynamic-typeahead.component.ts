@@ -108,6 +108,7 @@ export class DsDynamicTypeaheadComponent extends DynamicFormControlComponent imp
   onInput(event) {
     if (!this.model.authorityOptions.closed && isNotEmpty(event.target.value)) {
       this.inputValue = new FormFieldMetadataValueObject(event.target.value);
+      this.model.valueUpdates.next(this.inputValue);
     }
   }
 
@@ -154,5 +155,4 @@ export class DsDynamicTypeaheadComponent extends DynamicFormControlComponent imp
       this.click$.next(this.formatter(this.currentValue));
     }
   }
-
 }

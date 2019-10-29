@@ -8,12 +8,10 @@ import { GLOBAL_CONFIG } from '../../../config';
 import { GlobalConfig } from '../../../config/global-config.interface';
 import { ObjectCacheService } from '../cache/object-cache.service';
 import { ErrorResponse, MessageResponse, RestResponse } from '../cache/response.models';
-import { NormalizedObjectFactory } from '../cache/models/normalized-object-factory';
 
 @Injectable()
 export class MessageResponseParsingService extends BaseResponseParsingService implements ResponseParsingService {
 
-  protected objectFactory = NormalizedObjectFactory;
   protected toCache = false;
 
   constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,

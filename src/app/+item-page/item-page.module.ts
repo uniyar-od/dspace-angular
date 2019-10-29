@@ -26,11 +26,13 @@ import { MetadataRepresentationListComponent } from './simple/metadata-represent
 import { RelatedEntitiesSearchComponent } from './simple/related-entities/related-entities-search/related-entities-search.component';
 import { MetadataValuesComponent } from './field-components/metadata-values/metadata-values.component';
 import { MetadataFieldWrapperComponent } from './field-components/metadata-field-wrapper/metadata-field-wrapper.component';
+import { SubmissionModule } from '../submission/submission.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    SubmissionModule,
     ItemPageRoutingModule,
     EditItemPageModule,
     SearchPageModule

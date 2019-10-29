@@ -105,6 +105,8 @@ import { RelationshipService } from './data/relationship.service';
 import { RoleService } from './roles/role.service';
 import { MyDSpaceGuard } from '../+my-dspace-page/my-dspace.guard';
 import { MyDSpaceResponseParsingService } from './data/mydspace-response-parsing.service';
+import { MessageService } from './message/message.service';
+import { MessageResponseParsingService } from './message/message-response-parsing.service';
 import { ClaimedTaskDataService } from './tasks/claimed-task-data.service';
 import { PoolTaskDataService } from './tasks/pool-task-data.service';
 import { TaskResponseParsingService } from './tasks/task-response-parsing.service';
@@ -208,6 +210,8 @@ const PROVIDERS = [
   RelationshipService,
   MyDSpaceGuard,
   RoleService,
+  MessageResponseParsingService,
+  MessageService,
   TaskResponseParsingService,
   ClaimedTaskDataService,
   PoolTaskDataService,

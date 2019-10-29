@@ -15,7 +15,7 @@ import {
 import { hasValue, isEmpty, isNotEmpty } from '../shared/empty.util';
 import { AuthTokenInfo } from '../core/auth/models/auth-token-info.model';
 import { getSSOLoginUrl, isAuthenticated } from '../core/auth/selectors';
-import { ServerResponseService } from '../shared/services/server-response.service';
+import { ServerResponseService } from '../core/services/server-response.service';
 import { AuthService } from '../core/auth/auth.service';
 
 /**

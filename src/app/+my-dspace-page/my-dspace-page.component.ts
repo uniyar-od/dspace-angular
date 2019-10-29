@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, switchMap, tap, } from 'rxjs/operators';
+import { switchMap, tap, } from 'rxjs/operators';
 
 import { PaginatedList } from '../core/data/paginated-list';
 import { RemoteData } from '../core/data/remote-data';

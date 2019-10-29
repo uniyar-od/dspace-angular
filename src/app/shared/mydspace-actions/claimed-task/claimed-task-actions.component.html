@@ -2,7 +2,7 @@
   <a [class.disabled]="!(object.workflowitem | async)?.hasSucceeded"
      class="btn btn-primary mt-1 mb-3"
      ngbTooltip="{{'submission.workflow.tasks.claimed.edit_help' | translate}}"
-     [routerLink]="['/workflowitems/' + (object.workflowitem | async)?.payload.id + '/edit']"
+     [routerLink]="['/workflowitems/' + (object.workflowitem | async)?.payload.id + '/' + object.id + '/edit']"
      role="button">
     <i class="fa fa-edit"></i> {{'submission.workflow.tasks.claimed.edit' | translate}}
   </a>
@@ -18,3 +18,9 @@
   <ds-claimed-task-actions-return-to-pool [processingReturnToPool]="(processingReturnToPool$ | async)"
                                           [wrapperClass]="'mt-1 mb-3'"
                                           (returnToPool)="returnToPool()"></ds-claimed-task-actions-return-to-pool>
+
+  <ds-message-board
+    [dso]="workflowitem$ | async"
+    [tooltipMessage]="'mydspace.messages.controller-help'"
+    (refresh)="refresh()">
+  </ds-message-board>

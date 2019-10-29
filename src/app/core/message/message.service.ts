@@ -73,15 +73,15 @@ export class MessageService {
   }
 
   public createMessage(body: any, options?: HttpOptions): Observable<MessageDataResponse> {
-    return this.postToEndpoint('', this.requestService.prepareBody(body), this.makeHttpOptions());
+    return this.postToEndpoint('', this.requestService.uriEncodeBody(body), this.makeHttpOptions());
   }
 
   public markAsRead(body: any, options?: HttpOptions): Observable<MessageDataResponse> {
-    return this.postToEndpoint('read', this.requestService.prepareBody(body), this.makeHttpOptions());
+    return this.postToEndpoint('read', this.requestService.uriEncodeBody(body), this.makeHttpOptions());
   }
 
   public markAsUnread(body: any, options?: HttpOptions): Observable<MessageDataResponse> {
-    return this.postToEndpoint('unread', this.requestService.prepareBody(body), this.makeHttpOptions());
+    return this.postToEndpoint('unread', this.requestService.uriEncodeBody(body), this.makeHttpOptions());
   }
 
   protected makeHttpOptions() {

@@ -3,6 +3,10 @@ nav.navbar {
     align-items: baseline;
 }
 
+.navbar a.navbar-brand, .navbar a.btn {
+  color: $white !important;
+}
+
 /** Mobile menu styling **/
 @media screen and (max-width: map-get($grid-breakpoints, md)) {
     .navbar {

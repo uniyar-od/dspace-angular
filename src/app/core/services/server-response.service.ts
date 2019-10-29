@@ -2,7 +2,7 @@ import { RESPONSE } from '@nguniversal/express-engine/tokens';
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Response } from 'express';
 import { NativeWindowRef, NativeWindowService } from './window.service';
-import { isNotEmpty } from '../empty.util';
+import { isNotEmpty } from '../../shared/empty.util';
 
 @Injectable()
 export class ServerResponseService {

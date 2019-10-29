@@ -33,6 +33,9 @@ export class MyDSpaceItemStatusComponent implements OnInit {
     this.badgeContent = this.status;
     this.badgeClass = 'text-light badge ';
     switch (this.status) {
+      case MyDspaceItemStatusType.REJECTED:
+        this.badgeClass += 'badge-danger';
+        break;
       case MyDspaceItemStatusType.VALIDATION:
         this.badgeClass += 'badge-warning';
         break;

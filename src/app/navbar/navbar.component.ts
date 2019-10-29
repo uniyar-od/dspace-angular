@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { Component, Injector, OnInit, ViewEncapsulation } from '@angular/core';
 import { slideMobileNav } from '../shared/animations/slide';
 import { MenuComponent } from '../shared/menu/menu.component';
 import { MenuService } from '../shared/menu/menu.service';
@@ -12,6 +12,7 @@ import { HostWindowService } from '../shared/host-window.service';
   selector: 'ds-navbar',
   styleUrls: ['./navbar.component.scss'],
   templateUrl: './navbar.component.html',
+  encapsulation: ViewEncapsulation.None,
   animations: [slideMobileNav]
 })
 export class NavbarComponent extends MenuComponent implements OnInit {

@@ -164,7 +164,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
         filter((submissionObject: SubmissionObjectEntry) => isUndefined(this.collectionId) || this.collectionId !== submissionObject.collection),
         tap((submissionObject: SubmissionObjectEntry) => this.collectionId = submissionObject.collection),
         flatMap((submissionObject: SubmissionObjectEntry) => this.collectionDataService.findById(submissionObject.collection)),
-        filter((rd: RemoteData<Collection>) => isNotUndefined((rd.payload))),
+        find((rd: RemoteData<Collection>) => isNotUndefined((rd.payload))),
         tap((collectionRemoteData: RemoteData<Collection>) => this.collectionName = collectionRemoteData.payload.name),
         flatMap((collectionRemoteData: RemoteData<Collection>) => {
           return this.resourcePolicyService.findByHref(
@@ -180,6 +180,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
           }
         }),
         flatMap(() => config$),
+        take(1),
         flatMap((config: SubmissionUploadsModel) => {
           this.availableAccessConditionOptions = isNotEmpty(config.accessConditionOptions) ? config.accessConditionOptions : [];
 
@@ -237,7 +238,6 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
         }),
         distinctUntilChanged())
         .subscribe(([configMetadataForm, fileList]: [SubmissionFormsModel, any[]]) => {
-            console.log('SubmissionSectionUploadComponent', fileList);
             this.fileList = [];
             this.fileIndexes = [];
             this.fileNames = [];

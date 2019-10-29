@@ -156,7 +156,7 @@ describe('AuthService test', () => {
           (state as any).core = Object.create({});
           (state as any).core.auth = authenticatedState;
         });
-      authService = new AuthService({}, window, undefined, authReqService, router, routeService, cookieService, store, rdbService);
+      authService = new AuthService({} as  any, {}, window, undefined, authReqService, router, routeService, cookieService, store, rdbService);
     }));
 
     it('should return true when user is logged in', () => {
@@ -218,7 +218,7 @@ describe('AuthService test', () => {
           (state as any).core = Object.create({});
           (state as any).core.auth = authenticatedState;
         });
-      authService = new AuthService({}, window, undefined, authReqService, router, routeService, cookieService, store, rdbService);
+      authService = new AuthService({} as any, {}, window, undefined, authReqService, router, routeService, cookieService, store, rdbService);
       storage = (authService as any).storage;
       routeServiceMock = TestBed.get(RouteService);
       routerStub = TestBed.get(Router);
