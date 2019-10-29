@@ -10,12 +10,10 @@ import { BaseResponseParsingService } from '../data/base-response-parsing.servic
 import { GLOBAL_CONFIG } from '../../../config';
 import { GlobalConfig } from '../../../config/global-config.interface';
 import { ObjectCacheService } from '../cache/object-cache.service';
-import { SubmissionResourceType } from './submission-resource-type';
 import { NormalizedWorkspaceItem } from './models/normalized-workspaceitem.model';
 import { NormalizedWorkflowItem } from './models/normalized-workflowitem.model';
 import { FormFieldMetadataValueObject } from '../../shared/form/builder/models/form-field-metadata-value.model';
 import { SubmissionObject } from './models/submission-object.model';
-import { NormalizedObjectFactory } from '../cache/models/normalized-object-factory';
 import { NormalizedEditItem } from './models/normalized-edititem.model';
 
 /**
@@ -76,7 +74,6 @@ export function normalizeSectionData(obj: any, objIndex?: number) {
 @Injectable()
 export class SubmissionResponseParsingService extends BaseResponseParsingService implements ResponseParsingService {
 
-  protected objectFactory = NormalizedObjectFactory;
   protected toCache = false;
 
   constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
@@ -94,17 +91,16 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
   parse(request: RestRequest, data: DSpaceRESTV2Response): RestResponse {
     if (isNotEmpty(data.payload)
       && isNotEmpty(data.payload._links)
-      && (data.statusCode === 201 || data.statusCode === 200)) {
-      const dataDefinition = this.processResponse<SubmissionObject | ConfigObject, SubmissionResourceType>(data.payload, request.href);
+      && this.isSuccessStatus(data.statusCode)) {
+      const dataDefinition = this.processResponse<SubmissionObject | ConfigObject>(data.payload, request.href);
       return new SubmissionSuccessResponse(dataDefinition, data.statusCode, data.statusText, this.processPageInfo(data.payload));
-    } else if (isEmpty(data.payload) && data.statusCode === 204) {
-      // Response from a DELETE request
+    } else if (isEmpty(data.payload) && this.isSuccessStatus(data.statusCode)) {
       return new SubmissionSuccessResponse(null, data.statusCode, data.statusText);
     } else {
       return new ErrorResponse(
         Object.assign(
           new Error('Unexpected response from server'),
-          {statusCode: data.statusCode, statusText: data.statusText}
+          { statusCode: data.statusCode, statusText: data.statusText }
         )
       );
     }
@@ -117,8 +113,8 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
    * @param {string} requestHref
    * @returns {any[]}
    */
-  protected processResponse<ObjectDomain, ObjectType>(data: any, requestHref: string): any[] {
-    const dataDefinition = this.process<ObjectDomain, ObjectType>(data, requestHref);
+  protected processResponse<ObjectDomain>(data: any, requestHref: string): any[] {
+    const dataDefinition = this.process<ObjectDomain>(data, requestHref);
     const normalizedDefinition = Array.of();
     const processedList = Array.isArray(dataDefinition) ? dataDefinition : Array.of(dataDefinition);
 

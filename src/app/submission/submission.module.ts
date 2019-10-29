@@ -34,7 +34,7 @@ import { DetectDuplicateService } from './sections/detect-duplicate/detect-dupli
 @NgModule({
   imports: [
     CommonModule,
-    CoreModule,
+    CoreModule.forRoot(),
     SharedModule,
     StoreModule.forFeature('submission', submissionReducers, {}),
     EffectsModule.forFeature(submissionEffects),

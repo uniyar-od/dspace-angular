@@ -15,6 +15,7 @@ import { SearchService } from '../../+search-page/search-service/search.service'
 @Component({
   selector: 'ds-search-form',
   styleUrls: ['./search-form.component.scss'],
+  // templateUrl: './search-form.component.html',
   templateUrl: './search-form.component.html'
 })
 

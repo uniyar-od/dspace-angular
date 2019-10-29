@@ -18,7 +18,7 @@ import { MetadataschemaParsingService } from './metadataschema-parsing.service';
 import { MetadatafieldParsingService } from './metadatafield-parsing.service';
 import { URLCombiner } from '../url-combiner/url-combiner';
 import { TaskResponseParsingService } from '../tasks/task-response-parsing.service';
-import { MessageResponseParsingService } from '../message/message-response-parsing.service';
+import { MappedCollectionsReponseParsingService } from './mapped-collections-reponse-parsing.service';
 
 /* tslint:disable:max-classes-per-file */
 
@@ -183,6 +183,17 @@ export class BrowseEntriesRequest extends GetRequest {
 export class BrowseItemsRequest extends GetRequest {
   getResponseParser(): GenericConstructor<ResponseParsingService> {
     return BrowseItemsResponseParsingService;
+  }
+}
+
+/**
+ * Request to fetch the mapped collections of an item
+ */
+export class MappedCollectionsRequest extends GetRequest {
+  public responseMsToLive = 10000;
+
+  getResponseParser(): GenericConstructor<ResponseParsingService> {
+    return MappedCollectionsReponseParsingService;
   }
 }
 
@@ -372,26 +383,6 @@ export class DeleteByIDRequest extends DeleteRequest {
   }
 }
 
-export class MessagePostRequest extends PostRequest {
-  constructor(uuid: string, href: string, public body?: any, public options?: HttpOptions) {
-    super(uuid, href, body, options);
-  }
-
-  getResponseParser(): GenericConstructor<ResponseParsingService> {
-    return MessageResponseParsingService;
-  }
-}
-
-export class MessageGetRequest extends GetRequest {
-  constructor(uuid: string, href: string, public options?: HttpOptions) {
-    super(uuid, href, null, options);
-  }
-
-  getResponseParser(): GenericConstructor<ResponseParsingService> {
-    return MessageResponseParsingService;
-  }
-}
-
 export class TaskPostRequest extends PostRequest {
   constructor(uuid: string, href: string, public body?: any, public options?: HttpOptions) {
     super(uuid, href, body, options);
@@ -410,6 +401,10 @@ export class TaskDeleteRequest extends DeleteRequest {
   getResponseParser(): GenericConstructor<ResponseParsingService> {
     return TaskResponseParsingService;
   }
+}
+
+export class MyDSpaceRequest extends GetRequest {
+  public responseMsToLive = 0;
 }
 
 export class RequestError extends Error {

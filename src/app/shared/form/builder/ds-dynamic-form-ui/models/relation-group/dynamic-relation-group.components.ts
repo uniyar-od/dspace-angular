@@ -130,9 +130,9 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
           ? null
           : this.selectedChipItem.item[model.name];
 
-        model.valueUpdates.next(
-          (this.formBuilderService.isInputModel(model) && isNotNull(value)) ? value.value : value
-        );
+        const nextValue = (this.formBuilderService.isInputModel(model) && isNotNull(value) && (typeof value !== 'string')) ?
+          value.value : value;
+        model.valueUpdates.next(nextValue);
 
       });
     });

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
 
 import { createSelector, MemoizedSelector, select, Store } from '@ngrx/store';
 import { Observable, race as observableRace } from 'rxjs';
-import { filter, find, mergeMap, take } from 'rxjs/operators';
-import { remove } from 'lodash';
+import { filter, map, mergeMap, take } from 'rxjs/operators';
+import { cloneDeep, remove } from 'lodash';
 
 import { AppState } from '../../app.reducer';
 import { hasValue, isEmpty, isNotEmpty } from '../../shared/empty.util';
@@ -64,8 +65,7 @@ const uuidsFromHrefSubstringSelector =
 const getUuidsFromHrefSubstring = (state: IndexState, href: string): string[] => {
   let result = [];
   if (isNotEmpty(state)) {
-    result = Object.values(state)
-      .filter((value: string) => value.startsWith(href));
+    result = Object.keys(state).filter((key) => key.startsWith(href)).map((key) => state[key]);
   }
   return result;
 };
@@ -118,6 +118,16 @@ export class RequestService {
             return this.store.pipe(select(entryFromUUIDSelector(originalUUID)))
           },
         ))
+    ).pipe(
+      map((entry: RequestEntry) => {
+        // Headers break after being retrieved from the store (because of lazy initialization)
+        // Combining them with a new object fixes this issue
+        if (hasValue(entry) && hasValue(entry.request) && hasValue(entry.request.options) && hasValue(entry.request.options.headers)) {
+          entry = cloneDeep(entry);
+          entry.request.options.headers = Object.assign(new HttpHeaders(), entry.request.options.headers)
+        }
+        return entry;
+      })
     );
   }
 
@@ -161,7 +171,7 @@ export class RequestService {
   /**
    * Convert request Payload to a URL-encoded string
    *
-   * e.g.  prepareBody({param: value, param1: value1})
+   * e.g.  uriEncodeBody({param: value, param1: value1})
    * returns: param=value&param1=value1
    *
    * @param body
@@ -169,7 +179,7 @@ export class RequestService {
    * @return string
    *    URL-encoded string
    */
-  public prepareBody(body: any) {
+  public uriEncodeBody(body: any) {
     let queryParams = '';
     if (isNotEmpty(body) && typeof body === 'object') {
       Object.keys(body)
@@ -252,12 +262,13 @@ export class RequestService {
    */
   private clearRequestsOnTheirWayToTheStore(request: GetRequest) {
     this.getByHref(request.href).pipe(
-      find((re: RequestEntry) => hasValue(re)))
-      .subscribe((re: RequestEntry) => {
-        if (!re.responsePending) {
-          remove(this.requestsOnTheirWayToTheStore, (item) => item === request.href);
-        }
-      });
+      filter((re: RequestEntry) => hasValue(re)),
+      take(1)
+    ).subscribe((re: RequestEntry) => {
+      if (!re.responsePending) {
+        remove(this.requestsOnTheirWayToTheStore, (item) => item === request.href);
+      }
+    });
   }
 
   /**
@@ -302,6 +313,17 @@ export class RequestService {
       take(1)
     ).subscribe((requestEntry: RequestEntry) => result = this.isValid(requestEntry));
     return result;
+  }
+
+  /**
+   * Create an observable that emits a new value whenever the availability of the cached request changes.
+   * The value it emits is a boolean stating if the request exists in cache or not.
+   * @param href  The href of the request to observe
+   */
+  hasByHrefObservable(href: string): Observable<boolean> {
+    return this.getByHref(href).pipe(
+      map((requestEntry: RequestEntry) => this.isValid(requestEntry))
+    );
   }
 
 }

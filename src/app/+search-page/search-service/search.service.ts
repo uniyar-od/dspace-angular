@@ -40,9 +40,8 @@ import { PaginatedSearchOptions } from '../paginated-search-options.model';
 import { Community } from '../../core/shared/community.model';
 import { CommunityDataService } from '../../core/data/community-data.service';
 import { ViewMode } from '../../core/shared/view-mode.model';
-import { ResourceType } from '../../core/shared/resource-type';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
-import { RouteService } from '../../shared/services/route.service';
+import { RouteService } from '../../core/services/route.service';
 
 /**
  * Service that performs all general actions that have to do with the search page
@@ -60,14 +59,14 @@ export class SearchService implements OnDestroy {
   private facetLinkPathPrefix = 'discover/facets/';
 
   /**
-   * When true, a new search request is always dispatched
-   */
-  private forceBypassCache = false;
-
-  /**
    * The ResponseParsingService constructor name
    */
   private parser: GenericConstructor<ResponseParsingService> = SearchResponseParsingService;
+
+  /**
+   * The RestRequest constructor name
+   */
+  private request: GenericConstructor<RestRequest> = GetRequest;
 
   /**
    * Subscription to unsubscribe from
@@ -86,15 +85,16 @@ export class SearchService implements OnDestroy {
 
   /**
    * Method to set service options
-   * @param {GenericConstructor<ResponseParsingService>} parser The configuration necessary to perform this search
-   * @param {boolean} forceBypassCache When true, a new search request is always dispatched
-   * @returns {Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>} Emits a paginated list with all search results found
+   * @param {GenericConstructor<ResponseParsingService>} parser The ResponseParsingService constructor name
+   * @param {boolean} request The RestRequest constructor name
    */
-  setServiceOptions(parser: GenericConstructor<ResponseParsingService>, forceBypassCache: boolean) {
+  setServiceOptions(parser: GenericConstructor<ResponseParsingService>, request: GenericConstructor<RestRequest>) {
     if (parser) {
       this.parser = parser;
     }
-    this.forceBypassCache = forceBypassCache;
+    if (request) {
+      this.request = request;
+    }
   }
 
   /**
@@ -116,7 +116,7 @@ export class SearchService implements OnDestroy {
 
     const requestObs = hrefObs.pipe(
       map((url: string) => {
-        const request = new GetRequest(this.requestService.generateRequestId(), url);
+        const request = new this.request(this.requestService.generateRequestId(), url);
 
         const getResponseParserFn: () => GenericConstructor<ResponseParsingService> = () => {
           return this.parser;
@@ -127,7 +127,7 @@ export class SearchService implements OnDestroy {
           getResponseParser: getResponseParserFn
         });
       }),
-      configureRequest(this.requestService, this.forceBypassCache),
+      configureRequest(this.requestService),
     );
     const requestEntryObs = requestObs.pipe(
       switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
@@ -217,14 +217,14 @@ export class SearchService implements OnDestroy {
           url = new URLCombiner(url, `?${args.join('&')}`).toString();
         }
 
-        const request = new GetRequest(this.requestService.generateRequestId(), url);
+        const request = new this.request(this.requestService.generateRequestId(), url);
         return Object.assign(request, {
           getResponseParser(): GenericConstructor<ResponseParsingService> {
             return FacetConfigResponseParsingService;
           }
         });
       }),
-      configureRequest(this.requestService, this.forceBypassCache)
+      configureRequest(this.requestService)
     );
 
     const requestEntryObs = requestObs.pipe(
@@ -260,14 +260,14 @@ export class SearchService implements OnDestroy {
           url = searchOptions.toRestUrl(url, args);
         }
 
-        const request = new GetRequest(this.requestService.generateRequestId(), url);
+        const request = new this.request(this.requestService.generateRequestId(), url);
         return Object.assign(request, {
           getResponseParser(): GenericConstructor<ResponseParsingService> {
             return FacetValueResponseParsingService;
           }
         });
       }),
-      configureRequest(this.requestService, this.forceBypassCache),
+      configureRequest(this.requestService),
       first()
     );
 
@@ -314,7 +314,7 @@ export class SearchService implements OnDestroy {
     const scopeObject: Observable<RemoteData<DSpaceObject>> = this.dspaceObjectService.findById(scopeId).pipe(getSucceededRemoteData());
     const scopeList: Observable<DSpaceObject[]> = scopeObject.pipe(
       switchMap((dsoRD: RemoteData<DSpaceObject>) => {
-          if (dsoRD.payload.type === ResourceType.Community) {
+          if ((dsoRD.payload as any).type === Community.type.value) {
             const community: Community = dsoRD.payload as Community;
             return observableCombineLatest(community.subcommunities, community.collections).pipe(
               map(([subCommunities, collections]) => {

@@ -58,11 +58,7 @@ export class DsDynamicInputModel extends DynamicInputModel {
   }
 
   get hasLanguages(): boolean {
-    if (this.languageCodes && this.languageCodes.length > 1) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.languageCodes && this.languageCodes.length > 1;
   }
 
   get language(): string {

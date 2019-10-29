@@ -1,6 +1,3 @@
-@import '../../../../styles/variables.scss';
-@import '../../../../styles/mixins.scss';
-
 :host .facet-filter {
     border: 1px solid map-get($theme-colors, light);
     cursor: pointer;

@@ -20,6 +20,10 @@ import { Item } from '../../core/shared/item.model';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
 import { Community } from '../../core/shared/community.model';
 import { MockRouter } from '../../shared/mocks/mock-router';
+import { ResourceType } from '../../core/shared/resource-type';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/testing/utils';
+import { BrowseEntry } from '../../core/shared/browse-entry.model';
+import { VarDirective } from '../../shared/utils/var.directive';
 
 describe('BrowseByMetadataPageComponent', () => {
   let comp: BrowseByMetadataPageComponent;
@@ -39,21 +43,21 @@ describe('BrowseByMetadataPageComponent', () => {
 
   const mockEntries = [
     {
-      type: 'author',
+      type: BrowseEntry.type,
       authority: null,
       value: 'John Doe',
       language: 'en',
       count: 1
     },
     {
-      type: 'author',
+      type: BrowseEntry.type,
       authority: null,
       value: 'James Doe',
       language: 'en',
       count: 3
     },
     {
-      type: 'subject',
+      type: BrowseEntry.type,
       authority: null,
       value: 'Fake subject',
       language: 'en',
@@ -68,12 +72,12 @@ describe('BrowseByMetadataPageComponent', () => {
   ];
 
   const mockBrowseService = {
-    getBrowseEntriesFor: (options: BrowseEntrySearchOptions) => toRemoteData(mockEntries.filter((entry) => entry.type === options.metadataDefinition)),
+    getBrowseEntriesFor: (options: BrowseEntrySearchOptions) => toRemoteData(mockEntries),
     getBrowseItemsFor: (value: string, options: BrowseEntrySearchOptions) => toRemoteData(mockItems)
   };
 
   const mockDsoService = {
-    findById: () => observableOf(new RemoteData(false, false, true, null, mockCommunity))
+    findById: () => createSuccessfulRemoteDataObject$(mockCommunity)
   };
 
   const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
@@ -83,7 +87,7 @@ describe('BrowseByMetadataPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule.forRoot()],
-      declarations: [BrowseByMetadataPageComponent, EnumKeysPipe],
+      declarations: [BrowseByMetadataPageComponent, EnumKeysPipe, VarDirective],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: BrowseService, useValue: mockBrowseService },
@@ -103,12 +107,6 @@ describe('BrowseByMetadataPageComponent', () => {
     route.params = observableOf({});
     comp.ngOnInit();
     fixture.detectChanges();
-  });
-
-  it('should fetch the correct entries depending on the metadata definition', () => {
-    comp.browseEntries$.subscribe((result) => {
-      expect(result.payload.page).toEqual(mockEntries.filter((entry) => entry.type === 'author'));
-    });
   });
 
   it('should not fetch any items when no value is provided', () => {
@@ -160,5 +158,5 @@ describe('BrowseByMetadataPageComponent', () => {
 });
 
 export function toRemoteData(objects: any[]): Observable<RemoteData<PaginatedList<any>>> {
-  return observableOf(new RemoteData(false, false, true, null, new PaginatedList(new PageInfo(), objects)));
+  return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), objects));
 }

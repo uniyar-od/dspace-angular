@@ -14,7 +14,7 @@ export class SearchOptions {
   scope?: string;
   query?: string;
   dsoType?: DSpaceObjectType;
-  filters?: SearchFilter[];
+  filters?: any;
   fixedFilter?: any;
 
   constructor(options: {configuration?: string, scope?: string, query?: string, dsoType?: DSpaceObjectType, filters?: SearchFilter[], fixedFilter?: any}) {

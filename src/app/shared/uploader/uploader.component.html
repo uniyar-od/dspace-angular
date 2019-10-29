@@ -19,7 +19,7 @@
          (fileOver)="fileOverBase($event)"
          class="well ds-base-drop-zone mt-1 mb-3 text-muted">
       <p class="text-center m-0 p-0 d-flex justify-content-center align-items-center" *ngIf="uploader?.queue?.length === 0">
-        <span><i class="fas fa-cloud-upload" aria-hidden="true"></i>{{dropMsg | translate}}{{'uploader.or' | translate}}
+        <span><i class="fas fa-cloud-upload" aria-hidden="true"></i> {{dropMsg | translate}} {{'uploader.or' | translate}}
           <label class="btn btn-link m-0 p-0">
             <input #browseBtn class="d-none" type="file" ng2FileSelect [uploader]="uploader" multiple  />
             {{'uploader.browse' | translate}}
@@ -29,7 +29,7 @@
       <div *ngIf="(isOverBaseDropZone | async) || uploader?.queue?.length !== 0">
         <div class="m-1">
           <div class="upload-item-top">
-            <span class="filename">{{'uploader.queue-lenght' | translate}}: {{ uploader?.queue?.length }} | {{ uploader?.queue[0]?.file.name }}</span>
+            <span class="filename">{{'uploader.queue-length' | translate}}: {{ uploader?.queue?.length }} | {{ uploader?.queue[0]?.file.name }}</span>
             <div class="btn-group btn-group-sm float-right" role="group">
               <button type="button" class="btn btn-danger" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
                 <i class="fas fa-trash" aria-hidden="true"></i>

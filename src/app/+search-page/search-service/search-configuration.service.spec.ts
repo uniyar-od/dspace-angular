@@ -24,17 +24,21 @@ describe('SearchConfigurationService', () => {
 
   const backendFilters = [new SearchFilter('f.author', ['another value']), new SearchFilter('f.date', ['[2013 TO 2018]'])];
 
-  const spy = jasmine.createSpyObj('RouteService', {
+  const routeService = jasmine.createSpyObj('RouteService', {
     getQueryParameterValue: observableOf(value1),
-    getQueryParamsWithPrefix: observableOf(prefixFilter)
+    getQueryParamsWithPrefix: observableOf(prefixFilter),
+    getRouteParameterValue: observableOf('')
+  });
+
+  const fixedFilterService = jasmine.createSpyObj('SearchFixedFilterService', {
+    getQueryByFilterName: observableOf(''),
   });
 
   const activatedRoute: any = new ActivatedRouteStub();
 
   beforeEach(() => {
-    service = new SearchConfigurationService(spy, activatedRoute);
+    service = new SearchConfigurationService(routeService, fixedFilterService, activatedRoute);
   });
-
   describe('when the scope is called', () => {
     beforeEach(() => {
       service.getCurrentScope('');
@@ -158,4 +162,5 @@ describe('SearchConfigurationService', () => {
       });
     });
   });
+
 });

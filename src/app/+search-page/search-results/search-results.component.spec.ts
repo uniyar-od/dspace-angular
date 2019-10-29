@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ResourceType } from '../../core/shared/resource-type';
 import { Community } from '../../core/shared/community.model';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,6 +11,8 @@ import { QueryParamsDirectiveStub } from '../../shared/testing/query-params-dire
 describe('SearchResultsComponent', () => {
   let comp: SearchResultsComponent;
   let fixture: ComponentFixture<SearchResultsComponent>;
+  let heading: DebugElement;
+  let title: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,7 +26,9 @@ describe('SearchResultsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchResultsComponent);
-    comp = fixture.componentInstance; // SearchResultsComponent test instance
+    comp = fixture.componentInstance; // SearchFormComponent test instance
+    heading = fixture.debugElement.query(By.css('heading'));
+    title = fixture.debugElement.query(By.css('h2'));
   });
 
   it('should display results when results are not empty', () => {
@@ -110,7 +114,7 @@ export const objects = [
     self: 'https://dspace7.4science.it/dspace-spring-rest/api/core/communities/7669c72a-3f2a-451f-a3b9-9210e7a4c02f',
     id: '7669c72a-3f2a-451f-a3b9-9210e7a4c02f',
     uuid: '7669c72a-3f2a-451f-a3b9-9210e7a4c02f',
-    type: ResourceType.Community,
+    type: Community.type,
     metadata: {
       'dc.description': [
         {
@@ -164,7 +168,7 @@ export const objects = [
       self: 'https://dspace7.4science.it/dspace-spring-rest/api/core/communities/9076bd16-e69a-48d6-9e41-0238cb40d863',
       id: '9076bd16-e69a-48d6-9e41-0238cb40d863',
       uuid: '9076bd16-e69a-48d6-9e41-0238cb40d863',
-      type: ResourceType.Community,
+      type: Community.type,
       metadata: {
         'dc.description': [
           {

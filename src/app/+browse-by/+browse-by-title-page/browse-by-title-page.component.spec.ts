@@ -17,6 +17,8 @@ import { RemoteData } from '../../core/data/remote-data';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
 import { BrowseService } from '../../core/browse/browse.service';
 import { MockRouter } from '../../shared/mocks/mock-router';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/testing/utils';
+import { VarDirective } from '../../shared/utils/var.directive';
 
 describe('BrowseByTitlePageComponent', () => {
   let comp: BrowseByTitlePageComponent;
@@ -52,7 +54,7 @@ describe('BrowseByTitlePageComponent', () => {
   };
 
   const mockDsoService = {
-    findById: () => observableOf(new RemoteData(false, false, true, null, mockCommunity))
+    findById: () => createSuccessfulRemoteDataObject$(mockCommunity)
   };
 
   const activatedRouteStub = Object.assign(new ActivatedRouteStub(), {
@@ -63,7 +65,7 @@ describe('BrowseByTitlePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule.forRoot()],
-      declarations: [BrowseByTitlePageComponent, EnumKeysPipe],
+      declarations: [BrowseByTitlePageComponent, EnumKeysPipe, VarDirective],
       providers: [
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: BrowseService, useValue: mockBrowseService },

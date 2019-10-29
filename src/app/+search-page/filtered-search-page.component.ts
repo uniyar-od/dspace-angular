@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { PaginatedSearchOptions } from './paginated-search-options.model';
 import { SEARCH_CONFIG_SERVICE } from '../+my-dspace-page/my-dspace-page.component';
 import { map } from 'rxjs/operators';
-import { RouteService } from '../shared/services/route.service';
+import { RouteService } from '../core/services/route.service';
 
 /**
  * This component renders a simple item page.

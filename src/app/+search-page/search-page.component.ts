@@ -13,7 +13,7 @@ import { SearchSidebarService } from './search-sidebar/search-sidebar.service';
 import { hasValue, isNotEmpty } from '../shared/empty.util';
 import { SearchConfigurationService } from './search-service/search-configuration.service';
 import { getSucceededRemoteData } from '../core/shared/operators';
-import { RouteService } from '../shared/services/route.service';
+import { RouteService } from '../core/services/route.service';
 import { SEARCH_CONFIG_SERVICE } from '../+my-dspace-page/my-dspace-page.component';
 
 export const SEARCH_ROUTE = '/search';
