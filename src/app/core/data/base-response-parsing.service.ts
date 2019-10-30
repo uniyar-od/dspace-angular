@@ -27,7 +27,7 @@ export abstract class BaseResponseParsingService {
       } else if (Array.isArray(data)) {
         return this.processArray(data, requestUUID);
       } else if (isRestDataObject(data)) {
-        data = this.fixBadEPersonRestResponse(data);
+        // data = this.fixBadEPersonRestResponse(data);
         const object = this.deserialize(data);
         if (isNotEmpty(data._embedded)) {
           Object
