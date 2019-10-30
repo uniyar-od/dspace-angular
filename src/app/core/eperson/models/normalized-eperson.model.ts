@@ -17,13 +17,6 @@ export class NormalizedEPerson extends NormalizedDSpaceObject<EPerson> implement
   public handle: string;
 
   /**
-   * List of Groups that this EPerson belong to
-   */
-  @deserialize
-  @relationship(Group, true)
-  groups: string[];
-
-  /**
    * A string representing the netid of this EPerson
    */
   @autoserialize
