@@ -56,11 +56,13 @@ export class PoolMyDSpaceResultDetailElementComponent extends MyDSpaceResultDeta
    * Retrieve workflowitem from result object
    */
   initWorkflowItem(wfi$: Observable<RemoteData<WorkflowItem>>) {
-    wfi$.pipe(
-      find((rd: RemoteData<WorkflowItem>) => (rd.hasSucceeded && isNotUndefined(rd.payload)))
-    ).subscribe((rd: RemoteData<WorkflowItem>) => {
-      this.workflowitem = rd.payload;
-    });
+    this.subs.push(
+      wfi$.pipe(
+        find((rd: RemoteData<WorkflowItem>) => (rd.hasSucceeded && isNotUndefined(rd.payload)))
+      ).subscribe((rd: RemoteData<WorkflowItem>) => {
+        this.workflowitem = rd.payload;
+      })
+    );
   }
 
 }
