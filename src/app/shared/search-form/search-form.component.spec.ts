@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Community } from '../../core/shared/community.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
+import { SearchService } from '../../+search-page/search-service/search.service';
 
 describe('SearchFormComponent', () => {
   let comp: SearchFormComponent;
@@ -18,6 +19,12 @@ describe('SearchFormComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
+      providers: [
+        {
+          provide: SearchService,
+          useValue: {}
+        }
+      ],
       declarations: [SearchFormComponent]
     }).compileComponents();
   }));
@@ -121,7 +128,7 @@ export const objects: DSpaceObject[] = [
     self: 'https://dspace7.4science.it/dspace-spring-rest/api/core/communities/7669c72a-3f2a-451f-a3b9-9210e7a4c02f',
     id: '7669c72a-3f2a-451f-a3b9-9210e7a4c02f',
     uuid: '7669c72a-3f2a-451f-a3b9-9210e7a4c02f',
-    type: ResourceType.Community,
+    type: Community.type,
     metadata: {
       'dc.description': [
         {
@@ -175,7 +182,7 @@ export const objects: DSpaceObject[] = [
       self: 'https://dspace7.4science.it/dspace-spring-rest/api/core/communities/9076bd16-e69a-48d6-9e41-0238cb40d863',
       id: '9076bd16-e69a-48d6-9e41-0238cb40d863',
       uuid: '9076bd16-e69a-48d6-9e41-0238cb40d863',
-      type: ResourceType.Community,
+      type: Community.type,
       metadata: {
         'dc.description': [
           {

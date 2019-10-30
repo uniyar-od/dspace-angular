@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { combineLatest as observableCombineLatest, Observable, of as observableOf, race as observableRace } from 'rxjs';
-import { distinctUntilChanged, flatMap, map, startWith, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, flatMap, map, startWith, switchMap, tap } from 'rxjs/operators';
 
 import { hasValue, hasValueOperator, isEmpty, isNotEmpty, isNotUndefined } from '../../../shared/empty.util';
 import { PaginatedList } from '../../data/paginated-list';
@@ -21,7 +21,8 @@ import {
   getRequestFromRequestUUID,
   getResourceLinksFromResponse
 } from '../../shared/operators';
-import { CacheableObject } from '../object-cache.reducer';
+import { CacheableObject, TypedObject } from '../object-cache.reducer';
+import { createSuccessfulRemoteDataObject$ } from '../../../shared/testing/utils';
 
 @Injectable()
 export class RemoteDataBuildService {
@@ -81,8 +82,8 @@ export class RemoteDataBuildService {
   toRemoteDataObservable<T>(requestEntry$: Observable<RequestEntry>, payload$: Observable<T>) {
     return observableCombineLatest(requestEntry$, payload$).pipe(
       map(([reqEntry, payload]) => {
-        const requestPending = hasValue(reqEntry.requestPending) ? reqEntry.requestPending : true;
-        const responsePending = hasValue(reqEntry.responsePending) ? reqEntry.responsePending : false;
+        const requestPending = hasValue(reqEntry) && hasValue(reqEntry.requestPending) ? reqEntry.requestPending : true;
+        const responsePending = hasValue(reqEntry) && hasValue(reqEntry.responsePending) ? reqEntry.responsePending : false;
         let isSuccessful: boolean;
         let error: RemoteDataError;
         if (hasValue(reqEntry) && hasValue(reqEntry.response)) {
@@ -200,22 +201,33 @@ export class RemoteDataBuildService {
   aggregate<T>(input: Array<Observable<RemoteData<T>>>): Observable<RemoteData<T[]>> {
 
     if (isEmpty(input)) {
-      return observableOf(new RemoteData(false, false, true, null, []));
+      return createSuccessfulRemoteDataObject$([]);
     }
 
     return observableCombineLatest(...input).pipe(
       map((arr) => {
+        // The request of an aggregate RD should be pending if at least one
+        // of the RDs it's based on is still in the state RequestPending
         const requestPending: boolean = arr
           .map((d: RemoteData<T>) => d.isRequestPending)
-          .every((b: boolean) => b === true);
+          .find((b: boolean) => b === true);
 
-        const responsePending: boolean = arr
+        // The response of an aggregate RD should be pending if no requests
+        // are still pending and at least one of the RDs it's based
+        // on is still in the state ResponsePending
+        const responsePending: boolean = !requestPending && arr
           .map((d: RemoteData<T>) => d.isResponsePending)
-          .every((b: boolean) => b === true);
+          .find((b: boolean) => b === true);
 
-        const isSuccessful: boolean = arr
-          .map((d: RemoteData<T>) => d.hasSucceeded)
-          .every((b: boolean) => b === true);
+        let isSuccessful: boolean;
+        // isSuccessful should be undefined until all responses have come in.
+        // We can't know its state beforehand. We also can't say it's false
+        // because that would imply a request failed.
+        if (!(requestPending || responsePending)) {
+          isSuccessful = arr
+            .map((d: RemoteData<T>) => d.hasSucceeded)
+            .every((b: boolean) => b === true);
+        }
 
         const errorMessage: string = arr
           .map((d: RemoteData<T>) => d.error)

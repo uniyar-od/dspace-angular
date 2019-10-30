@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy, Component, Inject, InjectionToken, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  InjectionToken,
+  Input,
+  OnInit
+} from '@angular/core';
 
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, switchMap, tap, } from 'rxjs/operators';
+import { switchMap, tap, } from 'rxjs/operators';
 
 import { PaginatedList } from '../core/data/paginated-list';
 import { RemoteData } from '../core/data/remote-data';
@@ -20,6 +27,7 @@ import { RoleType } from '../core/roles/role-types';
 import { SearchConfigurationService } from '../+search-page/search-service/search-configuration.service';
 import { MyDSpaceConfigurationService } from './my-dspace-configuration.service';
 import { ViewMode } from '../core/shared/view-mode.model';
+import { MyDSpaceRequest } from '../core/data/request.models';
 
 export const MYDSPACE_ROUTE = '/mydspace';
 export const SEARCH_CONFIG_SERVICE: InjectionToken<SearchConfigurationService> = new InjectionToken<SearchConfigurationService>('searchConfigurationService');
@@ -41,6 +49,11 @@ export const SEARCH_CONFIG_SERVICE: InjectionToken<SearchConfigurationService> =
   ]
 })
 export class MyDSpacePageComponent implements OnInit {
+
+  /**
+   * True when the search component should show results on the current page
+   */
+  @Input() inPlaceSearch = true;
 
   /**
    * The list of available configuration options
@@ -89,7 +102,7 @@ export class MyDSpacePageComponent implements OnInit {
               private windowService: HostWindowService,
               @Inject(SEARCH_CONFIG_SERVICE) public searchConfigService: MyDSpaceConfigurationService) {
     this.isXsOrSm$ = this.windowService.isXsOrSm();
-    this.service.setServiceOptions(MyDSpaceResponseParsingService, true);
+    this.service.setServiceOptions(MyDSpaceResponseParsingService, MyDSpaceRequest);
   }
 
   /**
@@ -106,7 +119,6 @@ export class MyDSpacePageComponent implements OnInit {
     this.searchOptions$ = this.searchConfigService.paginatedSearchOptions;
 
     this.sub = this.searchOptions$.pipe(
-      distinctUntilChanged(),
       tap(() => this.resultsRD$.next(null)),
       switchMap((options: PaginatedSearchOptions) => this.service.search(options).pipe(getSucceededRemoteData())))
       .subscribe((results) => {

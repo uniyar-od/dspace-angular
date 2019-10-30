@@ -8,6 +8,7 @@ import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../../shar
 import { SectionUploadService } from './section-upload.service';
 import { CollectionDataService } from '../../../core/data/collection-data.service';
 import { GroupEpersonService } from '../../../core/eperson/group-eperson.service';
+import { ResourcePolicyService } from '../../../core/data/resource-policy.service';
 import { SubmissionUploadsConfigService } from '../../../core/config/submission-uploads-config.service';
 import { SubmissionUploadsModel } from '../../../core/config/models/config-submission-uploads.model';
 import { SubmissionFormsModel } from '../../../core/config/models/config-submission-forms.model';
@@ -123,6 +124,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
    * @param {ChangeDetectorRef} changeDetectorRef
    * @param {CollectionDataService} collectionDataService
    * @param {GroupEpersonService} groupService
+   * @param {ResourcePolicyService} resourcePolicyService
    * @param {SectionsService} sectionService
    * @param {SubmissionService} submissionService
    * @param {SubmissionUploadsConfigService} uploadsConfigService
@@ -134,6 +136,7 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
               private changeDetectorRef: ChangeDetectorRef,
               private collectionDataService: CollectionDataService,
               private groupService: GroupEpersonService,
+              private resourcePolicyService: ResourcePolicyService,
               protected sectionService: SectionsService,
               private submissionService: SubmissionService,
               private uploadsConfigService: SubmissionUploadsConfigService,
@@ -164,11 +167,11 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
         find((rd: RemoteData<Collection>) => isNotUndefined((rd.payload))),
         tap((collectionRemoteData: RemoteData<Collection>) => this.collectionName = collectionRemoteData.payload.name),
         flatMap((collectionRemoteData: RemoteData<Collection>) => {
-          return this.collectionDataService.findByHref(
+          return this.resourcePolicyService.findByHref(
             (collectionRemoteData.payload as any)._links.defaultAccessConditions
           );
         }),
-        find((defaultAccessConditionsRemoteData: RemoteData<ResourcePolicy>) =>
+        filter((defaultAccessConditionsRemoteData: RemoteData<ResourcePolicy>) =>
           defaultAccessConditionsRemoteData.hasSucceeded),
         tap((defaultAccessConditionsRemoteData: RemoteData<ResourcePolicy>) => {
           if (isNotEmpty(defaultAccessConditionsRemoteData.payload)) {

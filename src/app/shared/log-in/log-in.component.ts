@@ -1,5 +1,5 @@
 import { filter, map, takeWhile } from 'rxjs/operators';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
@@ -21,6 +21,7 @@ import { CoreState } from '../../core/core.reducers';
 import { isNotEmpty } from '../empty.util';
 import { fadeOut } from '../animations/fade';
 import { AuthService } from '../../core/auth/auth.service';
+import { Router } from '@angular/router';
 
 /**
  * /users/sign-in
@@ -82,6 +83,8 @@ export class LogInComponent implements OnDestroy, OnInit {
    */
   private alive = true;
 
+  @Input() isStandalonePage: boolean;
+
   /**
    * The redirect url to login with sso.
    * @type {Observable<string>}
@@ -89,9 +92,16 @@ export class LogInComponent implements OnDestroy, OnInit {
   public ssoLoginUrl: Observable<string>;
 
   /**
+   * True if is present the url to login with sso.
+   * @type {Observable<boolean>}
+   */
+  public hasSsoLoginUrl: Observable<boolean>;
+
+  /**
    * @constructor
    * @param {AuthService} authService
    * @param {FormBuilder} formBuilder
+   * @param {Router} router
    * @param {Store<State>} store
    */
   constructor(
@@ -145,9 +155,12 @@ export class LogInComponent implements OnDestroy, OnInit {
       takeWhile(() => this.alive),
       filter((authenticated) => authenticated))
       .subscribe(() => {
-          this.authService.redirectToPreviousUrl();
+          this.authService.redirectAfterLoginSuccess(this.isStandalonePage);
         }
       );
+
+    this.hasSsoLoginUrl = this.ssoLoginUrl.pipe(
+      map((url) => isNotEmpty(url)));
   }
 
   /**
@@ -198,4 +211,5 @@ export class LogInComponent implements OnDestroy, OnInit {
     // clear form
     this.form.reset();
   }
+
 }

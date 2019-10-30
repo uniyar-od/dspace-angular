@@ -1,9 +1,11 @@
-import { inheritSerialization, deserialize, autoserialize, autoserializeAs } from 'cerialize';
+import { autoserialize, autoserializeAs, deserialize, inheritSerialization } from 'cerialize';
 
 import { NormalizedDSpaceObject } from './normalized-dspace-object.model';
 import { Item } from '../../shared/item.model';
 import { mapsTo, relationship } from '../builders/build-decorators';
-import { ResourceType } from '../../shared/resource-type';
+import { Collection } from '../../shared/collection.model';
+import { Bitstream } from '../../shared/bitstream.model';
+import { Relationship } from '../../shared/item-relationships/relationship.model';
 
 /**
  * Normalized model class for a DSpace Item
@@ -46,21 +48,18 @@ export class NormalizedItem extends NormalizedDSpaceObject<Item> {
    * An array of Collections that are direct parents of this Item
    */
   @deserialize
-  @relationship(ResourceType.Collection, true)
+  @relationship(Collection, true)
   parents: string[];
-
-  /**
-   * The Collection that owns this Item
-   */
-  @deserialize
-  @relationship(ResourceType.Collection, false)
-  owningCollection: string;
 
   /**
    * List of Bitstreams that are owned by this Item
    */
   @deserialize
-  @relationship(ResourceType.Bitstream, true)
+  @relationship(Bitstream, true)
   bitstreams: string[];
+
+  @autoserialize
+  @relationship(Relationship, true)
+  relationships: string[];
 
 }

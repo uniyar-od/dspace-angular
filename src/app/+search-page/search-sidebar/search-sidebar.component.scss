@@ -1,6 +1,3 @@
-@import '../../../styles/variables.scss';
-@import '../../../styles/mixins.scss';
-
 :host {
     .results {
         line-height: $button-height;
@@ -8,11 +5,12 @@
     ds-view-mode-switch {
         margin-bottom: $spacer;
     }
-    ds-search-switch-configuration {
-      margin-bottom: 2*$spacer !important;
-    }
-    .sidebar-content > *:not(:last-child) {
+    .sidebar-content > *:not(:last-child):not(ds-search-switch-configuration) {
         margin-bottom: 4*$spacer;
         display: block;
+    }
+    ds-search-switch-configuration {
+      margin-bottom: 2*$spacer;
+      display: block;
     }
 }

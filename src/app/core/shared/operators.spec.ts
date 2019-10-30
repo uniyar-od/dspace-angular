@@ -13,9 +13,15 @@ import {
   getRequestFromRequestUUID,
   getResourceLinksFromResponse,
   getResponseFromEntry,
-  getSucceededRemoteData
+  getSucceededRemoteData, redirectToPageNotFoundOn404
 } from './operators';
 import { RemoteData } from '../data/remote-data';
+import { RemoteDataError } from '../data/remote-data-error';
+import { of as observableOf } from 'rxjs';
+import {
+  createFailedRemoteDataObject,
+  createSuccessfulRemoteDataObject
+} from '../../shared/testing/utils';
 
 describe('Core Module - RxJS Operators', () => {
   let scheduler: TestScheduler;
@@ -97,7 +103,7 @@ describe('Core Module - RxJS Operators', () => {
       scheduler.schedule(() => source.pipe(getRequestFromRequestUUID(requestService)).subscribe());
       scheduler.flush();
 
-      expect(requestService.getByUUID).toHaveBeenCalledWith(testRequestUUID)
+      expect(requestService.getByUUID).toHaveBeenCalledWith(testRequestUUID);
     });
 
     it('shouldn\'t return anything if there is no request matching the request uuid', () => {
@@ -178,18 +184,46 @@ describe('Core Module - RxJS Operators', () => {
   describe('getSucceededRemoteData', () => {
     it('should return the first() hasSucceeded RemoteData Observable', () => {
       const testRD = {
-        a: new RemoteData(false, false, true, null, undefined),
-        b: new RemoteData(false, false, false, null, 'b'),
+        a: createSuccessfulRemoteDataObject(undefined),
+        b: createFailedRemoteDataObject( 'b'),
         c: new RemoteData(false, false, undefined, null, 'c'),
-        d: new RemoteData(false, false, true, null, 'd'),
-        e: new RemoteData(false, false, true, null, 'e'),
+        d: createSuccessfulRemoteDataObject('d'),
+        e: createSuccessfulRemoteDataObject('e'),
       };
       const source = hot('abcde', testRD);
       const result = source.pipe(getSucceededRemoteData());
 
       result.subscribe((value) => expect(value)
-        .toEqual(new RemoteData(false, false, true, null, 'd')));
+        .toEqual(createSuccessfulRemoteDataObject('d')));
 
+    });
+  });
+
+  describe('redirectToPageNotFoundOn404', () => {
+    let router;
+    beforeEach(() => {
+      router = jasmine.createSpyObj('router', ['navigateByUrl']);
+    });
+
+    it('should call navigateByUrl to a 404 page, when the remote data contains a 404 error', () => {
+      const testRD = createFailedRemoteDataObject(undefined, new RemoteDataError(404, 'Not Found', 'Object was not found'));
+
+      observableOf(testRD).pipe(redirectToPageNotFoundOn404(router)).subscribe();
+      expect(router.navigateByUrl).toHaveBeenCalledWith('/404', { skipLocationChange: true });
+    });
+
+    it('should not call navigateByUrl to a 404 page, when the remote data contains another error than a 404', () => {
+      const testRD = createFailedRemoteDataObject(undefined, new RemoteDataError(500, 'Server Error', 'Something went wrong'));
+
+      observableOf(testRD).pipe(redirectToPageNotFoundOn404(router)).subscribe();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
+    });
+
+    it('should not call navigateByUrl to a 404 page, when the remote data contains no error', () => {
+      const testRD = createSuccessfulRemoteDataObject(undefined);
+
+      observableOf(testRD).pipe(redirectToPageNotFoundOn404(router)).subscribe();
+      expect(router.navigateByUrl).not.toHaveBeenCalled();
     });
   });
 
@@ -212,11 +246,11 @@ describe('Core Module - RxJS Operators', () => {
   describe('getAllSucceededRemoteData', () => {
     it('should return all hasSucceeded RemoteData Observables', () => {
       const testRD = {
-        a: new RemoteData(false, false, true, null, undefined),
-        b: new RemoteData(false, false, false, null, 'b'),
+        a: createSuccessfulRemoteDataObject(undefined),
+        b: createFailedRemoteDataObject('b'),
         c: new RemoteData(false, false, undefined, null, 'c'),
-        d: new RemoteData(false, false, true, null, 'd'),
-        e: new RemoteData(false, false, true, null, 'e'),
+        d: createSuccessfulRemoteDataObject('d'),
+        e: createSuccessfulRemoteDataObject('e'),
       };
       const source = hot('abcde', testRD);
       const result = source.pipe(getAllSucceededRemoteData());

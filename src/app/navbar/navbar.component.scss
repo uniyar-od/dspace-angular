@@ -1,8 +1,10 @@
-@import '../../styles/variables.scss';
-
 nav.navbar {
     border-bottom: 1px $gray-400 solid;
     align-items: baseline;
+}
+
+.navbar a.navbar-brand, .navbar a.btn {
+  color: $white !important;
 }
 
 /** Mobile menu styling **/
@@ -35,5 +37,3 @@ nav.navbar {
         padding: 0;
     }
 }
-
-

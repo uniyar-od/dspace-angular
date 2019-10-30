@@ -1,7 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { SearchService } from '../search-service/search.service';
 import { RemoteData } from '../../core/data/remote-data';
@@ -33,6 +33,16 @@ export class SearchFiltersComponent implements OnInit {
   clearParams;
 
   /**
+   * True when the search component should show results on the current page
+   */
+  @Input() inPlaceSearch;
+
+  /**
+   * Link to the search page
+   */
+  searchLink: string;
+
+  /**
    * Initialize instance variables
    * @param {SearchService} searchService
    * @param {SearchConfigurationService} searchConfigService
@@ -48,7 +58,6 @@ export class SearchFiltersComponent implements OnInit {
   ngOnInit(): void {
 
     this.filters = this.searchConfigService.searchOptions.pipe(
-      distinctUntilChanged(),
       switchMap((options) => this.searchService.getConfig(options.scope, options.configuration).pipe(getSucceededRemoteData()))
     );
 
@@ -56,12 +65,16 @@ export class SearchFiltersComponent implements OnInit {
       Object.keys(filters).forEach((f) => filters[f] = null);
       return filters;
     }));
+    this.searchLink = this.getSearchLink();
   }
 
   /**
-   * @returns {string} The base path to the search page
+   * @returns {string} The base path to the search page, or the current page when inPlaceSearch is true
    */
-  getSearchLink() {
+  private getSearchLink(): string {
+    if (this.inPlaceSearch) {
+      return './';
+    }
     return this.searchService.getSearchLink();
   }
 

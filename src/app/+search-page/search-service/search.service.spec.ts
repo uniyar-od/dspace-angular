@@ -5,6 +5,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { SearchService } from './search.service';
+import { ItemDataService } from './../../core/data/item-data.service';
+import { SetViewMode } from '../../shared/view-mode';
+import { GLOBAL_CONFIG } from '../../../config';
 import { RemoteDataBuildService } from '../../core/cache/builders/remote-data-build.service';
 import { Router, UrlTree } from '@angular/router';
 import { RequestService } from '../../core/data/request.service';
@@ -23,8 +26,9 @@ import { CommunityDataService } from '../../core/data/community-data.service';
 import { ViewMode } from '../../core/shared/view-mode.model';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
 import { map } from 'rxjs/operators';
-import { RouteService } from '../../shared/services/route.service';
+import { RouteService } from '../../core/services/route.service';
 import { routeServiceStub } from '../../shared/testing/route-service-stub';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/testing/utils';
 
 @Component({ template: '' })
 class DummyComponent {
@@ -88,7 +92,7 @@ describe('SearchService', () => {
         );
       },
       aggregate: (input: Array<Observable<RemoteData<any>>>): Observable<RemoteData<any[]>> => {
-        return observableOf(new RemoteData(false, false, true, null, []));
+        return createSuccessfulRemoteDataObject$([]);
       }
     };
 

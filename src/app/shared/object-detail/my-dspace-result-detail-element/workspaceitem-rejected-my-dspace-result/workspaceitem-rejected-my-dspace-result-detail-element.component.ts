@@ -5,13 +5,13 @@ import { find } from 'rxjs/operators';
 
 import { renderElementsFor } from '../../../object-collection/shared/dso-element-decorator';
 import { MyDSpaceResultDetailElementComponent } from '../my-dspace-result-detail-element.component';
-import { Workspaceitem } from '../../../../core/submission/models/workspaceitem.model';
+import { WorkspaceItem } from '../../../../core/submission/models/workspaceitem.model';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { isNotUndefined } from '../../../empty.util';
 import { Item } from '../../../../core/shared/item.model';
 import { WorkspaceitemRejectedMyDSpaceResult } from '../../../object-collection/shared/workspaceitem-rejected-my-dspace-result.model';
 import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
-import { ViewMode } from '../../../../core/shared/view-mode.model';
+import { SetViewMode } from '../../../view-mode';
 
 @Component({
   selector: 'ds-workspaceitem-my-dspace-result-list-element',
@@ -19,8 +19,8 @@ import { ViewMode } from '../../../../core/shared/view-mode.model';
   templateUrl: './workspaceitem-rejected-my-dspace-result-detail-element.component.html',
 })
 
-@renderElementsFor(WorkspaceitemRejectedMyDSpaceResult, ViewMode.Detail)
-export class WorkspaceitemRejectedMyDSpaceResultDetailElementComponent extends MyDSpaceResultDetailElementComponent<WorkspaceitemRejectedMyDSpaceResult, Workspaceitem> {
+@renderElementsFor(WorkspaceitemRejectedMyDSpaceResult, SetViewMode.Detail)
+export class WorkspaceitemRejectedMyDSpaceResultDetailElementComponent extends MyDSpaceResultDetailElementComponent<WorkspaceitemRejectedMyDSpaceResult, WorkspaceItem> {
 
   item: Item;
   status = MyDspaceItemStatusType.REJECTED;

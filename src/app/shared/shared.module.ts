@@ -9,6 +9,9 @@ import { NgbDatepickerModule, NgbModule, NgbTimepickerModule, NgbTypeaheadModule
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ItemTypeSwitcherComponent } from './items/switcher/item-type-switcher.component';
+import { TypedItemSearchResultListElementComponent } from './object-list/item-list-element/item-types/typed-item-search-result-list-element.component';
+import { PublicationListElementComponent } from './object-list/item-list-element/item-types/publication/publication-list-element.component';
 
 import { FileUploadModule } from 'ng2-file-upload';
 
@@ -33,6 +36,7 @@ import { WrapperGridElementComponent } from './object-grid/wrapper-grid-element/
 import { ObjectGridComponent } from './object-grid/object-grid.component';
 import { ObjectCollectionComponent } from './object-collection/object-collection.component';
 import { ComcolPageContentComponent } from './comcol-page-content/comcol-page-content.component';
+import { ComcolPageHandleComponent } from './comcol-page-handle/comcol-page-handle.component';
 import { ComcolPageHeaderComponent } from './comcol-page-header/comcol-page-header.component';
 import { ComcolPageLogoComponent } from './comcol-page-logo/comcol-page-logo.component';
 import { ErrorComponent } from './error/error.component';
@@ -105,11 +109,15 @@ import { ObjectKeysPipe } from './utils/object-keys-pipe';
 import { MomentModule } from 'ngx-moment';
 import { AuthorityConfidenceStateDirective } from './authority-confidence/authority-confidence-state.directive';
 import { MenuModule } from './menu/menu.module';
+import { LangSwitchComponent } from './lang-switch/lang-switch.component';
+import { PlainTextMetadataListElementComponent } from './object-list/metadata-representation-list-element/plain-text/plain-text-metadata-list-element.component';
+import { ItemMetadataListElementComponent } from './object-list/metadata-representation-list-element/item/item-metadata-list-element.component';
+import { TooltipModule } from 'ngx-bootstrap';
+import { MetadataRepresentationListElementComponent } from './object-list/metadata-representation-list-element/metadata-representation-list-element.component';
 import { ComColFormComponent } from './comcol-forms/comcol-form/comcol-form.component';
 import { CreateComColPageComponent } from './comcol-forms/create-comcol-page/create-comcol-page.component';
 import { EditComColPageComponent } from './comcol-forms/edit-comcol-page/edit-comcol-page.component';
 import { DeleteComColPageComponent } from './comcol-forms/delete-comcol-page/delete-comcol-page.component';
-import { LangSwitchComponent } from './lang-switch/lang-switch.component';
 import { ObjectValuesPipe } from './utils/object-values-pipe';
 import { InListValidator } from './utils/in-list-validator.directive';
 import { AutoFocusDirective } from './utils/auto-focus.directive';
@@ -133,6 +141,13 @@ import { RoleDirective } from './roles/role.directive';
 import { UserMenuComponent } from './auth-nav-menu/user-menu/user-menu.component';
 import { ClaimedTaskActionsReturnToPoolComponent } from './mydspace-actions/claimed-task/return-to-pool/claimed-task-actions-return-to-pool.component';
 import { ItemDetailPreviewFieldComponent } from './object-detail/my-dspace-result-detail-element/item-detail-preview/item-detail-preview-field/item-detail-preview-field.component';
+import { ItemSelectComponent } from './object-select/item-select/item-select.component';
+import { CollectionSelectComponent } from './object-select/collection-select/collection-select.component';
+import { FilterInputSuggestionsComponent } from './input-suggestions/filter-suggestions/filter-input-suggestions.component';
+import { DsoInputSuggestionsComponent } from './input-suggestions/dso-input-suggestions/dso-input-suggestions.component';
+import { TypedItemSearchResultGridElementComponent } from './object-grid/item-grid-element/item-types/typed-item-search-result-grid-element.component';
+import { PublicationGridElementComponent } from './object-grid/item-grid-element/item-types/publication/publication-grid-element.component';
+import { ItemTypeBadgeComponent } from './object-list/item-type-badge/item-type-badge.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -154,7 +169,11 @@ const MODULES = [
   NouisliderModule,
   MomentModule,
   TextMaskModule,
-  MenuModule
+  MenuModule,
+];
+
+const ROOT_MODULES = [
+  TooltipModule.forRoot()
 ];
 
 const PIPES = [
@@ -178,6 +197,7 @@ const COMPONENTS = [
   UserMenuComponent,
   ChipsComponent,
   ComcolPageContentComponent,
+  ComcolPageHandleComponent,
   ComcolPageHeaderComponent,
   ComcolPageLogoComponent,
   ComColFormComponent,
@@ -238,6 +258,8 @@ const COMPONENTS = [
   TruncatablePartComponent,
   BrowseByComponent,
   InputSuggestionsComponent,
+  FilterInputSuggestionsComponent,
+  DsoInputSuggestionsComponent,
   DSOSelectorComponent,
   CreateCommunityParentSelectorComponent,
   CreateCollectionParentSelectorComponent,
@@ -248,6 +270,13 @@ const COMPONENTS = [
   CommunitySearchResultListElementComponent,
   CollectionSearchResultListElementComponent,
   ItemSearchResultListElementComponent,
+  TypedItemSearchResultListElementComponent,
+  TypedItemSearchResultGridElementComponent,
+  ItemTypeSwitcherComponent,
+  BrowseByComponent,
+  ItemTypeBadgeComponent,
+  ItemSelectComponent,
+  CollectionSelectComponent
 ];
 
 const ENTRY_COMPONENTS = [
@@ -264,6 +293,8 @@ const ENTRY_COMPONENTS = [
   CollectionGridElementComponent,
   CommunityGridElementComponent,
   SearchResultGridElementComponent,
+  PublicationListElementComponent,
+  PublicationGridElementComponent,
   BrowseEntryListElementComponent,
   MyDSpaceResultDetailElementComponent,
   SearchResultGridElementComponent,
@@ -286,6 +317,10 @@ const ENTRY_COMPONENTS = [
   EditCommunitySelectorComponent,
   EditCollectionSelectorComponent,
   EditItemSelectorComponent,
+  StartsWithTextComponent,
+  PlainTextMetadataListElementComponent,
+  ItemMetadataListElementComponent,
+  MetadataRepresentationListElementComponent
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [
@@ -315,7 +350,8 @@ const DIRECTIVES = [
 
 @NgModule({
   imports: [
-    ...MODULES
+    ...MODULES,
+    ...ROOT_MODULES
   ],
   declarations: [
     ...PIPES,

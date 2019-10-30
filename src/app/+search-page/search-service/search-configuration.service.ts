@@ -6,22 +6,21 @@ import {
   combineLatest as observableCombineLatest,
   merge as observableMerge,
   Observable,
-  of as observableOf,
   Subscription
 } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
-
+import { filter, map, startWith } from 'rxjs/operators';
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
 import { SearchOptions } from '../search-options.model';
 import { PaginatedSearchOptions } from '../paginated-search-options.model';
-import { RouteService } from '../../shared/services/route.service';
-import { hasNoValue, hasValue, isEmpty, isNotEmpty } from '../../shared/empty.util';
+import { RouteService } from '../../core/services/route.service';
+import { hasNoValue, hasValue, isNotEmpty } from '../../shared/empty.util';
 import { RemoteData } from '../../core/data/remote-data';
 import { getSucceededRemoteData } from '../../core/shared/operators';
 import { SearchFilter } from '../search-filter.model';
 import { DSpaceObjectType } from '../../core/shared/dspace-object-type.model';
-import { difference } from '../../shared/object.util';
+import { SearchFixedFilterService } from '../search-filters/search-filter/search-fixed-filter.service';
+import { createSuccessfulRemoteDataObject$ } from '../../shared/testing/utils';
 
 /**
  * Service that performs all actions that have to do with the current search configuration
@@ -45,7 +44,7 @@ export class SearchConfigurationService implements OnDestroy {
   /**
    * Default configuration parameter setting
    */
-  protected defaultConfiguration = 'default';
+  protected defaultConfiguration;
 
   /**
    * Default scope setting
@@ -80,9 +79,11 @@ export class SearchConfigurationService implements OnDestroy {
   /**
    * Initialize the search options
    * @param {RouteService} routeService
+   * @param {SearchFixedFilterService} fixedFilterService
    * @param {ActivatedRoute} route
    */
   constructor(protected routeService: RouteService,
+              protected fixedFilterService: SearchFixedFilterService,
               protected route: ActivatedRoute) {
 
     this.initDefaults();
@@ -98,10 +99,8 @@ export class SearchConfigurationService implements OnDestroy {
           const defs = defRD.payload;
           this.paginatedSearchOptions = new BehaviorSubject<PaginatedSearchOptions>(defs);
           this.searchOptions = new BehaviorSubject<SearchOptions>(defs);
-
           this.subs.push(this.subscribeToSearchOptions(defs));
           this.subs.push(this.subscribeToPaginatedSearchOptions(defs));
-
         }
       )
   }
@@ -110,9 +109,14 @@ export class SearchConfigurationService implements OnDestroy {
    * @returns {Observable<string>} Emits the current configuration string
    */
   getCurrentConfiguration(defaultConfiguration: string) {
-    return this.routeService.getQueryParameterValue('configuration').pipe(map((configuration) => {
-      return configuration || defaultConfiguration;
-    }), distinctUntilChanged());
+    return observableCombineLatest(
+      this.routeService.getQueryParameterValue('configuration').pipe(startWith(undefined)),
+      this.routeService.getRouteParameterValue('configuration').pipe(startWith(undefined))
+    ).pipe(
+      map(([queryConfig, routeConfig]) => {
+        return queryConfig || routeConfig || defaultConfiguration;
+      })
+    );
   }
 
   /**
@@ -121,7 +125,7 @@ export class SearchConfigurationService implements OnDestroy {
   getCurrentScope(defaultScope: string) {
     return this.routeService.getQueryParameterValue('scope').pipe(map((scope) => {
       return scope || defaultScope;
-    }), distinctUntilChanged());
+    }));
   }
 
   /**
@@ -130,7 +134,7 @@ export class SearchConfigurationService implements OnDestroy {
   getCurrentQuery(defaultQuery: string) {
     return this.routeService.getQueryParameterValue('query').pipe(map((query) => {
       return query || defaultQuery;
-    }), distinctUntilChanged());
+    }));
   }
 
   /**
@@ -139,7 +143,7 @@ export class SearchConfigurationService implements OnDestroy {
   getCurrentDSOType(): Observable<DSpaceObjectType> {
     return this.routeService.getQueryParameterValue('dsoType').pipe(
       filter((type) => isNotEmpty(type) && hasValue(DSpaceObjectType[type.toUpperCase()])),
-      map((type) => DSpaceObjectType[type.toUpperCase()]), distinctUntilChanged());
+      map((type) => DSpaceObjectType[type.toUpperCase()]),);
   }
 
   /**
@@ -153,7 +157,7 @@ export class SearchConfigurationService implements OnDestroy {
           currentPage: page || defaultPagination.currentPage,
           pageSize: size || defaultPagination.pageSize
         });
-      }), distinctUntilChanged()
+      })
     );
   }
 
@@ -171,7 +175,7 @@ export class SearchConfigurationService implements OnDestroy {
         const direction = SortDirection[sortDirection] || defaultSort.direction;
         return new SortOptions(field, direction)
       }
-      ), distinctUntilChanged()
+      )
     );
   }
 
@@ -197,7 +201,7 @@ export class SearchConfigurationService implements OnDestroy {
         return filters;
       }
       return [];
-    }), distinctUntilChanged());
+    }));
   }
 
   /**
@@ -218,14 +222,11 @@ export class SearchConfigurationService implements OnDestroy {
       this.getScopePart(defaults.scope),
       this.getQueryPart(defaults.query),
       this.getDSOTypePart(),
-      this.getFiltersPart()
+      this.getFiltersPart(),
     ).subscribe((update) => {
       const currentValue: SearchOptions = this.searchOptions.getValue();
-      const diffObj = difference(update, currentValue);
-      if (isNotEmpty(diffObj) || (update.filters && isEmpty(update.filters))) {
-        const updatedValue: SearchOptions = Object.assign(currentValue, update);
-        this.searchOptions.next(new SearchOptions(updatedValue));
-      }
+      const updatedValue: SearchOptions = Object.assign(currentValue, update);
+      this.searchOptions.next(updatedValue);
     });
   }
 
@@ -235,7 +236,6 @@ export class SearchConfigurationService implements OnDestroy {
    * @returns {Subscription} The subscription to unsubscribe from
    */
   private subscribeToPaginatedSearchOptions(defaults: PaginatedSearchOptions): Subscription {
-
     return observableMerge(
       this.getPaginationPart(defaults.pagination),
       this.getSortPart(defaults.sort),
@@ -243,14 +243,11 @@ export class SearchConfigurationService implements OnDestroy {
       this.getScopePart(defaults.scope),
       this.getQueryPart(defaults.query),
       this.getDSOTypePart(),
-      this.getFiltersPart()
+      this.getFiltersPart(),
     ).subscribe((update) => {
       const currentValue: PaginatedSearchOptions = this.paginatedSearchOptions.getValue();
-      const diffObj = difference(update, currentValue);
-      if (isNotEmpty(diffObj) || (update.filters && isEmpty(update.filters))) {
-        const updatedValue: PaginatedSearchOptions = Object.assign(currentValue, update);
-        this.paginatedSearchOptions.next(new PaginatedSearchOptions(updatedValue));
-      }
+      const updatedValue: PaginatedSearchOptions = Object.assign(currentValue, update);
+      this.paginatedSearchOptions.next(updatedValue);
     });
   }
 
@@ -266,7 +263,7 @@ export class SearchConfigurationService implements OnDestroy {
         scope: this.defaultScope,
         query: this.defaultQuery
       });
-      this._defaults = observableOf(new RemoteData(false, false, true, null, options));
+      this._defaults = createSuccessfulRemoteDataObject$(options);
     }
     return this._defaults;
   }

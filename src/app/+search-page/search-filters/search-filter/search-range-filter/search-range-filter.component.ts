@@ -10,11 +10,11 @@ import {
   SearchFacetFilterComponent
 } from '../search-facet-filter/search-facet-filter.component';
 import { SearchFilterConfig } from '../../../search-service/search-filter-config.model';
-import { FILTER_CONFIG, SearchFilterService } from '../search-filter.service';
+import { FILTER_CONFIG, IN_PLACE_SEARCH, SearchFilterService } from '../search-filter.service';
 import { SearchService } from '../../../search-service/search.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
-import { RouteService } from '../../../../shared/services/route.service';
+import { RouteService } from '../../../../core/services/route.service';
 import { hasValue } from '../../../../shared/empty.util';
 import { SearchConfigurationService } from '../../../search-service/search-configuration.service';
 import { SEARCH_CONFIG_SERVICE } from '../../../../+my-dspace-page/my-dspace-page.component';
@@ -76,10 +76,11 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
               protected router: Router,
               protected rdbs: RemoteDataBuildService,
               @Inject(SEARCH_CONFIG_SERVICE) public searchConfigService: SearchConfigurationService,
+              @Inject(IN_PLACE_SEARCH) public inPlaceSearch: boolean,
               @Inject(FILTER_CONFIG) public filterConfig: SearchFilterConfig,
               @Inject(PLATFORM_ID) private platformId: any,
               private route: RouteService) {
-    super(searchService, filterService, rdbs, router, searchConfigService, filterConfig);
+    super(searchService, filterService, rdbs, router, searchConfigService, inPlaceSearch, filterConfig);
 
   }
 

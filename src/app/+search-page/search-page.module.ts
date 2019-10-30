@@ -17,6 +17,7 @@ import { SearchFiltersComponent } from './search-filters/search-filters.componen
 import { SearchFilterComponent } from './search-filters/search-filter/search-filter.component';
 import { SearchFacetFilterComponent } from './search-filters/search-filter/search-facet-filter/search-facet-filter.component';
 import { SearchFilterService } from './search-filters/search-filter/search-filter.service';
+import { SearchFixedFilterService } from './search-filters/search-filter/search-fixed-filter.service';
 import { SearchLabelsComponent } from './search-labels/search-labels.component';
 import { SearchRangeFilterComponent } from './search-filters/search-filter/search-range-filter/search-range-filter.component';
 import { SearchTextFilterComponent } from './search-filters/search-filter/search-text-filter/search-text-filter.component';
@@ -29,6 +30,10 @@ import { SearchFacetSelectedOptionComponent } from './search-filters/search-filt
 import { SearchFacetRangeOptionComponent } from './search-filters/search-filter/search-facet-filter-options/search-facet-range-option/search-facet-range-option.component';
 import { SearchSwitchConfigurationComponent } from './search-switch-configuration/search-switch-configuration.component';
 import { SearchAuthorityFilterComponent } from './search-filters/search-filter/search-authority-filter/search-authority-filter.component';
+import { SearchLabelComponent } from './search-labels/search-label/search-label.component';
+import { ConfigurationSearchPageComponent } from './configuration-search-page.component';
+import { ConfigurationSearchPageGuard } from './configuration-search-page.guard';
+import { FilteredSearchPageComponent } from './filtered-search-page.component';
 
 const effects = [
   SearchSidebarEffects
@@ -46,6 +51,7 @@ const components = [
   SearchFilterComponent,
   SearchFacetFilterComponent,
   SearchLabelsComponent,
+  SearchLabelComponent,
   SearchFacetFilterComponent,
   SearchFacetFilterWrapperComponent,
   SearchRangeFilterComponent,
@@ -56,7 +62,9 @@ const components = [
   SearchFacetSelectedOptionComponent,
   SearchFacetRangeOptionComponent,
   SearchSwitchConfigurationComponent,
-  SearchAuthorityFilterComponent
+  SearchAuthorityFilterComponent,
+  FilteredSearchPageComponent,
+  ConfigurationSearchPageComponent
 ];
 
 @NgModule({
@@ -71,6 +79,8 @@ const components = [
   providers: [
     SearchSidebarService,
     SearchFilterService,
+    SearchFixedFilterService,
+    ConfigurationSearchPageGuard,
     SearchConfigurationService
   ],
   entryComponents: [

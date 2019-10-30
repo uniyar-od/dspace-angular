@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FILTER_CONFIG, SearchFilterService } from '../search-filter.service';
+import { FILTER_CONFIG, IN_PLACE_SEARCH, SearchFilterService } from '../search-filter.service';
 import { SearchFilterConfig } from '../../../search-service/search-filter-config.model';
 import { FilterType } from '../../../search-service/filter-type.model';
 import { FacetValue } from '../../../search-service/facet-value.model';
@@ -17,11 +17,11 @@ import { RouterStub } from '../../../../shared/testing/router-stub';
 import { Router } from '@angular/router';
 import { PageInfo } from '../../../../core/shared/page-info.model';
 import { SearchRangeFilterComponent } from './search-range-filter.component';
-import { RouteService } from '../../../../shared/services/route.service';
+import { RouteService } from '../../../../core/services/route.service';
 import { RemoteDataBuildService } from '../../../../core/cache/builders/remote-data-build.service';
-import { SearchConfigurationService } from '../../../search-service/search-configuration.service';
 import { SEARCH_CONFIG_SERVICE } from '../../../../+my-dspace-page/my-dspace-page.component';
 import { SearchConfigurationServiceStub } from '../../../../shared/testing/search-configuration-service-stub';
+import { createSuccessfulRemoteDataObject$ } from '../../../../shared/testing/utils';
 
 describe('SearchRangeFilterComponent', () => {
   let comp: SearchRangeFilterComponent;
@@ -68,7 +68,7 @@ describe('SearchRangeFilterComponent', () => {
   let router;
   const page = observableOf(0);
 
-  const mockValues = observableOf(new RemoteData(false, false, true, null, new PaginatedList(new PageInfo(), values)));
+  const mockValues = createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), values));
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, FormsModule],
@@ -80,6 +80,7 @@ describe('SearchRangeFilterComponent', () => {
         { provide: RemoteDataBuildService, useValue: {aggregate: () => observableOf({})} },
         { provide: RouteService, useValue: {getQueryParameterValue: () => observableOf({})} },
         { provide: SEARCH_CONFIG_SERVICE, useValue: new SearchConfigurationServiceStub() },
+        { provide: IN_PLACE_SEARCH, useValue: false },
         {
           provide: SearchFilterService, useValue: {
             getSelectedValuesForFilter: () => selectedValues,
@@ -120,7 +121,7 @@ describe('SearchRangeFilterComponent', () => {
     });
 
     it('should call navigate on the router with the right searchlink and parameters', () => {
-      expect(router.navigate).toHaveBeenCalledWith([searchUrl], {
+      expect(router.navigate).toHaveBeenCalledWith(searchUrl.split('/'), {
         queryParams: {
           [mockFilterConfig.paramName + minSuffix]: [1900],
           [mockFilterConfig.paramName + maxSuffix]: [1950]

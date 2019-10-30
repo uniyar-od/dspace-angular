@@ -1,4 +1,4 @@
-import { ServerResponseService } from '../shared/services/server-response.service';
+import { ServerResponseService } from '../core/services/server-response.service';
 import { Component, ChangeDetectionStrategy, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../core/auth/auth.service';
 import { GLOBAL_CONFIG, GlobalConfig } from '../../config';

@@ -24,6 +24,7 @@ export class OneboxFieldParser extends FieldParser {
       const clsGroup = {
         element: {
           control: 'form-row',
+          hint: 'ds-form-qualdrop-hint'
         }
       };
 

@@ -1,7 +1,7 @@
-import { combineLatest as observableCombineLatest, Observable, of as observableOf } from 'rxjs';
+import { combineLatest as observableCombineLatest, Observable, of as observableOf, zip as observableZip } from 'rxjs';
 import { Injectable, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationExtras, PRIMARY_OUTLET, Router, UrlSegmentGroup } from '@angular/router';
-import { first, map, switchMap } from 'rxjs/operators';
+import { NavigationExtras, PRIMARY_OUTLET, Router, UrlSegmentGroup } from '@angular/router';
+import { first, map, switchMap, take, tap } from 'rxjs/operators';
 import { RemoteDataBuildService } from '../../core/cache/builders/remote-data-build.service';
 import {
   FacetConfigSuccessResponse,
@@ -17,12 +17,13 @@ import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { GenericConstructor } from '../../core/shared/generic-constructor';
 import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import {
-  configureRequest, filterSuccessfulResponses,
+  configureRequest,
+  filterSuccessfulResponses,
   getResponseFromEntry,
   getSucceededRemoteData
 } from '../../core/shared/operators';
 import { URLCombiner } from '../../core/url-combiner/url-combiner';
-import { hasValue, isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
+import { hasValue, hasValueOperator, isEmpty, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import { NormalizedSearchResult } from '../normalized-search-result.model';
 import { SearchOptions } from '../search-options.model';
 import { SearchResult } from '../search-result.model';
@@ -39,9 +40,8 @@ import { PaginatedSearchOptions } from '../paginated-search-options.model';
 import { Community } from '../../core/shared/community.model';
 import { CommunityDataService } from '../../core/data/community-data.service';
 import { ViewMode } from '../../core/shared/view-mode.model';
-import { ResourceType } from '../../core/shared/resource-type';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
-import { RouteService } from '../../shared/services/route.service';
+import { RouteService } from '../../core/services/route.service';
 
 /**
  * Service that performs all general actions that have to do with the search page
@@ -59,14 +59,14 @@ export class SearchService implements OnDestroy {
   private facetLinkPathPrefix = 'discover/facets/';
 
   /**
-   * When true, a new search request is always dispatched
-   */
-  private forceBypassCache = false;
-
-  /**
    * The ResponseParsingService constructor name
    */
   private parser: GenericConstructor<ResponseParsingService> = SearchResponseParsingService;
+
+  /**
+   * The RestRequest constructor name
+   */
+  private request: GenericConstructor<RestRequest> = GetRequest;
 
   /**
    * Subscription to unsubscribe from
@@ -85,38 +85,49 @@ export class SearchService implements OnDestroy {
 
   /**
    * Method to set service options
-   * @param {GenericConstructor<ResponseParsingService>} parser The configuration necessary to perform this search
-   * @param {boolean} forceBypassCache When true, a new search request is always dispatched
-   * @returns {Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>} Emits a paginated list with all search results found
+   * @param {GenericConstructor<ResponseParsingService>} parser The ResponseParsingService constructor name
+   * @param {boolean} request The RestRequest constructor name
    */
-  setServiceOptions(parser: GenericConstructor<ResponseParsingService>, forceBypassCache: boolean) {
+  setServiceOptions(parser: GenericConstructor<ResponseParsingService>, request: GenericConstructor<RestRequest>) {
     if (parser) {
       this.parser = parser;
     }
-    this.forceBypassCache = forceBypassCache;
+    if (request) {
+      this.request = request;
+    }
   }
 
   /**
    * Method to retrieve a paginated list of search results from the server
    * @param {PaginatedSearchOptions} searchOptions The configuration necessary to perform this search
+   * @param responseMsToLive The amount of milliseconds for the response to live in cache
    * @returns {Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>>} Emits a paginated list with all search results found
    */
-  search(searchOptions?: PaginatedSearchOptions): Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> {
-    const requestObs = this.halService.getEndpoint(this.searchLinkPath).pipe(
+  search(searchOptions?: PaginatedSearchOptions, responseMsToLive?: number): Observable<RemoteData<PaginatedList<SearchResult<DSpaceObject>>>> {
+    const hrefObs = this.halService.getEndpoint(this.searchLinkPath).pipe(
       map((url: string) => {
         if (hasValue(searchOptions)) {
-          url = (searchOptions as PaginatedSearchOptions).toRestUrl(url);
+          return (searchOptions as PaginatedSearchOptions).toRestUrl(url);
+        } else {
+          return url;
         }
-        const request = new GetRequest(this.requestService.generateRequestId(), url);
+      })
+    );
+
+    const requestObs = hrefObs.pipe(
+      map((url: string) => {
+        const request = new this.request(this.requestService.generateRequestId(), url);
+
         const getResponseParserFn: () => GenericConstructor<ResponseParsingService> = () => {
           return this.parser;
         };
 
         return Object.assign(request, {
+          responseMsToLive: hasValue(responseMsToLive) ? responseMsToLive : request.responseMsToLive,
           getResponseParser: getResponseParserFn
         });
       }),
-      configureRequest(this.requestService, this.forceBypassCache),
+      configureRequest(this.requestService),
     );
     const requestEntryObs = requestObs.pipe(
       switchMap((request: RestRequest) => this.requestService.getByHref(request.href))
@@ -134,10 +145,11 @@ export class SearchService implements OnDestroy {
       map((sqr: SearchQueryResponse) => {
         return sqr.objects
           .filter((nsr: NormalizedSearchResult) => isNotUndefined(nsr.indexableObject))
-          .map((nsr: NormalizedSearchResult) => {
-          return this.rdb.buildSingle(nsr.indexableObject);
-        })
+          .map((nsr: NormalizedSearchResult) => new GetRequest(this.requestService.generateRequestId(), nsr.indexableObject))
       }),
+      // Send a request for each item to ensure fresh cache
+      tap((reqs: RestRequest[]) => reqs.forEach((req: RestRequest) => this.requestService.configure(req))),
+      map((reqs: RestRequest[]) => reqs.map((req: RestRequest) => this.rdb.buildSingle(req.href))),
       switchMap((input: Array<Observable<RemoteData<DSpaceObject>>>) => this.rdb.aggregate(input)),
     );
 
@@ -166,19 +178,29 @@ export class SearchService implements OnDestroy {
 
     const payloadObs = observableCombineLatest(tDomainListObs, pageInfoObs).pipe(
       map(([tDomainList, pageInfo]) => {
-        return new PaginatedList(pageInfo, tDomainList);
+        return new PaginatedList(pageInfo, tDomainList.filter((obj) => hasValue(obj)));
       })
     );
 
-    return this.rdb.toRemoteDataObservable(requestEntryObs, payloadObs);
+    return observableCombineLatest(hrefObs, tDomainListObs, requestEntryObs).pipe(
+      switchMap(([href, tDomainList, requestEntry]) => {
+        if (tDomainList.indexOf(undefined) > -1 && requestEntry && requestEntry.completed) {
+          this.requestService.removeByHrefSubstring(href);
+          return this.search(searchOptions)
+        } else {
+          return this.rdb.toRemoteDataObservable(requestEntryObs, payloadObs);
+        }
+      })
+    );
   }
 
   /**
    * Request the filter configuration for a given scope or the whole repository
    * @param {string} scope UUID of the object for which config the filter config is requested, when no scope is provided the configuration for the whole repository is loaded
+   * @param {string} configurationName the name of the configuration
    * @returns {Observable<RemoteData<SearchFilterConfig[]>>} The found filter configuration
    */
-  getConfig(scope?: string, configuration?: string): Observable<RemoteData<SearchFilterConfig[]>> {
+  getConfig(scope?: string, configurationName?: string): Observable<RemoteData<SearchFilterConfig[]>> {
     const requestObs = this.halService.getEndpoint(this.facetLinkPathPrefix).pipe(
       map((url: string) => {
         const args: string[] = [];
@@ -187,22 +209,22 @@ export class SearchService implements OnDestroy {
           args.push(`scope=${scope}`);
         }
 
-        if (isNotEmpty(configuration)) {
-          args.push(`configuration=${configuration}`);
+        if (isNotEmpty(configurationName)) {
+          args.push(`configuration=${configurationName}`);
         }
 
         if (isNotEmpty(args)) {
           url = new URLCombiner(url, `?${args.join('&')}`).toString();
         }
 
-        const request = new GetRequest(this.requestService.generateRequestId(), url);
+        const request = new this.request(this.requestService.generateRequestId(), url);
         return Object.assign(request, {
           getResponseParser(): GenericConstructor<ResponseParsingService> {
             return FacetConfigResponseParsingService;
           }
         });
       }),
-      configureRequest(this.requestService, this.forceBypassCache)
+      configureRequest(this.requestService)
     );
 
     const requestEntryObs = requestObs.pipe(
@@ -238,14 +260,14 @@ export class SearchService implements OnDestroy {
           url = searchOptions.toRestUrl(url, args);
         }
 
-        const request = new GetRequest(this.requestService.generateRequestId(), url);
+        const request = new this.request(this.requestService.generateRequestId(), url);
         return Object.assign(request, {
           getResponseParser(): GenericConstructor<ResponseParsingService> {
             return FacetValueResponseParsingService;
           }
         });
       }),
-      configureRequest(this.requestService, this.forceBypassCache),
+      configureRequest(this.requestService),
       first()
     );
 
@@ -292,7 +314,7 @@ export class SearchService implements OnDestroy {
     const scopeObject: Observable<RemoteData<DSpaceObject>> = this.dspaceObjectService.findById(scopeId).pipe(getSucceededRemoteData());
     const scopeList: Observable<DSpaceObject[]> = scopeObject.pipe(
       switchMap((dsoRD: RemoteData<DSpaceObject>) => {
-          if (dsoRD.payload.type === ResourceType.Community) {
+          if ((dsoRD.payload as any).type === Community.type.value) {
             const community: Community = dsoRD.payload as Community;
             return observableCombineLatest(community.subcommunities, community.collections).pipe(
               map(([subCommunities, collections]) => {
@@ -328,7 +350,7 @@ export class SearchService implements OnDestroy {
    * Changes the current view mode in the current URL
    * @param {ViewMode} viewMode Mode to switch to
    */
-  setViewMode(viewMode: ViewMode) {
+  setViewMode(viewMode: ViewMode, searchLinkParts?: string[]) {
     this.routeService.getQueryParameterValue('pageSize').pipe(first())
       .subscribe((pageSize) => {
         let queryParams = { view: viewMode, page: 1 };
@@ -342,7 +364,7 @@ export class SearchService implements OnDestroy {
           queryParamsHandling: 'merge'
         };
 
-        this.router.navigate([this.getSearchLink()], navigationExtras);
+        this.router.navigate(hasValue(searchLinkParts) ? searchLinkParts : [this.getSearchLink()], navigationExtras);
       })
   }
 
