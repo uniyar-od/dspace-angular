@@ -5,7 +5,6 @@ import { find } from 'rxjs/operators';
 
 import { renderElementsFor } from '../../../object-collection/shared/dso-element-decorator';
 import { MyDSpaceResultListElementComponent, } from '../my-dspace-result-list-element.component';
-import { ViewMode } from '../../../../core/shared/view-mode.model';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { isNotUndefined } from '../../../empty.util';
 import { WorkflowitemMyDSpaceResult } from '../../../object-collection/shared/workflowitem-my-dspace-result.model';
@@ -48,11 +47,13 @@ export class WorkflowitemMyDSpaceResultListElementComponent extends MyDSpaceResu
    * Retrieve item from result object
    */
   initItem(item$: Observable<RemoteData<Item>>) {
-    item$.pipe(
-      find((rd: RemoteData<Item>) => rd.hasSucceeded && isNotUndefined(rd.payload))
-    ).subscribe((rd: RemoteData<Item>) => {
-      this.item = rd.payload;
-    });
+    this.subs.push(
+      item$.pipe(
+        find((rd: RemoteData<Item>) => rd.hasSucceeded && isNotUndefined(rd.payload))
+      ).subscribe((rd: RemoteData<Item>) => {
+        this.item = rd.payload;
+      })
+    );
   }
 
 }

@@ -33,11 +33,13 @@ export class WorkspaceitemRejectedMyDSpaceResultDetailElementComponent extends M
    * Retrieve item from result object
    */
   initItem(item$: Observable<RemoteData<Item>>) {
-    item$.pipe(
-      find((rd: RemoteData<Item>) => rd.hasSucceeded && isNotUndefined(rd.payload))
-    ).subscribe((rd: RemoteData<Item>) => {
-      this.item = rd.payload;
-    });
+    this.subs.push(
+      item$.pipe(
+        find((rd: RemoteData<Item>) => rd.hasSucceeded && isNotUndefined(rd.payload))
+      ).subscribe((rd: RemoteData<Item>) => {
+        this.item = rd.payload;
+      })
+    );
   }
 
 }
