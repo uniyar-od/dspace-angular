@@ -829,7 +829,7 @@
   "submission.sections.submit.progressbar.describe.stepcustom": "Describe",
   "submission.sections.submit.progressbar.describe.stepone": "Describe",
   "submission.sections.submit.progressbar.describe.steptwo": "Describe",
-  "submission.sections.submit.progressbar.detect-duplicate": "Potential duplicates",
+  "submission.sections.submit.progressbar.detectDuplicate": "Potential duplicates",
   "submission.sections.submit.progressbar.license": "Deposit license",
   "submission.sections.submit.progressbar.upload": "Upload files",
 
