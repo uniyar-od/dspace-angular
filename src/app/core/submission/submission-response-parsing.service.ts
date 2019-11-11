@@ -127,6 +127,7 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
         || item instanceof NormalizedEditItem) {
         if (item.sections) {
           const precessedSection = Object.create({});
+          let precessedDedupSection = null;
           // Iterate over all workspaceitem's sections
           Object.keys(item.sections)
             .forEach((sectionId) => {
@@ -153,9 +154,17 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
                       normalizedSectionData[metdadataId] = entry;
                     }
                   });
+                if (sectionId === 'detect-duplicate') {
+                  precessedDedupSection = normalizedSectionData;
+                }
                 precessedSection[sectionId] = normalizedSectionData;
               }
             });
+
+          // add deduplication section as last
+          if (isNotNull(precessedDedupSection)) {
+            precessedSection['detect-duplicate'] = precessedDedupSection;
+          }
           normalizedItem = Object.assign({}, item, { sections: precessedSection });
         }
       }
