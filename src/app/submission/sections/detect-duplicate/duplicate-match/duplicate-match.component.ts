@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -72,7 +72,7 @@ export class DuplicateMatchComponent implements OnInit {
     this.item = Object.assign(new Item(), this.match.matchObject, {metadata: Metadata.toMetadataMap(this.match.matchObject.metadata as any)});
 
     this.rejectForm = this.formBuilder.group({
-      reason: ['', Validators.required]
+      reason: ['']
     });
 
     this.hasDecision = this.isWorkFlow ?
