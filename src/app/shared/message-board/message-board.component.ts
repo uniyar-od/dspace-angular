@@ -21,7 +21,6 @@ import {
   mergeMap,
   reduce,
   startWith,
-  take,
   withLatestFrom
 } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
@@ -58,7 +57,7 @@ export class MessageBoardComponent implements OnChanges, OnDestroy {
   public unreadMessages$: BehaviorSubject<Bitstream[]> = new BehaviorSubject<Bitstream[]>([]);
   public modalRef: NgbModalRef;
   public itemUUID: string;
-  public messages$:  BehaviorSubject<Bitstream[]> = new BehaviorSubject<Bitstream[]>([]);
+  public messages$: BehaviorSubject<Bitstream[]> = new BehaviorSubject<Bitstream[]>([]);
   public isSubmitter$: Observable<boolean>;
   public messageForm: FormGroup;
   public processingMessage = false;
@@ -205,8 +204,9 @@ export class MessageBoardComponent implements OnChanges, OnDestroy {
     } else {
       ids$ = this.unreadMessages$.pipe(
         filter((messages: Bitstream[]) => isNotEmpty(messages)),
-        flatMap((message: Bitstream) => message.uuid),
-        reduce((acc: any, value: any) => [...acc, ...value], []),
+        map((messages: Bitstream[]) => {
+          return messages.map((message: Bitstream) => message.id)
+        }),
         startWith([])
       )
     }

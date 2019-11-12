@@ -5,7 +5,7 @@ import { DSpaceObject } from './dspace-object.model';
 import { Collection } from './collection.model';
 import { RemoteData } from '../data/remote-data';
 import { Bitstream } from './bitstream.model';
-import { hasNoUndefinedValue, hasValue, isNotEmpty } from '../../shared/empty.util';
+import { hasNoUndefinedValue, hasValue, isNotEmpty, isNotUndefined } from '../../shared/empty.util';
 import { PaginatedList } from '../data/paginated-list';
 import { Relationship } from './item-relationships/relationship.model';
 import { ResourceType } from './resource-type';
@@ -98,7 +98,7 @@ export class Item extends DSpaceObject {
    */
   getBitstreamsByBundleName(bundleName: string): Observable<Bitstream[]> {
     return this.bitstreams.pipe(
-      getSucceededRemoteData(),
+      filter((rd: RemoteData<PaginatedList<Bitstream>>) => !rd.isResponsePending && isNotUndefined(rd.payload)),
       map((rd: RemoteData<PaginatedList<Bitstream>>) => rd.payload.page),
       filter((bitstreams: Bitstream[]) => hasNoUndefinedValue(bitstreams)),
       startWith([]),
