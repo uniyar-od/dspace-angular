@@ -59,7 +59,7 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
   /**
    * Fallback maximum for the range
    */
-  max = 2018;
+  max = new Date().getFullYear();
 
   /**
    * The current range of the filter
@@ -92,20 +92,8 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
     super.ngOnInit();
     this.min = moment(this.filterConfig.minValue, dateFormats).year() || this.min;
     this.max = moment(this.filterConfig.maxValue, dateFormats).year() || this.max;
-    const iniMin = this.route.getQueryParameterValue(this.filterConfig.paramName).pipe(
-      map((range: string) => {
-        const regex = /\[(\d+) TO (\d+)]/g;
-        const result = regex.exec(range);
-        return (Array.isArray(result) && result[1]) ? result[1] : undefined;
-      }),
-      startWith(undefined));
-    const iniMax = this.route.getQueryParameterValue(this.filterConfig.paramName).pipe(
-      map((range: string) => {
-        const regex = /\[(\d+) TO (\d+)]/g;
-        const result = regex.exec(range);
-        return (Array.isArray(result) && result[2]) ? result[3] : undefined;
-      }),
-      startWith(undefined));
+    const iniMin = this.route.getQueryParameterValue(this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX).pipe(startWith(undefined));
+    const iniMax = this.route.getQueryParameterValue(this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX).pipe(startWith(undefined));
     this.sub = observableCombineLatest(iniMin, iniMax).pipe(
       map(([min, max]) => {
         const minimum = hasValue(min) ? min : this.min;
@@ -122,10 +110,11 @@ export class SearchRangeFilterComponent extends SearchFacetFilterComponent imple
     const newMin = this.range[0] !== this.min ? [this.range[0]] : this.min;
     const newMax = this.range[1] !== this.max ? [this.range[1]] : this.max;
     const range = `[${newMin} TO ${newMax}]`;
-    this.router.navigate([this.getSearchLink()], {
+    this.router.navigate(this.getSearchLinkParts(), {
       queryParams:
         {
-          [this.filterConfig.paramName]: range
+          [this.filterConfig.paramName + RANGE_FILTER_MIN_SUFFIX]: newMin,
+          [this.filterConfig.paramName + RANGE_FILTER_MAX_SUFFIX]: newMax
         },
       queryParamsHandling: 'merge'
     });
