@@ -28,6 +28,7 @@ import { SearchConfigurationService } from '../+search-page/search-service/searc
 import { MyDSpaceConfigurationService } from './my-dspace-configuration.service';
 import { ViewMode } from '../core/shared/view-mode.model';
 import { MyDSpaceRequest } from '../core/data/request.models';
+import { Router } from '@angular/router';
 
 export const MYDSPACE_ROUTE = '/mydspace';
 export const SEARCH_CONFIG_SERVICE: InjectionToken<SearchConfigurationService> = new InjectionToken<SearchConfigurationService>('searchConfigurationService');
@@ -97,7 +98,8 @@ export class MyDSpacePageComponent implements OnInit {
    */
   viewModeList = [ViewMode.List, ViewMode.Detail];
 
-  constructor(private service: SearchService,
+  constructor(private router: Router,
+              private service: SearchService,
               private sidebarService: SearchSidebarService,
               private windowService: HostWindowService,
               @Inject(SEARCH_CONFIG_SERVICE) public searchConfigService: MyDSpaceConfigurationService) {
@@ -157,6 +159,19 @@ export class MyDSpacePageComponent implements OnInit {
    */
   public getSearchLink(): string {
     return this.service.getSearchLink();
+  }
+
+  /**
+   * Refresh current page
+   */
+  reload(): void {
+    // override the route reuse strategy
+    this.router.routeReuseStrategy.shouldReuseRoute = () => {
+      return false;
+    };
+    this.router.navigated = false;
+    const url = decodeURIComponent(this.router.url);
+    this.router.navigateByUrl(url);
   }
 
   /**
