@@ -238,7 +238,6 @@ export class SubmissionSectionUploadComponent extends SectionModelComponent {
         }),
         distinctUntilChanged())
         .subscribe(([configMetadataForm, fileList]: [SubmissionFormsModel, any[]]) => {
-            console.log('SubmissionSectionUploadComponent', fileList);
             this.fileList = [];
             this.fileIndexes = [];
             this.fileNames = [];
