@@ -838,6 +838,7 @@
   "submission.sections.upload.delete.confirm.submit": "Yes, I'm sure",
   "submission.sections.upload.delete.confirm.title": "Delete bitstream",
   "submission.sections.upload.delete.submit": "Delete",
+  "submission.sections.upload.dismiss-info": "If you want to delete this section and all uploaded files, please click to the trash icon present above",
   "submission.sections.upload.drop-message": "Drop files to attach them to the item",
   "submission.sections.upload.form.access-condition-label": "Access condition type",
   "submission.sections.upload.form.date-required": "Date is required.",
