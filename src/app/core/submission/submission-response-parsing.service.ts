@@ -30,7 +30,7 @@ export function isServerFormValue(obj: any): boolean {
 }
 
 /**
- * Export a function to normalize sections object of the server response
+ * Export a function to normalize section data object
  *
  * @param obj
  * @param objIndex
@@ -68,6 +68,35 @@ export function normalizeSectionData(obj: any, objIndex?: number) {
   return result;
 }
 
+/**
+ * Export a function to normalize section object of the server response
+ *
+ * @param sections
+ * @param sectionId
+ */
+export function normalizeSection(sections: any, sectionId: string) {
+  const normalizedSectionData = Object.create({});
+  // Iterate over all sections property
+  Object.keys(sections[sectionId])
+    .forEach((metdadataId) => {
+      const entry = sections[sectionId][metdadataId];
+      // If entry is not an array, for sure is not a section of type form
+      if (Array.isArray(entry)) {
+        normalizedSectionData[metdadataId] = [];
+        entry.forEach((valueItem, index) => {
+          // Parse value and normalize it
+          const normValue = normalizeSectionData(valueItem, index);
+          if (isNotEmpty(normValue)) {
+            normalizedSectionData[metdadataId].push(normValue);
+          }
+        });
+      } else {
+        normalizedSectionData[metdadataId] = entry;
+      }
+    });
+
+  return normalizedSectionData
+}
 /**
  * Provides methods to parse response for a submission request.
  */
@@ -134,26 +163,7 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
                 // When Upload section is disabled, add to submission only if there are files
                 (!item.sections[sectionId].hasOwnProperty('files') || isNotEmpty((item.sections[sectionId] as any).files)))) {
 
-                const normalizedSectionData = Object.create({});
-                // Iterate over all sections property
-                Object.keys(item.sections[sectionId])
-                  .forEach((metdadataId) => {
-                    const entry = item.sections[sectionId][metdadataId];
-                    // If entry is not an array, for sure is not a section of type form
-                    if (Array.isArray(entry)) {
-                      normalizedSectionData[metdadataId] = [];
-                      entry.forEach((valueItem, index) => {
-                        // Parse value and normalize it
-                        const normValue = normalizeSectionData(valueItem, index);
-                        if (isNotEmpty(normValue)) {
-                          normalizedSectionData[metdadataId].push(normValue);
-                        }
-                      });
-                    } else {
-                      normalizedSectionData[metdadataId] = entry;
-                    }
-                  });
-                precessedSection[sectionId] = normalizedSectionData;
+                precessedSection[sectionId] = normalizeSection(item.sections, sectionId);
               }
             });
           normalizedItem = Object.assign({}, item, { sections: precessedSection });
