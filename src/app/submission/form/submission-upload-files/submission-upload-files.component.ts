@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 
 import { SectionsService } from '../../sections/sections.service';
 import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
-import { normalizeSectionData } from '../../../core/submission/submission-response-parsing.service';
+import { normalizeSection } from '../../../core/submission/submission-response-parsing.service';
 import { SubmissionService } from '../../submission.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { UploaderOptions } from '../../../shared/uploader/uploader-options.model';
@@ -140,7 +140,7 @@ export class SubmissionUploadFilesComponent implements OnChanges {
             if (sections && isNotEmpty(sections)) {
               Object.keys(sections)
                 .forEach((sectionId) => {
-                  const sectionData = normalizeSectionData(sections[sectionId]);
+                  const sectionData = normalizeSection(sections, sectionId);
                   const sectionErrors = errorsList[sectionId];
                   if (sectionId === 'upload') {
                     // Look for errors on upload
