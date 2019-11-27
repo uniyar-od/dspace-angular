@@ -1,4 +1,4 @@
-import { Component, Injector, Input, OnDestroy } from '@angular/core';
+import { Component, Injector, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BehaviorSubject } from 'rxjs';
@@ -11,6 +11,7 @@ import { WorkspaceitemDataService } from '../../../core/submission/workspaceitem
 import { NotificationsService } from '../../notifications/notifications.service';
 import { SearchService } from '../../../+search-page/search-service/search.service';
 import { RequestService } from '../../../core/data/request.service';
+import { Context } from '../../../core/shared/context.model';
 
 /**
  * This component represents actions related to WorkspaceItem object.
@@ -21,6 +22,13 @@ import { RequestService } from '../../../core/data/request.service';
   templateUrl: './workspaceitem-actions.component.html',
 })
 export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<WorkspaceItem, WorkspaceitemDataService> {
+
+  Context = Context;
+
+  /**
+   * The search context
+   */
+  @Input() context: Context = Context.Workspace;
 
   /**
    * The workspaceitem object

@@ -21,6 +21,7 @@ import { SearchResultListElementComponent } from '../shared/object-list/search-r
 import { ItemSearchResultListElementSubmissionComponent } from '../shared/object-list/my-dspace-result-list-element/item-search-result/item-search-result-list-element-submission.component';
 import { WorkflowItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workflow-item-search-result/workflow-item-search-result-list-element.component';
 import { PoolSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pool-search-result/pool-search-result-detail-element.component';
+import { AllWorkspaceItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/all-workspace-item-search-result/all-workspace-item-search-result-list-element.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { PoolSearchResultDetailElementComponent } from '../shared/object-detail/
     ClaimedTaskSearchResultDetailElementComponent,
     PoolSearchResultDetailElementComponent,
     MyDSpaceNewSubmissionComponent,
-    ItemSearchResultListElementSubmissionComponent
+    ItemSearchResultListElementSubmissionComponent,
+    AllWorkspaceItemSearchResultListElementComponent
   ],
   providers: [
     MyDSpaceGuard,
@@ -59,7 +61,8 @@ import { PoolSearchResultDetailElementComponent } from '../shared/object-detail/
     WorkflowItemSearchResultDetailElementComponent,
     ClaimedTaskSearchResultDetailElementComponent,
     PoolSearchResultDetailElementComponent,
-    ItemSearchResultListElementSubmissionComponent
+    ItemSearchResultListElementSubmissionComponent,
+    AllWorkspaceItemSearchResultListElementComponent
   ]
 })
 

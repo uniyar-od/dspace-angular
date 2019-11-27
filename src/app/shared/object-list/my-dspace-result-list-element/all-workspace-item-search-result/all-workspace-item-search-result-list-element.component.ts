@@ -18,13 +18,15 @@ import { Context } from '../../../../core/shared/context.model';
  * This component renders workspaceitem object for the search result in the list view.
  */
 @Component({
-  selector: 'ds-workspace-item-search-result-list-element',
-  styleUrls: ['../../search-result-list-element/search-result-list-element.component.scss', './workspace-item-search-result-list-element.component.scss'],
-  templateUrl: './workspace-item-search-result-list-element.component.html',
+  selector: 'ds-all-workspace-item-search-result-list-element',
+  styleUrls: ['../../search-result-list-element/search-result-list-element.component.scss', './all-workspace-item-search-result-list-element.component.scss'],
+  templateUrl: './all-workspace-item-search-result-list-element.component.html',
 })
 
-@listableObjectComponent(WorkspaceItemSearchResult, ViewMode.ListElement, Context.Workspace)
-export class WorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> {
+@listableObjectComponent(WorkspaceItemSearchResult, ViewMode.ListElement, Context.AllWorkspace)
+export class AllWorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> {
+
+  context = Context;
 
   /**
    * The item object that belonging to the result object

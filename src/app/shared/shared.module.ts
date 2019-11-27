@@ -148,6 +148,7 @@ import { ItemMetadataRepresentationListElementComponent } from './object-list/me
 import { AuthorityTreeviewComponent } from './authority-treeview/authority-treeview.component';
 import { MaterialModule } from './material/material.module';
 import { DsDynamicRelationInlineGroupComponent } from './form/builder/ds-dynamic-form-ui/models/relation-inline-group/dynamic-relation-inline-group.components';
+import { WorkspaceitemActionsReserveDoiComponent } from './mydspace-actions/workspaceitem/reserve-doi/workspaceitem-actions-reserve-doi.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -249,6 +250,7 @@ const COMPONENTS = [
   PoolTaskActionsComponent,
   WorkflowitemActionsComponent,
   WorkspaceitemActionsComponent,
+  WorkspaceitemActionsReserveDoiComponent,
   ViewModeSwitchComponent,
   TruncatableComponent,
   TruncatablePartComponent,

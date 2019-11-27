@@ -30,7 +30,7 @@ export class MyDSpaceConfigurationService extends SearchConfigurationService {
   /**
    * Default sort settings
    */
-  protected defaultSort = new SortOptions('dc.date.issued', SortDirection.DESC);
+  protected defaultSort = new SortOptions('lastModified', SortDirection.DESC);
 
   /**
    * Default configuration parameter setting
@@ -90,6 +90,7 @@ export class MyDSpaceConfigurationService extends SearchConfigurationService {
           availableConf.push(MyDSpaceConfigurationValueType.Workspace);
         }
         if (isController || isAdmin) {
+          availableConf.push(MyDSpaceConfigurationValueType.AllWorkspace);
           availableConf.push(MyDSpaceConfigurationValueType.Workflow);
         }
         return availableConf;

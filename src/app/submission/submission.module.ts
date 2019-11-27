@@ -27,6 +27,7 @@ import { SubmissionSectionUploadFileEditComponent } from './sections/upload/file
 import { SubmissionSectionUploadFileViewComponent } from './sections/upload/file/view/section-upload-file-view.component';
 import { SubmissionSectionUploadAccessConditionsComponent } from './sections/upload/accessConditions/submission-section-upload-access-conditions.component';
 import { SubmissionSubmitComponent } from './submit/submission-submit.component';
+import { SubmissionSectionReserveDoiComponent } from './sections/reserve-doi/section-reserve-doi.component';
 
 @NgModule({
   imports: [
@@ -53,13 +54,16 @@ import { SubmissionSubmitComponent } from './submit/submission-submit.component'
     SubmissionUploadFilesComponent,
     SubmissionSectionUploadFileComponent,
     SubmissionSectionUploadFileEditComponent,
-    SubmissionSectionUploadFileViewComponent
+    SubmissionSectionUploadFileViewComponent,
+    SubmissionSectionReserveDoiComponent
   ],
   entryComponents: [
     SubmissionSectionUploadComponent,
     SubmissionSectionformComponent,
     SubmissionSectionLicenseComponent,
-    SubmissionSectionContainerComponent],
+    SubmissionSectionContainerComponent,
+    SubmissionSectionReserveDoiComponent
+  ],
   exports: [
     SubmissionEditComponent,
     SubmissionFormComponent,
