@@ -16,6 +16,7 @@ import { HALEndpointService } from '../../core/shared/hal-endpoint.service';
 import { NotificationType } from '../../shared/notifications/models/notification-type';
 import { hasValue } from '../../shared/empty.util';
 import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
+import { RedirectWhenTokenExpiredAction } from '../../core/auth/auth.actions';
 
 /**
  * This component represents the whole mydspace page header
@@ -103,7 +104,11 @@ export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
       }
 
     } else {
-      this.notificationsService.error(null, this.translate.get('mydspace.upload.upload-failed'));
+      if (res.status === 401 && this.authService.isTokenExpired()) {
+        this.store.dispatch(new RedirectWhenTokenExpiredAction('auth.messages.expired'));
+      } else {
+        this.notificationsService.error(null, this.translate.get('mydspace.upload.upload-failed'));
+      }
     }
   }
 
