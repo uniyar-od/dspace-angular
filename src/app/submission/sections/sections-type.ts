@@ -3,5 +3,6 @@ export enum SectionsType {
   Upload = 'upload',
   License = 'license',
   CcLicense = 'cclicense',
-  collection = 'collection'
+  collection = 'collection',
+  ReserveDoi = 'reserve-doi'
 }

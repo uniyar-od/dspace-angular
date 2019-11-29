@@ -1,0 +1,2 @@
+<ds-alert *ngIf="!(hasReservedDoi() | async)" [type]="'alert-info'" [content]="'submission.sections.reserve-doi.request'"></ds-alert>
+<ds-alert *ngIf="(hasReservedDoi() | async)" [type]="'alert-info'" [content]="(getReservedDoiMessage() | async)"></ds-alert>

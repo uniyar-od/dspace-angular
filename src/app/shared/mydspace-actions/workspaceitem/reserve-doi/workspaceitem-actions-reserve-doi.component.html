@@ -1,0 +1,29 @@
+<button type="button"
+        class="btn btn-primary mt-1 mb-3"
+        ngbTooltip="{{'submission.sections.reserve-doi.button-help' | translate}}"
+        (click)="$event.preventDefault();confirmOperation(reserveDoiModal);">
+  <span *ngIf="(processing$ | async)"><i class='fas fa-circle-notch fa-spin'></i> {{'submission.workflow.tasks.generic.processing' | translate}}</span>
+  <span *ngIf="!(processing$ | async)"><i class="fa fa-edit"></i> {{'submission.sections.reserve-doi.button' | translate}}</span>
+</button>
+
+<ng-template #reserveDoiModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">{{'submission.sections.reserve-doi.title' | translate}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div *ngIf="hasReservedDoi" class="modal-body">
+    <p>{{'submission.sections.reserve-doi.confirm.already.reserved' | translate}}</p>
+  </div>
+  <div *ngIf="!hasReservedDoi" class="modal-body">
+    <p>{{'submission.sections.reserve-doi.confirm.info' | translate}}</p>
+  </div>
+  <div *ngIf="hasReservedDoi" class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('cancel')">{{'submission.sections.reserve-doi.confirm.close' | translate}}</button>
+  </div>
+  <div *ngIf="!hasReservedDoi" class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="c('cancel')">{{'submission.sections.reserve-doi.confirm.cancel' | translate}}</button>
+    <button type="button" class="btn btn-success" (click)="c('ok')">{{'submission.sections.reserve-doi.confirm.submit' | translate}}</button>
+  </div>
+</ng-template>
