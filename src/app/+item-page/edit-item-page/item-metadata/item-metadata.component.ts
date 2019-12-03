@@ -97,6 +97,8 @@ export class ItemMetadataComponent extends AbstractItemUpdateComponent {
           first(),
           switchMap((metadata: MetadatumViewModel[]) => {
             const updatedItem: Item = Object.assign(cloneDeep(this.item), { metadata: Metadata.toMetadataMap(metadata) });
+            delete updatedItem.relationships;
+            delete (updatedItem as  any)._links.relationships;
             return this.itemService.update(updatedItem);
           }),
           tap(() => this.itemService.commitUpdates()),

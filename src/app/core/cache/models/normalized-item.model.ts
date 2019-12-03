@@ -65,8 +65,8 @@ export class NormalizedItem extends NormalizedDSpaceObject<Item> {
   @relationship(Bundle, true)
   bundles: string[];
 
-  @autoserialize
+/*  @autoserialize
   @relationship(Relationship, true)
-  relationships: string[];
+  relationships: string[];*/
 
 }
