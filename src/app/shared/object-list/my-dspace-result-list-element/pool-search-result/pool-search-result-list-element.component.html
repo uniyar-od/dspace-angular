@@ -1,4 +1,5 @@
 <ds-item-list-preview *ngIf="workflowitem"
+                      [isWorkspaceItem]="false"
                       [item]="(workflowitem.item | async)?.payload"
                       [object]="object"
                       [showSubmitter]="showSubmitter"

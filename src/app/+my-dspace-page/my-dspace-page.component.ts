@@ -140,8 +140,8 @@ export class MyDSpacePageComponent implements OnInit {
         map((configuration: string) => {
           if (configuration === 'workspace') {
             return Context.Workspace
-          } else if (configuration === 'allworkspace') {
-            return Context.AllWorkspace
+          } else if (configuration === 'otherworkspace') {
+            return Context.OtherWorkspace
           } else {
             return Context.Workflow
           }

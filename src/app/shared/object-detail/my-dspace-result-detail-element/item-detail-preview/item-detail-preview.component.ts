@@ -10,6 +10,9 @@ import { Bitstream } from '../../../../core/shared/bitstream.model';
 import { SearchResult } from '../../../../+search-page/search-result.model';
 import { FileService } from '../../../../core/shared/file.service';
 import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service';
+import { RemoteData } from '../../../../core/data/remote-data';
+import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
+import { createSuccessfulRemoteDataObject$ } from '../../../testing/utils';
 
 /**
  * This component show metadata for the given item object in the detail view.
@@ -21,6 +24,11 @@ import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service
   animations: [fadeInOut]
 })
 export class ItemDetailPreviewComponent {
+
+  /**
+   * A boolean representing if object is workspaceitem or workflowitem
+   */
+  @Input() isWorkspaceItem = true;
 
   /**
    * The item to display
@@ -85,5 +93,16 @@ export class ItemDetailPreviewComponent {
         const fileUrl = `${url}/${uuid}/content`;
         this.fileService.downloadFile(fileUrl);
       });
+  }
+
+  /**
+   * Return submission object
+   */
+  getSubmissionObject(): Observable<RemoteData<SubmissionObject>> {
+    if (this.isWorkspaceItem) {
+      createSuccessfulRemoteDataObject$(this.object.indexableObject);
+    } else {
+      return this.object.indexableObject.workflowitem
+    }
   }
 }

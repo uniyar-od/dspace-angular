@@ -14,6 +14,7 @@ import { SectionDataObject } from '../models/section-data.model';
 import { SubmissionService } from '../../submission.service';
 import { SectionsService } from '../sections.service';
 import { WorkspaceitemSectionReserveDoiObject } from '../../../core/submission/models/workspaceitem-section-reserve-doi.model';
+import { RoleType } from '../../../core/roles/role-types';
 
 /**
  * This component represents a section that contains the submission license form.
@@ -25,18 +26,22 @@ import { WorkspaceitemSectionReserveDoiObject } from '../../../core/submission/m
 })
 @renderSectionFor(SectionsType.ReserveDoi)
 export class SubmissionSectionReserveDoiComponent extends SectionModelComponent {
-
   /**
-   * The reserved doi
-   * @type Observable<string>
+   * Variable for enumeration RoleType
    */
-  private reservedDoi$: Observable<string>;
+  public roleTypeEnum = RoleType;
 
   /**
    * The [[JsonPatchOperationPathCombiner]] object
    * @type {JsonPatchOperationPathCombiner}
    */
   private pathCombiner: JsonPatchOperationPathCombiner;
+
+  /**
+   * The reserved doi
+   * @type Observable<string>
+   */
+  private reservedDoi$: Observable<string>;
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -98,6 +103,13 @@ export class SubmissionSectionReserveDoiComponent extends SectionModelComponent 
     return this.reservedDoi$.pipe(
       map((doi: string) => this.translate.instant('submission.sections.reserve-doi.reserved', { doi }))
     );
+  }
+
+  /**
+   * Update doi
+   */
+  public updateDoi(doi: string) {
+    this.reservedDoi$ = observableOf(doi);
   }
 
   /**
