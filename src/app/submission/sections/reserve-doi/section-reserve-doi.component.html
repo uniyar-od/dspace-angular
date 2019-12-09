@@ -5,6 +5,7 @@
 </ng-container>
 <ng-container *dsShowOnlyForRole="[roleTypeEnum.Controller]">
   <ds-reserve-doi-actions *ngIf="!(hasReservedDoi() | async)"
+                          [isWorkspaceItem]="isWorkspaceItem"
                           [objectId]="submissionId"
                           [sectionData]="sectionData.data"
                           (reserve)="updateDoi($event)"></ds-reserve-doi-actions>

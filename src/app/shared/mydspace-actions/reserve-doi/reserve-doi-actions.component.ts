@@ -12,7 +12,6 @@ import { SubmissionJsonPatchOperationsService } from '../../../core/submission/s
 import { hasValue, isNotEmpty, isNotNull } from '../../empty.util';
 import { WorkspaceitemSectionReserveDoiObject } from '../../../core/submission/models/workspaceitem-section-reserve-doi.model';
 import { NotificationsService } from '../../notifications/notifications.service';
-import { SubmissionService } from '../../../submission/submission.service';
 
 /**
  * This component represents actions related to WorkspaceItem object.
@@ -23,6 +22,11 @@ import { SubmissionService } from '../../../submission/submission.service';
   templateUrl: './reserve-doi-actions.component.html',
 })
 export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
+
+  /**
+   * A boolean representing if object is workspaceitem or workflowitem
+   */
+  @Input() isWorkspaceItem = true;
 
   /**
    * The object id
@@ -68,7 +72,6 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
    * @param {NotificationsService} notificationService
    * @param {JsonPatchOperationsBuilder} operationsBuilder
    * @param {SubmissionJsonPatchOperationsService} operationsService
-   * @param {SubmissionService} submissionService
    * @param {TranslateService} translate
    */
   constructor(
@@ -77,7 +80,6 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
     private notificationService: NotificationsService,
     private operationsBuilder: JsonPatchOperationsBuilder,
     private operationsService: SubmissionJsonPatchOperationsService,
-    private submissionService: SubmissionService,
     private translate: TranslateService
   ) {
   }
@@ -97,7 +99,7 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
     this.processing$.next(true);
     this.operationsBuilder.add(this.pathCombiner.getPath(), true, false, true);
     this.sub = this.operationsService.jsonPatchByResourceID(
-      this.submissionService.getSubmissionObjectLinkName(),
+      this.isWorkspaceItem ? 'workspaceitems' : 'workflowitems',
       this.objectId,
       'sections',
       'reserve-doi')
