@@ -5,15 +5,15 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { of as observableOf } from 'rxjs';
 
 import { Item } from '../../../../core/shared/item.model';
-import { AllWorkspaceItemSearchResultListElementComponent } from './all-workspace-item-search-result-list-element.component';
+import { OtherWorkspaceItemSearchResultListElementComponent } from './other-workspace-item-search-result-list-element.component';
 import { WorkspaceItem } from '../../../../core/submission/models/workspaceitem.model';
 import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
 import { createSuccessfulRemoteDataObject } from '../../../testing/utils';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
 
-let component: AllWorkspaceItemSearchResultListElementComponent;
-let fixture: ComponentFixture<AllWorkspaceItemSearchResultListElementComponent>;
+let component: OtherWorkspaceItemSearchResultListElementComponent;
+let fixture: ComponentFixture<OtherWorkspaceItemSearchResultListElementComponent>;
 
 const compIndex = 1;
 
@@ -52,22 +52,22 @@ const item = Object.assign(new Item(), {
 const rd = createSuccessfulRemoteDataObject(item);
 mockResultObject.indexableObject = Object.assign(new WorkspaceItem(), { item: observableOf(rd) });
 
-describe('AllWorkspaceItemSearchResultListElementComponent', () => {
+describe('OtherWorkspaceItemSearchResultListElementComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
-      declarations: [AllWorkspaceItemSearchResultListElementComponent],
+      declarations: [OtherWorkspaceItemSearchResultListElementComponent],
       providers: [
         { provide: TruncatableService, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA]
-    }).overrideComponent(AllWorkspaceItemSearchResultListElementComponent, {
+    }).overrideComponent(OtherWorkspaceItemSearchResultListElementComponent, {
       set: { changeDetection: ChangeDetectionStrategy.Default }
     }).compileComponents();
   }));
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(AllWorkspaceItemSearchResultListElementComponent);
+    fixture = TestBed.createComponent(OtherWorkspaceItemSearchResultListElementComponent);
     component = fixture.componentInstance;
   }));
 
