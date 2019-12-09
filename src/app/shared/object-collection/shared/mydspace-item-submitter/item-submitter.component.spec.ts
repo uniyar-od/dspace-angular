@@ -8,23 +8,24 @@ import { cold } from 'jasmine-marbles';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { ItemSubmitterComponent } from './item-submitter.component';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
-import { PoolTask } from '../../../../core/tasks/models/pool-task-object.model';
 import { EPersonMock } from '../../../testing/eperson-mock';
 import { MockTranslateLoader } from '../../../mocks/mock-translate-loader';
 import { By } from '@angular/platform-browser';
 import { createSuccessfulRemoteDataObject } from '../../../testing/utils';
+import { Observable } from 'rxjs/internal/Observable';
+import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
 
 let component: ItemSubmitterComponent;
 let fixture: ComponentFixture<ItemSubmitterComponent>;
 
 const compIndex = 1;
 
-let mockResultObject: PoolTask;
+let mockResultObject: Observable<RemoteData<SubmissionObject>>;
 
 const rdSumbitter = createSuccessfulRemoteDataObject(EPersonMock);
 const workflowitem = Object.assign(new WorkflowItem(), { submitter: observableOf(rdSumbitter) });
 const rdWorkflowitem = createSuccessfulRemoteDataObject(workflowitem);
-mockResultObject = Object.assign(new PoolTask(), { workflowitem: observableOf(rdWorkflowitem) });
+mockResultObject = observableOf(rdWorkflowitem);
 
 describe('ItemSubmitterComponent', () => {
   beforeEach(async(() => {
