@@ -1,33 +1,44 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 
 import { BehaviorSubject, of as observableOf, Subscription } from 'rxjs';
+import { catchError, map, take, tap } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
-import { JsonPatchOperationPathCombiner } from '../../../../core/json-patch/builder/json-patch-operation-path-combiner';
-import { WorkspaceItem } from '../../../../core/submission/models/workspaceitem.model';
-import { JsonPatchOperationsBuilder } from '../../../../core/json-patch/builder/json-patch-operations-builder';
-import { SubmissionJsonPatchOperationsService } from '../../../../core/submission/submission-json-patch-operations.service';
-import { hasValue, isNotEmpty } from '../../../empty.util';
-import { WorkspaceitemSectionReserveDoiObject } from '../../../../core/submission/models/workspaceitem-section-reserve-doi.model';
-import { NotificationsService } from '../../../notifications/notifications.service';
-import { catchError, map, take } from 'rxjs/operators';
+import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
+import { JsonPatchOperationsBuilder } from '../../../core/json-patch/builder/json-patch-operations-builder';
+import { SubmissionJsonPatchOperationsService } from '../../../core/submission/submission-json-patch-operations.service';
+import { hasValue, isNotEmpty, isNotNull } from '../../empty.util';
+import { WorkspaceitemSectionReserveDoiObject } from '../../../core/submission/models/workspaceitem-section-reserve-doi.model';
+import { NotificationsService } from '../../notifications/notifications.service';
+import { SubmissionService } from '../../../submission/submission.service';
 
 /**
  * This component represents actions related to WorkspaceItem object.
  */
 @Component({
-  selector: 'ds-workspaceitem-actions-reserve-doi',
-  styleUrls: ['./workspaceitem-actions-reserve-doi.component.scss'],
-  templateUrl: './workspaceitem-actions-reserve-doi.component.html',
+  selector: 'ds-reserve-doi-actions',
+  styleUrls: ['./reserve-doi-actions.component.html'],
+  templateUrl: './reserve-doi-actions.component.html',
 })
-export class WorkspaceitemActionsReserveDoiComponent implements OnInit, OnDestroy {
+export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
+
+  /**
+   * The object id
+   */
+  @Input() objectId: string;
 
   /**
    * The workspaceitem object
    */
-  @Input() object: WorkspaceItem;
+  @Input() sectionData: WorkspaceitemSectionReserveDoiObject;
+
+  /**
+   * EventEmitter to return the reserved doi
+   * @type {EventEmitter<string[]>}
+   */
+  @Output() reserve: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * A boolean representing if there is a reserved doi
@@ -57,6 +68,7 @@ export class WorkspaceitemActionsReserveDoiComponent implements OnInit, OnDestro
    * @param {NotificationsService} notificationService
    * @param {JsonPatchOperationsBuilder} operationsBuilder
    * @param {SubmissionJsonPatchOperationsService} operationsService
+   * @param {SubmissionService} submissionService
    * @param {TranslateService} translate
    */
   constructor(
@@ -65,6 +77,7 @@ export class WorkspaceitemActionsReserveDoiComponent implements OnInit, OnDestro
     private notificationService: NotificationsService,
     private operationsBuilder: JsonPatchOperationsBuilder,
     private operationsService: SubmissionJsonPatchOperationsService,
+    private submissionService: SubmissionService,
     private translate: TranslateService
   ) {
   }
@@ -74,8 +87,7 @@ export class WorkspaceitemActionsReserveDoiComponent implements OnInit, OnDestro
    */
   ngOnInit() {
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', 'reserve-doi');
-    const sectionData: WorkspaceitemSectionReserveDoiObject = this.object.sections['reserve-doi'] as any;
-    this.hasReservedDoi = isNotEmpty(sectionData) && isNotEmpty(sectionData.doi);
+    this.hasReservedDoi = isNotEmpty(this.sectionData) && isNotEmpty(this.sectionData.doi);
   }
 
   /**
@@ -85,19 +97,27 @@ export class WorkspaceitemActionsReserveDoiComponent implements OnInit, OnDestro
     this.processing$.next(true);
     this.operationsBuilder.add(this.pathCombiner.getPath(), true, false, true);
     this.sub = this.operationsService.jsonPatchByResourceID(
-      'workspaceitems',
-      this.object.id,
+      this.submissionService.getSubmissionObjectLinkName(),
+      this.objectId,
       'sections',
       'reserve-doi')
       .pipe(
         take(1),
-        map((result) => isNotEmpty(result)),
-        catchError(() => observableOf(false))
+        tap((r) => console.log(r)),
+        map((result: any[]) => {
+          if (result[0] && result[0].sections && result[0].sections['reserve-doi']) {
+            return result[0].sections['reserve-doi'].doi;
+          } else {
+            return null;
+          }
+        }),
+        catchError(() => observableOf(null))
       )
-      .subscribe((result: boolean) => {
+      .subscribe((doi: string) => {
         this.processing$.next(false);
-        if (result === true) {
+        if (isNotNull(doi)) {
           this.hasReservedDoi = true;
+          this.reserve.emit(doi);
           this.notificationService.success(null, this.translate.get('submission.sections.reserve-doi.confirm.success_notice'));
         } else {
           this.notificationService.error(null, this.translate.get('submission.sections.reserve-doi.confirm.error_notice'));
