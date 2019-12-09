@@ -89,4 +89,12 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
     this.object = object;
   }
 
+  /**
+   * Get workspace secdtion data by id
+   *
+   * @param {string} sectionId
+   */
+  getWorkspaceItemSectionData(sectionId: string): any {
+    return this.object.sections[sectionId]
+  }
 }
