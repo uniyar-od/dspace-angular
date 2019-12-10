@@ -1,5 +1,12 @@
-<ng-container *ngIf="context === Context.AllWorkspace">
-  <ds-workspaceitem-actions-reserve-doi [object]="object"></ds-workspaceitem-actions-reserve-doi>
+<ng-container *ngIf="context === Context.OtherWorkspace">
+  <a class="btn btn-primary mt-1 mb-3"
+     ngbTooltip="{{'submission.workflow.generic.edit-help' | translate}}"
+     [routerLink]="['/workspaceitems/' + object.id + '/edit']"
+     role="button">
+    <i class="fa fa-edit"></i> {{'submission.workflow.generic.edit' | translate}}
+  </a>
+  <ds-reserve-doi-actions [objectId]="object.id"
+                          [sectionData]="getWorkspaceItemSectionData('reserve-doi')"></ds-reserve-doi-actions>
 </ng-container>
 <ng-container *ngIf="context === Context.Workspace">
   <a class="btn btn-primary mt-1 mb-3"

@@ -1,2 +1,13 @@
-<ds-alert *ngIf="!(hasReservedDoi() | async)" [type]="'alert-info'" [content]="'submission.sections.reserve-doi.request'"></ds-alert>
+<ng-container *dsShowExceptForRole="[roleTypeEnum.Controller]">
+  <ds-alert *ngIf="!(hasReservedDoi() | async)"
+            [type]="'alert-info'"
+            [content]="'submission.sections.reserve-doi.request'"></ds-alert>
+</ng-container>
+<ng-container *dsShowOnlyForRole="[roleTypeEnum.Controller]">
+  <ds-reserve-doi-actions *ngIf="!(hasReservedDoi() | async)"
+                          [isWorkspaceItem]="isWorkspaceItem"
+                          [objectId]="submissionId"
+                          [sectionData]="sectionData.data"
+                          (reserve)="updateDoi($event)"></ds-reserve-doi-actions>
+</ng-container>
 <ds-alert *ngIf="(hasReservedDoi() | async)" [type]="'alert-info'" [content]="(getReservedDoiMessage() | async)"></ds-alert>

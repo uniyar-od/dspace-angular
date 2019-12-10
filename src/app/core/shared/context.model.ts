@@ -10,5 +10,5 @@ export enum Context {
   Workspace = 'workspace',
   AdminMenu = 'adminMenu',
   SubmissionModal = 'submissionModal',
-  AllWorkspace = 'allworkspace'
+  OtherWorkspace = 'otherworkspace'
 }

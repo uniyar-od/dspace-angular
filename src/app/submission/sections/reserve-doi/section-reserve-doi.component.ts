@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input } from '@angular/core';
 
 import { Observable, of as observableOf, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -14,6 +14,8 @@ import { SectionDataObject } from '../models/section-data.model';
 import { SubmissionService } from '../../submission.service';
 import { SectionsService } from '../sections.service';
 import { WorkspaceitemSectionReserveDoiObject } from '../../../core/submission/models/workspaceitem-section-reserve-doi.model';
+import { RoleType } from '../../../core/roles/role-types';
+import { SubmissionScopeType } from '../../../core/submission/submission-scope-type';
 
 /**
  * This component represents a section that contains the submission license form.
@@ -27,16 +29,26 @@ import { WorkspaceitemSectionReserveDoiObject } from '../../../core/submission/m
 export class SubmissionSectionReserveDoiComponent extends SectionModelComponent {
 
   /**
-   * The reserved doi
-   * @type Observable<string>
+   * A boolean representing if object is workspaceitem or workflowitem
    */
-  private reservedDoi$: Observable<string>;
+  public isWorkspaceItem: boolean;
+
+  /**
+   * Variable for enumeration RoleType
+   */
+  public roleTypeEnum = RoleType;
 
   /**
    * The [[JsonPatchOperationPathCombiner]] object
    * @type {JsonPatchOperationPathCombiner}
    */
   private pathCombiner: JsonPatchOperationPathCombiner;
+
+  /**
+   * The reserved doi
+   * @type Observable<string>
+   */
+  private reservedDoi$: Observable<string>;
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -71,6 +83,7 @@ export class SubmissionSectionReserveDoiComponent extends SectionModelComponent 
    * Initialize all instance variables and retrieve submission license
    */
   onSectionInit() {
+    this.isWorkspaceItem = this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkspaceItem;
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionData.id);
     this.reservedDoi$ = this.sectionService.getSectionData(this.submissionId, this.sectionData.id).pipe(
       map((sectionData: WorkspaceitemSectionReserveDoiObject) => isNotEmpty(sectionData) ? sectionData.doi : null),
@@ -98,6 +111,13 @@ export class SubmissionSectionReserveDoiComponent extends SectionModelComponent 
     return this.reservedDoi$.pipe(
       map((doi: string) => this.translate.instant('submission.sections.reserve-doi.reserved', { doi }))
     );
+  }
+
+  /**
+   * Update doi
+   */
+  public updateDoi(doi: string) {
+    this.reservedDoi$ = observableOf(doi);
   }
 
   /**

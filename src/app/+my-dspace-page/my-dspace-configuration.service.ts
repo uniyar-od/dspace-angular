@@ -90,7 +90,7 @@ export class MyDSpaceConfigurationService extends SearchConfigurationService {
           availableConf.push(MyDSpaceConfigurationValueType.Workspace);
         }
         if (isController || isAdmin) {
-          availableConf.push(MyDSpaceConfigurationValueType.AllWorkspace);
+          availableConf.push(MyDSpaceConfigurationValueType.OtherWorkspace);
           availableConf.push(MyDSpaceConfigurationValueType.Workflow);
         }
         return availableConf;
