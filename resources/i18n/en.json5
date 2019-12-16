@@ -792,6 +792,24 @@
 
   "item.page.collections": "Collections",
 
+  "item.page.context-menu.options": "Options",
+
+  "item.page.context-menu.options.request-correction.btn": "Request correction",
+
+  "item.page.context-menu.options.request-correction.confirm.cancel": "Cancel",
+
+  "item.page.context-menu.options.request-correction.confirm.submit": "Yes, I'm sure",
+
+  "item.page.context-menu.options.request-correction.error.403": "A request for correction has already been sent, impossible to proceed with the operation.",
+
+  "item.page.context-menu.options.request-correction.error.generic": "There was an issue when requesting a correction for the item, please try again later.",
+
+  "item.page.context-menu.options.request-correction.info": "Are you sure you want to proceed with this operation?",
+
+  "item.page.context-menu.options.request-correction.title": "Request correction",
+
+
+
   "item.page.date": "Date",
 
   "item.page.files": "Files",
