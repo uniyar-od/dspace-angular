@@ -105,7 +105,7 @@ export class RequestCorrectionComponent implements OnDestroy {
   private handleErrorResponse(errorCode: number) {
     switch (errorCode) {
       case 403:
-        this.notificationService.error(
+        this.notificationService.warning(
           null,
           this.translate.instant('item.page.context-menu.options.request-correction.error.403')
         );
