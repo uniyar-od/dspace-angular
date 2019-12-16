@@ -62,6 +62,9 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
    */
   protected pathCombiner: JsonPatchOperationPathCombiner;
 
+  /**
+   * Variable to track subscription and unsubscribe it onDestroy
+   */
   protected sub: Subscription;
 
   /**
@@ -105,7 +108,6 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
       'reserve-doi')
       .pipe(
         take(1),
-        tap((r) => console.log(r)),
         map((result: any[]) => {
           if (result[0] && result[0].sections && result[0].sections['reserve-doi']) {
             return result[0].sections['reserve-doi'].doi;
@@ -140,6 +142,9 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * Make sure the subscription is unsubscribed from when this component is destroyed
+   */
   ngOnDestroy(): void {
     if (hasValue(this.sub)) {
       this.sub.unsubscribe();

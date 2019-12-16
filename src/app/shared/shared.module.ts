@@ -153,6 +153,8 @@ import { AuthorityTreeviewComponent } from './authority-treeview/authority-treev
 import { MaterialModule } from './material/material.module';
 import { DsDynamicRelationInlineGroupComponent } from './form/builder/ds-dynamic-form-ui/models/relation-inline-group/dynamic-relation-inline-group.components';
 import { ReserveDoiActionsComponent } from './mydspace-actions/reserve-doi/reserve-doi-actions.component';
+import { ContextMenuComponent } from '../+item-page/context-menu/context-menu.component';
+import { RequestCorrectionComponent } from '../+item-page/context-menu/request-correction/request-correction.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -287,7 +289,9 @@ const COMPONENTS = [
   ItemSelectComponent,
   CollectionSelectComponent,
   MetadataRepresentationLoaderComponent,
-  AuthorityTreeviewComponent
+  AuthorityTreeviewComponent,
+  ContextMenuComponent,
+  RequestCorrectionComponent
 ];
 
 const ENTRY_COMPONENTS = [
