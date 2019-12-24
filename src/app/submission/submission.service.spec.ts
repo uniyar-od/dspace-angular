@@ -18,10 +18,7 @@ import { MockActivatedRoute } from '../shared/mocks/mock-active-router';
 import { GLOBAL_CONFIG } from '../../config';
 import { HttpOptions } from '../core/dspace-rest-v2/dspace-rest-v2.service';
 import { SubmissionScopeType } from '../core/submission/submission-scope-type';
-import {
-  mockSubmissionDefinition,
-  mockSubmissionRestResponse
-} from '../shared/mocks/mock-submission';
+import { mockSubmissionDefinition, mockSubmissionRestResponse } from '../shared/mocks/mock-submission';
 import { NotificationsService } from '../shared/notifications/notifications.service';
 import { MockTranslateLoader } from '../shared/mocks/mock-translate-loader';
 import { MOCK_SUBMISSION_CONFIG } from '../shared/testing/mock-submission-config';
@@ -37,14 +34,9 @@ import {
   SaveSubmissionSectionFormAction,
   SetActiveSectionAction
 } from './objects/submission-objects.actions';
-import { RemoteData } from '../core/data/remote-data';
 import { RemoteDataError } from '../core/data/remote-data-error';
 import { throwError as observableThrowError } from 'rxjs/internal/observable/throwError';
-import {
-  createFailedRemoteDataObject,
-  createSuccessfulRemoteDataObject,
-  createSuccessfulRemoteDataObject$
-} from '../shared/testing/utils';
+import { createFailedRemoteDataObject, createSuccessfulRemoteDataObject } from '../shared/testing/utils';
 
 describe('SubmissionService test suite', () => {
   const config = MOCK_SUBMISSION_CONFIG;
@@ -808,6 +800,16 @@ describe('SubmissionService test suite', () => {
       scheduler.flush();
 
       expect((service as any).router.navigate).toHaveBeenCalledWith(['/mydspace']);
+
+      spy.and.returnValue(observableOf('/home'));
+      scheduler.schedule(() => service.redirectToMyDSpace(true));
+      scheduler.flush();
+      const navigationExtras = {
+        queryParams: {
+          configuration: 'workflow'
+        }
+      };
+      expect((service as any).router.navigate).toHaveBeenCalledWith(['/mydspace'], navigationExtras);
     });
   });
 

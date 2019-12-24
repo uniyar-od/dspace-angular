@@ -1,17 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 import { Observable, of as observableOf, Subscription, timer as observableTimer } from 'rxjs';
-import {
-  catchError,
-  distinctUntilChanged,
-  filter,
-  find,
-  first,
-  map,
-  startWith
-} from 'rxjs/operators';
+import { catchError, distinctUntilChanged, filter, find, first, map, startWith } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -51,13 +43,10 @@ import { WorkspaceitemSectionsObject } from '../core/submission/models/workspace
 import { RemoteData } from '../core/data/remote-data';
 import { ErrorResponse } from '../core/cache/response.models';
 import { RemoteDataError } from '../core/data/remote-data-error';
-import {
-  createFailedRemoteDataObject$,
-  createSuccessfulRemoteDataObject,
-  createSuccessfulRemoteDataObject$
-} from '../shared/testing/utils';
+import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject } from '../shared/testing/utils';
 import { NotificationOptions } from '../shared/notifications/models/notification-options.model';
 import { ScrollToConfigOptions, ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
+import { MYDSPACE_ROUTE } from '../+my-dspace-page/my-dspace-page.component';
 
 /**
  * A service that provides methods used in submission process.
@@ -507,13 +496,25 @@ export class SubmissionService {
 
   /**
    * Redirect to MyDspace page
+   *
+   * @param isWorkflow
+   *    A boolean representing if redirect to workflow configuration or not
    */
-  redirectToMyDSpace() {
+  redirectToMyDSpace(isWorkflow = false) {
     this.routeService.getPreviousUrl().pipe(
       first()
     ).subscribe((previousUrl: string) => {
-      if (isEmpty(previousUrl) || !previousUrl.startsWith('/mydspace')) {
-        this.router.navigate(['/mydspace']);
+      if (isEmpty(previousUrl) || !previousUrl.startsWith(MYDSPACE_ROUTE)) {
+        if (isWorkflow) {
+          const navigationExtras: NavigationExtras = {
+            queryParams: {
+              configuration: 'workflow'
+            }
+          };
+          this.router.navigate([MYDSPACE_ROUTE], navigationExtras);
+        } else {
+          this.router.navigate([MYDSPACE_ROUTE]);
+        }
       } else {
         this.router.navigateByUrl(previousUrl);
       }
