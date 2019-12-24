@@ -221,6 +221,7 @@ export class DsDynamicLookupComponent extends DynamicFormControlComponent implem
   public saveChanges() {
     if (isNotEmpty(this.getCurrentValue())) {
       const newValue = Object.assign(new AuthorityValue(), this.model.value, {
+        id: this.model.value.authority || this.model.value.id,
         display: this.getCurrentValue(),
         value: this.getCurrentValue()
       });
