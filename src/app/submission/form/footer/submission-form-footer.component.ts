@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,7 +13,6 @@ import { isNotEmpty } from '../../../shared/empty.util';
 import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { ProcessTaskResponse } from '../../../core/tasks/models/process-task-response';
-import { MYDSPACE_ROUTE } from '../../../+my-dspace-page/my-dspace-page.component';
 import { NotificationOptions } from '../../../shared/notifications/models/notification-options.model';
 
 /**
@@ -98,37 +97,34 @@ export class SubmissionFormFooterComponent implements OnChanges {
 
       this.processingSaveStatus = this.submissionService.getSubmissionSaveProcessingStatus(this.submissionId);
       this.processingDepositStatus = this.submissionService.getSubmissionDepositProcessingStatus(this.submissionId);
+      this.processingApprove = this.submissionService.getSubmissionApproveProcessingStatus(this.submissionId);
       this.showDepositAndDiscard = observableOf(this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkspaceItem);
       this.showApproveAndReject = observableOf(this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkflowItem);
     }
   }
 
   approve() {
-    this.processingApprove = observableOf(true);
-    this.claimedTaskService.approveTask(this.taskId)
-      .subscribe((res: ProcessTaskResponse) => {
-        this.responseHandle(res);
-      });
+    this.submissionService.dispatchApprove(this.submissionId, this.taskId);
   }
 
   /**
    * Dispatch a submission save action
    */
-  save(event) {
+  save() {
     this.submissionService.dispatchSave(this.submissionId);
   }
 
   /**
    * Dispatch a submission save for later action
    */
-  saveLater(event) {
+  saveLater() {
     this.submissionService.dispatchSaveForLater(this.submissionId);
   }
 
   /**
    * Dispatch a submission deposit action
    */
-  public deposit(event) {
+  public deposit() {
     this.submissionService.dispatchDeposit(this.submissionId);
   }
 
@@ -145,15 +141,6 @@ export class SubmissionFormFooterComponent implements OnChanges {
     );
   }
 
-  reload() {
-    const navigationExtras: NavigationExtras = {
-      queryParams: {
-        configuration: 'workflow'
-      }
-    };
-    this.router.navigate([MYDSPACE_ROUTE], navigationExtras);
-  }
-
   reject(reason) {
     this.processingReject = observableOf(true);
     this.claimedTaskService.rejectTask(reason, this.taskId)
@@ -165,7 +152,7 @@ export class SubmissionFormFooterComponent implements OnChanges {
   private responseHandle(res: ProcessTaskResponse) {
     this.processingApprove = observableOf(false);
     if (res.hasSucceeded) {
-      this.reload();
+      this.submissionService.redirectToMyDSpace(true);
       this.notificationsService.success(null,
         this.translate.get('submission.workflow.tasks.generic.success'),
         new NotificationOptions(5000, false));

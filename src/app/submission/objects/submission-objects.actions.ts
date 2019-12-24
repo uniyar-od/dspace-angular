@@ -51,6 +51,10 @@ export const SubmissionObjectActionTypes = {
   DEPOSIT_SUBMISSION: type('dspace/submission/DEPOSIT_SUBMISSION'),
   DEPOSIT_SUBMISSION_SUCCESS: type('dspace/submission/DEPOSIT_SUBMISSION_SUCCESS'),
   DEPOSIT_SUBMISSION_ERROR: type('dspace/submission/DEPOSIT_SUBMISSION_ERROR'),
+  SAVE_AND_APPROVE_SUBMISSION: type('dspace/submission/SAVE_AND_APPROVE_SUBMISSION'),
+  APPROVE_SUBMISSION: type('dspace/submission/APPROVE_SUBMISSION'),
+  APPROVE_SUBMISSION_SUCCESS: type('dspace/submission/APPROVE_SUBMISSION_SUCCESS'),
+  APPROVE_SUBMISSION_ERROR: type('dspace/submission/APPROVE_SUBMISSION_ERROR'),
   DISCARD_SUBMISSION: type('dspace/submission/DISCARD_SUBMISSION'),
   DISCARD_SUBMISSION_SUCCESS: type('dspace/submission/DISCARD_SUBMISSION_SUCCESS'),
   DISCARD_SUBMISSION_ERROR: type('dspace/submission/DISCARD_SUBMISSION_ERROR'),
@@ -690,6 +694,80 @@ export class DepositSubmissionErrorAction implements Action {
    *
    * @param submissionId
    *    the submission's ID to deposit
+   */
+  constructor(submissionId: string) {
+    this.payload = { submissionId };
+  }
+}
+
+export class SaveAndApproveSubmissionAction implements Action {
+  type = SubmissionObjectActionTypes.SAVE_AND_APPROVE_SUBMISSION;
+  payload: {
+    submissionId: string;
+    taskId: string;
+  };
+
+  /**
+   * Create a new SaveAndApproveSubmissionAction
+   *
+   * @param submissionId
+   *    the submission's ID to approve
+   * @param taskId
+   *    the task's ID to approve
+   */
+  constructor(submissionId: string, taskId: string) {
+    this.payload = { submissionId, taskId };
+  }
+}
+
+export class ApproveSubmissionAction implements Action {
+  type = SubmissionObjectActionTypes.APPROVE_SUBMISSION;
+  payload: {
+    submissionId: string;
+    taskId: string
+  };
+
+  /**
+   * Create a new ApproveSubmissionAction
+   *
+   * @param submissionId
+   *    the submission's ID to approve
+   * @param taskId
+   *    the task's ID to approve
+   */
+  constructor(submissionId: string, taskId: string) {
+    this.payload = { submissionId, taskId };
+  }
+}
+
+export class ApproveSubmissionSuccessAction implements Action {
+  type = SubmissionObjectActionTypes.APPROVE_SUBMISSION_SUCCESS;
+  payload: {
+    submissionId: string;
+  };
+
+  /**
+   * Create a new ApproveSubmissionSuccessAction
+   *
+   * @param submissionId
+   *    the submission's ID to approve
+   */
+  constructor(submissionId: string) {
+    this.payload = { submissionId };
+  }
+}
+
+export class ApproveSubmissionErrorAction implements Action {
+  type = SubmissionObjectActionTypes.APPROVE_SUBMISSION_ERROR;
+  payload: {
+    submissionId: string;
+  };
+
+  /**
+   * Create a new ApproveSubmissionErrorAction
+   *
+   * @param submissionId
+   *    the submission's ID to approve
    */
   constructor(submissionId: string) {
     this.payload = { submissionId };

@@ -15,6 +15,7 @@ import {
   DiscardSubmissionAction,
   InitSubmissionFormAction,
   ResetSubmissionFormAction,
+  SaveAndApproveSubmissionAction,
   SaveAndDepositSubmissionAction,
   SaveForLaterSubmissionFormAction,
   SaveSubmissionFormAction,
@@ -135,6 +136,18 @@ export class SubmissionService {
    */
   discardSubmission(submissionId: string): Observable<SubmissionObject[]> {
     return this.restService.deleteById(submissionId) as Observable<SubmissionObject[]>;
+  }
+
+  /**
+   * Dispatch a new [SaveAndApproveSubmissionAction]
+   *
+   * @param submissionId
+   *    The submission id
+   * @param taskId
+   *    The task id
+   */
+  dispatchApprove(submissionId, taskId) {
+    this.store.dispatch(new SaveAndApproveSubmissionAction(submissionId, taskId));
   }
 
   /**
@@ -428,6 +441,21 @@ export class SubmissionService {
   getSubmissionDepositProcessingStatus(submissionId: string): Observable<boolean> {
     return this.getSubmissionObject(submissionId).pipe(
       map((state: SubmissionObjectEntry) => state.depositPending),
+      distinctUntilChanged(),
+      startWith(false));
+  }
+
+  /**
+   * Return the approve processing status of the submission
+   *
+   * @param submissionId
+   *    The submission id
+   * @return Observable<boolean>
+   *    observable with submission approve processing status
+   */
+  getSubmissionApproveProcessingStatus(submissionId: string): Observable<boolean> {
+    return this.getSubmissionObject(submissionId).pipe(
+      map((state: SubmissionObjectEntry) => state.approvePending),
       distinctUntilChanged(),
       startWith(false));
   }

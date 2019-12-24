@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { union } from 'lodash';
 
 import {
+  ApproveSubmissionAction, ApproveSubmissionErrorAction, ApproveSubmissionSuccessAction,
   CompleteInitSubmissionFormAction,
   DepositSubmissionAction,
   DepositSubmissionErrorAction,
@@ -18,7 +19,7 @@ import {
   DiscardSubmissionSuccessAction,
   InitSectionAction,
   InitSubmissionFormAction, RemoveSectionDataAction, RemoveSectionDataErrorAction, RemoveSectionDataSuccessAction,
-  ResetSubmissionFormAction,
+  ResetSubmissionFormAction, SaveAndApproveSubmissionAction,
   SaveAndDepositSubmissionAction,
   SaveForLaterSubmissionFormAction,
   SaveForLaterSubmissionFormSuccessAction,
@@ -51,6 +52,8 @@ import { WorkspaceitemSectionsObject } from '../../core/submission/models/worksp
 import { WorkspaceitemSectionUploadObject } from '../../core/submission/models/workspaceitem-section-upload.model';
 import { SectionsType } from '../sections/sections-type';
 import { SubmissionJsonPatchOperationsService } from '../../core/submission/submission-json-patch-operations.service';
+import { ProcessTaskResponse } from '../../core/tasks/models/process-task-response';
+import { ClaimedTaskDataService } from '../../core/tasks/claimed-task-data.service';
 
 @Injectable()
 export class SubmissionObjectEffects {
@@ -194,6 +197,28 @@ export class SubmissionObjectEffects {
         catchError(() => observableOf(new SaveSubmissionFormErrorAction(action.payload.submissionId))));
     }));
 
+  /**
+   * Call parseSaveResponse and dispatch actions or dispatch [SaveSubmissionFormErrorAction] on error
+   */
+  @Effect() saveAndApprove$ = this.actions$.pipe(
+    ofType(SubmissionObjectActionTypes.SAVE_AND_APPROVE_SUBMISSION),
+    withLatestFrom(this.store$),
+    switchMap(([action, currentState]: [SaveAndApproveSubmissionAction, any]) => {
+      return this.operationsService.jsonPatchByResourceType(
+        this.submissionService.getSubmissionObjectLinkName(),
+        action.payload.submissionId,
+        'sections').pipe(
+        map((response: SubmissionObject[]) => {
+          if (this.canDeposit(response)) {
+            return new ApproveSubmissionAction(action.payload.submissionId, action.payload.taskId);
+          } else {
+            this.notificationsService.warning(null, this.translate.get('submission.sections.general.sections_not_valid'));
+            return this.parseSaveResponse((currentState.submission as SubmissionState).objects[action.payload.submissionId], response, action.payload.submissionId);
+          }
+        }),
+        catchError(() => observableOf(new SaveSubmissionFormErrorAction(action.payload.submissionId))));
+    }));
+
   @Effect() removeSection$ = this.actions$.pipe(
     ofType(SubmissionObjectActionTypes.DISABLE_SECTION),
     switchMap((action: DisableSectionAction) => {
@@ -270,6 +295,39 @@ export class SubmissionObjectEffects {
     tap(() => this.notificationsService.error(null, this.translate.get('submission.sections.general.deposit_error_notice'))));
 
   /**
+   * Approve a task and dispatch a [ApproveSubmissionSuccessAction] or a [ApproveSubmissionErrorAction] on error
+   */
+  @Effect() approveSubmission$ = this.actions$.pipe(
+    ofType(SubmissionObjectActionTypes.APPROVE_SUBMISSION),
+    withLatestFrom(this.store$),
+    switchMap(([action, state]: [ApproveSubmissionAction, any]) => {
+      return this.claimedTaskService.approveTask(action.payload.taskId).pipe(
+        map((res: ProcessTaskResponse) => {
+          if (res.hasSucceeded) {
+            return new ApproveSubmissionSuccessAction(action.payload.submissionId)
+          } else {
+            return new ApproveSubmissionErrorAction(action.payload.submissionId)
+          }
+        })
+      )
+    }));
+
+  /**
+   * Show a notification on success and redirect to MyDSpace page
+   */
+  @Effect({dispatch: false}) approveSubmissionSuccess$ = this.actions$.pipe(
+    ofType(SubmissionObjectActionTypes.APPROVE_SUBMISSION_SUCCESS),
+    tap(() => this.notificationsService.success(null, this.translate.get('submission.workflow.tasks.generic.success'))),
+    tap(() => this.submissionService.redirectToMyDSpace()));
+
+  /**
+   * Show a notification on error
+   */
+  @Effect({dispatch: false}) approveSubmissionError$ = this.actions$.pipe(
+    ofType(SubmissionObjectActionTypes.APPROVE_SUBMISSION_ERROR),
+    tap(() => this.notificationsService.error(null, this.translate.get('submission.workflow.tasks.generic.error'))));
+
+  /**
    * Dispatch a [DiscardSubmissionSuccessAction] or a [DiscardSubmissionErrorAction] on error
    */
   @Effect() discardSubmission$ = this.actions$.pipe(
@@ -296,6 +354,7 @@ export class SubmissionObjectEffects {
     tap(() => this.notificationsService.error(null, this.translate.get('submission.sections.general.discard_error_notice'))));
 
   constructor(private actions$: Actions,
+              private claimedTaskService: ClaimedTaskDataService,
               private notificationsService: NotificationsService,
               private operationsService: SubmissionJsonPatchOperationsService,
               private sectionService: SectionsService,
