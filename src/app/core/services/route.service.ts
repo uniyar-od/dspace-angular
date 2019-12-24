@@ -1,12 +1,6 @@
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Params,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router, RouterStateSnapshot } from '@angular/router';
 
 import { combineLatest, Observable } from 'rxjs';
 import { createSelector, MemoizedSelector, select, Store } from '@ngrx/store';
@@ -65,7 +59,9 @@ export function parameterSelector(key: string, paramsSelector: (state: CoreState
 /**
  * Service to keep track of the current query parameters
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RouteService {
   constructor(private route: ActivatedRoute, private router: Router, private store: Store<CoreState>) {
     this.saveRouting();
