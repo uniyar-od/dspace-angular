@@ -2,6 +2,7 @@ import { hasValue, isNotEmpty, isNotNull, isUndefined } from '../../shared/empty
 import { differenceWith, findKey, isEqual, uniqWith } from 'lodash';
 
 import {
+  ApproveSubmissionAction, ApproveSubmissionErrorAction, ApproveSubmissionSuccessAction,
   ChangeSubmissionCollectionAction,
   CompleteInitSubmissionFormAction,
   DeleteSectionErrorsAction,
@@ -186,6 +187,11 @@ export interface SubmissionObjectEntry {
    * A boolean representing if a submission deposit operation is pending
    */
   depositPending?: boolean;
+
+  /**
+   * A boolean representing if a submission approve operation is pending
+   */
+  approvePending?: boolean;
 }
 
 /**
@@ -223,7 +229,8 @@ export function submissionObjectReducer(state = initialState, action: Submission
     case SubmissionObjectActionTypes.SAVE_SUBMISSION_FORM:
     case SubmissionObjectActionTypes.SAVE_FOR_LATER_SUBMISSION_FORM:
     case SubmissionObjectActionTypes.SAVE_AND_DEPOSIT_SUBMISSION:
-    case SubmissionObjectActionTypes.SAVE_SUBMISSION_SECTION_FORM: {
+    case SubmissionObjectActionTypes.SAVE_SUBMISSION_SECTION_FORM:
+    case SubmissionObjectActionTypes.SAVE_AND_APPROVE_SUBMISSION: {
       return saveSubmission(state, action as SaveSubmissionFormAction);
     }
 
@@ -248,7 +255,19 @@ export function submissionObjectReducer(state = initialState, action: Submission
     }
 
     case SubmissionObjectActionTypes.DEPOSIT_SUBMISSION_ERROR: {
-      return endDeposit(state, action as DepositSubmissionAction);
+      return endDeposit(state, action as DepositSubmissionErrorAction);
+    }
+
+    case SubmissionObjectActionTypes.APPROVE_SUBMISSION: {
+      return startApprove(state, action as ApproveSubmissionAction);
+    }
+
+    case SubmissionObjectActionTypes.APPROVE_SUBMISSION_SUCCESS: {
+      return initialState;
+    }
+
+    case SubmissionObjectActionTypes.APPROVE_SUBMISSION_ERROR: {
+      return endApprove(state, action as ApproveSubmissionErrorAction);
     }
 
     case SubmissionObjectActionTypes.DISCARD_SUBMISSION: {
@@ -455,6 +474,7 @@ function initSubmission(state: SubmissionObjectState, action: InitSubmissionForm
     savePending: false,
     saveDecisionPending: false,
     depositPending: false,
+    approvePending: false
   };
   return newState;
 }
@@ -602,6 +622,51 @@ function endDeposit(state: SubmissionObjectState, action: DepositSubmissionSucce
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         depositPending: false,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Set approve flag to true
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a DepositSubmissionAction
+ * @return SubmissionObjectState
+ *    the new state, with the deposit flag changed.
+ */
+function startApprove(state: SubmissionObjectState, action: ApproveSubmissionAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        savePending: false,
+        approvePending: true,
+      })
+    });
+  } else {
+    return state;
+  }
+}
+
+/**
+ * Set approve flag to false
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    a DepositSubmissionSuccessAction or a DepositSubmissionErrorAction
+ * @return SubmissionObjectState
+ *    the new state, with the deposit flag changed.
+ */
+function endApprove(state: SubmissionObjectState, action: ApproveSubmissionSuccessAction | ApproveSubmissionErrorAction): SubmissionObjectState {
+  if (hasValue(state[ action.payload.submissionId ])) {
+    return Object.assign({}, state, {
+      [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+        approvePending: false,
       })
     });
   } else {
