@@ -203,6 +203,7 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
       const item = this.buildChipItem();
       this.chips.update(this.selectedChipItem.id, item);
       this.resetForm();
+      this.editMode = false;
       this.cdr.detectChanges();
     }
   }
