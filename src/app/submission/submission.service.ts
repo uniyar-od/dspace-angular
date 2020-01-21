@@ -44,8 +44,8 @@ import { RemoteData } from '../core/data/remote-data';
 import { ErrorResponse } from '../core/cache/response.models';
 import { RemoteDataError } from '../core/data/remote-data-error';
 import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject } from '../shared/testing/utils';
-import { SearchService } from '../+search-page/search-service/search.service';
 import { RequestService } from '../core/data/request.service';
+import { SearchService } from '../core/shared/search/search.service';
 
 /**
  * A service that provides methods used in submission process.
@@ -63,6 +63,8 @@ export class SubmissionService {
    */
   protected timer$: Observable<any>;
 
+  private workspaceLinkPath = 'workspaceitems';
+  private workflowLinkPath = 'workflowitems';
   /**
    * Initialize service variables
    * @param {GlobalConfig} EnvConfig
@@ -105,9 +107,33 @@ export class SubmissionService {
    *    observable of SubmissionObject
    */
   createSubmission(): Observable<SubmissionObject> {
-    return this.restService.postToEndpoint('workspaceitems', {}).pipe(
-      map((workspaceitem: SubmissionObject) => workspaceitem[0]),
-      catchError(() => observableOf({})))
+    return this.restService.postToEndpoint(this.workspaceLinkPath, {}).pipe(
+      map((workspaceitem: SubmissionObject[]) => workspaceitem[0] as SubmissionObject),
+      catchError(() => observableOf({} as SubmissionObject)))
+  }
+
+  /**
+   * Perform a REST call to create a new workspaceitem for a specified collection and return response
+   *
+   * @param collectionId
+   *    The collection id
+   * @return Observable<SubmissionObject>
+   *    observable of SubmissionObject
+   */
+  createSubmissionForCollection(collectionId: string): Observable<SubmissionObject> {
+    const paramsObj = Object.create({});
+
+    if (isNotEmpty(collectionId)) {
+      paramsObj.collection = collectionId;
+    }
+
+    const params = new HttpParams({fromObject: paramsObj});
+    const options: HttpOptions = Object.create({});
+    options.params = params;
+
+    return this.restService.postToEndpoint(this.workspaceLinkPath, {}, null, options).pipe(
+      map((workspaceitem: SubmissionObject[]) => workspaceitem[0] as SubmissionObject),
+      catchError(() => observableOf({} as SubmissionObject)))
   }
 
   /**
@@ -131,7 +157,7 @@ export class SubmissionService {
     options.params = params;
 
     return this.restService.postToEndpoint('workspaceitems', {}, null, options).pipe(
-      map((workspaceitem: SubmissionObject) => workspaceitem[0]))
+      map((workspaceitem: SubmissionObject[]) => workspaceitem[0]))
   }
 
   /**
@@ -147,7 +173,7 @@ export class SubmissionService {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'text/uri-list');
     options.headers = headers;
-    return this.restService.postToEndpoint('workflowitems', selfUrl, null, options) as Observable<SubmissionObject[]>;
+    return this.restService.postToEndpoint(this.workflowLinkPath, selfUrl, null, options) as Observable<SubmissionObject[]>;
   }
 
   /**
@@ -341,9 +367,9 @@ export class SubmissionService {
   getSubmissionObjectLinkName(): string {
     const url = this.router.routerState.snapshot.url;
     if (url.startsWith('/workspaceitems') || url.startsWith('/submit')) {
-      return 'workspaceitems';
+      return this.workspaceLinkPath;
     } else if (url.startsWith('/workflowitems')) {
-      return 'workflowitems';
+      return this.workflowLinkPath;
     } else {
       return 'edititems';
     }
@@ -358,10 +384,10 @@ export class SubmissionService {
   getSubmissionScope(): SubmissionScopeType {
     let scope: SubmissionScopeType;
     switch (this.getSubmissionObjectLinkName()) {
-      case 'workspaceitems':
+      case this.workspaceLinkPath:
         scope = SubmissionScopeType.WorkspaceItem;
         break;
-      case 'workflowitems':
+      case this.workflowLinkPath:
         scope = SubmissionScopeType.WorkflowItem;
         break;
     }
