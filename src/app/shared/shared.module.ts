@@ -42,16 +42,12 @@ import { SearchResultGridElementComponent } from './object-grid/search-result-gr
 import { ViewModeSwitchComponent } from './view-mode-switch/view-mode-switch.component';
 import { GridThumbnailComponent } from './object-grid/grid-thumbnail/grid-thumbnail.component';
 import { VarDirective } from './utils/var.directive';
-import { LogInComponent } from './log-in/log-in.component';
 import { AuthNavMenuComponent } from './auth-nav-menu/auth-nav-menu.component';
 import { LogOutComponent } from './log-out/log-out.component';
 import { FormComponent } from './form/form.component';
 import { DsDynamicTypeaheadComponent } from './form/builder/ds-dynamic-form-ui/models/typeahead/dynamic-typeahead.component';
 import { DsDynamicScrollableDropdownComponent } from './form/builder/ds-dynamic-form-ui/models/scrollable-dropdown/dynamic-scrollable-dropdown.component';
-import {
-  DsDynamicFormControlContainerComponent,
-  dsDynamicFormControlMapFn
-} from './form/builder/ds-dynamic-form-ui/ds-dynamic-form-control-container.component';
+import { DsDynamicFormControlContainerComponent, dsDynamicFormControlMapFn } from './form/builder/ds-dynamic-form-ui/ds-dynamic-form-control-container.component';
 import { DsDynamicFormComponent } from './form/builder/ds-dynamic-form-ui/ds-dynamic-form.component';
 import { DYNAMIC_FORM_CONTROL_MAP_FN, DynamicFormsCoreModule } from '@ng-dynamic-forms/core';
 import { DynamicFormsNGBootstrapUIModule } from '@ng-dynamic-forms/ui-ng-bootstrap';
@@ -130,6 +126,32 @@ import { RoleDirective } from './roles/role.directive';
 import { UserMenuComponent } from './auth-nav-menu/user-menu/user-menu.component';
 import { ClaimedTaskActionsReturnToPoolComponent } from './mydspace-actions/claimed-task/return-to-pool/claimed-task-actions-return-to-pool.component';
 import { ItemDetailPreviewFieldComponent } from './object-detail/my-dspace-result-detail-element/item-detail-preview/item-detail-preview-field/item-detail-preview-field.component';
+import { DsDynamicLookupRelationModalComponent } from './form/builder/ds-dynamic-form-ui/relation-lookup-modal/dynamic-lookup-relation-modal.component';
+import { SearchResultsComponent } from './search/search-results/search-results.component';
+import { SearchSidebarComponent } from './search/search-sidebar/search-sidebar.component';
+import { SearchSettingsComponent } from './search/search-settings/search-settings.component';
+import { CollectionSearchResultGridElementComponent } from './object-grid/search-result-grid-element/collection-search-result/collection-search-result-grid-element.component';
+import { CommunitySearchResultGridElementComponent } from './object-grid/search-result-grid-element/community-search-result/community-search-result-grid-element.component';
+import { SearchFiltersComponent } from './search/search-filters/search-filters.component';
+import { SearchFilterComponent } from './search/search-filters/search-filter/search-filter.component';
+import { SearchFacetFilterComponent } from './search/search-filters/search-filter/search-facet-filter/search-facet-filter.component';
+import { SearchLabelsComponent } from './search/search-labels/search-labels.component';
+import { SearchFacetFilterWrapperComponent } from './search/search-filters/search-filter/search-facet-filter-wrapper/search-facet-filter-wrapper.component';
+import { SearchRangeFilterComponent } from './search/search-filters/search-filter/search-range-filter/search-range-filter.component';
+import { SearchTextFilterComponent } from './search/search-filters/search-filter/search-text-filter/search-text-filter.component';
+import { SearchHierarchyFilterComponent } from './search/search-filters/search-filter/search-hierarchy-filter/search-hierarchy-filter.component';
+import { SearchBooleanFilterComponent } from './search/search-filters/search-filter/search-boolean-filter/search-boolean-filter.component';
+import { SearchFacetOptionComponent } from './search/search-filters/search-filter/search-facet-filter-options/search-facet-option/search-facet-option.component';
+import { SearchFacetSelectedOptionComponent } from './search/search-filters/search-filter/search-facet-filter-options/search-facet-selected-option/search-facet-selected-option.component';
+import { SearchFacetRangeOptionComponent } from './search/search-filters/search-filter/search-facet-filter-options/search-facet-range-option/search-facet-range-option.component';
+import { SearchSwitchConfigurationComponent } from './search/search-switch-configuration/search-switch-configuration.component';
+import { SearchAuthorityFilterComponent } from './search/search-filters/search-filter/search-authority-filter/search-authority-filter.component';
+import { DsDynamicDisabledComponent } from './form/builder/ds-dynamic-form-ui/models/disabled/dynamic-disabled.component';
+import { DsDynamicLookupRelationSearchTabComponent } from './form/builder/ds-dynamic-form-ui/relation-lookup-modal/search-tab/dynamic-lookup-relation-search-tab.component';
+import { DsDynamicLookupRelationSelectionTabComponent } from './form/builder/ds-dynamic-form-ui/relation-lookup-modal/selection-tab/dynamic-lookup-relation-selection-tab.component';
+import { PageSizeSelectorComponent } from './page-size-selector/page-size-selector.component';
+import { AbstractTrackableComponent } from './trackable/abstract-trackable.component';
+import { ComcolMetadataComponent } from './comcol-forms/edit-comcol-page/comcol-metadata/comcol-metadata.component';
 import { ItemSelectComponent } from './object-select/item-select/item-select.component';
 import { CollectionSelectComponent } from './object-select/collection-select/collection-select.component';
 import { FilterInputSuggestionsComponent } from './input-suggestions/filter-suggestions/filter-input-suggestions.component';
@@ -142,8 +164,7 @@ import { ListableObjectComponentLoaderComponent } from './object-collection/shar
 import { PublicationSearchResultListElementComponent } from './object-list/search-result-list-element/item-search-result/item-types/publication/publication-search-result-list-element.component';
 import { PublicationSearchResultGridElementComponent } from './object-grid/search-result-grid-element/item-search-result/publication/publication-search-result-grid-element.component';
 import { ListableObjectDirective } from './object-collection/shared/listable-object/listable-object.directive';
-import { CommunitySearchResultGridElementComponent } from './object-grid/search-result-grid-element/community-search-result/community-search-result-grid-element.component';
-import { CollectionSearchResultGridElementComponent } from './object-grid/search-result-grid-element/collection-search-result/collection-search-result-grid-element.component';
+import { SearchLabelComponent } from './search/search-labels/search-label/search-label.component';
 import { ItemMetadataRepresentationListElementComponent } from './object-list/metadata-representation-list-element/item/item-metadata-representation-list-element.component';
 import { PageWithSidebarComponent } from './sidebar/page-with-sidebar.component';
 import { SidebarDropdownComponent } from './sidebar/sidebar-dropdown.component';
@@ -152,6 +173,15 @@ import { SidebarFilterSelectedOptionComponent } from './sidebar/filter/sidebar-f
 import { AuthorityTreeviewComponent } from './authority-treeview/authority-treeview.component';
 import { MaterialModule } from './material/material.module';
 import { DsDynamicRelationInlineGroupComponent } from './form/builder/ds-dynamic-form-ui/models/relation-inline-group/dynamic-relation-inline-group.components';
+import { MetadataRepresentationListComponent } from '../+item-page/simple/metadata-representation-list/metadata-representation-list.component';
+import { SelectableListItemControlComponent } from './object-collection/shared/selectable-list-item-control/selectable-list-item-control.component';
+import { DsDynamicLookupRelationExternalSourceTabComponent } from './form/builder/ds-dynamic-form-ui/relation-lookup-modal/external-source-tab/dynamic-lookup-relation-external-source-tab.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ExistingMetadataListElementComponent } from './form/builder/ds-dynamic-form-ui/existing-metadata-list-element/existing-metadata-list-element.component';
+import { LogInContainerComponent } from './log-in/container/log-in-container.component';
+import { LogInShibbolethComponent } from './log-in/methods/shibboleth/log-in-shibboleth.component';
+import { LogInPasswordComponent } from './log-in/methods/password/log-in-password.component';
+import { LogInComponent } from './log-in/log-in.component';
 import { ReserveDoiActionsComponent } from './mydspace-actions/reserve-doi/reserve-doi-actions.component';
 import { ContextMenuComponent } from '../+item-page/context-menu/context-menu.component';
 import { RequestCorrectionComponent } from '../+item-page/context-menu/request-correction/request-correction.component';
@@ -177,6 +207,7 @@ const MODULES = [
   MomentModule,
   TextMaskModule,
   MenuModule,
+  DragDropModule,
   MaterialModule
 ];
 
@@ -217,6 +248,8 @@ const COMPONENTS = [
   DsDynamicFormControlContainerComponent,
   DsDynamicListComponent,
   DsDynamicLookupComponent,
+  DsDynamicDisabledComponent,
+  DsDynamicLookupRelationModalComponent,
   DsDynamicScrollableDropdownComponent,
   DsDynamicTagComponent,
   DsDynamicTypeaheadComponent,
@@ -277,6 +310,29 @@ const COMPONENTS = [
   EditItemSelectorComponent,
   CommunitySearchResultListElementComponent,
   CollectionSearchResultListElementComponent,
+  BrowseByComponent,
+  SearchResultsComponent,
+  SearchSidebarComponent,
+  SearchSettingsComponent,
+  CollectionSearchResultGridElementComponent,
+  CommunitySearchResultGridElementComponent,
+  SearchFiltersComponent,
+  SearchFilterComponent,
+  SearchFacetFilterComponent,
+  SearchLabelsComponent,
+  SearchLabelComponent,
+  SearchFacetFilterComponent,
+  SearchFacetFilterWrapperComponent,
+  SearchRangeFilterComponent,
+  SearchTextFilterComponent,
+  SearchHierarchyFilterComponent,
+  SearchBooleanFilterComponent,
+  SearchFacetOptionComponent,
+  SearchFacetSelectedOptionComponent,
+  SearchFacetRangeOptionComponent,
+  SearchSwitchConfigurationComponent,
+  SearchAuthorityFilterComponent,
+  PageSizeSelectorComponent,
   CommunitySearchResultGridElementComponent,
   CollectionSearchResultGridElementComponent,
   ListableObjectComponentLoaderComponent,
@@ -285,11 +341,19 @@ const COMPONENTS = [
   CollectionGridElementComponent,
   CommunityGridElementComponent,
   BrowseByComponent,
+  AbstractTrackableComponent,
+  ComcolMetadataComponent,
   ItemTypeBadgeComponent,
   ItemSelectComponent,
   CollectionSelectComponent,
-  MetadataRepresentationLoaderComponent,
   AuthorityTreeviewComponent,
+  MetadataRepresentationLoaderComponent,
+  SelectableListItemControlComponent,
+  ExistingMetadataListElementComponent,
+  LogInShibbolethComponent,
+  LogInPasswordComponent,
+  LogInContainerComponent,
+  ItemTypeBadgeComponent,
   ContextMenuComponent,
   RequestCorrectionComponent
 ];
@@ -315,6 +379,8 @@ const ENTRY_COMPONENTS = [
   SearchResultGridElementComponent,
   DsDynamicListComponent,
   DsDynamicLookupComponent,
+  DsDynamicDisabledComponent,
+  DsDynamicLookupRelationModalComponent,
   DsDynamicScrollableDropdownComponent,
   DsDynamicTagComponent,
   DsDynamicTypeaheadComponent,
@@ -337,8 +403,25 @@ const ENTRY_COMPONENTS = [
   PlainTextMetadataListElementComponent,
   ItemMetadataListElementComponent,
   MetadataRepresentationListElementComponent,
+  AuthorityTreeviewComponent,
   ItemMetadataRepresentationListElementComponent,
-  AuthorityTreeviewComponent
+  SearchResultsComponent,
+  CollectionSearchResultGridElementComponent,
+  CommunitySearchResultGridElementComponent,
+  SearchFacetFilterComponent,
+  SearchRangeFilterComponent,
+  SearchTextFilterComponent,
+  SearchHierarchyFilterComponent,
+  SearchBooleanFilterComponent,
+  SearchFacetOptionComponent,
+  SearchFacetSelectedOptionComponent,
+  SearchFacetRangeOptionComponent,
+  SearchAuthorityFilterComponent,
+  DsDynamicLookupRelationSearchTabComponent,
+  DsDynamicLookupRelationSelectionTabComponent,
+  DsDynamicLookupRelationExternalSourceTabComponent,
+  LogInPasswordComponent,
+  LogInShibbolethComponent
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [
@@ -349,6 +432,7 @@ const SHARED_ITEM_PAGE_COMPONENTS = [
 const PROVIDERS = [
   TruncatableService,
   MockAdminGuard,
+  AbstractTrackableComponent,
   {
     provide: DYNAMIC_FORM_CONTROL_MAP_FN,
     useValue: dsDynamicFormControlMapFn
@@ -379,7 +463,8 @@ const DIRECTIVES = [
     ...DIRECTIVES,
     ...ENTRY_COMPONENTS,
     ...SHARED_ITEM_PAGE_COMPONENTS,
-    PublicationSearchResultListElementComponent
+    PublicationSearchResultListElementComponent,
+    ExistingMetadataListElementComponent
   ],
   providers: [
     ...PROVIDERS

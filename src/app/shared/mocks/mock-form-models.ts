@@ -55,7 +55,10 @@ export const qualdropInputConfig = {
   id: 'dc_identifier_QUALDROP_VALUE',
   readOnly: false,
   disabled: false,
-  value: 'test'
+  repeatable: false,
+  value: 'test',
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockQualdropSelectModel = new DynamicSelectModel(qualdropSelectConfig);
@@ -65,7 +68,8 @@ export const qualdropConfig = {
   id: 'dc_identifier_QUALDROP_GROUP',
   legend: 'Identifiers',
   readOnly: false,
-  group: [mockQualdropSelectModel, mockQualdropInputModel]
+  group: [mockQualdropSelectModel, mockQualdropInputModel],
+  required: false
 };
 
 export const MockQualdropModel = new DynamicQualdropModel(qualdropConfig);
@@ -74,11 +78,11 @@ const rowArrayQualdropConfig = {
   id: 'row_QUALDROP_GROUP',
   initialCount: 1,
   notRepeatable: true,
-  required: false,
   showButtons: true,
   groupFactory: () => {
     return [MockQualdropModel];
-  }
+  },
+  required: false
 } as DynamicRowArrayModelConfig;
 
 export const MockRowArrayQualdropModel: DynamicRowArrayModel = new DynamicRowArrayModel(rowArrayQualdropConfig);
@@ -124,6 +128,7 @@ const relationGroupConfig = {
   mandatoryField: 'false',
   relationFields: ['journal', 'issue'],
   scopeUUID: 'scope',
+  repeatable: false,
   submissionScope: SubmissionScopeType.WorkspaceItem,
   value: {
     journal: [
@@ -134,7 +139,8 @@ const relationGroupConfig = {
       'issue test 1',
       'issue test 2'
     ],
-  }
+  },
+  metadataFields: []
 };
 
 export const MockRelationModel: DynamicRelationGroupModel = new DynamicRelationGroupModel(relationGroupConfig);
@@ -156,11 +162,14 @@ export const inputWithLanguageAndAuthorityConfig = {
   id: 'testWithAuthority',
   readOnly: false,
   disabled: false,
+  repeatable: false,
   value:  {
     value: 'testWithLanguageAndAuthority',
     display: 'testWithLanguageAndAuthority',
     id: 'testWithLanguageAndAuthority',
-  }
+  },
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockInputWithLanguageAndAuthorityModel = new DsDynamicInputModel(inputWithLanguageAndAuthorityConfig);
@@ -181,7 +190,10 @@ export const inputWithLanguageConfig = {
   id: 'testWithLanguage',
   readOnly: false,
   disabled: false,
-  value: 'testWithLanguage'
+  repeatable: false,
+  value: 'testWithLanguage',
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockInputWithLanguageModel = new DsDynamicInputModel(inputWithLanguageConfig);
@@ -203,11 +215,14 @@ export const inputWithLanguageAndAuthorityArrayConfig = {
   id: 'testWithLanguageAndAuthorityArray',
   readOnly: false,
   disabled: false,
+  repeatable: false,
   value: [{
     value: 'testLanguageAndAuthorityArray',
     display: 'testLanguageAndAuthorityArray',
     id: 'testLanguageAndAuthorityArray',
-  }]
+  }],
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockInputWithLanguageAndAuthorityArrayModel = new DsDynamicInputModel(inputWithLanguageAndAuthorityArrayConfig);
@@ -217,7 +232,10 @@ export const inputWithFormFieldValueConfig = {
   id: 'testWithFormField',
   readOnly: false,
   disabled: false,
-  value: new FormFieldMetadataValueObject('testWithFormFieldValue')
+  repeatable: false,
+  value: new FormFieldMetadataValueObject('testWithFormFieldValue'),
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockInputWithFormFieldValueModel = new DsDynamicInputModel(inputWithFormFieldValueConfig);
@@ -227,7 +245,10 @@ export const inputWithAuthorityValueConfig = {
   id: 'testWithAuthorityField',
   readOnly: false,
   disabled: false,
-  value: Object.assign({}, new AuthorityEntry(), { value: 'testWithAuthorityValue', id: 'testWithAuthorityValue', display: 'testWithAuthorityValue' })
+  repeatable: false,
+  value: Object.assign({}, new AuthorityEntry(), { value: 'testWithAuthorityValue', id: 'testWithAuthorityValue', display: 'testWithAuthorityValue' }),
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockInputWithAuthorityValueModel = new DsDynamicInputModel(inputWithAuthorityValueConfig);
@@ -237,7 +258,10 @@ export const inputWithObjectValueConfig = {
   id: 'testWithObjectValue',
   readOnly: false,
   disabled: false,
-  value: { value: 'testWithObjectValue', id: 'testWithObjectValue', display: 'testWithObjectValue' }
+  repeatable: false,
+  value: { value: 'testWithObjectValue', id: 'testWithObjectValue', display: 'testWithObjectValue' },
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockInputWithObjectValueModel = new DsDynamicInputModel(inputWithObjectValueConfig);
@@ -252,6 +276,9 @@ export const fileFormEditInputConfig = {
   id: 'dc_title',
   readOnly: false,
   disabled: false,
+  repeatable: false,
+  submissionId: '1234',
+  metadataFields: []
 };
 
 export const mockFileFormEditInputModel = new DsDynamicInputModel(fileFormEditInputConfig);
