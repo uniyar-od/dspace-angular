@@ -64,7 +64,7 @@ describe('SearchFilterService', () => {
   };
 
   beforeEach(() => {
-    service = new SearchFilterService(store, routeServiceStub);
+    service = new SearchFilterService({} as any, store, routeServiceStub);
   });
 
   describe('when the initializeFilter method is triggered', () => {

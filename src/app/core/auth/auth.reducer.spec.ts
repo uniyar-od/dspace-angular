@@ -422,7 +422,7 @@ describe('authReducer', () => {
       loading: false,
       authMethods: []
     };
-    const action = new RetrieveAuthMethodsAction(new AuthStatus());
+    const action = new RetrieveAuthMethodsAction();
     const newState = authReducer(initialState, action);
     state = {
       authenticated: false,
@@ -444,7 +444,7 @@ describe('authReducer', () => {
       new AuthMethod(AuthMethodType.Password),
       new AuthMethod(AuthMethodType.Shibboleth, 'location')
     ];
-    const action = new RetrieveAuthMethodsSuccessAction(authMethods);
+    const action = new RetrieveAuthMethodsSuccessAction('location');
     const newState = authReducer(initialState, action);
     state = {
       authenticated: false,

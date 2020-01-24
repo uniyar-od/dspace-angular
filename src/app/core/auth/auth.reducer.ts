@@ -15,6 +15,7 @@ import {
 // import models
 import { EPerson } from '../eperson/models/eperson.model';
 import { AuthTokenInfo } from './models/auth-token-info.model';
+import { AuthMethod } from './models/auth.method';
 
 /**
  * The auth state.
@@ -51,6 +52,10 @@ export interface AuthState {
 
   // the authenticated user
   user?: EPerson;
+
+  // all authentication Methods enabled at the backend
+  authMethods?: AuthMethod[];
+
 }
 
 /**
@@ -60,7 +65,8 @@ const initialState: AuthState = {
   authenticated: false,
   loaded: false,
   loading: false,
-  ssoLoginUrl: ''
+  ssoLoginUrl: '',
+  authMethods: []
 };
 
 /**
@@ -80,6 +86,8 @@ export function authReducer(state: any = initialState, action: AuthActions): Aut
       });
 
     case AuthActionTypes.AUTHENTICATED:
+    case AuthActionTypes.CHECK_AUTHENTICATION_TOKEN:
+    case AuthActionTypes.CHECK_AUTHENTICATION_TOKEN_COOKIE:
       return Object.assign({}, state, {
         loading: true
       });

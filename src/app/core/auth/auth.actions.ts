@@ -15,6 +15,7 @@ export const AuthActionTypes = {
   AUTHENTICATED_SUCCESS: type('dspace/auth/AUTHENTICATED_SUCCESS'),
   CHECK_AUTHENTICATION_TOKEN: type('dspace/auth/CHECK_AUTHENTICATION_TOKEN'),
   CHECK_AUTHENTICATION_TOKEN_ERROR: type('dspace/auth/CHECK_AUTHENTICATION_TOKEN_ERROR'),
+  CHECK_AUTHENTICATION_TOKEN_COOKIE: type('dspace/auth/CHECK_AUTHENTICATION_TOKEN_COOKIE'),
   RETRIEVE_AUTH_METHODS: type('dspace/auth/RETRIEVE_AUTH_METHODS'),
   RETRIEVE_AUTH_METHODS_SUCCESS: type('dspace/auth/RETRIEVE_AUTH_METHODS_SUCCESS'),
   RETRIEVE_AUTH_METHODS_ERROR: type('dspace/auth/RETRIEVE_AUTH_METHODS_ERROR'),
@@ -23,6 +24,7 @@ export const AuthActionTypes = {
   REFRESH_TOKEN: type('dspace/auth/REFRESH_TOKEN'),
   REFRESH_TOKEN_SUCCESS: type('dspace/auth/REFRESH_TOKEN_SUCCESS'),
   REFRESH_TOKEN_ERROR: type('dspace/auth/REFRESH_TOKEN_ERROR'),
+  RETRIEVE_TOKEN: type('dspace/auth/RETRIEVE_TOKEN'),
   ADD_MESSAGE: type('dspace/auth/ADD_MESSAGE'),
   RESET_MESSAGES: type('dspace/auth/RESET_MESSAGES'),
   LOG_OUT: type('dspace/auth/LOG_OUT'),
@@ -146,6 +148,15 @@ export class CheckAuthenticationTokenErrorAction implements Action {
 }
 
 /**
+ * Check Authentication Token Error.
+ * @class CheckAuthenticationTokenCookieAction
+ * @implements {Action}
+ */
+export class CheckAuthenticationTokenCookieAction implements Action {
+  public type: string = AuthActionTypes.CHECK_AUTHENTICATION_TOKEN_COOKIE;
+}
+
+/**
  * Sign out.
  * @class LogOutAction
  * @implements {Action}
@@ -246,6 +257,15 @@ export class RefreshTokenSuccessAction implements Action {
  */
 export class RefreshTokenErrorAction implements Action {
   public type: string = AuthActionTypes.REFRESH_TOKEN_ERROR;
+}
+
+/**
+ * Retrieve authentication token.
+ * @class RetrieveTokenAction
+ * @implements {Action}
+ */
+export class RetrieveTokenAction implements Action {
+  public type: string = AuthActionTypes.RETRIEVE_TOKEN;
 }
 
 /**
@@ -373,14 +393,19 @@ export type AuthActions
   | AuthenticationErrorAction
   | AuthenticationSuccessAction
   | CheckAuthenticationTokenAction
+  | CheckAuthenticationTokenErrorAction
+  | CheckAuthenticationTokenCookieAction
   | RedirectWhenAuthenticationIsRequiredAction
   | RedirectWhenTokenExpiredAction
   | RegistrationAction
   | RegistrationErrorAction
   | RegistrationSuccessAction
-  | RegistrationSuccessAction
   | AddAuthenticationMessageAction
+  | RefreshTokenAction
+  | RefreshTokenErrorAction
+  | RefreshTokenSuccessAction
   | ResetAuthenticationMessagesAction
   | RetrieveAuthMethodsAction
   | RetrieveAuthMethodsSuccessAction
-  | RetrieveAuthMethodsErrorAction;
+  | RetrieveAuthMethodsErrorAction
+  | RetrieveTokenAction;

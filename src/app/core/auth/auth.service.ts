@@ -25,6 +25,8 @@ import { RemoteDataBuildService } from '../cache/builders/remote-data-build.serv
 import { GlobalConfig } from '../../../config/global-config.interface';
 import { GLOBAL_CONFIG } from '../../../config';
 import { RouteService } from '../services/route.service';
+import { AuthMethod } from './models/auth.method';
+import { NormalizedAuthStatus } from './models/normalized-auth-status.model';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
@@ -117,6 +119,21 @@ export class AuthService {
   }
 
   /**
+   * Checks if token is present into the request cookie
+   */
+  public checkAuthenticationCookie(): Observable<AuthStatus> {
+    // Determine if the user has an existing auth session on the server
+    const options: HttpOptions = Object.create({});
+    let headers = new HttpHeaders();
+    headers = headers.append('Accept', 'application/json');
+    options.headers = headers;
+    options.withCredentials = true;
+    return this.authRequestService.getRequest('status', options).pipe(
+      map((status: NormalizedAuthStatus) => Object.assign(new AuthStatus(), status))
+    );
+  }
+
+  /**
    * Determines if the user is authenticated
    * @returns {Observable<boolean>}
    */
@@ -197,6 +214,18 @@ export class AuthService {
    */
   public resetAuthenticationError(): void {
     this.store.dispatch(new ResetAuthenticationMessagesAction());
+  }
+
+  /**
+   * Retrieve authentication methods available
+   * @returns {User}
+   */
+  public retrieveAuthMethodsFromAuthStatus(status: AuthStatus): Observable<AuthMethod[]> {
+    let authMethods: AuthMethod[] = [];
+    if (isNotEmpty(status.authMethods)) {
+      authMethods = status.authMethods;
+    }
+    return observableOf(authMethods);
   }
 
   /**

@@ -181,7 +181,7 @@ describe('AuthEffects', () => {
         );
         actions = hot('--a-', {a: {type: AuthActionTypes.CHECK_AUTHENTICATION_TOKEN_COOKIE}});
 
-        const expected = cold('--b-', {b: new RetrieveAuthMethodsAction({ authenticated: false } as AuthStatus)});
+        const expected = cold('--b-', {b: new RetrieveAuthMethodsAction()});
 
         expect(authEffects.checkTokenCookie$).toBeObservable(expected);
       });
@@ -290,7 +290,7 @@ describe('AuthEffects', () => {
       it('should return a RETRIEVE_AUTH_METHODS_SUCCESS action in response to a RETRIEVE_AUTH_METHODS action', () => {
         actions = hot('--a-', {a: {type: AuthActionTypes.RETRIEVE_AUTH_METHODS}});
 
-        const expected = cold('--b-', {b: new RetrieveAuthMethodsSuccessAction(authMethodsMock)});
+        const expected = cold('--b-', {b: new RetrieveAuthMethodsSuccessAction('location')});
 
         expect(authEffects.retrieveMethods$).toBeObservable(expected);
       });
