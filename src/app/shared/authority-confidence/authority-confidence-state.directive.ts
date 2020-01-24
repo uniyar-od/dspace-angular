@@ -155,7 +155,7 @@ export class AuthorityConfidenceStateDirective implements OnChanges {
    *    Return true if authority has value, false otherwise
    */
   private hasValue() {
-    if (this.authorityValue instanceof AuthorityValue || this.authorityValue instanceof FormFieldMetadataValueObject) {
+    if (this.authorityValue instanceof AuthorityEntry || this.authorityValue instanceof FormFieldMetadataValueObject) {
       return this.authorityValue.hasValue();
     } else {
       return isNotEmpty(this.authorityValue);
@@ -163,7 +163,7 @@ export class AuthorityConfidenceStateDirective implements OnChanges {
   }
 
   private hasValueToHide() {
-    const value = (this.authorityValue instanceof AuthorityValue || this.authorityValue instanceof FormFieldMetadataValueObject) ?
+    const value = (this.authorityValue instanceof AuthorityEntry || this.authorityValue instanceof FormFieldMetadataValueObject) ?
       this.authorityValue.value : this.authorityValue;
     const toHide = (isNotEmpty(this.valuesToDisplay) && !this.valuesToDisplay.includes(value)) ? true : false;
     return toHide;

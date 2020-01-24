@@ -25,7 +25,7 @@ import { InputSuggestion } from '../../../../input-suggestions/input-suggestions
 import { SearchOptions } from '../../../search-options.model';
 import { SEARCH_CONFIG_SERVICE } from '../../../../../+my-dspace-page/my-dspace-page.component';
 import { currentPath } from '../../../../utils/route.utils';
-import { FilterType } from '../../../search-service/filter-type.model';
+import { FilterType } from '../../../filter-type.model';
 
 @Component({
   selector: 'ds-search-facet-filter',

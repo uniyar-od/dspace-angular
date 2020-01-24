@@ -13,6 +13,11 @@ export class AbstractListableElementComponent<T extends ListableObject> {
   @Input() object: T;
 
   /**
+   * Index of the control in the list
+   */
+  @Input() index: number;
+
+  /**
    * The link type to determine the type of link rendered in this element
    */
   @Input() linkType: CollectionElementLinkType;

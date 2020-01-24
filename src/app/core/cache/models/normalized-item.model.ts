@@ -56,7 +56,7 @@ export class NormalizedItem extends NormalizedDSpaceObject<Item> {
    */
   @deserialize
   @relationship(Bundle, true)
-  bundles: string[];
+  bitstreams: string[];
 
   @deserialize
   @relationship(Relationship, true)

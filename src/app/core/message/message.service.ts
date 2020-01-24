@@ -67,7 +67,7 @@ export class MessageService {
       filter((href: string) => isNotEmpty(href)),
       distinctUntilChanged(),
       map((endpointURL: string) => new MessageGetRequest(requestId, endpointURL)),
-      tap((request: RestRequest) => this.requestService.configure(request, true)),
+      tap((request: RestRequest) => this.requestService.configure(request)),
       flatMap((request: RestRequest) => this.fetchRequest(requestId)),
       distinctUntilChanged());
   }

@@ -82,7 +82,7 @@ export class MessageBoardComponent implements OnChanges, OnDestroy {
         find((user: EPerson) => isNotEmpty(user)),
         map((user: EPerson) => user));
 
-      this.submitter$ = (this.dso.submitter as Observable<RemoteData<EPerson[]>>).pipe(
+      this.submitter$ = (this.dso.submitter as Observable<RemoteData<EPerson>>).pipe(
         find((rd: RemoteData<EPerson>) => rd.hasSucceeded && isNotEmpty(rd.payload)),
         map((rd: RemoteData<EPerson>) => rd.payload));
 

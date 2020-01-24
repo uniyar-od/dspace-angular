@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
@@ -43,11 +43,6 @@ export class PoolSearchResultListElementComponent extends SearchResultListElemen
    */
   public workflowitem: WorkflowItem;
 
-  /**
-   * The index of this list element
-   */
-  public index: number;
-
   constructor(protected route: ActivatedRoute,
               protected router: Router,
               protected truncatableService: TruncatableService) {
@@ -83,7 +78,7 @@ export class PoolSearchResultListElementComponent extends SearchResultListElemen
           const pageSize = 1;
           const queryPageSize = params.pageSize || 1;
           const queryPage = params.page || 1;
-          const page = ((queryPage - 1) * queryPageSize) + (this.dsoIndex + 1);
+          const page = ((queryPage - 1) * queryPageSize) + (this.index + 1);
 
           const navigationExtras: NavigationExtras = {
             queryParams: {

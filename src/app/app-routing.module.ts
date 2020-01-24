@@ -56,7 +56,7 @@ export function getAdminModulePath() {
       },
       {
         path: 'workflowitems',
-        loadChildren: './+workflowitems-edit-page/workflowitems-edit-page.module#WorkflowItemsEditPageModule'
+        loadChildren: './+workflowitems-edit-page/workflowitems-edit-page.module#WorkflowitemsEditPageModule'
       },
       { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
     ])

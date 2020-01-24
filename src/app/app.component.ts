@@ -82,9 +82,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     }
 
-    angulartics2GoogleAnalytics.startTracking();
-    angulartics2DSpace.startTracking();
-
     metadata.listenForRouteChange();
 
     if (config.debug) {

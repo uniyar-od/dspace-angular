@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SearchResult } from '../../search/search-result.model';
@@ -7,17 +7,24 @@ import { hasValue } from '../../empty.util';
 import { AbstractListableElementComponent } from '../../object-collection/shared/object-collection-element/abstract-listable-element.component';
 import { TruncatableService } from '../../truncatable/truncatable.service';
 import { Metadata } from '../../../core/shared/metadata.utils';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'ds-search-result-list-element',
   template: ``
 })
 
-export class SearchResultListElementComponent<T extends SearchResult<K>, K extends DSpaceObject> extends AbstractListableElementComponent<T> implements OnInit {
+export class SearchResultListElementComponent<T extends SearchResult<K>, K extends DSpaceObject> extends AbstractListableElementComponent<T> implements OnInit, OnDestroy {
   /**
    * The DSpaceObject of the search result
    */
   dso: K;
+
+  /**
+   * Array to track all subscriptions and unsubscribe them onDestroy
+   * @type {Array}
+   */
+  subs: Subscription[] = [];
 
   public constructor(protected truncatableService: TruncatableService) {
     super();
@@ -59,4 +66,9 @@ export class SearchResultListElementComponent<T extends SearchResult<K>, K exten
     return this.truncatableService.isCollapsed(this.dso.id);
   }
 
+  ngOnDestroy(): void {
+    this.subs
+      .filter((sub) => hasValue(sub))
+      .forEach((sub) => sub.unsubscribe());
+  }
 }

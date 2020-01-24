@@ -197,18 +197,6 @@ export class SubmissionObjectEffects {
         catchError(() => observableOf(new SaveSubmissionFormErrorAction(action.payload.submissionId))));
     }));
 
-  @Effect() removeSection$ = this.actions$.pipe(
-    ofType(SubmissionObjectActionTypes.DISABLE_SECTION),
-    switchMap((action: DisableSectionAction) => {
-      return this.operationsService.jsonPatchByResourceID(
-        this.submissionService.getSubmissionObjectLinkName(),
-        action.payload.submissionId,
-        'sections',
-        action.payload.sectionId).pipe(
-        map(() => new DisableSectionSuccessAction(action.payload.submissionId, action.payload.sectionId)),
-        catchError(() => observableOf(new DisableSectionErrorAction(action.payload.submissionId, action.payload.sectionId))));
-    }));
-
   /**
    * Call parseSaveResponse and dispatch actions or dispatch [SaveSubmissionFormErrorAction] on error
    */

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { find } from 'rxjs/operators';
 
 import { RemoteData } from '../../../../core/data/remote-data';
+import { ViewMode } from '../../../../core/shared/view-mode.model';
 import { isNotUndefined } from '../../../empty.util';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
 import { ClaimedTask } from '../../../../core/tasks/models/claimed-task-object.model';

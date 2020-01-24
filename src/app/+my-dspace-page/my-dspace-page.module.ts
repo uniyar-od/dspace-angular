@@ -20,8 +20,8 @@ import { SearchResultListElementComponent } from '../shared/object-list/search-r
 import { ItemSearchResultListElementSubmissionComponent } from '../shared/object-list/my-dspace-result-list-element/item-search-result/item-search-result-list-element-submission.component';
 import { WorkflowItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workflow-item-search-result/workflow-item-search-result-list-element.component';
 import { PoolSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pool-search-result/pool-search-result-detail-element.component';
-import { WorkspaceitemRejectedMyDSpaceResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/workspaceitem-rejected-my-dspace-result/workspaceitem-rejected-my-dspace-result-detail-element.component';
-import { WorkspaceitemRejectedMyDSpaceResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workspaceitem-rejected-my-dspace-result/workspaceitem-rejected-my-dspace-result-list-element.component';
+import { WorkspaceItemRejectedSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/workspace-item-rejected-search-result/workspace-item-rejected-search-result-detail-element.component';
+import { WorkspaceItemRejectedSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workspace-item-rejected-search-result/workspace-item-rejected-search-result-list-element.component';
 
 @NgModule({
   imports: [
@@ -33,13 +33,13 @@ import { WorkspaceitemRejectedMyDSpaceResultListElementComponent } from '../shar
     MyDSpacePageComponent,
     MyDSpaceResultsComponent,
     WorkspaceItemSearchResultListElementComponent,
-    WorkspaceitemRejectedMyDSpaceResultListElementComponent,
+    WorkspaceItemRejectedSearchResultListElementComponent,
     WorkflowItemSearchResultListElementComponent,
     ClaimedSearchResultListElementComponent,
     PoolSearchResultListElementComponent,
     ItemSearchResultDetailElementComponent,
     WorkspaceItemSearchResultDetailElementComponent,
-    WorkspaceitemRejectedMyDSpaceResultDetailElementComponent,
+    WorkspaceItemRejectedSearchResultDetailElementComponent,
     WorkflowItemSearchResultDetailElementComponent,
     ClaimedTaskSearchResultDetailElementComponent,
     PoolSearchResultDetailElementComponent,
@@ -53,13 +53,13 @@ import { WorkspaceitemRejectedMyDSpaceResultListElementComponent } from '../shar
   entryComponents: [
     SearchResultListElementComponent,
     WorkspaceItemSearchResultListElementComponent,
-    WorkspaceitemRejectedMyDSpaceResultListElementComponent,
+    WorkspaceItemRejectedSearchResultListElementComponent,
     WorkflowItemSearchResultListElementComponent,
     ClaimedSearchResultListElementComponent,
     PoolSearchResultListElementComponent,
     ItemSearchResultDetailElementComponent,
     WorkspaceItemSearchResultDetailElementComponent,
-    WorkspaceitemRejectedMyDSpaceResultDetailElementComponent,
+    WorkspaceItemRejectedSearchResultDetailElementComponent,
     WorkflowItemSearchResultDetailElementComponent,
     ClaimedTaskSearchResultDetailElementComponent,
     PoolSearchResultDetailElementComponent,
