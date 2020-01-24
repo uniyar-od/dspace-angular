@@ -1,12 +1,10 @@
-import { of as observableOf, Observable } from 'rxjs';
+import { Observable, of as observableOf } from 'rxjs';
 
-import { filter, debounceTime, switchMap, take, tap, catchError, map } from 'rxjs/operators';
+import { catchError, debounceTime, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-
 // import @ngrx
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-
 // import services
 import { AuthService } from './auth.service';
 // import actions
@@ -26,7 +24,10 @@ import {
   RefreshTokenSuccessAction,
   RegistrationAction,
   RegistrationErrorAction,
-  RegistrationSuccessAction, RetrieveAuthMethodsAction, RetrieveAuthMethodsErrorAction, RetrieveAuthMethodsSuccessAction
+  RegistrationSuccessAction,
+  RetrieveAuthMethodsAction,
+  RetrieveAuthMethodsErrorAction,
+  RetrieveAuthMethodsSuccessAction
 } from './auth.actions';
 import { EPerson } from '../eperson/models/eperson.model';
 import { AuthStatus } from './models/auth-status.model';

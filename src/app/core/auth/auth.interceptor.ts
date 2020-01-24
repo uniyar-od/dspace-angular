@@ -17,7 +17,7 @@ import { AppState } from '../../app.reducer';
 import { AuthService } from './auth.service';
 import { AuthStatus } from './models/auth-status.model';
 import { AuthTokenInfo } from './models/auth-token-info.model';
-import { isNotEmpty, isUndefined, isNotNull } from '../../shared/empty.util';
+import { isNotEmpty, isNotNull, isUndefined } from '../../shared/empty.util';
 import { RedirectWhenTokenExpiredAction, RefreshTokenAction } from './auth.actions';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -32,15 +32,30 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private inj: Injector, private router: Router, private store: Store<AppState>) { }
 
+  /**
+   * Check if response status code is 401
+   *
+   * @param response
+   */
   private isUnauthorized(response: HttpResponseBase): boolean {
     // invalid_token The access token provided is expired, revoked, malformed, or invalid for other reasons
     return response.status === 401;
   }
 
+  /**
+   * Check if response status code is 200 or 204
+   *
+   * @param response
+   */
   private isSuccess(response: HttpResponseBase): boolean {
     return (response.status === 200 || response.status === 204);
   }
 
+  /**
+   * Check if http request is to authn endpoint
+   *
+   * @param http
+   */
   private isAuthRequest(http: HttpRequest<any> | HttpResponseBase): boolean {
     return http && http.url
       && (http.url.endsWith('/authn/login')
@@ -48,15 +63,25 @@ export class AuthInterceptor implements HttpInterceptor {
         || http.url.endsWith('/authn/status'));
   }
 
+  /**
+   * Check if response is from a login request
+   *
+   * @param http
+   */
   private isLoginResponse(http: HttpRequest<any> | HttpResponseBase): boolean {
     return http.url && http.url.endsWith('/authn/login');
   }
 
+  /**
+   * Check if response is from a logout request
+   *
+   * @param http
+   */
   private isLogoutResponse(http: HttpRequest<any> | HttpResponseBase): boolean {
     return http.url && http.url.endsWith('/authn/logout');
   }
 
-  private makeAuthStatusObject(authenticated:boolean, accessToken?: string, error?: string, location?: string): AuthStatus {
+  private makeAuthStatusObject(authenticated: boolean, accessToken?: string, error?: string, location?: string): AuthStatus {
     const authStatus = new AuthStatus();
     authStatus.id = null;
     authStatus.okay = true;

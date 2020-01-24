@@ -10,7 +10,7 @@ import {
   DynamicFormValidationService
 } from '@ng-dynamic-forms/core';
 
-import { AuthorityValue } from '../../../../../../core/integration/models/authority.value';
+import { AuthorityEntry } from '../../../../../../core/integration/models/authority-entry.model';
 import { DynamicScrollableDropdownModel } from './dynamic-scrollable-dropdown.model';
 import { PageInfo } from '../../../../../../core/shared/page-info.model';
 import { isNotEmpty, isNull, isUndefined } from '../../../../../empty.util';
@@ -80,7 +80,7 @@ export class DsDynamicScrollableDropdownComponent extends DynamicFormControlComp
 
   }
 
-  inputFormatter = (x: AuthorityValue): string => x.display || x.value;
+  inputFormatter = (x: AuthorityEntry): string => x.display || x.value;
 
   openDropdown(sdRef: NgbDropdown) {
     if (!this.model.readOnly) {
@@ -153,8 +153,8 @@ export class DsDynamicScrollableDropdownComponent extends DynamicFormControlComp
     this.authorityService.getEntriesByName(searchOptions).pipe(
       filter((result: IntegrationData) => isNotEmpty(result.payload)),
       take(1),
-      map((result: IntegrationData) => result.payload as AuthorityValue[])
-    ).subscribe((optionsList: AuthorityValue[]) => {
+      map((result: IntegrationData) => result.payload as AuthorityEntry[])
+    ).subscribe((optionsList: AuthorityEntry[]) => {
       this.setCurrentValue(value, optionsList)
     });
   }

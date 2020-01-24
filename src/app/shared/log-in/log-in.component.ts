@@ -4,10 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import {
-  AuthenticateAction,
-  ResetAuthenticationMessagesAction
-} from '../../core/auth/auth.actions';
+import { AuthenticateAction, ResetAuthenticationMessagesAction } from '../../core/auth/auth.actions';
 
 import {
   getAuthenticationError,
@@ -34,6 +31,11 @@ import { Router } from '@angular/router';
   animations: [fadeOut]
 })
 export class LogInComponent implements OnDestroy, OnInit {
+  /**
+   * A boolean representing if LogInComponent is in a standalone page
+   * @type {boolean}
+   */
+  @Input() isStandalonePage: boolean;
 
   /**
    * The error if authentication fails.
@@ -82,8 +84,6 @@ export class LogInComponent implements OnDestroy, OnInit {
    * @type {boolean}
    */
   private alive = true;
-
-  @Input() isStandalonePage: boolean;
 
   /**
    * The redirect url to login with sso.

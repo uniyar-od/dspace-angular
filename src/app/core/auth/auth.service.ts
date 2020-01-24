@@ -24,7 +24,7 @@ import { Base64EncodeUrl } from '../../shared/utils/encode-decode.util';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { GlobalConfig } from '../../../config/global-config.interface';
 import { GLOBAL_CONFIG } from '../../../config';
-import {RouteService} from '../services/route.service';
+import { RouteService } from '../services/route.service';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
@@ -63,7 +63,8 @@ export class AuthService {
     // and is not the login route, clear redirect url and messages
     const routeUrl$ = this.store.pipe(
       select(routerStateSelector),
-      filter((routerState: RouterReducerState) => isNotUndefined(routerState) && isNotUndefined(routerState.state)),
+      filter((routerState: RouterReducerState) => isNotUndefined(routerState)
+        && isNotUndefined(routerState.state) && isNotEmpty(routerState.state.url)),
       filter((routerState: RouterReducerState) => !this.isLoginRoute(routerState.state.url)),
       map((routerState: RouterReducerState) => routerState.state.url)
     );

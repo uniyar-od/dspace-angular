@@ -5,6 +5,7 @@ import { NormalizedObject } from '../../cache/models/normalized-object.model';
 import { IDToUUIDSerializer } from '../../cache/id-to-uuid-serializer';
 import { AuthTokenInfo } from './auth-token-info.model';
 import { EPerson } from '../../eperson/models/eperson.model';
+import { AuthMethod } from './auth.method';
 
 @mapsTo(AuthStatus)
 @inheritSerialization(NormalizedObject)
@@ -45,4 +46,10 @@ export class NormalizedAuthStatus extends NormalizedObject<AuthStatus> {
   @relationship(EPerson, false)
   @autoserialize
   eperson: string;
+
+  /**
+   * All authentication methods enabled at the backend
+   */
+  @autoserialize
+  authMethods: AuthMethod[];
 }

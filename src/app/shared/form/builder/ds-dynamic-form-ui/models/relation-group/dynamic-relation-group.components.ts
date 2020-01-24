@@ -39,7 +39,7 @@ import { IntegrationSearchOptions } from '../../../../../../core/integration/mod
 import { AuthorityService } from '../../../../../../core/integration/authority.service';
 import { IntegrationData } from '../../../../../../core/integration/integration-data';
 import { FormFieldMetadataValueObject } from '../../../models/form-field-metadata-value.model';
-import { AuthorityValue } from '../../../../../../core/integration/models/authority.value';
+import { AuthorityEntry } from '../../../../../../core/integration/models/authority-entry.model';
 
 @Component({
   selector: 'ds-dynamic-relation-group',
@@ -93,6 +93,7 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
 
     this.formId = this.formService.getUniqueId(this.model.id);
     this.formModel = this.formBuilderService.modelFromConfiguration(
+      this.model.submissionId,
       config,
       this.model.scopeUUID,
       {},
@@ -250,7 +251,7 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
                     new FormFieldMetadataValueObject(),
                     valueObj[fieldName],
                     {
-                      otherInformation: (result.payload[0] as AuthorityValue).otherInformation
+                      otherInformation: (result.payload[0] as AuthorityEntry).otherInformation
                     })
                   ));
               } else {

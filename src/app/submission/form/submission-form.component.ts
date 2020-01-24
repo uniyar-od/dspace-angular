@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, SimpleChanges, ViewChild } from '@angular/core';
 
 import { Observable, of as observableOf, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, flatMap, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 import { hasValue, isNotEmpty } from '../../shared/empty.util';
 import { SubmissionObjectEntry } from '../objects/submission-objects.reducer';
@@ -79,12 +79,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
    * The uploader configuration options
    * @type {UploaderOptions}
    */
-  public uploadFilesOptions: UploaderOptions = {
-    url: '',
-    authToken: null,
-    disableMultipart: false,
-    itemAlias: null
-  };
+  public uploadFilesOptions: UploaderOptions = new UploaderOptions();
 
   /**
    * A boolean representing if component is active
@@ -132,7 +127,7 @@ export class SubmissionFormComponent implements OnChanges, OnDestroy {
         map((submission: SubmissionObjectEntry) => submission.isLoading),
         map((isLoading: boolean) => isLoading),
         distinctUntilChanged(),
-        flatMap((isLoading: boolean) => {
+        switchMap((isLoading: boolean) => {
           if (!isLoading) {
             return this.getSectionsList();
           } else {

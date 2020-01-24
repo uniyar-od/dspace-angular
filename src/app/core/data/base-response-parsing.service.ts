@@ -8,9 +8,9 @@ import { GenericConstructor } from '../shared/generic-constructor';
 import { PaginatedList } from './paginated-list';
 import { RESTURLCombiner } from '../url-combiner/rest-url-combiner';
 import { isRestDataObject, isRestPaginatedList } from '../cache/builders/normalized-object-build.service';
-import { ResourceType } from '../shared/resource-type';
 import { getMapsToType } from '../cache/builders/build-decorators';
 import { EPerson } from '../eperson/models/eperson.model';
+import { RestRequest } from './request.models';
 /* tslint:disable:max-classes-per-file */
 
 export abstract class BaseResponseParsingService {
@@ -18,14 +18,14 @@ export abstract class BaseResponseParsingService {
   protected abstract objectCache: ObjectCacheService;
   protected abstract toCache: boolean;
 
-  protected process<ObjectDomain>(data: any, requestUUID: string): any {
+  protected process<ObjectDomain>(data: any, request: RestRequest): any {
     if (isNotEmpty(data)) {
       if (hasNoValue(data) || (typeof data !== 'object')) {
         return data;
       } else if (isRestPaginatedList(data)) {
-        return this.processPaginatedList(data, requestUUID);
+        return this.processPaginatedList(data, request);
       } else if (Array.isArray(data)) {
-        return this.processArray(data, requestUUID);
+        return this.processArray(data, request);
       } else if (isRestDataObject(data)) {
         // data = this.fixBadEPersonRestResponse(data);
         const object = this.deserialize(data);
@@ -34,7 +34,7 @@ export abstract class BaseResponseParsingService {
             .keys(data._embedded)
             .filter((property) => data._embedded.hasOwnProperty(property))
             .forEach((property) => {
-              const parsedObj = this.process<ObjectDomain>(data._embedded[property], requestUUID);
+              const parsedObj = this.process<ObjectDomain>(data._embedded[property], request);
               if (isNotEmpty(parsedObj)) {
                 if (isRestPaginatedList(data._embedded[property])) {
                   object[property] = parsedObj;
@@ -48,7 +48,7 @@ export abstract class BaseResponseParsingService {
             });
         }
 
-        this.cache(object, requestUUID);
+        this.cache(object, request);
         return object;
       }
       const result = {};
@@ -56,14 +56,14 @@ export abstract class BaseResponseParsingService {
         .filter((property) => data.hasOwnProperty(property))
         .filter((property) => hasValue(data[property]))
         .forEach((property) => {
-          result[property] = this.process(data[property], requestUUID);
+          result[property] = this.process(data[property], request);
         });
       return result;
 
     }
   }
 
-  protected processPaginatedList<ObjectDomain>(data: any, requestUUID: string): PaginatedList<ObjectDomain> {
+  protected processPaginatedList<ObjectDomain>(data: any, request: RestRequest): PaginatedList<ObjectDomain> {
     const pageInfo: PageInfo = this.processPageInfo(data);
     let list = data._embedded;
 
@@ -73,14 +73,14 @@ export abstract class BaseResponseParsingService {
     } else if (!Array.isArray(list)) {
       list = this.flattenSingleKeyObject(list);
     }
-    const page: ObjectDomain[] = this.processArray(list, requestUUID);
+    const page: ObjectDomain[] = this.processArray(list, request);
     return new PaginatedList<ObjectDomain>(pageInfo, page, );
   }
 
-  protected processArray<ObjectDomain>(data: any, requestUUID: string): ObjectDomain[] {
+  protected processArray<ObjectDomain>(data: any, request: RestRequest): ObjectDomain[] {
     let array: ObjectDomain[] = [];
     data.forEach((datum) => {
-        array = [...array, this.process(datum, requestUUID)];
+        array = [...array, this.process(datum, request)];
       }
     );
     return array;
@@ -107,21 +107,21 @@ export abstract class BaseResponseParsingService {
     }
   }
 
-  protected cache<ObjectDomain>(obj, requestUUID) {
+  protected cache<ObjectDomain>(obj, request: RestRequest) {
     if (this.toCache) {
-      this.addToObjectCache(obj, requestUUID);
+      this.addToObjectCache(obj, request);
     }
   }
 
-  protected addToObjectCache(co: CacheableObject, requestUUID: string): void {
+  protected addToObjectCache(co: CacheableObject, request: RestRequest): void {
     if (hasNoValue(co) || hasNoValue(co.self)) {
       throw new Error('The server returned an invalid object');
     }
-    this.objectCache.add(co, this.EnvConfig.cache.msToLive.default, requestUUID);
+    this.objectCache.add(co, hasValue(request.responseMsToLive) ? request.responseMsToLive : this.EnvConfig.cache.msToLive.default, request.uuid);
   }
 
   processPageInfo(payload: any): PageInfo {
-    if (hasValue(payload.page)) {
+    if (hasValue(payload) && hasValue(payload.page)) {
       const pageObj = Object.assign({}, payload.page, { _links: payload._links });
       const pageInfoObject = new DSpaceRESTv2Serializer(PageInfo).deserialize(pageObj);
       if (pageInfoObject.currentPage >= 0) {

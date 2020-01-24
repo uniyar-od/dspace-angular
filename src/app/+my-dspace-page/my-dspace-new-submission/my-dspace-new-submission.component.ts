@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { SubmissionState } from '../../submission/submission.reducers';
 import { AuthService } from '../../core/auth/auth.service';
-import { MyDSpaceResult } from '../my-dspace-result.model';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { NotificationOptions } from '../../shared/notifications/models/notification-options.model';
@@ -17,6 +16,7 @@ import { NotificationType } from '../../shared/notifications/models/notification
 import { hasValue } from '../../shared/empty.util';
 import { GLOBAL_CONFIG, GlobalConfig } from '../../../config';
 import { RedirectWhenTokenExpiredAction } from '../../core/auth/auth.actions';
+import { SearchResult } from '../../shared/search/search-result.model';
 
 /**
  * This component represents the whole mydspace page header
@@ -27,19 +27,17 @@ import { RedirectWhenTokenExpiredAction } from '../../core/auth/auth.actions';
   templateUrl: './my-dspace-new-submission.component.html'
 })
 export class MyDSpaceNewSubmissionComponent implements OnDestroy, OnInit {
-  @Output() uploadEnd = new EventEmitter<Array<MyDSpaceResult<DSpaceObject>>>();
+  /**
+   * Output that emits the workspace item when the upload has completed
+   */
+  @Output() uploadEnd = new EventEmitter<Array<SearchResult<DSpaceObject>>>();
 
   public findByHref: string;
 
   /**
    * The UploaderOptions object
    */
-  public uploadFilesOptions: UploaderOptions = {
-    url: '',
-    authToken: null,
-    disableMultipart: false,
-    itemAlias: null
-  };
+  public uploadFilesOptions: UploaderOptions = new UploaderOptions();
 
   /**
    * Subscription to unsubscribe from

@@ -11,6 +11,7 @@ import {LangConfig} from './lang-config.interface';
 import { BrowseByConfig } from './browse-by-config.interface';
 import { ItemPageConfig } from './item-page-config.interface';
 import { Theme } from './theme.inferface';
+import {AuthConfig} from './auth-config.interfaces';
 
 export interface GlobalConfig extends Config {
   ui: ServerConfig;

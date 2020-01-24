@@ -1,9 +1,7 @@
 // import @ngrx
 import { Action } from '@ngrx/store';
-
 // import type function
 import { type } from '../../shared/ngrx/type';
-
 // import models
 import { EPerson } from '../eperson/models/eperson.model';
 import { AuthTokenInfo } from './models/auth-token-info.model';
@@ -51,7 +49,7 @@ export class AuthenticateAction implements Action {
   };
 
   constructor(email: string, password: string) {
-    this.payload = { email, password };
+    this.payload = {email, password};
   }
 }
 
@@ -83,7 +81,7 @@ export class AuthenticatedSuccessAction implements Action {
   };
 
   constructor(authenticated: boolean, authToken: AuthTokenInfo, user: EPerson) {
-    this.payload = { authenticated, authToken, user };
+    this.payload = {authenticated, authToken, user};
   }
 }
 
@@ -97,7 +95,7 @@ export class AuthenticatedErrorAction implements Action {
   payload: Error;
 
   constructor(payload: Error) {
-    this.payload = payload ;
+    this.payload = payload;
   }
 }
 
@@ -111,7 +109,7 @@ export class AuthenticationErrorAction implements Action {
   payload: Error;
 
   constructor(payload: Error) {
-    this.payload = payload ;
+    this.payload = payload;
   }
 }
 
@@ -140,7 +138,7 @@ export class CheckAuthenticationTokenAction implements Action {
 
 /**
  * Check Authentication Token Error.
- * @class CheckAuthenticationTokenErrorAction
+ * @class CheckAuthenticationTokenCookieAction
  * @implements {Action}
  */
 export class CheckAuthenticationTokenErrorAction implements Action {
@@ -154,7 +152,9 @@ export class CheckAuthenticationTokenErrorAction implements Action {
  */
 export class LogOutAction implements Action {
   public type: string = AuthActionTypes.LOG_OUT;
-  constructor(public payload?: any) {}
+
+  constructor(public payload?: any) {
+  }
 }
 
 /**
@@ -167,7 +167,7 @@ export class LogOutErrorAction implements Action {
   payload: Error;
 
   constructor(payload: Error) {
-    this.payload = payload ;
+    this.payload = payload;
   }
 }
 
@@ -178,7 +178,9 @@ export class LogOutErrorAction implements Action {
  */
 export class LogOutSuccessAction implements Action {
   public type: string = AuthActionTypes.LOG_OUT_SUCCESS;
-  constructor(public payload?: any) {}
+
+  constructor(public payload?: any) {
+  }
 }
 
 /**
@@ -191,7 +193,7 @@ export class RedirectWhenAuthenticationIsRequiredAction implements Action {
   payload: string;
 
   constructor(message: string) {
-    this.payload = message ;
+    this.payload = message;
   }
 }
 
@@ -205,7 +207,7 @@ export class RedirectWhenTokenExpiredAction implements Action {
   payload: string;
 
   constructor(message: string) {
-    this.payload = message ;
+    this.payload = message;
   }
 }
 
@@ -270,7 +272,7 @@ export class RegistrationErrorAction implements Action {
   payload: Error;
 
   constructor(payload: Error) {
-    this.payload = payload ;
+    this.payload = payload;
   }
 }
 
@@ -353,7 +355,7 @@ export class SetRedirectUrlAction implements Action {
   payload: string;
 
   constructor(url: string) {
-    this.payload = url ;
+    this.payload = url;
   }
 }
 
@@ -371,7 +373,6 @@ export type AuthActions
   | AuthenticationErrorAction
   | AuthenticationSuccessAction
   | CheckAuthenticationTokenAction
-  | CheckAuthenticationTokenErrorAction
   | RedirectWhenAuthenticationIsRequiredAction
   | RedirectWhenTokenExpiredAction
   | RegistrationAction
