@@ -29,6 +29,7 @@ import { RemoteDataBuildService } from '../cache/builders/remote-data-build.serv
 import { RouteService } from '../services/route.service';
 import { AuthMethod } from './models/auth.method';
 import { NormalizedAuthStatus } from './models/normalized-auth-status.model';
+import { MYDSPACE_ROUTE } from '../../+my-dspace-page/my-dspace-page.component';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
@@ -377,30 +378,7 @@ export class AuthService {
    * Redirect to the route navigated before the login
    */
   public redirectAfterLoginSuccess(isStandalonePage: boolean) {
-    this.getRedirectUrl().pipe(
-      take(1))
-      .subscribe((redirectUrl) => {
-
-        if (isNotEmpty(redirectUrl)) {
-          this.clearRedirectUrl();
-          this.router.onSameUrlNavigation = 'reload';
-          this.navigateToRedirectUrl(redirectUrl);
-        } else {
-          // If redirectUrl is empty use history.
-          this.routeService.getHistory().pipe(
-            take(1)
-          ).subscribe((history) => {
-            let redirUrl;
-            if (isStandalonePage) {
-              // For standalone login pages, use the previous route.
-              redirUrl = history[history.length - 2] || '';
-            } else {
-              redirUrl = history[history.length - 1] || '';
-            }
-            this.navigateToRedirectUrl(redirUrl);
-          });
-        }
-      });
+    this.router.navigate([MYDSPACE_ROUTE]);
 
   }
 
