@@ -83,7 +83,7 @@ export class DsDatePickerComponent extends DynamicFormControlComponent implement
       }
     }
 
-    this.maxYear = this.initialYear + 100;
+    this.maxYear = new Date().getFullYear();
 
   }
 
