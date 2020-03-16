@@ -70,7 +70,7 @@ export class WorkspaceitemActionsComponent extends MyDSpaceActionsComponent<Work
       (result) => {
         if (result === 'ok') {
           this.processingDelete$.next(true);
-          this.objectDataService.delete(this.object)
+          this.objectDataService.delete(this.object.id)
             .subscribe((response: boolean) => {
               this.processingDelete$.next(false);
               this.handleActionResponse(response);

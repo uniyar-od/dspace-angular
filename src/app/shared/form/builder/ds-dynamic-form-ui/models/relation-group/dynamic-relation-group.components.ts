@@ -65,7 +65,7 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
   private selectedChipItem: ChipsItem;
   private subs: Subscription[] = [];
 
-  @ViewChild('formRef') private formRef: FormComponent;
+  @ViewChild('formRef', {static: false}) private formRef: FormComponent;
 
   constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
               private authorityService: AuthorityService,
@@ -98,7 +98,8 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
       this.model.scopeUUID,
       {},
       this.model.submissionScope,
-      this.model.readOnly);
+      this.model.readOnly,
+      this.formBuilderService.getTypeBindModel());
     this.initChipsFromModelValue();
   }
 

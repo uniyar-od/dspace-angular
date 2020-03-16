@@ -48,7 +48,7 @@ export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlCom
   public formGroup: FormGroup;
   public formModel: DynamicFormControlModel[];
 
-  @ViewChild('formRef') private formRef: FormComponent;
+  @ViewChild('formRef', {static: false}) private formRef: FormComponent;
 
   constructor(@Inject(GLOBAL_CONFIG) protected EnvConfig: GlobalConfig,
               private authorityService: AuthorityService,
@@ -103,7 +103,8 @@ export class DsDynamicRelationInlineGroupComponent extends DynamicFormControlCom
       this.model.scopeUUID,
       initValues,
       this.model.submissionScope,
-      this.model.readOnly);
+      this.model.readOnly,
+      this.formBuilderService.getTypeBindModel());
 
     return formModel[0];
   }
