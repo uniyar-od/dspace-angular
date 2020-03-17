@@ -13,6 +13,9 @@ import { listableObjectComponent } from '../../../object-collection/shared/lista
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
 import { SearchResultListElementComponent } from '../../search-result-list-element/search-result-list-element.component';
 import { Context } from '../../../../core/shared/context.model';
+import { TruncatableService } from '../../../truncatable/truncatable.service';
+import { LinkService } from '../../../../core/cache/builders/link.service';
+import { followLink } from '../../../utils/follow-link-config.model';
 
 /**
  * This component renders workspaceitem object for the search result in the list view.
@@ -38,11 +41,19 @@ export class OtherWorkspaceItemSearchResultListElementComponent extends SearchRe
    */
   status = MyDspaceItemStatusType.WORKSPACE;
 
+  constructor(
+    protected truncatableService: TruncatableService,
+    protected linkService: LinkService
+  ) {
+    super(truncatableService);
+  }
+
   /**
    * Initialize all instance variables
    */
   ngOnInit() {
     super.ngOnInit();
+    this.linkService.resolveLink(this.dso, followLink('item'));
     this.initItem(this.dso.item as Observable<RemoteData<Item>>);
   }
 
