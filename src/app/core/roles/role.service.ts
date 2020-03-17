@@ -5,7 +5,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 
 import { RoleType } from './role-types';
 import { CollectionDataService } from '../data/collection-data.service';
-import { GroupEpersonService } from '../eperson/group-eperson.service';
+import { GroupDataService } from '../eperson/group-data.service';
 
 /**
  * A service that provides methods to identify user role.
@@ -17,9 +17,9 @@ export class RoleService {
    * Initialize instance variables
    *
    * @param {CollectionDataService} collectionService
-   * @param {GroupEpersonService} groupService
+   * @param {GroupDataService} groupService
    */
-  constructor(private collectionService: CollectionDataService, private groupService: GroupEpersonService) {
+  constructor(private collectionService: CollectionDataService, private groupService: GroupDataService) {
   }
 
   /**

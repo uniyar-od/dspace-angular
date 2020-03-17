@@ -11,6 +11,8 @@ import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspa
 import { createSuccessfulRemoteDataObject } from '../../../testing/utils';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
+import { LinkService } from '../../../../core/cache/builders/link.service';
+import { getMockLinkService } from '../../../mocks/mock-link-service';
 
 let component: OtherWorkspaceItemSearchResultListElementComponent;
 let fixture: ComponentFixture<OtherWorkspaceItemSearchResultListElementComponent>;
@@ -51,13 +53,16 @@ const item = Object.assign(new Item(), {
 });
 const rd = createSuccessfulRemoteDataObject(item);
 mockResultObject.indexableObject = Object.assign(new WorkspaceItem(), { item: observableOf(rd) });
+let linkService;
 
 describe('OtherWorkspaceItemSearchResultListElementComponent', () => {
   beforeEach(async(() => {
+    linkService = getMockLinkService();
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule],
       declarations: [OtherWorkspaceItemSearchResultListElementComponent],
       providers: [
+        { provide: LinkService, useValue: linkService },
         { provide: TruncatableService, useValue: {} },
       ],
       schemas: [NO_ERRORS_SCHEMA]

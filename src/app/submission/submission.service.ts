@@ -103,11 +103,13 @@ export class SubmissionService {
   /**
    * Perform a REST call to create a new workspaceitem and return response
    *
+   * @param collectionId
+   *    The owning collection id
    * @return Observable<SubmissionObject>
    *    observable of SubmissionObject
    */
-  createSubmission(): Observable<SubmissionObject> {
-    return this.restService.postToEndpoint(this.workspaceLinkPath, {}).pipe(
+  createSubmission(collectionId?: string): Observable<SubmissionObject> {
+    return this.restService.postToEndpoint(this.workspaceLinkPath, {}, null, null, collectionId).pipe(
       map((workspaceitem: SubmissionObject[]) => workspaceitem[0] as SubmissionObject),
       catchError(() => observableOf({} as SubmissionObject)))
   }
@@ -173,7 +175,7 @@ export class SubmissionService {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'text/uri-list');
     options.headers = headers;
-    return this.restService.postToEndpoint(this.workflowLinkPath, selfUrl, null, options) as Observable<SubmissionObject[]>;
+    return this.restService.postToEndpoint(this.workflowLinkPath, selfUrl, null, options, null, false) as Observable<SubmissionObject[]>;
   }
 
   /**

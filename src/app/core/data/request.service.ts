@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 import { createSelector, MemoizedSelector, select, Store } from '@ngrx/store';
 import { Observable, race as observableRace } from 'rxjs';
-import { filter, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { filter, map, mergeMap, take } from 'rxjs/operators';
 import { cloneDeep, remove } from 'lodash';
 import { hasValue, isEmpty, isNotEmpty } from '../../shared/empty.util';
 import { CacheableObject } from '../cache/object-cache.reducer';
@@ -71,7 +71,9 @@ const getUuidsFromHrefSubstring = (state: IndexState, href: string): string[] =>
 /**
  * A service to interact with the request state in the store
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RequestService {
   private requestsOnTheirWayToTheStore: string[] = [];
 
@@ -216,7 +218,7 @@ export class RequestService {
    * @param {GetRequest} request The request to check
    * @returns {boolean} True if the request is cached or still pending
    */
-  private isCachedOrPending(request: GetRequest): boolean {
+  public isCachedOrPending(request: GetRequest): boolean {
     const inReqCache = this.hasByHref(request.href);
     const inObjCache = this.objectCache.hasBySelfLink(request.href);
     const isCached = inReqCache || inObjCache;
