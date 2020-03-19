@@ -13,6 +13,8 @@ import { TruncatableService } from '../../../truncatable/truncatable.service';
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
 import { LinkService } from '../../../../core/cache/builders/link.service';
 import { getMockLinkService } from '../../../mocks/mock-link-service';
+import { take } from 'rxjs/operators';
+import { ItemDataService } from '../../../../core/data/item-data.service';
 
 let component: OtherWorkspaceItemSearchResultListElementComponent;
 let fixture: ComponentFixture<OtherWorkspaceItemSearchResultListElementComponent>;
@@ -62,8 +64,9 @@ describe('OtherWorkspaceItemSearchResultListElementComponent', () => {
       imports: [NoopAnimationsModule],
       declarations: [OtherWorkspaceItemSearchResultListElementComponent],
       providers: [
-        { provide: LinkService, useValue: linkService },
         { provide: TruncatableService, useValue: {} },
+        { provide: ItemDataService, useValue: {} },
+        { provide: LinkService, useValue: linkService },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).overrideComponent(OtherWorkspaceItemSearchResultListElementComponent, {
@@ -81,8 +84,12 @@ describe('OtherWorkspaceItemSearchResultListElementComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should init item properly', () => {
-    expect(component.item).toEqual(item);
+  it('should init item properly', (done) => {
+    component.item$.pipe(take(1)).subscribe((i) => {
+      expect(linkService.resolveLinks).toHaveBeenCalled();
+      expect(i).toBe(item);
+      done();
+    });
   });
 
   it('should have properly status', () => {
