@@ -1,8 +1,8 @@
-<ds-item-list-preview
-  *ngIf="status && item"
-  [item]="item"
-  [object]="object"
-  [showSubmitter]="true"
-  [status]="status"></ds-item-list-preview>
+<ng-container *ngIf="item$ | async">
+  <ds-item-list-preview
+    [item]="item$ | async"
+    [object]="object"
+    [status]="status"></ds-item-list-preview>
 
-<ds-workspaceitem-actions [context]="context.OtherWorkspace" [object]="dso"></ds-workspaceitem-actions>
+  <ds-workspaceitem-actions [context]="context.OtherWorkspace" [object]="dso"></ds-workspaceitem-actions>
+</ng-container>

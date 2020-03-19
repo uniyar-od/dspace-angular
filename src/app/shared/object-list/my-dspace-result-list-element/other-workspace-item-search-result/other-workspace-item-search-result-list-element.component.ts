@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { find } from 'rxjs/operators';
+import { find, map } from 'rxjs/operators';
 
 import { ViewMode } from '../../../../core/shared/view-mode.model';
 import { WorkspaceItem } from '../../../../core/submission/models/workspaceitem.model';
@@ -34,7 +34,7 @@ export class OtherWorkspaceItemSearchResultListElementComponent extends SearchRe
   /**
    * The item object that belonging to the result object
    */
-  item: Item;
+  item$: Observable<Item>;
 
   /**
    * Represent item's status
@@ -61,10 +61,9 @@ export class OtherWorkspaceItemSearchResultListElementComponent extends SearchRe
    * Retrieve item from result object
    */
   initItem(item$: Observable<RemoteData<Item>>) {
-    item$.pipe(
-      find((rd: RemoteData<Item>) => rd.hasSucceeded && isNotUndefined(rd.payload))
-    ).subscribe((rd: RemoteData<Item>) => {
-      this.item = rd.payload;
-    });
+    this.item$ = item$.pipe(
+      find((rd: RemoteData<Item>) => rd.hasSucceeded && isNotUndefined(rd.payload)),
+      map((rd: RemoteData<Item>) => rd.payload)
+    );
   }
 }
