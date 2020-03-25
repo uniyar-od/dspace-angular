@@ -3,7 +3,7 @@ import { PRIMARY_OUTLET, Router, UrlSegmentGroup, UrlTree } from '@angular/route
 import { HttpHeaders } from '@angular/common/http';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable, of as observableOf, timer as observableTimer } from 'rxjs';
 import { distinctUntilChanged, filter, map, startWith, switchMap, take, withLatestFrom } from 'rxjs/operators';
 import { RouterReducerState } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import { AuthRequestService } from './auth-request.service';
 import { HttpOptions } from '../dspace-rest-v2/dspace-rest-v2.service';
 import { AuthStatus } from './models/auth-status.model';
 import { AuthTokenInfo, TOKENITEM } from './models/auth-token-info.model';
-import { isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
+import { hasValue, isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
 import { CookieService } from '../services/cookie.service';
 import { getAuthenticationToken, getRedirectUrl, isAuthenticated, isTokenRefreshing } from './selectors';
 import { AppState, routerStateSelector } from '../../app.reducer';
@@ -24,11 +24,11 @@ import { Base64EncodeUrl } from '../../shared/utils/encode-decode.util';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { GlobalConfig } from '../../../config/global-config.interface';
 import { GLOBAL_CONFIG } from '../../../config';
-import {RouteService} from '../services/route.service';
+import { RouteService } from '../services/route.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
-
 export const REDIRECT_COOKIE = 'dsRedirectUrl';
 
 /**
@@ -42,6 +42,11 @@ export class AuthService {
    * @type boolean
    */
   protected _authenticated: boolean;
+
+  /**
+   * Subscription
+   */
+  protected tokenExpirationSub: Subscription;
 
   constructor(@Inject(GLOBAL_CONFIG) public config: GlobalConfig,
               @Inject(REQUEST) protected req: any,
@@ -325,10 +330,36 @@ export class AuthService {
     const expires = new Date(expireDate);
     const options: CookieAttributes = { expires: expires };
 
+    this.subscribeToTokenExpiration(token);
+
     // Save cookie with the token
     return this.storage.set(TOKENITEM, token, options);
   }
 
+  private subscribeToTokenExpiration(token: AuthTokenInfo) {
+    this.unsubscribeFromTokenExpiration();
+    // Retrieve interval from token
+    const duration = Math.ceil(token.expires - Date.now());
+
+    // Dispatch refresh page action after given duration
+    const timer$ = observableTimer(duration, duration);
+    this.tokenExpirationSub = timer$
+      .subscribe(() => {
+        console.log('Refreshing page after session expired');
+        this.refreshCurrentPage()
+      });
+  }
+
+  private unsubscribeFromTokenExpiration() {
+    if (hasValue(this.tokenExpirationSub)) {
+      this.tokenExpirationSub.unsubscribe();
+      this.tokenExpirationSub = null;
+    }
+  }
+
+  private refreshCurrentPage() {
+    this._window.nativeWindow.location.href = this.router.url;
+  }
   /**
    * Remove authentication token info
    */
