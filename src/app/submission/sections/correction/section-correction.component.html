@@ -1,0 +1,19 @@
+<ng-container *ngIf="showTable()">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{'submission.sections.correction.column.metadata' | translate}}</th>
+            <th>{{'submission.sections.correction.column.previous-value' | translate}}</th>
+            <th>{{'submission.sections.correction.column.current-value'|translate}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let correction of getData()">
+            <td><span>{{correction.label}}</span></td>
+            <td><span>{{getPreviousValue(correction)}}</span></td>
+            <td><span>{{getCurrentValue(correction)}}</span></td>
+        </tr>
+
+        </tbody>
+    </table>
+</ng-container>

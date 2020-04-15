@@ -1500,7 +1500,7 @@
   "relationships.isSingleVolumeOf": "Journal Volume",
 
   "relationships.isVolumeOf": "Journal Volumes",
-  
+
   "relationships.isContributorOf": "Contributors",
 
 
@@ -1897,6 +1897,12 @@
 
   "submission.sections.reserve-doi.title": "Reserve a pre-generated DOI.",
 
+  "submission.sections.correction.column.metadata": "Metadata",
+
+  "submission.sections.correction.column.previous-value": "Previous value",
+
+  "submission.sections.correction.column.current-value": "Current value",
+
 
 
   "submission.sections.submit.progressbar.cclicense": "Creative commons license",
@@ -1948,6 +1954,8 @@
   "submission.sections.submit.progressbar.license": "Deposit license",
 
   "submission.sections.submit.progressbar.reserve-doi": "Reserve a DOI",
+
+  "submission.sections.submit.progressbar.correction-step": "Corrections",
 
   "submission.sections.submit.progressbar.upload": "Upload files",
 
