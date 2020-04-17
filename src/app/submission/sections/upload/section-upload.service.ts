@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, startWith } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { SubmissionState } from '../../submission.reducers';
 import {
   DeleteUploadedFileAction,
   EditFileDataAction,
-  NewUploadedFileAction
+  NewUploadedFileAction,
+  SwitchFileReadModeAction
 } from '../../objects/submission-objects.actions';
 import { submissionUploadedFileFromUuidSelector, submissionUploadedFilesFromIdSelector } from '../../selectors';
-import { isUndefined } from '../../../shared/empty.util';
+import { isNotEmpty, isUndefined } from '../../../shared/empty.util';
 import { WorkspaceitemSectionUploadFileObject } from '../../../core/submission/models/workspaceitem-section-upload-file.model';
 
 /**
@@ -55,7 +56,7 @@ export class SectionUploadService {
    * @returns {Observable}
    *    Emits bitstream's metadata
    */
-  public getFileData(submissionId: string, sectionId: string, fileUUID: string): Observable<any> {
+  public getFileData(submissionId: string, sectionId: string, fileUUID: string): Observable<WorkspaceitemSectionUploadFileObject> {
     return this.store.select(submissionUploadedFilesFromIdSelector(submissionId, sectionId)).pipe(
       filter((state) => !isUndefined(state)),
       map((state) => {
@@ -66,6 +67,26 @@ export class SectionUploadService {
         return fileState;
       }),
       distinctUntilChanged());
+  }
+
+  /**
+   * Return bitstream's read mode
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   * @param fileUUID
+   *    The bitstream UUID
+   * @returns {Observable}
+   *    Emits bitstream's metadata
+   */
+  public getFileReadMode(submissionId: string, sectionId: string, fileUUID: string): Observable<boolean> {
+    return this.getFileData(submissionId, sectionId, fileUUID).pipe(
+      filter((state: WorkspaceitemSectionUploadFileObject) => isNotEmpty(state)),
+      map((state: WorkspaceitemSectionUploadFileObject) => state.readMode),
+      startWith(true)
+    )
   }
 
   /**
@@ -101,6 +122,22 @@ export class SectionUploadService {
   public addUploadedFile(submissionId: string, sectionId: string, fileUUID: string, data: WorkspaceitemSectionUploadFileObject) {
     this.store.dispatch(
       new NewUploadedFileAction(submissionId, sectionId, fileUUID, data)
+    );
+  }
+
+  /**
+   * Update bitstream read mode into the state
+   *
+   * @param submissionId
+   *    The submission id
+   * @param sectionId
+   *    The section id
+   * @param fileUUID
+   *    The bitstream UUID
+   */
+  public switchFileReadMode(submissionId: string, sectionId: string, fileUUID: string) {
+    this.store.dispatch(
+      new SwitchFileReadModeAction(submissionId, sectionId, fileUUID)
     );
   }
 

@@ -66,6 +66,7 @@ export const SubmissionObjectActionTypes = {
   NEW_FILE: type('dspace/submission/NEW_FILE'),
   EDIT_FILE_DATA: type('dspace/submission/EDIT_FILE_DATA'),
   DELETE_FILE: type('dspace/submission/DELETE_FILE'),
+  SWITCH_FILE_READ_MODE: type('dspace/submission/SWITCH_FILE_READ_MODE'),
 
   // Errors
   ADD_SECTION_ERROR: type('dspace/submission/ADD_SECTION_ERROR'),
@@ -944,6 +945,29 @@ export class DeleteUploadedFileAction implements Action {
   }
 }
 
+export class SwitchFileReadModeAction implements Action {
+  type = SubmissionObjectActionTypes.SWITCH_FILE_READ_MODE;
+  payload: {
+    submissionId: string;
+    sectionId: string;
+    fileId: string;
+  };
+
+  /**
+   * Edit a file data
+   *
+   * @param submissionId
+   *    the submission's ID
+   * @param sectionId
+   *    the section's ID
+   * @param fileId
+   *    the file's ID
+   */
+  constructor(submissionId: string, sectionId: string, fileId: string) {
+    this.payload = { submissionId, sectionId, fileId: fileId };
+  }
+}
+
 export class SetDuplicateDecisionAction implements Action {
   type = SubmissionObjectActionTypes.SET_DUPLICATE_DECISION;
   payload: {
@@ -1031,6 +1055,7 @@ export type SubmissionObjectAction = DisableSectionAction
   | NewUploadedFileAction
   | EditFileDataAction
   | DeleteUploadedFileAction
+  | SwitchFileReadModeAction
   | InertSectionErrorsAction
   | DeleteSectionErrorsAction
   | UpdateSectionDataAction
