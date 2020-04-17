@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest as observableCombineLatest, Observable, Subscription } from 'rxjs';
 import { filter, first, flatMap, take } from 'rxjs/operators';
 import { DynamicFormControlModel, } from '@ng-dynamic-forms/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -111,7 +111,7 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit {
    * A boolean representing if to show bitstream edit form
    * @type {boolean}
    */
-  public readMode: boolean;
+  public readMode: Observable<boolean>;
 
   /**
    * The form model
@@ -124,6 +124,12 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit {
    * @type {BehaviorSubject<boolean>}
    */
   public processingDelete$ = new BehaviorSubject<boolean>(false);
+
+  /**
+   * A boolean representing if a switch from edit to view is pending
+   * @type {BehaviorSubject<boolean>}
+   */
+  public switching: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   /**
    * The [JsonPatchOperationPathCombiner] object
@@ -165,7 +171,6 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit {
               private operationsService: SubmissionJsonPatchOperationsService,
               private submissionService: SubmissionService,
               private uploadService: SectionUploadService) {
-    this.readMode = true;
   }
 
   /**
@@ -192,6 +197,7 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit {
   ngOnInit() {
     this.formId = this.formService.getUniqueId(this.fileId);
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionId, 'files', this.fileIndex);
+    this.readMode = this.uploadService.getFileReadMode(this.submissionId, this.sectionId, this.fileId);
   }
 
   /**
@@ -337,8 +343,19 @@ export class SubmissionSectionUploadFileComponent implements OnChanges, OnInit {
    * Switch from edit form to metadata view
    */
   public switchMode() {
-    this.readMode = !this.readMode;
-    this.cdr.detectChanges();
+    this.switching.next(true);
+    this.subscriptions.push(
+      observableCombineLatest(
+        this.submissionService.getActiveSectionId(this.submissionId),
+        this.submissionService.getSubmissionSaveProcessingStatus(this.submissionId)
+      ).pipe(
+        filter(([activeSectionId, isSaving]) => this.sectionId === activeSectionId && !isSaving),
+        take(1)
+      ).subscribe(() => {
+        this.uploadService.switchFileReadMode(this.submissionId, this.sectionId, this.fileId);
+        this.switching.next(false);
+      })
+    )
   }
 
 }

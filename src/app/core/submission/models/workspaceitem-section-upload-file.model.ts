@@ -43,4 +43,9 @@ export class WorkspaceitemSectionUploadFileObject {
    * The list of file access conditions
    */
   accessConditions: SubmissionUploadFileAccessConditionObject[];
+
+  /**
+   * A boolean representing if to show bitstream edit form or not
+   */
+  readMode: boolean
 }

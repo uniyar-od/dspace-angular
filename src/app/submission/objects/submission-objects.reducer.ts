@@ -36,7 +36,7 @@ import {
   SetDuplicateDecisionErrorAction,
   SetDuplicateDecisionSuccessAction,
   SubmissionObjectAction,
-  SubmissionObjectActionTypes,
+  SubmissionObjectActionTypes, SwitchFileReadModeAction,
   UpdateSectionDataAction
 } from './submission-objects.actions';
 import { WorkspaceitemSectionDataType } from '../../core/submission/models/workspaceitem-sections.model';
@@ -339,6 +339,10 @@ export function submissionObjectReducer(state = initialState, action: Submission
 
     case SubmissionObjectActionTypes.DELETE_FILE: {
       return deleteFile(state, action as DeleteUploadedFileAction);
+    }
+
+    case SubmissionObjectActionTypes.SWITCH_FILE_READ_MODE: {
+      return switchFileReadModeData(state, action as SwitchFileReadModeAction);
     }
 
     // errors actions
@@ -731,6 +735,12 @@ function setActiveSection(state: SubmissionObjectState, action: SetActiveSection
  */
 function initSection(state: SubmissionObjectState, action: InitSectionAction): SubmissionObjectState {
   if (hasValue(state[ action.payload.submissionId ])) {
+    let sectionData = action.payload.data;
+    if ((action.payload.sectionType === SectionsType.Upload)) {
+      const files = (action.payload.data as WorkspaceitemSectionUploadObject).files
+        .map((fileData) => Object.assign({}, fileData, { readMode: true }));
+      sectionData = Object.assign({}, sectionData, { files: files });
+    }
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
@@ -742,7 +752,7 @@ function initSection(state: SubmissionObjectState, action: InitSectionAction): S
             visibility: action.payload.visibility,
             collapsed: false,
             enabled: action.payload.enabled,
-            data: action.payload.data,
+            data: sectionData,
             errors: action.payload.errors || [],
             isLoading: false,
             isValid: false,
@@ -769,12 +779,29 @@ function initSection(state: SubmissionObjectState, action: InitSectionAction): S
 function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDataAction): SubmissionObjectState {
   if (isNotEmpty(state[ action.payload.submissionId ])
       && isNotEmpty(state[ action.payload.submissionId ].sections[ action.payload.sectionId])) {
+    const currentSection = state[ action.payload.submissionId ].sections[ action.payload.sectionId];
+    let sectionData = action.payload.data;
+    if ((currentSection.sectionType === SectionsType.Upload)) {
+      const newFiles = (action.payload.data as WorkspaceitemSectionUploadObject).files
+        .map((fileData, index) => {
+          const currentFiles = (currentSection.data as WorkspaceitemSectionUploadObject).files;
+          const fileIndex = findKey(
+            currentFiles,
+            { uuid: fileData.uuid });
+          if (isNotNull(fileIndex)) {
+            return Object.assign({}, fileData, { readMode: currentFiles[fileIndex].readMode })
+          } else {
+            return Object.assign({}, fileData, { readMode: true })
+          }
+        });
+      sectionData = Object.assign({}, sectionData, { files: newFiles });
+    }
     return Object.assign({}, state, {
       [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
         sections: Object.assign({}, state[ action.payload.submissionId ].sections, {
           [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
             enabled: true,
-            data: action.payload.data,
+            data: sectionData,
             errors: action.payload.errors
           })
         })
@@ -918,13 +945,14 @@ function setIsValid(state: SubmissionObjectState, action: SectionStatusChangeAct
 function newFile(state: SubmissionObjectState, action: NewUploadedFileAction): SubmissionObjectState {
   const filesData = state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data as WorkspaceitemSectionUploadObject;
   let newData;
+  const fileData = Object.assign({}, action.payload.data, { readMode: true });
   if (isUndefined(filesData.files)) {
     newData = {
-      files: [action.payload.data]
+      files: [fileData]
     };
   } else {
     newData = filesData;
-    newData.files.push(action.payload.data)
+    newData.files.push(fileData)
   }
 
   return Object.assign({}, state, {
@@ -972,6 +1000,45 @@ function editFileData(state: SubmissionObjectState, action: EditFileDataAction):
           ),
           isLoading: state[ action.payload.submissionId ].isLoading,
           savePending: state[ action.payload.submissionId ].savePending,
+        })
+      });
+    }
+  }
+  return state;
+}
+
+/**
+ * Switch edit mode of a file.
+ *
+ * @param state
+ *    the current state
+ * @param action
+ *    an SwitchFileReadModeAction action
+ * @return SubmissionObjectState
+ *    the new state, with the edited file.
+ */
+function switchFileReadModeData(state: SubmissionObjectState, action: SwitchFileReadModeAction): SubmissionObjectState {
+  const filesData = state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data as WorkspaceitemSectionUploadObject;
+  if (hasValue(filesData.files)) {
+    const fileIndex = findKey(
+      filesData.files,
+      { uuid: action.payload.fileId });
+    if (isNotNull(fileIndex)) {
+      const newData = Array.from(filesData.files);
+      newData[fileIndex] = Object.assign({}, filesData.files[fileIndex], {
+        readMode: !filesData.files[fileIndex].readMode
+      });
+      return Object.assign({}, state, {
+        [ action.payload.submissionId ]: Object.assign({}, state[ action.payload.submissionId ], {
+          sections: Object.assign({}, state[ action.payload.submissionId ].sections,
+            Object.assign({}, {
+              [ action.payload.sectionId ]: Object.assign({}, state[ action.payload.submissionId ].sections [ action.payload.sectionId ], {
+                data: Object.assign({}, state[ action.payload.submissionId ].sections[ action.payload.sectionId ].data, {
+                  files: newData
+                })
+              })
+            })
+          )
         })
       });
     }

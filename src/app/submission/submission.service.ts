@@ -426,8 +426,7 @@ export class SubmissionService {
   getSubmissionSaveProcessingStatus(submissionId: string): Observable<boolean> {
     return this.getSubmissionObject(submissionId).pipe(
       map((state: SubmissionObjectEntry) => state.savePending),
-      distinctUntilChanged(),
-      startWith(false));
+      distinctUntilChanged());
   }
 
   /**
