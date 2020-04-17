@@ -736,7 +736,7 @@ function setActiveSection(state: SubmissionObjectState, action: SetActiveSection
 function initSection(state: SubmissionObjectState, action: InitSectionAction): SubmissionObjectState {
   if (hasValue(state[ action.payload.submissionId ])) {
     let sectionData = action.payload.data;
-    if ((action.payload.sectionType === SectionsType.Upload)) {
+    if ((action.payload.sectionType === SectionsType.Upload) && isNotEmpty(action.payload.data)) {
       const files = (action.payload.data as WorkspaceitemSectionUploadObject).files
         .map((fileData) => Object.assign({}, fileData, { readMode: true }));
       sectionData = Object.assign({}, sectionData, { files: files });
@@ -781,7 +781,7 @@ function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDa
       && isNotEmpty(state[ action.payload.submissionId ].sections[ action.payload.sectionId])) {
     const currentSection = state[ action.payload.submissionId ].sections[ action.payload.sectionId];
     let sectionData = action.payload.data;
-    if ((currentSection.sectionType === SectionsType.Upload)) {
+    if ((currentSection.sectionType === SectionsType.Upload) && isNotEmpty(sectionData)) {
       const newFiles = (action.payload.data as WorkspaceitemSectionUploadObject).files
         .map((fileData, index) => {
           const currentFiles = (currentSection.data as WorkspaceitemSectionUploadObject).files;
