@@ -315,7 +315,7 @@ describe('SubmissionSectionUploadFileComponent test suite', () => {
     });
 
     it('should switch read mode', () => {
-      comp.readMode = false;
+      comp.readMode = observableOf(false);
 
       comp.switchMode();
       expect(comp.readMode).toBeTruthy();
