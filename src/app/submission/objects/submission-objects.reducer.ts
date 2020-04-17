@@ -1,4 +1,4 @@
-import { hasValue, isNotEmpty, isNotNull, isUndefined } from '../../shared/empty.util';
+import { hasValue, isNotEmpty, isNotUndefined, isUndefined } from '../../shared/empty.util';
 import { differenceWith, findKey, isEqual, uniqWith } from 'lodash';
 
 import {
@@ -788,7 +788,7 @@ function updateSectionData(state: SubmissionObjectState, action: UpdateSectionDa
           const fileIndex = findKey(
             currentFiles,
             { uuid: fileData.uuid });
-          if (isNotNull(fileIndex)) {
+          if (isNotUndefined(fileIndex)) {
             return Object.assign({}, fileData, { readMode: currentFiles[fileIndex].readMode })
           } else {
             return Object.assign({}, fileData, { readMode: true })
@@ -983,7 +983,7 @@ function editFileData(state: SubmissionObjectState, action: EditFileDataAction):
     const fileIndex = findKey(
       filesData.files,
       { uuid: action.payload.fileId });
-    if (isNotNull(fileIndex)) {
+    if (isNotUndefined(fileIndex)) {
       const newData = Array.from(filesData.files);
       newData[fileIndex] = action.payload.data;
       return Object.assign({}, state, {
@@ -1023,7 +1023,7 @@ function switchFileReadModeData(state: SubmissionObjectState, action: SwitchFile
     const fileIndex = findKey(
       filesData.files,
       { uuid: action.payload.fileId });
-    if (isNotNull(fileIndex)) {
+    if (isNotUndefined(fileIndex)) {
       const newData = Array.from(filesData.files);
       newData[fileIndex] = Object.assign({}, filesData.files[fileIndex], {
         readMode: !filesData.files[fileIndex].readMode
@@ -1062,7 +1062,7 @@ function deleteFile(state: SubmissionObjectState, action: DeleteUploadedFileActi
     const fileIndex: any = findKey(
       filesData.files,
       {uuid: action.payload.fileId});
-    if (isNotNull(fileIndex)) {
+    if (isNotUndefined(fileIndex)) {
       const newData = Array.from(filesData.files);
       newData.splice(fileIndex, 1);
       return Object.assign({}, state, {
