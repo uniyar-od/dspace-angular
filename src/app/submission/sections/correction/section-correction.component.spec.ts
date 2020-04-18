@@ -14,7 +14,6 @@ import {FormBuilderService} from "../../../shared/form/builder/form-builder.serv
 import {SubmissionSectionLicenseComponent} from "../license/section-license.component";
 import {SectionDataObject} from "../models/section-data.model";
 import {SectionsType} from "../sections-type";
-import {CorrectionType} from "../../../core/submission/models/workspaceitem-correction.model";
 import {SectionsServiceStub} from "../../../shared/testing/sections-service-stub";
 import {SectionsService} from "../sections.service";
 
@@ -22,13 +21,31 @@ import {SectionsService} from "../sections.service";
 const sectionObject: SectionDataObject = {
   config: 'https://dspace7.4science.it/or2018/api/config/submissionforms/license',
   mandatory: true,
-  data: [{
-    operation: CorrectionType.MODIFIED,
-    attributeName: 'dc.issued.date',
-    oldValue: '2020-06-15',
-    newValue: '2020-06-25',
-    label: 'Date Of Issued'
-  }],
+  data: [
+    {
+      metadata: 'dc.issued.date',
+      oldValues: ['2020-06-15'],
+      newValues: ['2020-06-25'],
+      label: 'Date Of Issued'
+    },
+    {
+      metadata: 'dc.subject',
+      oldValues: ['key1', 'key2'],
+      newValues: ['key3'],
+      label: 'Subject Keywords'
+    },
+    {
+      metadata: 'dc.title',
+      oldValues: [],
+      newValues: ['new title'],
+      label: 'Title'
+    },
+    {
+      metadata: 'dc.type',
+      oldValues: ['Text'],
+      newValues: ['Book'],
+      label: 'Type'
+    }],
   errors: [],
   header: 'submit.progressbar.describe.license',
   id: 'license',
@@ -74,22 +91,65 @@ describe('CorrectionComponent', () => {
   });
 
 
-
   it('should create correction component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contains a table with one row', () => {
+  it('should contains a new date of issued on the firts row', () => {
     let tableElement: DebugElement = fixture.debugElement.query(By.css('.table'));
     const table = tableElement.nativeElement;
     expect(table.innerHTML).toBeDefined();
     let rows: DebugElement[] = tableElement.queryAll(By.css('.correction-row'));
-    expect(rows.length).toEqual(1);
+    expect(rows.length).toEqual(4);
+    //check on dc.issued.date
     let cells: DebugElement[] = rows[0].queryAll(By.css('td'));
     expect(cells.length).toEqual(3);
-    expect(cells[0].nativeElement.innerHTML).toEqual('Date Of Issued');
-    expect(cells[1].nativeElement.innerHTML).toEqual('2020-06-15');
-    expect(cells[2].nativeElement.innerHTML).toEqual('2020-06-25');
+    expect(cells[0].nativeElement.innerHTML).toContain('Date Of Issued');
+    expect(cells[1].nativeElement.innerHTML).toContain('2020-06-15');
+    expect(cells[2].nativeElement.innerHTML).toContain('2020-06-25');
+
+  });
+  it('should contains the new keyword on the second row', () => {
+    let tableElement: DebugElement = fixture.debugElement.query(By.css('.table'));
+    const table = tableElement.nativeElement;
+    expect(table.innerHTML).toBeDefined();
+    let rows: DebugElement[] = tableElement.queryAll(By.css('.correction-row'));
+    expect(rows.length).toEqual(4);
+    //check on dc.subject
+    let cells = rows[1].queryAll(By.css('td'));
+    expect(cells.length).toEqual(3);
+    expect(cells[0].nativeElement.innerHTML).toContain('Subject Keywords');
+    expect(cells[1].nativeElement.innerHTML).toContain('key1');
+    expect(cells[1].nativeElement.innerHTML).toContain('key2');
+    expect(cells[2].nativeElement.innerHTML).toContain('key3');
+  });
+  it('should contains the new title on the thirtd row', () => {
+    let tableElement: DebugElement = fixture.debugElement.query(By.css('.table'));
+    const table = tableElement.nativeElement;
+    expect(table.innerHTML).toBeDefined();
+    let rows: DebugElement[] = tableElement.queryAll(By.css('.correction-row'));
+    expect(rows.length).toEqual(4);
+    //check on dc.subject
+    //check on dc.title
+    let cells = rows[2].queryAll(By.css('td'));
+    expect(cells.length).toEqual(3);
+    expect(cells[0].nativeElement.innerHTML).toContain('Title');
+    expect(cells[1].nativeElement.innerHTML).toContain('-');
+    expect(cells[2].nativeElement.innerHTML).toContain('new title');
+
+  });
+  it('should contains the new type on the fourth row', () => {
+    let tableElement: DebugElement = fixture.debugElement.query(By.css('.table'));
+    const table = tableElement.nativeElement;
+    expect(table.innerHTML).toBeDefined();
+    let rows: DebugElement[] = tableElement.queryAll(By.css('.correction-row'));
+    expect(rows.length).toEqual(4);
+    //check on dc.title
+    let cells = rows[3].queryAll(By.css('td'));
+    expect(cells.length).toEqual(3);
+    expect(cells[0].nativeElement.innerHTML).toContain('Type');
+    expect(cells[1].nativeElement.innerHTML).toContain('Text');
+    expect(cells[2].nativeElement.innerHTML).toContain('Book');
 
   });
 });

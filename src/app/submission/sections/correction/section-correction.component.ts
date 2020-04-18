@@ -7,10 +7,7 @@ import {SectionsService} from "../sections.service";
 import {Observable, of as observableOf} from "rxjs";
 import {RoleType} from "../../../core/roles/role-types";
 
-import {
-  CorrectionType,
-  WorkspaceitemCorrectionObject
-} from "../../../core/submission/models/workspaceitem-correction.model";
+import {WorkspaceitemCorrectionObject} from "../../../core/submission/models/workspaceitem-correction.model";
 
 @Component({
   selector: 'ds-submission-correction',
@@ -21,7 +18,6 @@ import {
 export class SectionCorrectionComponent extends SectionModelComponent {
 
   public roleTypeEnum = RoleType;
-  public correctionEnum = CorrectionType;
 
   constructor(protected sectionService: SectionsService,
               @Inject('collectionIdProvider') public injectedCollectionId: string,
@@ -41,31 +37,6 @@ export class SectionCorrectionComponent extends SectionModelComponent {
   protected onSectionInit(): void {
   }
 
-  getCurrentValue(correction: WorkspaceitemCorrectionObject): string {
-    switch (correction.operation) {
-      case CorrectionType.ADDED:
-      case CorrectionType.MODIFIED:
-        return correction.newValue;
-
-      case CorrectionType.REMOVED:
-      default:
-        return 'n/a';
-
-    }
-  }
-
-  getPreviousValue(correction: WorkspaceitemCorrectionObject): string {
-
-    switch (correction.operation) {
-      case CorrectionType.REMOVED:
-      case CorrectionType.MODIFIED:
-        return correction.oldValue;
-
-      case CorrectionType.ADDED:
-      default:
-        return 'n/a';
-    }
-  }
 
 
   getData(): WorkspaceitemCorrectionObject[] {

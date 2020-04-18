@@ -26,6 +26,8 @@
         <span [ngClass]="{'text-muted': !item.firstMetadataValue('dc.description.abstract')}"
               [innerHTML]="(item.firstMetadataValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
       </ds-truncatable-part>
+      <div><span class="text-muted"
+                 *ngIf="hasCorrectionValues()">{{'mydspace.results.with-corrections' | translate}}</span></div>
 
     </div>
   </ds-truncatable>

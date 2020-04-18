@@ -1,19 +1,35 @@
 <ng-container *ngIf="showTable()">
-    <table class="table table-striped" >
-        <thead>
-        <tr>
-            <th>{{'submission.sections.correction.column.metadata' | translate}}</th>
-            <th>{{'submission.sections.correction.column.previous-value' | translate}}</th>
-            <th>{{'submission.sections.correction.column.current-value'|translate}}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let correction of getData()" class="correction-row">
-            <td>{{correction.label}}</td>
-            <td>{{getPreviousValue(correction)}}</td>
-            <td>{{getCurrentValue(correction)}}</td>
-        </tr>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>{{'submission.sections.correction.column.metadata' | translate}}</th>
+      <th>{{'submission.sections.correction.column.previous-value' | translate}}</th>
+      <th>{{'submission.sections.correction.column.current-value'|translate}}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let correction of getData()" class="correction-row">
+      <td>{{correction.label}}</td>
+      <td>
+        <ng-container  *ngIf="correction.oldValues.length==0">-</ng-container >
+        <ng-container  *ngIf="correction.oldValues.length==1">{{correction.oldValues[0]}}</ng-container >
+        <ul *ngIf="correction.oldValues.length>1">
+          <li *ngFor='let value of correction.oldValues'>
+            {{value}}
+          </li>
+        </ul>
+      </td>
+      <td>
+        <ng-container  *ngIf="correction.newValues.length==0">-</ng-container >
+        <ng-container  *ngIf="correction.newValues.length==1">{{correction.newValues[0]}}</ng-container >
+        <ul *ngIf="correction.newValues.length>1">
+          <li *ngFor='let value of correction.newValues'>
+            {{value}}
+          </li>
+        </ul>
+      </td>
+    </tr>
 
-        </tbody>
-    </table>
+    </tbody>
+  </table>
 </ng-container>
