@@ -1,13 +1,17 @@
 import {Component, Inject} from '@angular/core';
-import {renderSectionFor} from "../sections-decorator";
-import {SectionsType} from "../sections-type";
-import {SectionModelComponent} from "../models/section.model";
-import {SectionDataObject} from "../models/section-data.model";
-import {SectionsService} from "../sections.service";
-import {Observable, of as observableOf} from "rxjs";
-import {RoleType} from "../../../core/roles/role-types";
+import {renderSectionFor} from '../sections-decorator';
+import {SectionsType} from '../sections-type';
+import {SectionModelComponent} from '../models/section.model';
+import {SectionDataObject} from '../models/section-data.model';
+import {SectionsService} from '../sections.service';
+import {Observable, of as observableOf} from 'rxjs';
+import {RoleType} from '../../../core/roles/role-types';
 
-import {WorkspaceitemCorrectionObject} from "../../../core/submission/models/workspaceitem-correction.model";
+import {
+  WorkspaceitemCorrectionBitstreamObject,
+  WorkspaceitemCorrectionMetadataObject,
+  WorkspaceitemCorrectionObject
+} from '../../../core/submission/models/workspaceitem-correction.model';
 
 @Component({
   selector: 'ds-submission-correction',
@@ -15,7 +19,7 @@ import {WorkspaceitemCorrectionObject} from "../../../core/submission/models/wor
   styleUrls: ['./section-correction.component.css']
 })
 @renderSectionFor(SectionsType.Correction)
-export class SectionCorrectionComponent extends SectionModelComponent {
+export class SubmissionSectionCorrectionComponent extends SectionModelComponent {
 
   public roleTypeEnum = RoleType;
 
@@ -26,25 +30,40 @@ export class SectionCorrectionComponent extends SectionModelComponent {
     super(injectedCollectionId, injectedSectionData, injectedSubmissionId);
   }
 
-
   protected getSectionStatus(): Observable<boolean> {
     return observableOf(true);
   }
 
-  protected onSectionDestroy(): void {
+  getItemData(): WorkspaceitemCorrectionMetadataObject[] {
+    const correctionObeject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
+    return correctionObeject.metadata
   }
 
-  protected onSectionInit(): void {
+  getFileData(): WorkspaceitemCorrectionBitstreamObject[] {
+    const correctionObeject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
+    return correctionObeject.bitstream
+      .sort((obj1: WorkspaceitemCorrectionBitstreamObject, obj2: WorkspaceitemCorrectionBitstreamObject) => {
+        return obj1.filename > obj2.filename ? 1 : -1;
+      }
+    );
   }
 
-
-
-  getData(): WorkspaceitemCorrectionObject[] {
-    return Object.values(this.sectionData.data)
+  sortMetadataByLabel(metadata: WorkspaceitemCorrectionMetadataObject[]): WorkspaceitemCorrectionMetadataObject[] {
+    return metadata.sort((obj1: WorkspaceitemCorrectionMetadataObject, obj2: WorkspaceitemCorrectionMetadataObject) => {
+      return obj1.label > obj2.label ? 1 : -1;
+    })
   }
 
   showTable(): boolean {
     return Object.values(this.sectionData.data).length > 0;
+  }
+
+  /* tslint:disable:no-empty */
+  protected onSectionDestroy() {
+  }
+
+  /* tslint:disable:no-empty */
+  protected onSectionInit(): void {
   }
 
 }

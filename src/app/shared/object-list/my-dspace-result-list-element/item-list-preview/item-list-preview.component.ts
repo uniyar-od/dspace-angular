@@ -57,9 +57,10 @@ export class ItemListPreviewComponent implements OnInit {
   }
 
   hasCorrectionValues(): boolean {
-    if(!this.object.indexableObject.sections)
+    if (!this.object.indexableObject.sections) {
       return false;
-    return this.object.indexableObject.sections.correction.length>0;
+    }
+    return this.object.indexableObject.sections.correction.length > 0;
   }
 
   ngOnInit(): void {

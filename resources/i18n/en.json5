@@ -1363,7 +1363,7 @@
 
   "mydspace.view-btn": "View",
 
-  "mydspace.results.with-corrections": "with corrections",
+  "mydspace.results.with-corrections": "Corrections",
 
 
 
@@ -1900,6 +1900,8 @@
   "submission.sections.reserve-doi.title": "Reserve a pre-generated DOI.",
 
   "submission.sections.correction.column.metadata": "Metadata",
+
+  "submission.sections.correction.column.file": "File",
 
   "submission.sections.correction.column.previous-value": "Previous value",
 

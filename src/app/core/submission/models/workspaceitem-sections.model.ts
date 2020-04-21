@@ -2,7 +2,7 @@ import { WorkspaceitemSectionFormObject } from './workspaceitem-section-form.mod
 import { WorkspaceitemSectionLicenseObject } from './workspaceitem-section-license.model';
 import { WorkspaceitemSectionUploadObject } from './workspaceitem-section-upload.model';
 import { WorkspaceitemSectionReserveDoiObject } from './workspaceitem-section-reserve-doi.model';
-import {WorkspaceitemCorrectionObject} from "./workspaceitem-correction.model";
+import {WorkspaceitemCorrectionObject} from './workspaceitem-correction.model';
 
 /**
  * An interface to represent submission's section object.
@@ -20,5 +20,5 @@ export type WorkspaceitemSectionDataType
   | WorkspaceitemSectionFormObject
   | WorkspaceitemSectionLicenseObject
   | WorkspaceitemSectionReserveDoiObject
-  | WorkspaceitemCorrectionObject[]
+  | WorkspaceitemCorrectionObject
   | string;
