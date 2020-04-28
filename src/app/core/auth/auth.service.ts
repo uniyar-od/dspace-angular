@@ -18,7 +18,11 @@ import { hasValue, isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../
 import { CookieService } from '../services/cookie.service';
 import { getAuthenticationToken, getRedirectUrl, isAuthenticated, isTokenRefreshing } from './selectors';
 import { AppState, routerStateSelector } from '../../app.reducer';
-import { ResetAuthenticationMessagesAction, SetRedirectUrlAction } from './auth.actions';
+import {
+  CheckAuthenticationTokenAction,
+  ResetAuthenticationMessagesAction,
+  SetRedirectUrlAction
+} from './auth.actions';
 import { NativeWindowRef, NativeWindowService } from '../services/window.service';
 import { Base64EncodeUrl } from '../../shared/utils/encode-decode.util';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
@@ -154,7 +158,7 @@ export class AuthService {
    * Checks if token is present into browser storage and is valid. (NB Check is done only on SSR)
    */
   public checkAuthenticationToken() {
-    return
+    this.store.dispatch(new CheckAuthenticationTokenAction())
   }
 
   /**
@@ -360,6 +364,7 @@ export class AuthService {
   private refreshCurrentPage() {
     this._window.nativeWindow.location.href = this.router.url;
   }
+
   /**
    * Remove authentication token info
    */
