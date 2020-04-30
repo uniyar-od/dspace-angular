@@ -1,11 +1,13 @@
-import {Component, Inject} from '@angular/core';
-import {renderSectionFor} from '../sections-decorator';
-import {SectionsType} from '../sections-type';
-import {SectionModelComponent} from '../models/section.model';
-import {SectionDataObject} from '../models/section-data.model';
-import {SectionsService} from '../sections.service';
-import {Observable, of as observableOf} from 'rxjs';
-import {RoleType} from '../../../core/roles/role-types';
+import { Component, Inject } from '@angular/core';
+
+import { Observable, of as observableOf } from 'rxjs';
+
+import { renderSectionFor } from '../sections-decorator';
+import { SectionsType } from '../sections-type';
+import { SectionModelComponent } from '../models/section.model';
+import { SectionDataObject } from '../models/section-data.model';
+import { SectionsService } from '../sections.service';
+import { RoleType } from '../../../core/roles/role-types';
 
 import {
   WorkspaceitemCorrectionBitstreamObject,
@@ -15,8 +17,7 @@ import {
 
 @Component({
   selector: 'ds-submission-correction',
-  templateUrl: './section-correction.component.html',
-  styleUrls: ['./section-correction.component.css']
+  templateUrl: './section-correction.component.html'
 })
 @renderSectionFor(SectionsType.Correction)
 export class SubmissionSectionCorrectionComponent extends SectionModelComponent {
@@ -35,13 +36,13 @@ export class SubmissionSectionCorrectionComponent extends SectionModelComponent 
   }
 
   getItemData(): WorkspaceitemCorrectionMetadataObject[] {
-    const correctionObeject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
-    return correctionObeject.metadata
+    const correctionObject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
+    return correctionObject.metadata
   }
 
   getFileData(): WorkspaceitemCorrectionBitstreamObject[] {
-    const correctionObeject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
-    return correctionObeject.bitstream
+    const correctionObject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
+    return correctionObject.bitstream
       .sort((obj1: WorkspaceitemCorrectionBitstreamObject, obj2: WorkspaceitemCorrectionBitstreamObject) => {
         return obj1.filename > obj2.filename ? 1 : -1;
       }
