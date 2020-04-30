@@ -1321,6 +1321,8 @@
 
   "mydspace.results.head": "Your submissions",
 
+  "mydspace.results.is-correction": "Is a request of correction",
+
   "mydspace.results.no-abstract": "No Abstract",
 
   "mydspace.results.no-authors": "No Authors",
@@ -1362,8 +1364,6 @@
   "mydspace.upload.upload-successful": "New workspace item created. Click {{here}} for edit it.",
 
   "mydspace.view-btn": "View",
-
-  "mydspace.results.with-corrections": "Corrections",
 
 
 

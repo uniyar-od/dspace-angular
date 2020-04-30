@@ -1,13 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-import {Item} from '../../../../core/shared/item.model';
-import {fadeInOut} from '../../../animations/fade';
-import {MyDspaceItemStatusType} from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
-import {SearchResult} from '../../../search/search-result.model';
-import {Observable} from 'rxjs/internal/Observable';
-import {RemoteData} from '../../../../core/data/remote-data';
-import {SubmissionObject} from '../../../../core/submission/models/submission-object.model';
-import {createSuccessfulRemoteDataObject$} from '../../../testing/utils';
+import { Item } from '../../../../core/shared/item.model';
+import { fadeInOut } from '../../../animations/fade';
+import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
+import { SearchResult } from '../../../search/search-result.model';
+import { Observable } from 'rxjs/internal/Observable';
+import { RemoteData } from '../../../../core/data/remote-data';
+import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
+import { createSuccessfulRemoteDataObject$ } from '../../../testing/utils';
 
 /**
  * This component show metadata for the given item object in the list view.
@@ -18,7 +18,7 @@ import {createSuccessfulRemoteDataObject$} from '../../../testing/utils';
   templateUrl: 'item-list-preview.component.html',
   animations: [fadeInOut]
 })
-export class ItemListPreviewComponent implements OnInit {
+export class ItemListPreviewComponent {
 
   /**
    * A boolean representing if object is workspaceitem or workflowitem
@@ -46,6 +46,11 @@ export class ItemListPreviewComponent implements OnInit {
   @Input() showSubmitter = false;
 
   /**
+   * A boolean representing if to show is correction information
+   */
+  @Input() showIsCorrection = false;
+
+  /**
    * Return submission object
    */
   getSubmissionObject(): Observable<RemoteData<SubmissionObject>> {
@@ -54,16 +59,5 @@ export class ItemListPreviewComponent implements OnInit {
     } else {
       return this.object.indexableObject.workflowitem
     }
-  }
-
-  hasCorrectionValues(): boolean {
-    if (!this.object.indexableObject.sections) {
-      return false;
-    }
-    return this.object.indexableObject.sections.correction.length > 0;
-  }
-
-  ngOnInit(): void {
-    this.hasCorrectionValues();
   }
 }

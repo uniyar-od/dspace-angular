@@ -190,6 +190,7 @@ import { LogInComponent } from './log-in/log-in.component';
 import { ReserveDoiActionsComponent } from './mydspace-actions/reserve-doi/reserve-doi-actions.component';
 import { ContextMenuComponent } from '../+item-page/context-menu/context-menu.component';
 import { RequestCorrectionComponent } from '../+item-page/context-menu/request-correction/request-correction.component';
+import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -288,6 +289,7 @@ const COMPONENTS = [
   ItemListPreviewComponent,
   MyDSpaceItemStatusComponent,
   ItemSubmitterComponent,
+  ItemCorrectionComponent,
   ItemDetailPreviewComponent,
   ItemDetailPreviewFieldComponent,
   ClaimedTaskActionsComponent,
