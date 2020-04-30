@@ -1709,6 +1709,21 @@
 
 
 
+
+
+
+  "submission.sections.correction.column.file": "File",
+
+  "submission.sections.correction.column.file.info": "Here are the changes related the item's bitstream",
+
+  "submission.sections.correction.column.current-value": "Current value",
+
+  "submission.sections.correction.column.metadata": "Metadata",
+
+  "submission.sections.correction.column.metadata.info": "Here are the changes related the item's metadata",
+
+  "submission.sections.correction.column.previous-value": "Previous value",
+
   "submission.sections.describe.relationship-lookup.close": "Close",
 
   "submission.sections.describe.relationship-lookup.external-source.added": "Successfully added local entry to the selection",
@@ -1898,14 +1913,6 @@
   "submission.sections.reserve-doi.reserved": "Here is your pre-generated DOI : <br/> <br/> <p class=\"h5\">{{doi}}</p>",
 
   "submission.sections.reserve-doi.title": "Reserve a pre-generated DOI.",
-
-  "submission.sections.correction.column.metadata": "Metadata",
-
-  "submission.sections.correction.column.file": "File",
-
-  "submission.sections.correction.column.previous-value": "Previous value",
-
-  "submission.sections.correction.column.current-value": "Current value",
 
 
 

@@ -1,4 +1,5 @@
 <ng-container *ngIf="showTable()">
+  <ds-alert [type]="'alert-info'" [content]="'submission.sections.correction.column.metadata.info'"></ds-alert>
   <table class="table table-striped correction-item-table">
     <thead>
     <tr>
@@ -9,7 +10,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let correction of getItemData()" class="correction-row">
-      <td>{{correction.label}}</td>
+      <td>{{correction.label}} ({{correction.metadata}})</td>
       <td>
         <ng-container *ngIf="correction.oldValues.length==0">-</ng-container>
         <ng-container *ngIf="correction.oldValues.length==1">{{correction.oldValues[0]}}</ng-container>
@@ -33,7 +34,8 @@
     </tbody>
   </table>
   <br/>
-  <table class="table table-striped correction-bitstream-table" >
+  <ds-alert [type]="'alert-info'" [content]="'submission.sections.correction.column.file.info'"></ds-alert>
+  <table class="table table-striped correction-bitstream-table">
     <thead>
     <tr>
       <th>{{'submission.sections.correction.column.file' | translate}}</th>
