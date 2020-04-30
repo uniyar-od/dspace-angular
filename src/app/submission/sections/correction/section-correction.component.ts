@@ -8,12 +8,11 @@ import { SectionModelComponent } from '../models/section.model';
 import { SectionDataObject } from '../models/section-data.model';
 import { SectionsService } from '../sections.service';
 import { RoleType } from '../../../core/roles/role-types';
-
 import {
-  WorkspaceitemCorrectionBitstreamObject,
-  WorkspaceitemCorrectionMetadataObject,
-  WorkspaceitemCorrectionObject
-} from '../../../core/submission/models/workspaceitem-correction.model';
+  WorkspaceitemSectionCorrectionBitstreamObject,
+  WorkspaceitemSectionCorrectionMetadataObject,
+  WorkspaceitemSectionCorrectionObject
+} from '../../../core/submission/models/workspaceitem-section-correction.model';
 
 @Component({
   selector: 'ds-submission-correction',
@@ -35,22 +34,22 @@ export class SubmissionSectionCorrectionComponent extends SectionModelComponent 
     return observableOf(true);
   }
 
-  getItemData(): WorkspaceitemCorrectionMetadataObject[] {
-    const correctionObject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
+  getItemData(): WorkspaceitemSectionCorrectionMetadataObject[] {
+    const correctionObject: WorkspaceitemSectionCorrectionObject =  this.sectionData.data as WorkspaceitemSectionCorrectionObject
     return correctionObject.metadata
   }
 
-  getFileData(): WorkspaceitemCorrectionBitstreamObject[] {
-    const correctionObject: WorkspaceitemCorrectionObject =  this.sectionData.data as WorkspaceitemCorrectionObject
+  getFileData(): WorkspaceitemSectionCorrectionBitstreamObject[] {
+    const correctionObject: WorkspaceitemSectionCorrectionObject =  this.sectionData.data as WorkspaceitemSectionCorrectionObject
     return correctionObject.bitstream
-      .sort((obj1: WorkspaceitemCorrectionBitstreamObject, obj2: WorkspaceitemCorrectionBitstreamObject) => {
+      .sort((obj1: WorkspaceitemSectionCorrectionBitstreamObject, obj2: WorkspaceitemSectionCorrectionBitstreamObject) => {
         return obj1.filename > obj2.filename ? 1 : -1;
       }
     );
   }
 
-  sortMetadataByLabel(metadata: WorkspaceitemCorrectionMetadataObject[]): WorkspaceitemCorrectionMetadataObject[] {
-    return metadata.sort((obj1: WorkspaceitemCorrectionMetadataObject, obj2: WorkspaceitemCorrectionMetadataObject) => {
+  sortMetadataByLabel(metadata: WorkspaceitemSectionCorrectionMetadataObject[]): WorkspaceitemSectionCorrectionMetadataObject[] {
+    return metadata.sort((obj1: WorkspaceitemSectionCorrectionMetadataObject, obj2: WorkspaceitemSectionCorrectionMetadataObject) => {
       return obj1.label > obj2.label ? 1 : -1;
     })
   }

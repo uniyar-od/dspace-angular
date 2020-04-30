@@ -16,7 +16,7 @@ import {SectionDataObject} from '../models/section-data.model';
 import {SectionsType} from '../sections-type';
 import {SectionsServiceStub} from '../../../shared/testing/sections-service-stub';
 import {SectionsService} from '../sections.service';
-import {OperationType} from '../../../core/submission/models/workspaceitem-correction.model';
+import {OperationType} from '../../../core/submission/models/workspaceitem-section-correction.model';
 
 const sectionObject: SectionDataObject = {
   config: 'https://dspace7.4science.it/or2018/api/config/submissionforms/license',
