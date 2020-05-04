@@ -64,15 +64,7 @@ export class SubmissionObjectEffects {
         const selfLink = sectionDefinition._links.self.href || sectionDefinition._links.self;
         const sectionId = selfLink.substr(selfLink.lastIndexOf('/') + 1);
         const config = sectionDefinition._links.config ? (sectionDefinition._links.config.href || sectionDefinition._links.config) : '';
-        const enabled = (sectionDefinition.mandatory && sectionDefinition.sectionType !== SectionsType.Correction) ||
-          (sectionDefinition.sectionType === SectionsType.Correction &&
-            isNotEmpty(action.payload.sections) &&
-            action.payload.sections.hasOwnProperty(sectionId) &&
-            (isNotEmpty((action.payload.sections[sectionId] as WorkspaceitemSectionCorrectionObject).metadata) ||
-              isNotEmpty((action.payload.sections[sectionId] as WorkspaceitemSectionCorrectionObject).bitstream))) ||
-          (sectionDefinition.sectionType !== SectionsType.Correction &&
-            isNotEmpty(action.payload.sections) &&
-            action.payload.sections.hasOwnProperty(sectionId));
+        const enabled = (sectionDefinition.mandatory) || (isNotEmpty(action.payload.sections) && action.payload.sections.hasOwnProperty(sectionId));
         const sectionData = (isNotUndefined(action.payload.sections) && isNotUndefined(action.payload.sections[sectionId])) ? action.payload.sections[sectionId] : Object.create(null);
         const sectionErrors = null;
         mappedActions.push(
