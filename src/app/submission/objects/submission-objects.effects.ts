@@ -47,6 +47,7 @@ import {
   UpdateSectionDataAction
 } from './submission-objects.actions';
 import { SubmissionObjectEntry } from './submission-objects.reducer';
+import { WorkspaceitemSectionCorrectionObject } from '../../core/submission/models/workspaceitem-section-correction.model';
 
 @Injectable()
 export class SubmissionObjectEffects {

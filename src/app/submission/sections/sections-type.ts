@@ -5,5 +5,6 @@ export enum SectionsType {
   License = 'license',
   CcLicense = 'cclicense',
   collection = 'collection',
-  ReserveDoi = 'reserve-doi'
+  ReserveDoi = 'reserve-doi',
+  Correction = 'correction',
 }

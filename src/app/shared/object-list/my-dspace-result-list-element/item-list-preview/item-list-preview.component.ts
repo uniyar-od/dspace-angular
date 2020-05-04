@@ -46,6 +46,11 @@ export class ItemListPreviewComponent {
   @Input() showSubmitter = false;
 
   /**
+   * A boolean representing if to show is correction information
+   */
+  @Input() showIsCorrection = false;
+
+  /**
    * Return submission object
    */
   getSubmissionObject(): Observable<RemoteData<SubmissionObject>> {
