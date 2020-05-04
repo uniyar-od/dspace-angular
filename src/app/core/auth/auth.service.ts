@@ -27,7 +27,7 @@ import { NativeWindowRef, NativeWindowService } from '../services/window.service
 import { Base64EncodeUrl } from '../../shared/utils/encode-decode.util';
 import { RouteService } from '../services/route.service';
 import { EPersonDataService } from '../eperson/eperson-data.service';
-import { getFirstSucceededRemoteDataPayload } from '../shared/operators';
+import { getAllSucceededRemoteDataPayload } from '../shared/operators';
 import { AuthMethod } from './models/auth.method';
 import { MYDSPACE_ROUTE } from '../../+my-dspace-page/my-dspace-page.component';
 
@@ -169,7 +169,7 @@ export class AuthService {
    */
   public retrieveAuthenticatedUserByHref(userHref: string): Observable<EPerson> {
     return this.epersonService.findByHref(userHref).pipe(
-      getFirstSucceededRemoteDataPayload()
+      getAllSucceededRemoteDataPayload()
     )
   }
 

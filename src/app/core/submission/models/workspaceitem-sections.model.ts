@@ -1,6 +1,7 @@
 import { WorkspaceitemSectionFormObject } from './workspaceitem-section-form.model';
 import { WorkspaceitemSectionLicenseObject } from './workspaceitem-section-license.model';
 import { WorkspaceitemSectionUploadObject } from './workspaceitem-section-upload.model';
+import { WorkspaceitemSectionDetectDuplicateObject } from './workspaceitem-section-deduplication.model';
 import { WorkspaceitemSectionReserveDoiObject } from './workspaceitem-section-reserve-doi.model';
 import {WorkspaceitemSectionCorrectionObject} from './workspaceitem-section-correction.model';
 
@@ -19,6 +20,7 @@ export type WorkspaceitemSectionDataType
   = WorkspaceitemSectionUploadObject
   | WorkspaceitemSectionFormObject
   | WorkspaceitemSectionLicenseObject
+  | WorkspaceitemSectionDetectDuplicateObject
   | WorkspaceitemSectionReserveDoiObject
   | WorkspaceitemSectionCorrectionObject
   | string;
