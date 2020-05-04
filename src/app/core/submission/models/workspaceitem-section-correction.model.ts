@@ -1,7 +1,6 @@
 /**
- * An interface to represent submission's reserve-doi section data.
+ * An interface to represent submission's correction section data.
  */
-
 export interface WorkspaceitemSectionCorrectionObject {
   metadata: WorkspaceitemSectionCorrectionMetadataObject[];
   bitstream: WorkspaceitemSectionCorrectionBitstreamObject[];
@@ -15,9 +14,9 @@ export interface WorkspaceitemSectionCorrectionMetadataObject {
 }
 
 export enum OperationType {
-  ADD,
-  REMOVE,
-  MODIFY
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
+  MODIFY = 'MODIFY'
 }
 
 export interface WorkspaceitemSectionCorrectionBitstreamObject {

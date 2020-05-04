@@ -17,6 +17,8 @@ import {SectionsType} from '../sections-type';
 import {SectionsServiceStub} from '../../../shared/testing/sections-service-stub';
 import {SectionsService} from '../sections.service';
 import {OperationType} from '../../../core/submission/models/workspaceitem-section-correction.model';
+import { AlertComponent } from '../../../shared/alert/alert.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const sectionObject: SectionDataObject = {
   config: 'https://dspace7.4science.it/or2018/api/config/submissionforms/license',
@@ -56,13 +58,13 @@ const sectionObject: SectionDataObject = {
           {
             metadata: 'dc.title',
             newValues: ['Current Title'],
-            oldValues: ['Previus Title'],
+            oldValues: ['Previous Title'],
             label: 'Title'
           },
           {
             metadata: 'dc.description',
             newValues: ['Current Description'],
-            oldValues: ['Previus Description'],
+            oldValues: ['Previous Description'],
             label: 'Description'
           }
         ],
@@ -95,10 +97,14 @@ describe('CorrectionComponent', () => {
         BrowserModule,
         CommonModule,
         FormsModule,
+        NoopAnimationsModule,
         ReactiveFormsModule,
         TranslateModule.forRoot()
       ],
-      declarations: [SubmissionSectionCorrectionComponent],
+      declarations: [
+        AlertComponent,
+        SubmissionSectionCorrectionComponent
+      ],
       providers: [
         {provide: SectionFormOperationsService, useValue: getMockFormOperationsService()},
         {provide: FormService, useValue: getMockFormService()},
@@ -182,22 +188,41 @@ describe('CorrectionComponent', () => {
 
   });
   it('should contains the bitstream table', () => {
-    const tableElement: DebugElement = fixture.debugElement.query(By.css('.correction-bitstream-table'));
-    const table = tableElement.nativeElement;
-    console.log(tableElement)
-    expect(table.innerHTML).toBeDefined();
-    const rows: DebugElement[] = tableElement.queryAll(By.css('.correction-row'));
-    expect(rows.length).toEqual(1);
+    let tableElement: DebugElement = fixture.debugElement.query(By.css('.correction-bitstream-table'));
+    const tableTitle = tableElement.nativeElement;
+    expect(tableTitle.innerHTML).toBeDefined();
+
+    tableElement = fixture.debugElement.query(By.css('.correction-bitstream-metadata-table'));
+    const tableMetadata = tableElement.nativeElement;
+
+    expect(tableMetadata.innerHTML).toBeDefined();
+    let rows: DebugElement[] = tableElement.queryAll(By.css('.correction-row'));
+    expect(rows.length).toEqual(2);
     // check bitstream metadata
-    const cells = rows[0].queryAll(By.css('td'));
+    let cells = rows[0].queryAll(By.css('td'));
     expect(cells.length).toEqual(3);
-    expect(cells[0].nativeElement.innerHTML).toContain('filename.pdf');
-    expect(cells[1].nativeElement.innerHTML).toContain('Description: Previus Description');
-    expect(cells[1].nativeElement.innerHTML).toContain('Title: Previus Title');
-    expect(cells[1].nativeElement.innerHTML).toContain('Access condition type: administrator');
-    expect(cells[2].nativeElement.innerHTML).toContain('Title: Current Title');
-    expect(cells[2].nativeElement.innerHTML).toContain('Description: Current Description');
-    expect(cells[2].nativeElement.innerHTML).toContain('Access condition type: openaccess');
+    expect(cells[0].nativeElement.innerHTML).toContain('Title (dc.title)');
+    expect(cells[1].nativeElement.innerHTML).toContain('Previous Title');
+    expect(cells[2].nativeElement.innerHTML).toContain('Current Title');
+
+    cells = rows[1].queryAll(By.css('td'));
+    expect(cells.length).toEqual(3);
+    expect(cells[0].nativeElement.innerHTML).toContain('Description (dc.description)');
+    expect(cells[1].nativeElement.innerHTML).toContain('Previous Description');
+    expect(cells[2].nativeElement.innerHTML).toContain('Current Description');
+
+    tableElement = fixture.debugElement.query(By.css('.correction-bitstream-policies-table'));
+    const tablePolicies = tableElement.nativeElement;
+    expect(tablePolicies.innerHTML).toBeDefined();
+
+    rows = tableElement.queryAll(By.css('.correction-row'));
+    expect(rows.length).toEqual(1);
+
+    cells = rows[0].queryAll(By.css('td'));
+    expect(cells.length).toEqual(3);
+    expect(cells[0].nativeElement.innerHTML).toContain('Access condition type');
+    expect(cells[1].nativeElement.innerHTML).toContain('administrator');
+    expect(cells[2].nativeElement.innerHTML).toContain('openaccess');
 
   });
 });

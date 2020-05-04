@@ -9,6 +9,7 @@ import { SectionDataObject } from '../models/section-data.model';
 import { SectionsService } from '../sections.service';
 import { RoleType } from '../../../core/roles/role-types';
 import {
+  OperationType,
   WorkspaceitemSectionCorrectionBitstreamObject,
   WorkspaceitemSectionCorrectionMetadataObject,
   WorkspaceitemSectionCorrectionObject
@@ -22,6 +23,7 @@ import {
 export class SubmissionSectionCorrectionComponent extends SectionModelComponent {
 
   public roleTypeEnum = RoleType;
+  public operationType = OperationType;
 
   constructor(protected sectionService: SectionsService,
               @Inject('collectionIdProvider') public injectedCollectionId: string,
@@ -46,6 +48,23 @@ export class SubmissionSectionCorrectionComponent extends SectionModelComponent 
         return obj1.filename > obj2.filename ? 1 : -1;
       }
     );
+  }
+
+  getFileOperationLabel(operation: OperationType): string {
+    let label = '';
+    switch (operation) {
+      case OperationType.ADD:
+        label = 'submission.sections.correction.bitstream.operation.add';
+        break;
+      case OperationType.REMOVE:
+        label = 'submission.sections.correction.bitstream.operation.remove';
+        break;
+      case OperationType.MODIFY:
+        label = 'submission.sections.correction.bitstream.operation.modify';
+        break;
+    }
+
+    return label;
   }
 
   sortMetadataByLabel(metadata: WorkspaceitemSectionCorrectionMetadataObject[]): WorkspaceitemSectionCorrectionMetadataObject[] {
