@@ -26,6 +26,7 @@
         <span [ngClass]="{'text-muted': !item.firstMetadataValue('dc.description.abstract')}"
               [innerHTML]="(item.firstMetadataValue('dc.description.abstract')) || ('mydspace.results.no-abstract' | translate)"></span>
       </ds-truncatable-part>
+      <ds-item-correction *ngIf="showIsCorrection" [item]="item"></ds-item-correction>
 
     </div>
   </ds-truncatable>
