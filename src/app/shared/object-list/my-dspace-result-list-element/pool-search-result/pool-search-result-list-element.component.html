@@ -4,7 +4,8 @@
                         [item]="(workflowitem?.item | async)?.payload"
                         [object]="object"
                         [showSubmitter]="showSubmitter"
-                        [status]="status"></ds-item-list-preview>
+                        [status]="status"
+                        [showIsCorrection]="true"></ds-item-list-preview>
 
   <ds-pool-task-actions *ngIf="workflowitem" [object]="dso"></ds-pool-task-actions>
 </ng-container>

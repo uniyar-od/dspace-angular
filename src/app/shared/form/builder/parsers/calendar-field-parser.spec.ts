@@ -4,6 +4,7 @@ import { FormFieldModel } from '../models/form-field.model';
 import { FormFieldMetadataValueObject } from '../models/form-field-metadata-value.model';
 import { ParserOptions } from './parser-options';
 import { CalendarFieldParser } from './calendar-field-parser';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 describe('CalendarFieldParser test suite', () => {
   let field: FormFieldModel;
@@ -54,7 +55,7 @@ describe('CalendarFieldParser test suite', () => {
     initFormValues = {
       date: [new FormFieldMetadataValueObject('1983-11-18')],
     };
-    const expectedValue = '1983-11-18';
+    const expectedValue = new NgbDate(1983, 11, 18);
 
     const parser = new CalendarFieldParser(submissionId, field, initFormValues, parserOptions);
 

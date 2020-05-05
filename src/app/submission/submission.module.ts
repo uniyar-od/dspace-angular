@@ -27,7 +27,11 @@ import { SubmissionSectionUploadFileEditComponent } from './sections/upload/file
 import { SubmissionSectionUploadFileViewComponent } from './sections/upload/file/view/section-upload-file-view.component';
 import { SubmissionSectionUploadAccessConditionsComponent } from './sections/upload/accessConditions/submission-section-upload-access-conditions.component';
 import { SubmissionSubmitComponent } from './submit/submission-submit.component';
+import { SubmissionSectionDetectDuplicateComponent } from './sections/detect-duplicate/section-detect-duplicate.component';
+import { DuplicateMatchComponent } from './sections/detect-duplicate/duplicate-match/duplicate-match.component';
+import { DetectDuplicateService } from './sections/detect-duplicate/detect-duplicate.service';
 import { SubmissionSectionReserveDoiComponent } from './sections/reserve-doi/section-reserve-doi.component';
+import { SubmissionSectionCorrectionComponent } from './sections/correction/section-correction.component';
 
 @NgModule({
   imports: [
@@ -55,14 +59,19 @@ import { SubmissionSectionReserveDoiComponent } from './sections/reserve-doi/sec
     SubmissionSectionUploadFileComponent,
     SubmissionSectionUploadFileEditComponent,
     SubmissionSectionUploadFileViewComponent,
-    SubmissionSectionReserveDoiComponent
+    SubmissionSectionDetectDuplicateComponent,
+    DuplicateMatchComponent,
+    SubmissionSectionReserveDoiComponent,
+    SubmissionSectionCorrectionComponent
   ],
   entryComponents: [
     SubmissionSectionUploadComponent,
     SubmissionSectionformComponent,
     SubmissionSectionLicenseComponent,
     SubmissionSectionContainerComponent,
-    SubmissionSectionReserveDoiComponent
+    SubmissionSectionDetectDuplicateComponent,
+    SubmissionSectionReserveDoiComponent,
+    SubmissionSectionCorrectionComponent
   ],
   exports: [
     SubmissionEditComponent,
@@ -72,7 +81,8 @@ import { SubmissionSectionReserveDoiComponent } from './sections/reserve-doi/sec
   providers: [
     SectionUploadService,
     SectionsService,
-    SubmissionUploadsConfigService
+    SubmissionUploadsConfigService,
+    DetectDuplicateService
   ]
 })
 
