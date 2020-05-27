@@ -43,7 +43,7 @@ export class MyDSpaceGuard implements CanActivate {
   private validateConfigurationParam(configuration: string, configurationList: MyDSpaceConfigurationValueType[]): boolean {
     const configurationDefault: string = configurationList[0];
     if (isEmpty(configurationDefault)) {
-      this.router.navigate(['/404']);
+      this.router.navigate([MYDSPACE_ROUTE]);
     } else if (isEmpty(configuration) || !configurationList.includes(configuration as MyDSpaceConfigurationValueType)) {
       // If configuration param is empty or is not included in available configurations redirect to a default configuration value
       const navigationExtras: NavigationExtras = {
