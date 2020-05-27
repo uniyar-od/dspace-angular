@@ -20,6 +20,7 @@ import { getAuthenticationToken, getRedirectUrl, isAuthenticated, isTokenRefresh
 import { AppState, routerStateSelector } from '../../app.reducer';
 import {
   CheckAuthenticationTokenAction,
+  RefreshTokenAction,
   ResetAuthenticationMessagesAction,
   SetRedirectUrlAction
 } from './auth.actions';
@@ -344,15 +345,15 @@ export class AuthService {
 
   private subscribeToTokenExpiration(token: AuthTokenInfo) {
     this.unsubscribeFromTokenExpiration();
-    // Retrieve interval from token
-    const duration = Math.ceil(token.expires - Date.now());
+    // Retrieve interval from token and subtract 60 seconds
+    const duration = Math.ceil(token.expires - Date.now()) - 60000;
 
-    // Dispatch refresh page action after given duration
+    // Dispatch RefreshTokenAction action after given duration
     const timer$ = observableTimer(duration, duration);
     this.tokenExpirationSub = timer$
       .subscribe(() => {
-        console.log('Refreshing page after session expired');
-        this.refreshCurrentPage()
+        console.log('Refreshing expiring token');
+        this.store.dispatch(new RefreshTokenAction(token))
       });
   }
 
@@ -361,10 +362,6 @@ export class AuthService {
       this.tokenExpirationSub.unsubscribe();
       this.tokenExpirationSub = null;
     }
-  }
-
-  private refreshCurrentPage() {
-    this._window.nativeWindow.location.href = this._window.nativeWindow.location.href;
   }
 
   /**
