@@ -187,7 +187,13 @@ export class AuthEffects {
     ofType(AuthActionTypes.RETRIEVE_AUTH_METHODS),
     switchMap(() => {
       return this.authService.retrieveAuthMethods().pipe(
-        map((location: any) => new RetrieveAuthMethodsSuccessAction(location)),
+        map((status: AuthStatus) => {
+          if (status.authenticated) {
+            return new AuthenticationSuccessAction(status.token);
+          } else {
+            return new RetrieveAuthMethodsSuccessAction(status.ssoLoginUrl);
+          }
+        }),
         catchError((error) => observableOf(new RetrieveAuthMethodsErrorAction())));
     }));
 

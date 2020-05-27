@@ -211,14 +211,16 @@ export class AuthService {
    * Retrieve authentication methods available
    * @returns {User}
    */
-  public retrieveAuthMethods(): Observable<string> {
+  public retrieveAuthMethods(): Observable<AuthStatus> {
     return this.authRequestService.getRequest('login').pipe(
       map((status: AuthStatus) => {
         let url = '';
         if (isNotEmpty(status.ssoLoginUrl)) {
           url = this.parseSSOLocation(status.ssoLoginUrl);
         }
-        return url;
+        return Object.assign({}, status, {
+          ssoLoginUrl: url
+        })
       }));
   }
 
