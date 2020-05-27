@@ -364,7 +364,7 @@ export class AuthService {
   }
 
   private refreshCurrentPage() {
-    this._window.nativeWindow.location.href = this.router.url;
+    this._window.nativeWindow.location.href = this._window.nativeWindow.location.href;
   }
 
   /**
