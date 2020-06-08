@@ -51,7 +51,7 @@
     "watch:debug": "yarn run build && npm-run-all -p webpack:watch server:watch:debug",
     "predebug": "yarn run build",
     "predebug:server": "yarn run build",
-    "debug": "node --debug-brk dist/server.js",
+    "debug": "node --inspect-brk dist/server.js",
     "debug:server": "node-nightly --inspect --debug-brk dist/server.js",
     "debug:build": "node-nightly --inspect --debug-brk node_modules/webpack/bin/webpack.js --mode development",
     "debug:build:prod": "node-nightly --inspect --debug-brk node_modules/webpack/bin/webpack.js --env.aot --env.client --env.server --mode production",
