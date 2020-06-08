@@ -8,7 +8,7 @@ import { DuplicateMatchMetadataDetailConfig } from '../../../../submission/secti
 import { Observable } from 'rxjs/internal/Observable';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
-import { createSuccessfulRemoteDataObject$ } from '../../../testing/utils';
+import { createSuccessfulRemoteDataObject$ } from '../../../remote-data.utils';
 
 /**
  * This component show metadata for the given item object in the list view.

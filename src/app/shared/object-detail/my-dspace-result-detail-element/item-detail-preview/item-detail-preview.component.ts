@@ -17,7 +17,7 @@ import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service
 import { SearchResult } from '../../../search/search-result.model';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
-import { createSuccessfulRemoteDataObject$ } from '../../../testing/utils';
+import { createSuccessfulRemoteDataObject$ } from '../../../remote-data.utils';
 
 /**
  * This component show metadata for the given item object in the detail view.
