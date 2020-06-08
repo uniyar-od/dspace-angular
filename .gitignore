@@ -7,8 +7,9 @@ npm-debug.log
 
 /build/
 
-/config/environment.dev.js
-/config/environment.prod.js
+/src/environments/environment.ts
+/src/environments/environment.dev.ts
+/src/environments/environment.prod.ts
 
 /coverage
 
@@ -39,3 +40,5 @@ package-lock.json
 .project
 .settings
 yarn.lock
+
+.env
