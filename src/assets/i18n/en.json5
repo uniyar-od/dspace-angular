@@ -2441,6 +2441,8 @@
 
   "submission.sections.correction.column.policy": "Policy",
 
+  "submission.sections.submit.progressbar.correction": "Correction details",
+
 
 
   "submission.sections.detect-duplicate.clear-decision": "Undo",

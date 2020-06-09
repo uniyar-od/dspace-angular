@@ -134,8 +134,9 @@
   // "admin.registries.bitstream-formats.table.supportLevel.head": "Support Level",
   "admin.registries.bitstream-formats.table.supportLevel.head": "Tukitaso",
   
-  // "admin.registries.bitstream-formats.title": "DSpace Angular :: Bitstream Format Registry",
-  "admin.registries.bitstream-formats.title": "DSpace Angular :: Tiedostoformaattirekisteri",
+  // "admin.registries.bitstream-formats.title": "DSpace Cris Angular :: Bitstream Format Registry",
+  // TODO New key - Add a translation
+  "admin.registries.bitstream-formats.title": "DSpace Cris Angular :: Bitstream Format Registry",
   
   
   
@@ -172,8 +173,9 @@
   // "admin.registries.metadata.schemas.table.namespace": "Namespace",
   "admin.registries.metadata.schemas.table.namespace": "Nimiavaruus",
   
-  // "admin.registries.metadata.title": "DSpace Angular :: Metadata Registry",
-  "admin.registries.metadata.title": "DSpace Angular :: Metadatarekisteri",
+  // "admin.registries.metadata.title": "DSpace Cris Angular :: Metadata Registry",
+  // TODO New key - Add a translation
+  "admin.registries.metadata.title": "DSpace Cris Angular :: Metadata Registry",
   
   
   
@@ -251,10 +253,27 @@
   // "admin.registries.schema.return": "Return",
   "admin.registries.schema.return": "Paluu",
   
-  // "admin.registries.schema.title": "DSpace Angular :: Metadata Schema Registry",
-  "admin.registries.schema.title": "DSpace Angular :: Metadataskeemarekisteri",
+  // "admin.registries.schema.title": "DSpace Cris Angular :: Metadata Schema Registry",
+  // TODO New key - Add a translation
+  "admin.registries.schema.title": "DSpace Cris Angular :: Metadata Schema Registry",
   
   
+  
+  // "admin.access-control.epeople.actions.delete": "Delete EPerson",
+  // TODO New key - Add a translation
+  "admin.access-control.epeople.actions.delete": "Delete EPerson",
+  
+  // "admin.access-control.epeople.actions.impersonate": "Impersonate EPerson",
+  // TODO New key - Add a translation
+  "admin.access-control.epeople.actions.impersonate": "Impersonate EPerson",
+  
+  // "admin.access-control.epeople.actions.reset": "Reset password",
+  // TODO New key - Add a translation
+  "admin.access-control.epeople.actions.reset": "Reset password",
+  
+  // "admin.access-control.epeople.actions.stop-impersonating": "Stop impersonating EPerson",
+  // TODO New key - Add a translation
+  "admin.access-control.epeople.actions.stop-impersonating": "Stop impersonating EPerson",
   
   // "admin.access-control.epeople.title": "DSpace Angular :: EPeople",
   // TODO New key - Add a translation
@@ -704,6 +723,30 @@
   // "admin.search.title": "Administrative Search",
   // TODO New key - Add a translation
   "admin.search.title": "Administrative Search",
+  
+  
+  
+  
+  // "admin.workflow.breadcrumbs": "Administer Workflow",
+  // TODO New key - Add a translation
+  "admin.workflow.breadcrumbs": "Administer Workflow",
+  
+  // "admin.workflow.title": "Administer Workflow",
+  // TODO New key - Add a translation
+  "admin.workflow.title": "Administer Workflow",
+  
+  // "admin.workflow.item.workflow": "Workflow",
+  // TODO New key - Add a translation
+  "admin.workflow.item.workflow": "Workflow",
+  
+  // "admin.workflow.item.delete": "Delete",
+  // TODO New key - Add a translation
+  "admin.workflow.item.delete": "Delete",
+  
+  // "admin.workflow.item.send-back": "Send back",
+  // TODO New key - Add a translation
+  "admin.workflow.item.send-back": "Send back",
+  
   
   
   
@@ -1316,6 +1359,104 @@
   
   
   
+  // "comcol-role.edit.no-group": "None",
+  // TODO New key - Add a translation
+  "comcol-role.edit.no-group": "None",
+  
+  // "comcol-role.edit.create": "Create",
+  // TODO New key - Add a translation
+  "comcol-role.edit.create": "Create",
+  
+  // "comcol-role.edit.restrict": "Restrict",
+  // TODO New key - Add a translation
+  "comcol-role.edit.restrict": "Restrict",
+  
+  // "comcol-role.edit.delete": "Delete",
+  // TODO New key - Add a translation
+  "comcol-role.edit.delete": "Delete",
+  
+  
+  // "comcol-role.edit.community-admin.name": "Administrators",
+  // TODO New key - Add a translation
+  "comcol-role.edit.community-admin.name": "Administrators",
+  
+  // "comcol-role.edit.collection-admin.name": "Administrators",
+  // TODO New key - Add a translation
+  "comcol-role.edit.collection-admin.name": "Administrators",
+  
+  
+  // "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  // TODO New key - Add a translation
+  "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  
+  // "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
+  // TODO New key - Add a translation
+  "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
+  
+  
+  // "comcol-role.edit.submitters.name": "Submitters",
+  // TODO New key - Add a translation
+  "comcol-role.edit.submitters.name": "Submitters",
+  
+  // "comcol-role.edit.submitters.description": "The E-People and Groups that have permission to submit new items to this collection.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.submitters.description": "The E-People and Groups that have permission to submit new items to this collection.",
+  
+  
+  // "comcol-role.edit.item_read.name": "Default item read access",
+  // TODO New key - Add a translation
+  "comcol-role.edit.item_read.name": "Default item read access",
+  
+  // "comcol-role.edit.item_read.description": "E-People and Groups that can read new items submitted to this collection. Changes to this role are not retroactive. Existing items in the system will still be viewable by those who had read access at the time of their addition.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.item_read.description": "E-People and Groups that can read new items submitted to this collection. Changes to this role are not retroactive. Existing items in the system will still be viewable by those who had read access at the time of their addition.",
+  
+  // "comcol-role.edit.item_read.anonymous-group": "Default read for incoming items is currently set to Anonymous.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.item_read.anonymous-group": "Default read for incoming items is currently set to Anonymous.",
+  
+  
+  // "comcol-role.edit.bitstream_read.name": "Default bitstream read access",
+  // TODO New key - Add a translation
+  "comcol-role.edit.bitstream_read.name": "Default bitstream read access",
+  
+  // "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  // TODO New key - Add a translation
+  "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  
+  // "comcol-role.edit.bitstream_read.anonymous-group": "Default read for incoming bitstreams is currently set to Anonymous.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.bitstream_read.anonymous-group": "Default read for incoming bitstreams is currently set to Anonymous.",
+  
+  
+  // "comcol-role.edit.editor.name": "Editors",
+  // TODO New key - Add a translation
+  "comcol-role.edit.editor.name": "Editors",
+  
+  // "comcol-role.edit.editor.description": "Editors are able to edit the metadata of incoming submissions, and then accept or reject them.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.editor.description": "Editors are able to edit the metadata of incoming submissions, and then accept or reject them.",
+  
+  
+  // "comcol-role.edit.finaleditor.name": "Final editors",
+  // TODO New key - Add a translation
+  "comcol-role.edit.finaleditor.name": "Final editors",
+  
+  // "comcol-role.edit.finaleditor.description": "Final editors are able to edit the metadata of incoming submissions, but will not be able to reject them.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.finaleditor.description": "Final editors are able to edit the metadata of incoming submissions, but will not be able to reject them.",
+  
+  
+  // "comcol-role.edit.reviewer.name": "Reviewers",
+  // TODO New key - Add a translation
+  "comcol-role.edit.reviewer.name": "Reviewers",
+  
+  // "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission's metadata.",
+  // TODO New key - Add a translation
+  "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission's metadata.",
+  
+  
+  
   // "community.form.abstract": "Short Description",
   "community.form.abstract": "Lyhyt kuvaus",
   
@@ -1530,7 +1671,8 @@
   // "form.search": "Search",
   "form.search": "Hae",
   
-  // "form.search-help": "Click here to looking for an existing correspondence",
+  // "form.search-help": "Click here to look for an existing correspondence",
+  // TODO Source message changed - Revise the translation
   "form.search-help": "Valitse etsiäksesi olemassa olevaa vastaavuutta",
   
   // "form.submit": "Submit",
@@ -1541,15 +1683,26 @@
   // "home.description": "",
   "home.description": "",
   
-  // "home.title": "DSpace Angular :: Home",
-  "home.title": "DSpace Angular :: Etusivu",
+  // "home.title": "DSpace Cris Angular :: Home",
+  // TODO New key - Add a translation
+  "home.title": "DSpace Cris Angular :: Home",
   
-  // "home.top-level-communities.head": "Communities in DSpace",
+  // "home.top-level-communities.head": "Communities in DSpace Cris",
+  // TODO Source message changed - Revise the translation
   "home.top-level-communities.head": "Julkaisuarkiston yhteisöt",
   
   // "home.top-level-communities.help": "Select a community to browse its collections.",
   "home.top-level-communities.help": "Valitse yhteisö, jonka kokoelmia haluat selata.",
   
+  
+  
+  // "item.edit.authorizations.heading": "With this editor you can view and alter the policies of an item, plus alter policies of individual item components: bundles and bitstreams. Briefly, an item is a container of bundles, and bundles are containers of bitstreams. Containers usually have ADD/REMOVE/READ/WRITE policies, while bitstreams only have READ/WRITE policies.",
+  // TODO New key - Add a translation
+  "item.edit.authorizations.heading": "With this editor you can view and alter the policies of an item, plus alter policies of individual item components: bundles and bitstreams. Briefly, an item is a container of bundles, and bundles are containers of bitstreams. Containers usually have ADD/REMOVE/READ/WRITE policies, while bitstreams only have READ/WRITE policies.",
+  
+  // "item.edit.authorizations.title": "Edit item's Policies",
+  // TODO New key - Add a translation
+  "item.edit.authorizations.title": "Edit item's Policies",
   
   
   
@@ -2156,6 +2309,40 @@
   // "item.page.collections": "Collections",
   "item.page.collections": "Kokoelmat",
   
+  // "item.page.context-menu.options": "Options",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options": "Options",
+  
+  // "item.page.context-menu.options.request-correction.btn": "Request correction",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.btn": "Request correction",
+  
+  // "item.page.context-menu.options.request-correction.confirm.cancel": "Cancel",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.confirm.cancel": "Cancel",
+  
+  // "item.page.context-menu.options.request-correction.confirm.submit": "Yes, I'm sure",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.confirm.submit": "Yes, I'm sure",
+  
+  // "item.page.context-menu.options.request-correction.error.403": "A request for correction has already been sent, impossible to proceed with the operation.",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.error.403": "A request for correction has already been sent, impossible to proceed with the operation.",
+  
+  // "item.page.context-menu.options.request-correction.error.generic": "There was an issue when requesting a correction for the item, please try again later.",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.error.generic": "There was an issue when requesting a correction for the item, please try again later.",
+  
+  // "item.page.context-menu.options.request-correction.info": "Are you sure you want to proceed with this operation?",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.info": "Are you sure you want to proceed with this operation?",
+  
+  // "item.page.context-menu.options.request-correction.title": "Request correction",
+  // TODO New key - Add a translation
+  "item.page.context-menu.options.request-correction.title": "Request correction",
+  
+  
+  
   // "item.page.date": "Date",
   "item.page.date": "Päivämäärä",
   
@@ -2300,8 +2487,9 @@
   // "journal.search.results.head": "Journal Search Results",
   "journal.search.results.head": "Kausijulkaisuhaun tulokset",
   
-  // "journal.search.title": "DSpace Angular :: Journal Search",
-  "journal.search.title": "DSpace Angular :: Kausijulkaisuhaku",
+  // "journal.search.title": "DSpace Cris Angular :: Journal Search",
+  // TODO New key - Add a translation
+  "journal.search.title": "DSpace Cris Angular :: Journal Search",
   
   
   
@@ -2680,6 +2868,10 @@
   "menu.section.toggle.statistics_task": "Vaihda Tilastointitehtävä-osion tilaa",
   
   
+  // "menu.section.workflow": "Administer Workflow",
+  // TODO New key - Add a translation
+  "menu.section.workflow": "Administer Workflow",
+  
   
   // "mydspace.description": "",
   "mydspace.description": "",
@@ -2732,6 +2924,10 @@
   // "mydspace.results.head": "Your submissions",
   "mydspace.results.head": "Julkaisusi",
   
+  // "mydspace.results.is-correction": "Is a request of correction",
+  // TODO New key - Add a translation
+  "mydspace.results.is-correction": "Is a request of correction",
+  
   // "mydspace.results.no-abstract": "No Abstract",
   "mydspace.results.no-abstract": "Ei tiivistelmää",
   
@@ -2755,6 +2951,10 @@
   
   // "mydspace.results.no-uri": "No Uri",
   "mydspace.results.no-uri": "Ei URL-osoitetta",
+  
+  // "mydspace.show.otherworkspace": "Other Submissions",
+  // TODO New key - Add a translation
+  "mydspace.show.otherworkspace": "Other Submissions",
   
   // "mydspace.show.workflow": "All tasks",
   "mydspace.show.workflow": "Kaikki tehtävät",
@@ -2821,6 +3021,10 @@
   
   // "nav.statistics.header": "Statistics",
   "nav.statistics.header": "Tilastot",
+  
+  // "nav.stop-impersonating": "Stop impersonating EPerson",
+  // TODO New key - Add a translation
+  "nav.stop-impersonating": "Stop impersonating EPerson",
   
   
   
@@ -2894,8 +3098,123 @@
   // "person.search.results.head": "Person Search Results",
   "person.search.results.head": "Käyttäjähaun tulokset",
   
-  // "person.search.title": "DSpace Angular :: Person Search",
-  "person.search.title": "DSpace Angular :: Käyttäjähaku",
+  // "person.search.title": "DSpace Cris Angular :: Person Search",
+  // TODO New key - Add a translation
+  "person.search.title": "DSpace Cris Angular :: Person Search",
+  
+  
+  
+  // "profile.breadcrumbs": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.breadcrumbs": "Update Profile",
+  
+  // "profile.card.identify": "Identify",
+  // TODO New key - Add a translation
+  "profile.card.identify": "Identify",
+  
+  // "profile.card.security": "Security",
+  // TODO New key - Add a translation
+  "profile.card.security": "Security",
+  
+  // "profile.form.submit": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.form.submit": "Update Profile",
+  
+  // "profile.groups.head": "Authorization groups you belong to",
+  // TODO New key - Add a translation
+  "profile.groups.head": "Authorization groups you belong to",
+  
+  // "profile.head": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.head": "Update Profile",
+  
+  // "profile.metadata.form.error.firstname.required": "First Name is required",
+  // TODO New key - Add a translation
+  "profile.metadata.form.error.firstname.required": "First Name is required",
+  
+  // "profile.metadata.form.error.lastname.required": "Last Name is required",
+  // TODO New key - Add a translation
+  "profile.metadata.form.error.lastname.required": "Last Name is required",
+  
+  // "profile.metadata.form.label.email": "Email Address",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.email": "Email Address",
+  
+  // "profile.metadata.form.label.firstname": "First Name",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.firstname": "First Name",
+  
+  // "profile.metadata.form.label.language": "Language",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.language": "Language",
+  
+  // "profile.metadata.form.label.lastname": "Last Name",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.lastname": "Last Name",
+  
+  // "profile.metadata.form.label.phone": "Contact Telephone",
+  // TODO New key - Add a translation
+  "profile.metadata.form.label.phone": "Contact Telephone",
+  
+  // "profile.metadata.form.notifications.success.content": "Your changes to the profile were saved.",
+  // TODO New key - Add a translation
+  "profile.metadata.form.notifications.success.content": "Your changes to the profile were saved.",
+  
+  // "profile.metadata.form.notifications.success.title": "Profile saved",
+  // TODO New key - Add a translation
+  "profile.metadata.form.notifications.success.title": "Profile saved",
+  
+  // "profile.notifications.warning.no-changes.content": "No changes were made to the Profile.",
+  // TODO New key - Add a translation
+  "profile.notifications.warning.no-changes.content": "No changes were made to the Profile.",
+  
+  // "profile.notifications.warning.no-changes.title": "No changes",
+  // TODO New key - Add a translation
+  "profile.notifications.warning.no-changes.title": "No changes",
+  
+  // "profile.security.form.error.matching-passwords": "The passwords do not match.",
+  // TODO New key - Add a translation
+  "profile.security.form.error.matching-passwords": "The passwords do not match.",
+  
+  // "profile.security.form.error.password-length": "The password should be at least 6 characters long.",
+  // TODO New key - Add a translation
+  "profile.security.form.error.password-length": "The password should be at least 6 characters long.",
+  
+  // "profile.security.form.info": "Optionally, you can enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+  // TODO New key - Add a translation
+  "profile.security.form.info": "Optionally, you can enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+  
+  // "profile.security.form.label.password": "Password",
+  // TODO New key - Add a translation
+  "profile.security.form.label.password": "Password",
+  
+  // "profile.security.form.label.passwordrepeat": "Retype to confirm",
+  // TODO New key - Add a translation
+  "profile.security.form.label.passwordrepeat": "Retype to confirm",
+  
+  // "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
+  
+  // "profile.security.form.notifications.success.title": "Password saved",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.success.title": "Password saved",
+  
+  // "profile.security.form.notifications.error.title": "Error changing passwords",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.error.title": "Error changing passwords",
+  
+  // "profile.security.form.notifications.error.not-long-enough": "The password has to be at least 6 characters long.",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.error.not-long-enough": "The password has to be at least 6 characters long.",
+  
+  // "profile.security.form.notifications.error.not-same": "The provided passwords are not the same.",
+  // TODO New key - Add a translation
+  "profile.security.form.notifications.error.not-same": "The provided passwords are not the same.",
+  
+  // "profile.title": "Update Profile",
+  // TODO New key - Add a translation
+  "profile.title": "Update Profile",
   
   
   
@@ -3070,8 +3389,9 @@
   // "publication.search.results.head": "Publication Search Results",
   "publication.search.results.head": "Aineistohaun tulokset",
   
-  // "publication.search.title": "DSpace Angular :: Publication Search",
-  "publication.search.title": "DSpace Angular :: Aineistohaku",
+  // "publication.search.title": "DSpace Cris Angular :: Publication Search",
+  // TODO New key - Add a translation
+  "publication.search.title": "DSpace Cris Angular :: Publication Search",
   
   
   
@@ -3117,14 +3437,201 @@
   
   
   
+  // "resource-policies.add.button": "Add",
+  // TODO New key - Add a translation
+  "resource-policies.add.button": "Add",
+  
+  // "resource-policies.add.for.": "Add a new policy",
+  // TODO New key - Add a translation
+  "resource-policies.add.for.": "Add a new policy",
+  
+  // "resource-policies.add.for.bitstream": "Add a new Bitstream policy",
+  // TODO New key - Add a translation
+  "resource-policies.add.for.bitstream": "Add a new Bitstream policy",
+  
+  // "resource-policies.add.for.bundle": "Add a new Bundle policy",
+  // TODO New key - Add a translation
+  "resource-policies.add.for.bundle": "Add a new Bundle policy",
+  
+  // "resource-policies.add.for.item": "Add a new Item policy",
+  // TODO New key - Add a translation
+  "resource-policies.add.for.item": "Add a new Item policy",
+  
+  // "resource-policies.create.page.heading": "Create new resource policy for ",
+  // TODO New key - Add a translation
+  "resource-policies.create.page.heading": "Create new resource policy for ",
+  
+  // "resource-policies.create.page.failure.content": "An error occurred while creating the resource policy.",
+  // TODO New key - Add a translation
+  "resource-policies.create.page.failure.content": "An error occurred while creating the resource policy.",
+  
+  // "resource-policies.create.page.success.content": "Operation successful",
+  // TODO New key - Add a translation
+  "resource-policies.create.page.success.content": "Operation successful",
+  
+  // "resource-policies.create.page.title": "Create new resource policy",
+  // TODO New key - Add a translation
+  "resource-policies.create.page.title": "Create new resource policy",
+  
+  // "resource-policies.delete.btn": "Delete selected",
+  // TODO New key - Add a translation
+  "resource-policies.delete.btn": "Delete selected",
+  
+  // "resource-policies.delete.btn.title": "Delete selected resource policies",
+  // TODO New key - Add a translation
+  "resource-policies.delete.btn.title": "Delete selected resource policies",
+  
+  // "resource-policies.delete.failure.content": "An error occurred while deleting selected resource policies.",
+  // TODO New key - Add a translation
+  "resource-policies.delete.failure.content": "An error occurred while deleting selected resource policies.",
+  
+  // "resource-policies.delete.success.content": "Operation successful",
+  // TODO New key - Add a translation
+  "resource-policies.delete.success.content": "Operation successful",
+  
+  // "resource-policies.edit.page.heading": "Edit resource policy ",
+  // TODO New key - Add a translation
+  "resource-policies.edit.page.heading": "Edit resource policy ",
+  
+  // "resource-policies.edit.page.failure.content": "An error occurred while editing the resource policy.",
+  // TODO New key - Add a translation
+  "resource-policies.edit.page.failure.content": "An error occurred while editing the resource policy.",
+  
+  // "resource-policies.edit.page.success.content": "Operation successful",
+  // TODO New key - Add a translation
+  "resource-policies.edit.page.success.content": "Operation successful",
+  
+  // "resource-policies.edit.page.title": "Edit resource policy",
+  // TODO New key - Add a translation
+  "resource-policies.edit.page.title": "Edit resource policy",
+  
+  // "resource-policies.form.action-type.label": "Select the action type",
+  // TODO New key - Add a translation
+  "resource-policies.form.action-type.label": "Select the action type",
+  
+  // "resource-policies.form.action-type.required": "You must select the resource policy action.",
+  // TODO New key - Add a translation
+  "resource-policies.form.action-type.required": "You must select the resource policy action.",
+  
+  // "resource-policies.form.eperson-group-list.label": "The eperson or group that will be grant of the permission",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.label": "The eperson or group that will be grant of the permission",
+  
+  // "resource-policies.form.eperson-group-list.select.btn": "Select",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.select.btn": "Select",
+  
+  // "resource-policies.form.eperson-group-list.tab.eperson": "Search for a ePerson",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.tab.eperson": "Search for a ePerson",
+  
+  // "resource-policies.form.eperson-group-list.tab.group": "Search for a group",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.tab.group": "Search for a group",
+  
+  // "resource-policies.form.eperson-group-list.table.headers.action": "Action",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.table.headers.action": "Action",
+  
+  // "resource-policies.form.eperson-group-list.table.headers.id": "ID",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.table.headers.id": "ID",
+  
+  // "resource-policies.form.eperson-group-list.table.headers.name": "Name",
+  // TODO New key - Add a translation
+  "resource-policies.form.eperson-group-list.table.headers.name": "Name",
+  
+  // "resource-policies.form.date.end.label": "End Date",
+  // TODO New key - Add a translation
+  "resource-policies.form.date.end.label": "End Date",
+  
+  // "resource-policies.form.date.start.label": "Start Date",
+  // TODO New key - Add a translation
+  "resource-policies.form.date.start.label": "Start Date",
+  
+  // "resource-policies.form.description.label": "Description",
+  // TODO New key - Add a translation
+  "resource-policies.form.description.label": "Description",
+  
+  // "resource-policies.form.name.label": "Name",
+  // TODO New key - Add a translation
+  "resource-policies.form.name.label": "Name",
+  
+  // "resource-policies.form.policy-type.label": "Select the policy type",
+  // TODO New key - Add a translation
+  "resource-policies.form.policy-type.label": "Select the policy type",
+  
+  // "resource-policies.form.policy-type.required": "You must select the resource policy type.",
+  // TODO New key - Add a translation
+  "resource-policies.form.policy-type.required": "You must select the resource policy type.",
+  
+  // "resource-policies.table.headers.action": "Action",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.action": "Action",
+  
+  // "resource-policies.table.headers.date.end": "End Date",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.date.end": "End Date",
+  
+  // "resource-policies.table.headers.date.start": "Start Date",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.date.start": "Start Date",
+  
+  // "resource-policies.table.headers.edit": "Edit",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.edit": "Edit",
+  
+  // "resource-policies.table.headers.edit.group": "Edit group",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.edit.group": "Edit group",
+  
+  // "resource-policies.table.headers.edit.policy": "Edit policy",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.edit.policy": "Edit policy",
+  
+  // "resource-policies.table.headers.eperson": "EPerson",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.eperson": "EPerson",
+  
+  // "resource-policies.table.headers.group": "Group",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.group": "Group",
+  
+  // "resource-policies.table.headers.id": "ID",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.id": "ID",
+  
+  // "resource-policies.table.headers.name": "Name",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.name": "Name",
+  
+  // "resource-policies.table.headers.policyType": "type",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.policyType": "type",
+  
+  // "resource-policies.table.headers.title.for.bitstream": "Policies for Bitstream",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.title.for.bitstream": "Policies for Bitstream",
+  
+  // "resource-policies.table.headers.title.for.bundle": "Policies for Bundle",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.title.for.bundle": "Policies for Bundle",
+  
+  // "resource-policies.table.headers.title.for.item": "Policies for Item",
+  // TODO New key - Add a translation
+  "resource-policies.table.headers.title.for.item": "Policies for Item",
+  
+  
+  
   // "search.description": "",
   "search.description": "",
   
   // "search.switch-configuration.title": "Show",
   "search.switch-configuration.title": "Näytä",
   
-  // "search.title": "DSpace Angular :: Search",
-  "search.title": "DSpace Angular :: Hae",
+  // "search.title": "DSpace Cris Angular :: Search",
+  // TODO New key - Add a translation
+  "search.title": "DSpace Cris Angular :: Search",
   
   // "search.breadcrumbs": "Search",
   // TODO New key - Add a translation
@@ -3473,6 +3980,132 @@
   
   
   
+  
+  
+  // "submission.sections.correction.bitstream.operation.add": "Bitstream added",
+  // TODO New key - Add a translation
+  "submission.sections.correction.bitstream.operation.add": "Bitstream added",
+  
+  // "submission.sections.correction.bitstream.operation.modify": "Bitstream modified",
+  // TODO New key - Add a translation
+  "submission.sections.correction.bitstream.operation.modify": "Bitstream modified",
+  
+  // "submission.sections.correction.bitstream.operation.remove": "Bitstream removed",
+  // TODO New key - Add a translation
+  "submission.sections.correction.bitstream.operation.remove": "Bitstream removed",
+  
+  // "submission.sections.correction.column.current-value": "Current value",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.current-value": "Current value",
+  
+  // "submission.sections.correction.column.file": "File",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.file": "File",
+  
+  // "submission.sections.correction.column.file.info": "Here are the changes related the item's bitstream",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.file.info": "Here are the changes related the item's bitstream",
+  
+  // "submission.sections.correction.column.metadata": "Metadata",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.metadata": "Metadata",
+  
+  // "submission.sections.correction.column.metadata.info": "Here are the changes related the item's metadata",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.metadata.info": "Here are the changes related the item's metadata",
+  
+  // "submission.sections.correction.column.previous-value": "Previous value",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.previous-value": "Previous value",
+  
+  // "submission.sections.correction.column.policy": "Policy",
+  // TODO New key - Add a translation
+  "submission.sections.correction.column.policy": "Policy",
+  
+  // "submission.sections.submit.progressbar.correction": "Correction details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.correction": "Correction details",
+  
+  
+  
+  // "submission.sections.detect-duplicate.clear-decision": "Undo",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.clear-decision": "Undo",
+  
+  // "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.clear-decision-help": "Click for clear the decision about this pontential duplicate",
+  
+  // "submission.sections.detect-duplicate.confirm-duplicate": "Confirm (It's a duplicate)",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.confirm-duplicate": "Confirm (It's a duplicate)",
+  
+  // "submission.sections.detect-duplicate.confirm-not-duplicate": "Confirm (It's not a duplicate)",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.confirm-not-duplicate": "Confirm (It's not a duplicate)",
+  
+  // "submission.sections.detect-duplicate.decision-success-notice": "Choice registered successfully",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.decision-success-notice": "Choice registered successfully",
+  
+  // "submission.sections.detect-duplicate.disclaimer": "The system has identified some potential duplicates. Please carefully review the list and flag each occurency with the appropriate choice or discard this submission.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.disclaimer": "The system has identified some potential duplicates. Please carefully review the list and flag each occurency with the appropriate choice or discard this submission.",
+  
+  // "submission.sections.detect-duplicate.disclaimer-ctrl": "The system has identified some potential duplicates. Please carefully review the list and the submitter comments and perform the appropriate action.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.disclaimer-ctrl": "The system has identified some potential duplicates. Please carefully review the list and the submitter comments and perform the appropriate action.",
+  
+  // "submission.sections.detect-duplicate.disclaimer-no-match": "All your feedback on potential duplicates have been registered correctly.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.disclaimer-no-match": "All your feedback on potential duplicates have been registered correctly.",
+  
+  // "submission.sections.detect-duplicate.duplicate": "It's a duplicate",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate": "It's a duplicate",
+  
+  // "submission.sections.detect-duplicate.duplicate-ctrl": "Mark the record to merge",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate-ctrl": "Mark the record to merge",
+  
+  // "submission.sections.detect-duplicate.duplicate-detected": "Potential duplicate detected",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate-detected": "Potential duplicate detected",
+  
+  // "submission.sections.detect-duplicate.duplicate-help": "Click here if this is a duplicate of your item",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.duplicate-help": "Click here if this is a duplicate of your item",
+  
+  // "submission.sections.detect-duplicate.note-help": "Please enter your reason for the duplication into the box below.",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.note-help": "Please enter your reason for the duplication into the box below.",
+  
+  // "submission.sections.detect-duplicate.note-placeholder": "Describe the reason of duplication",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.note-placeholder": "Describe the reason of duplication",
+  
+  // "submission.sections.detect-duplicate.no-decision": "No decision yet",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.no-decision": "No decision yet",
+  
+  // "submission.sections.detect-duplicate.not-duplicate": "It's not a duplicate",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.not-duplicate": "It's not a duplicate",
+  
+  // "submission.sections.detect-duplicate.not-duplicate-help": "Click here if this is not a duplicate of your item",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.not-duplicate-help": "Click here if this is not a duplicate of your item",
+  
+  // "submission.sections.detect-duplicate.submitter-decision": "Submitter decision:",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.submitter-decision": "Submitter decision:",
+  
+  // "submission.sections.detect-duplicate.submitter-note": "Submitter note:",
+  // TODO New key - Add a translation
+  "submission.sections.detect-duplicate.submitter-note": "Submitter note:",
+  
+  
+  
   // "submission.sections.describe.relationship-lookup.close": "Close",
   // TODO New key - Add a translation
   "submission.sections.describe.relationship-lookup.close": "Close",
@@ -3791,10 +4424,126 @@
   // "submission.sections.general.sections_not_valid": "There are incomplete sections.",
   "submission.sections.general.sections_not_valid": "Tallennuksessa keskeneräisiä osioita.",
   
+  // "submission.sections.reserve-doi.button": "Reserve DOI",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.button": "Reserve DOI",
+  
+  // "submission.sections.reserve-doi.button-help": "Select this option to assign a pre-generated DOI.  You will then be asked to confirm it.",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.button-help": "Select this option to assign a pre-generated DOI.  You will then be asked to confirm it.",
+  
+  // "submission.sections.reserve-doi.confirm.already.reserved": "A pre-generated DOI has already reserved.",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.already.reserved": "A pre-generated DOI has already reserved.",
+  
+  // "submission.sections.reserve-doi.confirm.cancel": "Cancel",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.cancel": "Cancel",
+  
+  // "submission.sections.reserve-doi.confirm.close": "Close",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.close": "Close",
+  
+  // "submission.sections.reserve-doi.confirm.info": "Are you sure you want to proceed with this operation?",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.info": "Are you sure you want to proceed with this operation?",
+  
+  // "submission.sections.reserve-doi.confirm.submit": "Yes, I'm sure",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.submit": "Yes, I'm sure",
+  
+  // "submission.sections.reserve-doi.confirm.error_notice": "There was an issue when registering DOI, please try again later.",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.error_notice": "There was an issue when registering DOI, please try again later.",
+  
+  // "submission.sections.reserve-doi.confirm.success_notice": "DOI has been successfully reserved",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.confirm.success_notice": "DOI has been successfully reserved",
+  
+  // "submission.sections.reserve-doi.request": "Do you need a pre-generated DOI? Please contact your library.",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.request": "Do you need a pre-generated DOI? Please contact your library.",
+  
+  // "submission.sections.reserve-doi.reserved": "Here is your pre-generated DOI : <br/> <br/> <p class=\"h5\">{{doi}}</p>",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.reserved": "Here is your pre-generated DOI : <br/> <br/> <p class=\"h5\">{{doi}}</p>",
+  
+  // "submission.sections.reserve-doi.title": "Reserve a pre-generated DOI.",
+  // TODO New key - Add a translation
+  "submission.sections.reserve-doi.title": "Reserve a pre-generated DOI.",
+  
   
   
   // "submission.sections.submit.progressbar.cclicense": "Creative commons license",
   "submission.sections.submit.progressbar.cclicense": "Creative commons -lisenssi",
+  
+  // "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.equipment": "Equipment basic information",
+  
+  // "submission.sections.submit.progressbar.describe.event": "Event basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.event": "Event basic information",
+  
+  // "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.journal": "Journal basic information",
+  
+  // "submission.sections.submit.progressbar.describe.institute-selection": "Institute selection",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.institute-selection": "Institute selection",
+  
+  // "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.orgunit": "Org Unit basic information",
+  
+  // "submission.sections.submit.progressbar.describe.patent": "Patent basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent": "Patent basic information",
+  
+  // "submission.sections.submit.progressbar.describe.patent_indexing": "Patent indexing",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent_indexing": "Patent indexing",
+  
+  // "submission.sections.submit.progressbar.describe.patent_references": "Patent references",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.patent_references": "Patent references",
+  
+  // "submission.sections.submit.progressbar.describe.product": "Product basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product": "Product basic information",
+  
+  // "submission.sections.submit.progressbar.describe.product_indexing": "Product indexing",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product_indexing": "Product indexing",
+  
+  // "submission.sections.submit.progressbar.describe.product_references": "Product references",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.product_references": "Product references",
+  
+  // "submission.sections.submit.progressbar.describe.project": "Project basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.project": "Project basic information",
+  
+  // "submission.sections.submit.progressbar.describe.publication": "Publication basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication": "Publication basic information",
+  
+  // "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication_bibliographic_details": "Publication bibliographic details",
+  
+  // "submission.sections.submit.progressbar.describe.publication_indexing": "Publication indexing",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication_indexing": "Publication indexing",
+  
+  // "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.publication_references": "Publication references",
+  
+  // "submission.sections.submit.progressbar.describe.rp": "Researcher basic information",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.describe.rp": "Researcher basic information",
   
   // "submission.sections.submit.progressbar.describe.recycle": "Recycle",
   "submission.sections.submit.progressbar.describe.recycle": "Kierrätä",
@@ -3813,6 +4562,14 @@
   
   // "submission.sections.submit.progressbar.license": "Deposit license",
   "submission.sections.submit.progressbar.license": "Tallennuslisenssi",
+  
+  // "submission.sections.submit.progressbar.reserve-doi": "Reserve a DOI",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.reserve-doi": "Reserve a DOI",
+  
+  // "submission.sections.submit.progressbar.correction-step": "Corrections",
+  // TODO New key - Add a translation
+  "submission.sections.submit.progressbar.correction-step": "Corrections",
   
   // "submission.sections.submit.progressbar.upload": "Upload files",
   "submission.sections.submit.progressbar.upload": "Lataa tiedostoja",
@@ -3843,7 +4600,8 @@
   // "submission.sections.upload.form.date-required": "Date is required.",
   "submission.sections.upload.form.date-required": "Päivämäärä on pakollinen tieto.",
   
-  // "submission.sections.upload.form.from-label": "Access grant from",
+  // "submission.sections.upload.form.from-label": "Grant access from",
+  // TODO Source message changed - Revise the translation
   "submission.sections.upload.form.from-label": "Pääsyoikeus alkaa",
   
   // "submission.sections.upload.form.from-placeholder": "From",
@@ -3855,7 +4613,8 @@
   // "submission.sections.upload.form.group-required": "Group is required.",
   "submission.sections.upload.form.group-required": "Ryhmä on pakollinen tieto.",
   
-  // "submission.sections.upload.form.until-label": "Access grant until",
+  // "submission.sections.upload.form.until-label": "Grant access until",
+  // TODO Source message changed - Revise the translation
   "submission.sections.upload.form.until-label": "Pääsyoikeus päättyy",
   
   // "submission.sections.upload.form.until-placeholder": "Until",
@@ -3984,8 +4743,42 @@
   
   
   
-  // "title": "DSpace",
+  // "title": "DSpace Cris",
+  // TODO Source message changed - Revise the translation
   "title": "Julkaisuarkisto",
+  
+  
+  
+  // "tree.description.srsc": "Research Subject Categories",
+  // TODO New key - Add a translation
+  "tree.description.srsc": "Research Subject Categories",
+  
+  
+  
+  // "treeview.header": "Hierarchical tree view",
+  // TODO New key - Add a translation
+  "treeview.header": "Hierarchical tree view",
+  
+  
+  
+  // "treeview.search.form.reset": "Reset",
+  // TODO New key - Add a translation
+  "treeview.search.form.reset": "Reset",
+  
+  // "treeview.search.form.search": "Search",
+  // TODO New key - Add a translation
+  "treeview.search.form.search": "Search",
+  
+  // "treeview.search.no-result": "There were no items to show",
+  // TODO New key - Add a translation
+  "treeview.search.no-result": "There were no items to show",
+  
+  
+  
+  // "treeview.load-more": "Load more",
+  // TODO New key - Add a translation
+  "treeview.load-more": "Load more",
+  
   
   
   // "administrativeView.search.results.head": "Administrative Search",
@@ -4024,6 +4817,79 @@
   // "virtual-metadata.delete-relationship.modal-head": "Select the items for which you want to save the virtual metadata as real metadata",
   // TODO New key - Add a translation
   "virtual-metadata.delete-relationship.modal-head": "Select the items for which you want to save the virtual metadata as real metadata",
+  
+  
+  
+  // "workflowAdmin.search.results.head": "Administer Workflow",
+  // TODO New key - Add a translation
+  "workflowAdmin.search.results.head": "Administer Workflow",
+  
+  
+  
+  // "workflow-item.delete.notification.success.title": "Deleted",
+  // TODO New key - Add a translation
+  "workflow-item.delete.notification.success.title": "Deleted",
+  
+  // "workflow-item.delete.notification.success.content": "This workflow item was successfully deleted",
+  // TODO New key - Add a translation
+  "workflow-item.delete.notification.success.content": "This workflow item was successfully deleted",
+  
+  // "workflow-item.delete.notification.error.title": "Something went wrong",
+  // TODO New key - Add a translation
+  "workflow-item.delete.notification.error.title": "Something went wrong",
+  
+  // "workflow-item.delete.notification.error.content": "The workflow item could not be deleted",
+  // TODO New key - Add a translation
+  "workflow-item.delete.notification.error.content": "The workflow item could not be deleted",
+  
+  // "workflow-item.delete.title": "Delete workflow item",
+  // TODO New key - Add a translation
+  "workflow-item.delete.title": "Delete workflow item",
+  
+  // "workflow-item.delete.header": "Delete workflow item",
+  // TODO New key - Add a translation
+  "workflow-item.delete.header": "Delete workflow item",
+  
+  // "workflow-item.delete.button.cancel": "Cancel",
+  // TODO New key - Add a translation
+  "workflow-item.delete.button.cancel": "Cancel",
+  
+  // "workflow-item.delete.button.confirm": "Delete",
+  // TODO New key - Add a translation
+  "workflow-item.delete.button.confirm": "Delete",
+  
+  
+  // "workflow-item.send-back.notification.success.title": "Sent back to submitter",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.notification.success.title": "Sent back to submitter",
+  
+  // "workflow-item.send-back.notification.success.content": "This workflow item was successfully sent back to the submitter",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.notification.success.content": "This workflow item was successfully sent back to the submitter",
+  
+  // "workflow-item.send-back.notification.error.title": "Something went wrong",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.notification.error.title": "Something went wrong",
+  
+  // "workflow-item.send-back.notification.error.content": "The workflow item could not be sent back to the submitter",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.notification.error.content": "The workflow item could not be sent back to the submitter",
+  
+  // "workflow-item.send-back.title": "Send workflow item back to submitter",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.title": "Send workflow item back to submitter",
+  
+  // "workflow-item.send-back.header": "Send workflow item back to submitter",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.header": "Send workflow item back to submitter",
+  
+  // "workflow-item.send-back.button.cancel": "Cancel",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.button.cancel": "Cancel",
+  
+  // "workflow-item.send-back.button.confirm": "Send back",
+  // TODO New key - Add a translation
+  "workflow-item.send-back.button.confirm": "Send back",
   
   
 
