@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormBuilder } from '@angular/forms';
 
 import { BehaviorSubject, of as observableOf, Subscription } from 'rxjs';
-import { catchError, map, take, tap } from 'rxjs/operators';
+import { catchError, map, take } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -18,7 +18,7 @@ import { NotificationsService } from '../../notifications/notifications.service'
  */
 @Component({
   selector: 'ds-reserve-doi-actions',
-  styleUrls: ['./reserve-doi-actions.component.html'],
+  styleUrls: ['./reserve-doi-actions.component.scss'],
   templateUrl: './reserve-doi-actions.component.html',
 })
 export class ReserveDoiActionsComponent implements OnInit, OnDestroy {

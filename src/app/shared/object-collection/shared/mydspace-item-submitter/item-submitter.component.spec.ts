@@ -8,10 +8,11 @@ import { cold } from 'jasmine-marbles';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { ItemSubmitterComponent } from './item-submitter.component';
 import { WorkflowItem } from '../../../../core/submission/models/workflowitem.model';
-import { EPersonMock } from '../../../testing/eperson-mock';
-import { MockTranslateLoader } from '../../../mocks/mock-translate-loader';
+import { PoolTask } from '../../../../core/tasks/models/pool-task-object.model';
+import { EPersonMock } from '../../../testing/eperson.mock';
+import { TranslateLoaderMock } from '../../../mocks/translate-loader.mock';
 import { By } from '@angular/platform-browser';
-import { createSuccessfulRemoteDataObject } from '../../../testing/utils';
+import { createSuccessfulRemoteDataObject } from '../../../remote-data.utils';
 import { Observable } from 'rxjs/internal/Observable';
 import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
 
@@ -34,7 +35,7 @@ describe('ItemSubmitterComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: MockTranslateLoader
+            useClass: TranslateLoaderMock
           }
         })
       ],
