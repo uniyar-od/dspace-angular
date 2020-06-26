@@ -21,6 +21,7 @@ import { ItemSearchResultListElementSubmissionComponent } from '../shared/object
 import { WorkflowItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workflow-item-search-result/workflow-item-search-result-list-element.component';
 import { PoolSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pool-search-result/pool-search-result-detail-element.component';
 import { OtherWorkspaceItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/other-workspace-item-search-result/other-workspace-item-search-result-list-element.component';
+import { MyDSpaceNewSubmissionDropdownComponent } from './my-dspace-new-submission/my-dspace-new-submission-dropdown/my-dspace-new-submission-dropdown.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { OtherWorkspaceItemSearchResultListElementComponent } from '../shared/ob
     PoolSearchResultDetailElementComponent,
     MyDSpaceNewSubmissionComponent,
     ItemSearchResultListElementSubmissionComponent,
-    OtherWorkspaceItemSearchResultListElementComponent
+    OtherWorkspaceItemSearchResultListElementComponent,
+    MyDSpaceNewSubmissionDropdownComponent
   ],
   providers: [
     MyDSpaceGuard,
