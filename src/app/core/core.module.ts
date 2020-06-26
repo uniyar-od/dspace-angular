@@ -69,13 +69,8 @@ import { ItemDataService } from './data/item-data.service';
 import { LicenseDataService } from './data/license-data.service';
 import { LookupRelationService } from './data/lookup-relation.service';
 import { MappedCollectionsReponseParsingService } from './data/mapped-collections-reponse-parsing.service';
-import { MetadatafieldParsingService } from './data/metadatafield-parsing.service';
-import { MetadataschemaParsingService } from './data/metadataschema-parsing.service';
 import { MyDSpaceResponseParsingService } from './data/mydspace-response-parsing.service';
 import { ObjectUpdatesService } from './data/object-updates/object-updates.service';
-import { RegistryBitstreamformatsResponseParsingService } from './data/registry-bitstreamformats-response-parsing.service';
-import { RegistryMetadatafieldsResponseParsingService } from './data/registry-metadatafields-response-parsing.service';
-import { RegistryMetadataschemasResponseParsingService } from './data/registry-metadataschemas-response-parsing.service';
 import { RelationshipTypeService } from './data/relationship-type.service';
 import { RelationshipService } from './data/relationship.service';
 import { ResourcePolicyService } from './resource-policy/resource-policy.service';
@@ -143,11 +138,19 @@ import { Version } from './shared/version.model';
 import { VersionHistory } from './shared/version-history.model';
 import { WorkflowActionDataService } from './data/workflow-action-data.service';
 import { WorkflowAction } from './tasks/models/workflow-action-object.model';
+import { MetadataSchemaDataService } from './data/metadata-schema-data.service';
+import { MetadataFieldDataService } from './data/metadata-field-data.service';
 import { LocaleInterceptor } from './locale/locale.interceptor';
 import { AuthorityTreeviewService } from '../shared/authority-treeview/authority-treeview.service';
 import { DsDynamicTypeBindRelationService } from '../shared/form/builder/ds-dynamic-form-ui/ds-dynamic-type-bind-relation.service';
 import { Authority } from './integration/models/authority.model';
 import { AuthorityEntry } from './integration/models/authority-entry.model';
+import { TabDataService } from './layout/tab-data.service';
+import { Tab } from './layout/models/tab.model';
+import { BoxDataService } from './layout/box-data.service';
+import { Box } from './layout/models/box.model';
+import { MetadataComponentsDataService } from './layout/metadata-components-data.service';
+import { MetadataComponent } from './layout/models/metadata-component.model';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -204,9 +207,6 @@ const PROVIDERS = [
   FacetValueResponseParsingService,
   FacetValueMapResponseParsingService,
   FacetConfigResponseParsingService,
-  RegistryMetadataschemasResponseParsingService,
-  RegistryMetadatafieldsResponseParsingService,
-  RegistryBitstreamformatsResponseParsingService,
   MappedCollectionsReponseParsingService,
   DebugResponseParsingService,
   SearchResponseParsingService,
@@ -226,8 +226,6 @@ const PROVIDERS = [
   JsonPatchOperationsBuilder,
   AuthorityService,
   IntegrationResponseParsingService,
-  MetadataschemaParsingService,
-  MetadatafieldParsingService,
   UploaderService,
   UUIDService,
   NotificationsService,
@@ -268,6 +266,8 @@ const PROVIDERS = [
   LicenseDataService,
   ItemTypeDataService,
   WorkflowActionDataService,
+  MetadataSchemaDataService,
+  MetadataFieldDataService,
   // register AuthInterceptor as HttpInterceptor
   {
     provide: HTTP_INTERCEPTORS,
@@ -283,7 +283,10 @@ const PROVIDERS = [
   NotificationsService,
   FilteredDiscoveryPageResponseParsingService,
   { provide: NativeWindowService, useFactory: NativeWindowFactory },
-  AuthorityTreeviewService
+  AuthorityTreeviewService,
+  TabDataService,
+  BoxDataService,
+  MetadataComponentsDataService
 ];
 
 /**
@@ -326,7 +329,10 @@ export const models =
     ExternalSourceEntry,
     Version,
     VersionHistory,
-    WorkflowAction
+    WorkflowAction,
+    Tab,
+    Box,
+    MetadataComponent
   ];
 
 @NgModule({
