@@ -27,48 +27,51 @@
       <h4 *ngIf="!(searching | async) && dataSource.data.length === 0" class="text-center text-muted mt-4" >
         <span>{{'treeview.search.no-result' | translate}}</span>
       </h4>
-      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+      <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl">
         <!-- Leaf node -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-          <button mat-icon-button disabled></button>
-          <button class="btn btn-outline-link btn-sm text-left"
-                  [class.text-success]="node.item?.value === selectedItem?.value"
-                  [disabled]="!node.item?.selectable"
-                  [ngbTooltip]="node.item?.otherInformation?.note"
-                  container="body"
-                  (click)="onSelect(node.item)">{{node.item.display}}</button>
-        </mat-tree-node>
+        <cdk-tree-node *cdkTreeNodeDef="let node" cdkTreeNodePadding class="d-flex">
+            <button type="button" class="btn btn-default" cdkTreeNodeToggle>
+              <span class="fas fa-angle-right fa-2x invisible" aria-hidden="true"></span>
+            </button>
+            <button class="btn btn-outline-link btn-sm text-left"
+                    [class.text-success]="node.item?.value === selectedItem?.value"
+                    [disabled]="!node.item?.selectable"
+                    [ngbTooltip]="node.item?.otherInformation?.note"
+                    [openDelay]="500"
+                    container="body"
+                    (click)="onSelect(node.item)">{{node.item.display}}</button>
+        </cdk-tree-node>
 
         <!-- expandable node -->
-        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-          <button mat-icon-button
-                  [attr.aria-label]="'toggle ' + node.filename"
-                  (click)="loadChildren(node)"
-                  matTreeNodeToggle>
-            <mat-icon class="mat-icon-rtl-mirror">
-              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-            </mat-icon>
-          </button>
-          <button class="btn btn-outline-link btn-sm text-left"
-                  [class.text-success]="node.item?.value === selectedItem?.value"
-                  [disabled]="!node.item?.selectable"
-                  [ngbTooltip]="node.item?.otherInformation?.note"
-                  container="body"
-                  (click)="onSelect(node.item)">{{node.item.display}}</button>
-        </mat-tree-node>
+        <cdk-tree-node *cdkTreeNodeDef="let node; when: hasChild" cdkTreeNodePadding class="d-flex">
+            <button type="button" class="btn btn-default" cdkTreeNodeToggle
+                    [attr.aria-label]="'toggle ' + node.name"
+                    (click)="loadChildren(node)">
+              <span class="fas {{treeControl.isExpanded(node) ? 'fa-angle-down' : 'fa-angle-right'}} fa-2x"
+                    aria-hidden="true"></span>
+            </button>
 
-        <mat-tree-node *matTreeNodeDef="let node; when: isLoadMore" matTreeNodePadding>
+            <button class="btn btn-outline-link btn-sm text-left"
+                    [class.text-success]="node.item?.value === selectedItem?.value"
+                    [disabled]="!node.item?.selectable"
+                    [ngbTooltip]="node.item?.otherInformation?.note"
+                    [openDelay]="500"
+                    container="body"
+                    (click)="onSelect(node.item)">{{node.item.display}}</button>
+        </cdk-tree-node>
+
+        <cdk-tree-node *cdkTreeNodeDef="let node; when: isLoadMore" cdkTreeNodePadding>
           <button class="btn btn-outline-secondary btn-sm" (click)="loadMore(node.loadMoreParentItem)">
             {{'treeview.load-more' | translate}}...
           </button>
-        </mat-tree-node>
+        </cdk-tree-node>
 
-        <mat-tree-node *matTreeNodeDef="let node; when: isLoadMoreRoot">
+        <cdk-tree-node *cdkTreeNodeDef="let node; when: isLoadMoreRoot">
           <button class="btn btn-outline-secondary btn-sm" (click)="loadMoreRoot(node)">
             {{'treeview.load-more' | translate}}...
           </button>
-        </mat-tree-node>
-      </mat-tree>
+        </cdk-tree-node>
+      </cdk-tree>
     </div>
   </div>
 </div>

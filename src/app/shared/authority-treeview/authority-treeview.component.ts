@@ -123,7 +123,9 @@ export class AuthorityTreeviewComponent implements OnDestroy, OnInit {
       })
     );
 
-    this.searchOptions = Object.assign(new IntegrationSearchOptions(), this.searchOptions);
+    this.searchOptions = Object.assign(new IntegrationSearchOptions(), this.searchOptions , {
+      elementsPerPage: 5
+    });
 
     const descriptionLabel = 'tree.description.' + this.searchOptions.name;
     this.description = this.translate.get(descriptionLabel).pipe(

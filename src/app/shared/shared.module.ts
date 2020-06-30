@@ -174,7 +174,6 @@ import { SidebarDropdownComponent } from './sidebar/sidebar-dropdown.component';
 import { SidebarFilterComponent } from './sidebar/filter/sidebar-filter.component';
 import { SidebarFilterSelectedOptionComponent } from './sidebar/filter/sidebar-filter-selected-option.component';
 import { AuthorityTreeviewComponent } from './authority-treeview/authority-treeview.component';
-import { MaterialModule } from './material/material.module';
 import { DsDynamicRelationInlineGroupComponent } from './form/builder/ds-dynamic-form-ui/models/relation-inline-group/dynamic-relation-inline-group.components';
 import { MetadataRepresentationListComponent } from '../+item-page/simple/metadata-representation-list/metadata-representation-list.component';
 import { SelectableListItemControlComponent } from './object-collection/shared/selectable-list-item-control/selectable-list-item-control.component';
@@ -206,6 +205,7 @@ import { ResourcePolicyTargetResolver } from './resource-policies/resolvers/reso
 import { ResourcePolicyResolver } from './resource-policies/resolvers/resource-policy.resolver';
 import { EpersonSearchBoxComponent } from './resource-policies/form/eperson-group-list/eperson-search-box/eperson-search-box.component';
 import { GroupSearchBoxComponent } from './resource-policies/form/eperson-group-list/group-search-box/group-search-box.component';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -228,7 +228,7 @@ const MODULES = [
   TextMaskModule,
   MenuModule,
   DragDropModule,
-  MaterialModule
+  CdkTreeModule
 ];
 
 const ROOT_MODULES = [
