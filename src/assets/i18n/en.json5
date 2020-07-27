@@ -248,6 +248,8 @@
 
   "admin.access-control.epeople.form.groupsEPersonIsMemberOf": "Member of these groups:",
 
+  "admin.access-control.epeople.form.roles": "Roles",
+
   "admin.access-control.epeople.form.table.id": "ID",
 
   "admin.access-control.epeople.form.table.name": "Name",
@@ -302,6 +304,12 @@
   "admin.access-control.groups.form.groupName": "Group name",
 
   "admin.access-control.groups.form.groupDescription": "Description",
+
+  "admin.access-control.groups.form.groupType": "Type",
+
+  "admin.access-control.groups.form.groupType.normal": "Normal type",
+
+  "admin.access-control.groups.form.groupType.role": "Role type",
 
   "admin.access-control.groups.form.notification.created.success": "Successfully created Group \"{{name}}\"",
 

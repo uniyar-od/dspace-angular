@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import { of as observableOf } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ChangeDetectorRef } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -33,6 +33,10 @@ import { NotificationsServiceStub } from '../../../../shared/testing/notificatio
 import { TranslateLoaderMock } from '../../../../shared/mocks/translate-loader.mock';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthServiceStub } from '../../../../shared/testing/auth-service.stub';
+import { GroupDataService } from 'src/app/core/eperson/group-data.service';
+import { Group } from 'src/app/core/eperson/models/group.model';
+import { RoleGroupMock, RoleGroupMock2 } from 'src/app/shared/testing/group-mock';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('EPersonFormComponent', () => {
   let component: EPersonFormComponent;
@@ -42,6 +46,7 @@ describe('EPersonFormComponent', () => {
 
   let mockEPeople;
   let ePersonDataServiceStub: any;
+  let groupDataServiceStub: any;
   let authService: AuthServiceStub;
 
   beforeEach(async(() => {
@@ -105,11 +110,18 @@ describe('EPersonFormComponent', () => {
 
       }
     };
+
+    groupDataServiceStub = {
+      searchGroups(query: string): Observable<RemoteData<PaginatedList<Group>>> {
+        return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [RoleGroupMock, RoleGroupMock2]));
+      }
+    };
+
     builderService = getMockFormBuilderService();
     translateService = getMockTranslateService();
     authService = new AuthServiceStub();
     TestBed.configureTestingModule({
-      imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule,
+      imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule, RouterTestingModule,
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
@@ -120,6 +132,7 @@ describe('EPersonFormComponent', () => {
       declarations: [EPeopleRegistryComponent, EPersonFormComponent],
       providers: [EPersonFormComponent,
         { provide: EPersonDataService, useValue: ePersonDataServiceStub },
+        { provide: GroupDataService, useValue: groupDataServiceStub },
         { provide: NotificationsService, useValue: new NotificationsServiceStub() },
         { provide: FormBuilderService, useValue: builderService },
         { provide: DSOChangeAnalyzer, useValue: {} },
@@ -130,7 +143,8 @@ describe('EPersonFormComponent', () => {
         { provide: RemoteDataBuildService, useValue: {} },
         { provide: HALEndpointService, useValue: {} },
         { provide: AuthService, useValue: authService },
-        EPeopleRegistryComponent
+        EPeopleRegistryComponent,
+        ChangeDetectorRef
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -173,18 +187,32 @@ describe('EPersonFormComponent', () => {
               value: lastName
             },
           ],
+          'perucris.eperson.role': [
+            {
+              value: RoleGroupMock2.name,
+              authority: RoleGroupMock2.id,
+              confidence: 600
+            },
+          ]
         },
         email: email,
         canLogIn: canLogIn,
         requireCertificate: requireCertificate,
       });
       spyOn(component.submitForm, 'emit');
+
       component.firstName.value = firstName;
       component.lastName.value = lastName;
       component.email.value = email;
       component.canLogIn.value = canLogIn;
       component.requireCertificate.value = requireCertificate;
+      component.roles.group.forEach((model) => {
+        if (model.name === RoleGroupMock2.id) {
+          model.value = true;
+        }
+      });
     });
+
     describe('without active EPerson', () => {
       beforeEach(() => {
         spyOn(ePersonDataServiceStub, 'getActiveEPerson').and.returnValue(observableOf(undefined));
@@ -215,6 +243,13 @@ describe('EPersonFormComponent', () => {
                 value: lastName
               },
             ],
+            'perucris.eperson.role': [
+              {
+                value: RoleGroupMock2.name,
+                authority: RoleGroupMock2.id,
+                confidence: 600
+              },
+            ]
           },
           email: email,
           canLogIn: canLogIn,

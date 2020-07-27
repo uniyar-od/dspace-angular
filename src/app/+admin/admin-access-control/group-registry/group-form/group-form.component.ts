@@ -5,6 +5,7 @@ import {
   DynamicFormControlModel,
   DynamicFormLayout,
   DynamicInputModel,
+  DynamicSelectModel,
   DynamicTextAreaModel
 } from '@ng-dynamic-forms/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -42,6 +43,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
    */
   groupName: DynamicInputModel;
   groupDescription: DynamicTextAreaModel;
+  groupType: DynamicSelectModel<string>;
 
   /**
    * A list of all dynamic input models
@@ -58,6 +60,11 @@ export class GroupFormComponent implements OnInit, OnDestroy {
       }
     },
     groupDescription: {
+      grid: {
+        host: 'row'
+      }
+    },
+    groupType: {
       grid: {
         host: 'row'
       }
@@ -105,7 +112,10 @@ export class GroupFormComponent implements OnInit, OnDestroy {
     combineLatest(
       this.translateService.get(`${this.messagePrefix}.groupName`),
       this.translateService.get(`${this.messagePrefix}.groupDescription`),
-    ).subscribe(([groupName, groupDescription]) => {
+      this.translateService.get(`${this.messagePrefix}.groupType`),
+      this.translateService.get(`${this.messagePrefix}.groupType.normal`),
+      this.translateService.get(`${this.messagePrefix}.groupType.role`)
+    ).subscribe(([groupName, groupDescription, groupType, normalType, roleType]) => {
       this.groupName = new DynamicInputModel({
         id: 'groupName',
         label: groupName,
@@ -121,10 +131,19 @@ export class GroupFormComponent implements OnInit, OnDestroy {
         name: 'groupDescription',
         required: false,
       });
+      this.groupType = new DynamicSelectModel<string>({
+        id: 'groupType',
+        name: 'groupType',
+        options: [{label: normalType, value: 'NORMAL'},{label: roleType, value: 'ROLE'}],
+        label: groupType,
+        value: 'NORMAL'
+      });
       this.formModel = [
         this.groupName,
-        this.groupDescription
+        this.groupDescription,
+        this.groupType
       ];
+
       this.formGroup = this.formBuilderService.createFormGroup(this.formModel);
       this.subs.push(this.groupDataService.getActiveGroup().subscribe((activeGroup: Group) => {
         if (activeGroup != null) {
@@ -132,10 +151,13 @@ export class GroupFormComponent implements OnInit, OnDestroy {
           this.formGroup.patchValue({
             groupName: activeGroup != null ? activeGroup.name : '',
             groupDescription: activeGroup != null ? activeGroup.firstMetadataValue('dc.description') : '',
+            groupType: activeGroup != null && activeGroup.firstMetadataValue('perucris.group.type') != null ?
+                activeGroup.firstMetadataValue('perucris.group.type') : 'NORMAL',
           });
           if (activeGroup.permanent) {
             this.formGroup.get('groupName').disable();
           }
+          this.formGroup.get('groupType').disable();
         }
       }));
     });
@@ -167,6 +189,11 @@ export class GroupFormComponent implements OnInit, OnDestroy {
                 value: this.groupDescription.value
               }
             ],
+            'perucris.group.type': [
+              {
+                value: this.groupType.value
+              }
+            ]
           },
         };
         if (group === null) {

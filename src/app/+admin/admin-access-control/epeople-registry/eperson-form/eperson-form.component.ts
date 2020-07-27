@@ -1,6 +1,7 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
+  DynamicCheckboxGroupModel, 
   DynamicCheckboxModel,
   DynamicFormControlModel,
   DynamicFormLayout,
@@ -17,7 +18,7 @@ import { EPersonDataService } from '../../../../core/eperson/eperson-data.servic
 import { GroupDataService } from '../../../../core/eperson/group-data.service';
 import { EPerson } from '../../../../core/eperson/models/eperson.model';
 import { Group } from '../../../../core/eperson/models/group.model';
-import { getRemoteDataPayload, getSucceededRemoteData } from '../../../../core/shared/operators';
+import { getFirstSucceededRemoteListPayload, getRemoteDataPayload, getSucceededRemoteData } from '../../../../core/shared/operators';
 import { hasValue } from '../../../../shared/empty.util';
 import { FormBuilderService } from '../../../../shared/form/builder/form-builder.service';
 import { NotificationsService } from '../../../../shared/notifications/notifications.service';
@@ -51,6 +52,10 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
   firstName: DynamicInputModel;
   lastName: DynamicInputModel;
   email: DynamicInputModel;
+  /**
+   * Dynamic checkbox group model for the eperson roles.
+   */
+  roles: DynamicCheckboxGroupModel;
   // booleans
   canLogIn: DynamicCheckboxModel;
   requireCertificate: DynamicCheckboxModel;
@@ -75,6 +80,11 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
       }
     },
     email: {
+      grid: {
+        host: 'row'
+      }
+    },
+    roles: {
       grid: {
         host: 'row'
       }
@@ -158,7 +168,8 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
               private formBuilderService: FormBuilderService,
               private translateService: TranslateService,
               private notificationsService: NotificationsService,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private changeDetectorRef: ChangeDetectorRef) {
     this.subs.push(this.epersonService.getActiveEPerson().subscribe((eperson: EPerson) => {
       this.epersonInitial = eperson;
       if (hasValue(eperson)) {
@@ -172,10 +183,13 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
       this.translateService.get(`${this.messagePrefix}.firstName`),
       this.translateService.get(`${this.messagePrefix}.lastName`),
       this.translateService.get(`${this.messagePrefix}.email`),
+      this.translateService.get(`${this.messagePrefix}.roles`),
       this.translateService.get(`${this.messagePrefix}.canLogIn`),
       this.translateService.get(`${this.messagePrefix}.requireCertificate`),
       this.translateService.get(`${this.messagePrefix}.emailHint`),
-    ).subscribe(([firstName, lastName, email, canLogIn, requireCertificate, emailHint]) => {
+      this.groupsDataService.searchGroups('ROLE:').pipe(getFirstSucceededRemoteListPayload())
+    ).subscribe(([firstName, lastName, email, roles, canLogIn, requireCertificate, emailHint, groups]) => {
+
       this.firstName = new DynamicInputModel({
         id: 'firstName',
         label: firstName,
@@ -205,6 +219,12 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
         required: true,
         hint: emailHint
       });
+      this.roles = new DynamicCheckboxGroupModel({
+        id: 'roles',
+        label: roles,
+        name: 'roles',
+        group: this.initDynamicCheckboxModels(groups)
+      });
       this.canLogIn = new DynamicCheckboxModel(
         {
           id: 'canLogIn',
@@ -223,10 +243,13 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
         this.firstName,
         this.lastName,
         this.email,
+        this.roles,
         this.canLogIn,
         this.requireCertificate,
       ];
       this.formGroup = this.formBuilderService.createFormGroup(this.formModel);
+      this.changeDetectorRef.detectChanges();
+
       this.subs.push(this.epersonService.getActiveEPerson().subscribe((eperson: EPerson) => {
         if (eperson != null) {
           this.groups = this.groupsDataService.findAllByHref(eperson._links.groups.href, {
@@ -238,9 +261,22 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
           firstName: eperson != null ? eperson.firstMetadataValue('eperson.firstname') : '',
           lastName: eperson != null ? eperson.firstMetadataValue('eperson.lastname') : '',
           email: eperson != null ? eperson.email : '',
+          roles: eperson != null ? this.initRoleValues(eperson) : {},
           canLogIn: eperson != null ? eperson.canLogIn : true,
           requireCertificate: eperson != null ? eperson.requireCertificate : false
         });
+
+        if (eperson != null) {
+          const epersonRoles = eperson.allMetadata('perucris.eperson.role');
+          for (const checkboxModel of this.roles.group) {
+            for (const epersonRole of epersonRoles) {
+              if ( checkboxModel.id === epersonRole.authority ) {
+                checkboxModel.value = true;
+              }
+            }
+          }
+        }
+
       }));
     });
   }
@@ -274,6 +310,7 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
                 value: this.lastName.value
               },
             ],
+            'perucris.eperson.role' : this.getSelectedRoles()
           },
           email: this.email.value,
           canLogIn: this.canLogIn.value,
@@ -327,6 +364,7 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
             value: (this.lastName.value ? this.lastName.value : ePerson.firstMetadataValue('eperson.lastname'))
           },
         ],
+        'perucris.eperson.role' : this.getSelectedRoles()
       },
       email: (hasValue(values.email) ? values.email : ePerson.email),
       canLogIn: (hasValue(values.canLogIn) ? values.canLogIn : ePerson.canLogIn),
@@ -414,5 +452,37 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onCancel();
     this.subs.filter((sub) => hasValue(sub)).forEach((sub) => sub.unsubscribe());
+  }
+
+  private initRoleValues(eperson: EPerson) {
+    const roleValues = {}
+    eperson.allMetadata('perucris.eperson.role')
+      .forEach((metadata) => roleValues[metadata.authority] = true);
+    return roleValues;
+  }
+
+  private initDynamicCheckboxModels(groups: Group[]): DynamicCheckboxModel[] {
+    return groups.map( (group) =>
+      new DynamicCheckboxModel({
+        id: group.id,
+        label: group.name,
+        value: false
+      },
+      {
+        element: {
+          control: 'btn-outline-primary'
+      }
+      })
+    );
+  }
+
+  private getSelectedRoles() {
+    return this.roles.group
+      .filter((model) => model.value === true)
+      .map((model) => new Object({
+        value: model.label,
+        authority: model.name,
+        confidence: 600
+      }));
   }
 }

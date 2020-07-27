@@ -162,7 +162,26 @@ export class EPersonDataService extends DataService<EPerson> {
    * @param newEPerson
    */
   private generateOperations(oldEPerson: EPerson, newEPerson: EPerson): Operation[] {
-    let operations = this.comparator.diff(oldEPerson, newEPerson).filter((operation: Operation) => operation.op === 'replace');
+    let operations = this.comparator.diff(oldEPerson, newEPerson)
+      .filter((operation: Operation) => operation.op === 'replace' && !operation.path.startsWith('/metadata/perucris.eperson.role'));
+
+    const oldRoles = oldEPerson.allMetadata('perucris.eperson.role').sort((r1, r2) => (r2.place - r1.place));
+    for (const oldRole of oldRoles) {
+      if ( !newEPerson.hasMetadata('perucris.eperson.role', { authority: oldRole.authority } ) ) {
+        operations = [...operations, {
+          op: 'remove', path: '/metadata/perucris.eperson.role/' + oldRole.place
+        }];
+      }
+    }
+
+    for (const newRole of newEPerson.allMetadata('perucris.eperson.role')) {
+      if ( !oldEPerson.hasMetadata('perucris.eperson.role', { authority: newRole.authority } ) ) {
+        operations = [...operations, {
+          op: 'add', path: '/metadata/perucris.eperson.role', value: newRole
+        }];
+      }
+    }
+
     if (hasValue(oldEPerson.email) && oldEPerson.email !== newEPerson.email) {
       operations = [...operations, {
         op: 'replace', path: '/email', value: newEPerson.email

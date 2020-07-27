@@ -94,9 +94,6 @@ export class GroupsRegistryComponent implements OnInit {
    * Delete Group
    */
   deleteGroup(group: Group) {
-    // TODO (backend)
-    console.log('TODO implement editGroup', group);
-    this.notificationsService.error('TODO implement deleteGroup (not yet implemented in backend)');
     if (hasValue(group.id)) {
       this.groupService.deleteGroup(group).pipe(take(1)).subscribe((success: boolean) => {
         if (success) {

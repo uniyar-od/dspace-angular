@@ -398,4 +398,13 @@ export class GroupDataService extends DataService<Group> {
       })
     );
   }
+
+  /**
+   * Returns true if the active group is a rule group.
+   */
+  public isActiveGroupRule(): Observable<boolean> {
+    return this.getActiveGroup().pipe (map( (activeGroup) => {
+      return activeGroup != null && activeGroup.firstMetadataValue('perucris.group.type') === 'ROLE';
+    }))
+  }
 }
