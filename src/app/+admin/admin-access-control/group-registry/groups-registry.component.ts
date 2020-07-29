@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+
 import { PaginatedList } from '../../../core/data/paginated-list';
 import { RemoteData } from '../../../core/data/remote-data';
 import { EPersonDataService } from '../../../core/eperson/eperson-data.service';
@@ -147,5 +149,13 @@ export class GroupsRegistryComponent implements OnInit {
    */
   getOptionalComColFromName(groupName: string): string {
     return this.groupService.getUUIDFromString(groupName);
+  }
+
+  /**
+   * Returns true if the given group represent a Role.
+   * @param group the group to check
+   */
+  isRole(group: Group): boolean {
+    return group.firstMetadataValue('perucris.group.type') === 'ROLE';
   }
 }

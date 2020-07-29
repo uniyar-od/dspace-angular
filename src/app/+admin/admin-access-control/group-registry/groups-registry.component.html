@@ -45,6 +45,7 @@
               <th scope="col">{{messagePrefix + 'table.id' | translate}}</th>
               <th scope="col">{{messagePrefix + 'table.name' | translate}}</th>
               <th scope="col">{{messagePrefix + 'table.members' | translate}}</th>
+              <th scope="col">{{messagePrefix + 'table.role' | translate}}</th>
               <!--              <th scope="col">{{messagePrefix + 'table.comcol' | translate}}</th>-->
               <th>{{messagePrefix + 'table.edit' | translate}}</th>
             </tr>
@@ -55,6 +56,7 @@
               <td>{{group.name}}</td>
               <td>{{(getMembers(group) | async)?.payload?.totalElements + (getSubgroups(group) | async)?.payload?.totalElements}}</td>
               <!--              <td>{{getOptionalComColFromName(group.name)}}</td>-->
+              <td><input type="checkbox" disabled="true" [checked]="isRole(group)" /></td>
               <td>
                 <div class="btn-group edit-field">
                   <button [routerLink]="groupService.getGroupEditPageRouterLink(group)"

@@ -268,7 +268,7 @@
 
   "admin.access-control.groups.title": "DSpace Angular :: Groups",
 
-  "admin.access-control.groups.head": "Groups",
+  "admin.access-control.groups.head": "Groups/Roles",
 
   "admin.access-control.groups.button.add": "Add group",
 
@@ -291,6 +291,8 @@
   "admin.access-control.groups.table.edit.buttons.edit": "Edit \"{{name}}\"",
 
   "admin.access-control.groups.table.edit.buttons.remove": "Delete \"{{name}}\"",
+
+  "admin.access-control.groups.table.role": "Role",
 
   "admin.access-control.groups.no-items": "No groups found with this in their name or this as UUID",
 
