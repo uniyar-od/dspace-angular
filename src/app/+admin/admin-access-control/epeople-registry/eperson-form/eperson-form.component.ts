@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import {
-  DynamicCheckboxGroupModel, 
+  DynamicCheckboxGroupModel,
   DynamicCheckboxModel,
   DynamicFormControlModel,
   DynamicFormLayout,
-  DynamicInputModel
+  DynamicInputModel,
+  DynamicFormValueControlModel
 } from '@ng-dynamic-forms/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription, combineLatest, of } from 'rxjs';
@@ -184,11 +185,22 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
       this.translateService.get(`${this.messagePrefix}.lastName`),
       this.translateService.get(`${this.messagePrefix}.email`),
       this.translateService.get(`${this.messagePrefix}.roles`),
+      this.translateService.get(`${this.messagePrefix}.rolesNoAvailable`),
       this.translateService.get(`${this.messagePrefix}.canLogIn`),
       this.translateService.get(`${this.messagePrefix}.requireCertificate`),
       this.translateService.get(`${this.messagePrefix}.emailHint`),
       this.groupsDataService.searchGroups('ROLE:').pipe(getFirstSucceededRemoteListPayload())
-    ).subscribe(([firstName, lastName, email, roles, canLogIn, requireCertificate, emailHint, groups]) => {
+    ).subscribe(([firstName, lastName, email, roles, rolesNoAvailable, canLogIn, requireCertificate, emailHint, groups]) => {
+
+      const roleCheckboxModels = this.initDynamicCheckboxModels(groups);
+      if ( roleCheckboxModels.length === 0) {
+        roleCheckboxModels.push(new DynamicCheckboxModel({
+          id: 'rolesNoAvailable',
+          label: rolesNoAvailable,
+          value: false,
+          disabled: true
+        }));
+      }
 
       this.firstName = new DynamicInputModel({
         id: 'firstName',
@@ -223,7 +235,7 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
         id: 'roles',
         label: roles,
         name: 'roles',
-        group: this.initDynamicCheckboxModels(groups)
+        group: roleCheckboxModels
       });
       this.canLogIn = new DynamicCheckboxModel(
         {
