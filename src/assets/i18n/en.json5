@@ -300,6 +300,10 @@
 
   "admin.access-control.groups.notification.deleted.failure": "Failed to delete group \"{{name}}\"",
 
+  "admin.access-control.groups.notification.edit.success": "Successfully edited group \"{{name}}\"",
+
+  "admin.access-control.groups.notification.edit.failure": "Failed to edit group \"{{name}}\"",
+
 
   "admin.access-control.groups.form.head.create": "Create group",
 
@@ -2165,6 +2169,8 @@
 
   "profile.card.security": "Security",
 
+  "profile.card.researcher": "Researcher Profile",
+
   "profile.form.submit": "Update Profile",
 
   "profile.groups.head": "Authorization groups you belong to",
@@ -2352,6 +2358,28 @@
   "relationships.isVolumeOf": "Journal Volumes",
 
   "relationships.isContributorOf": "Contributors",
+
+  
+
+  "researcher.profile.action.processing" : "Processing...",
+
+  "researcher.profile.associated": "Researcher profile associated",
+
+  "researcher.profile.create.new": "Create new",
+
+  "researcher.profile.delete": "Delete",
+
+  "researcher.profile.expose": "Expose",
+
+  "researcher.profile.hide": "Hide",
+
+  "researcher.profile.not.associated": "Researcher profile not yet associated",
+
+  "researcher.profile.view": "View",
+
+  "researcher.profile.private.visibility" : "PRIVATE",
+
+  "researcher.profile.public.visibility" : "PUBLIC",
 
 
 
