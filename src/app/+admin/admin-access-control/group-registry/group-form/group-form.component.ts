@@ -6,7 +6,8 @@ import {
   DynamicFormLayout,
   DynamicInputModel,
   DynamicSelectModel,
-  DynamicTextAreaModel
+  DynamicTextAreaModel,
+  DynamicRadioGroupModel
 } from '@ng-dynamic-forms/core';
 import { TranslateService } from '@ngx-translate/core';
 import { combineLatest } from 'rxjs/internal/observable/combineLatest';
@@ -44,6 +45,7 @@ export class GroupFormComponent implements OnInit, OnDestroy {
   groupName: DynamicInputModel;
   groupDescription: DynamicTextAreaModel;
   groupType: DynamicSelectModel<string>;
+  groupStatus: DynamicRadioGroupModel<string>;
 
   /**
    * A list of all dynamic input models
@@ -69,6 +71,12 @@ export class GroupFormComponent implements OnInit, OnDestroy {
         host: 'row'
       }
     },
+    groupStatus: {
+      grid: {
+        host: 'row',
+        option: 'btn-outline-secondary'
+      }
+    }
   };
 
   /**
@@ -114,8 +122,11 @@ export class GroupFormComponent implements OnInit, OnDestroy {
       this.translateService.get(`${this.messagePrefix}.groupDescription`),
       this.translateService.get(`${this.messagePrefix}.groupType`),
       this.translateService.get(`${this.messagePrefix}.groupType.normal`),
-      this.translateService.get(`${this.messagePrefix}.groupType.role`)
-    ).subscribe(([groupName, groupDescription, groupType, normalType, roleType]) => {
+      this.translateService.get(`${this.messagePrefix}.groupType.role`),
+      this.translateService.get(`${this.messagePrefix}.groupStatus`),
+      this.translateService.get(`${this.messagePrefix}.groupStatus.enabled`),
+      this.translateService.get(`${this.messagePrefix}.groupStatus.disabled`)
+    ).subscribe(([groupName, groupDescription, groupType, normalType, roleType, groupStatus, enabledStatus, disabledStatus]) => {
       this.groupName = new DynamicInputModel({
         id: 'groupName',
         label: groupName,
@@ -138,10 +149,18 @@ export class GroupFormComponent implements OnInit, OnDestroy {
         label: groupType,
         value: 'NORMAL'
       });
+      this.groupStatus = new DynamicRadioGroupModel<string>({
+        id: 'groupStatus',
+        name: 'groupStatus',
+        options: [{label: enabledStatus, value: 'ENABLED'},{label: disabledStatus, value: 'DISABLED'}],
+        label: groupStatus,
+        value: 'ENABLED'
+      });
       this.formModel = [
         this.groupName,
         this.groupDescription,
-        this.groupType
+        this.groupType,
+        this.groupStatus
       ];
 
       this.formGroup = this.formBuilderService.createFormGroup(this.formModel);
@@ -280,6 +299,8 @@ export class GroupFormComponent implements OnInit, OnDestroy {
           if (response.isSuccessful) {
             this.notificationsService.success(
               this.translateService.get('admin.access-control.groups.notification.edit.success', { name: group.name }));
+            this.groupDataService.clearGroupLinkRequests(group._links.subgroups.href);
+            this.groupDataService.clearGroupLinkRequests(group._links.epersons.href);
             this.router.navigate(['groups']);
           } else {
             this.notificationsService.error(
