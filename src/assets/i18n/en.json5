@@ -271,6 +271,10 @@
 
   "admin.access-control.groups.badge.permanent": "Permanent",
 
+  "admin.access-control.groups.badge.role": "Role",
+
+  "admin.access-control.groups.badge.normal": "Normal",
+
   "admin.access-control.groups.title": "DSpace Angular :: Groups",
 
   "admin.access-control.groups.head": "Groups/Roles",
@@ -297,7 +301,7 @@
 
   "admin.access-control.groups.table.edit.buttons.edit": "Edit \"{{name}}\"",
 
-  "admin.access-control.groups.table.role": "Role",
+  "admin.access-control.groups.table.type": "Type",
 
   "admin.access-control.groups.table.status": "Status",
 

@@ -482,7 +482,7 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
       },
       {
         element: {
-          control: 'btn-outline-primary'
+          control: 'btn-outline-info'
       }
       })
     );

@@ -154,11 +154,15 @@ export class GroupsRegistryComponent implements OnInit {
   }
 
   /**
-   * Returns true if the given group represent a Role.
-   * @param group the group to check
+   * Returns the type of the given group (lowercase).
+   * @param group the group whose type to calculate
    */
-  isRole(group: Group): boolean {
-    return group.firstMetadataValue('perucris.group.type') === 'ROLE';
+  getGroupType(group: Group): string {
+    const type = group.firstMetadataValue('perucris.group.type');
+    if (!type) {
+      return 'normal';
+    }
+    return type.toLowerCase();
   }
 
   /**
