@@ -35,10 +35,10 @@ import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthServiceStub } from '../../../../shared/testing/auth-service.stub';
 import { GroupDataService } from 'src/app/core/eperson/group-data.service';
 import { Group } from 'src/app/core/eperson/models/group.model';
-import { RoleGroupMock, RoleGroupMock2 } from 'src/app/shared/testing/group-mock';
+import { RoleGroupMock, RoleGroupMock2, InstitutionalScopedRoleGroupMock, InstitutionalScopedRoleGroupMock2, InstitutionalRoleGroupMock } from 'src/app/shared/testing/group-mock';
 import { RouterTestingModule } from '@angular/router/testing';
 
-describe('EPersonFormComponent', () => {
+fdescribe('EPersonFormComponent', () => {
   let component: EPersonFormComponent;
   let fixture: ComponentFixture<EPersonFormComponent>;
   let translateService: TranslateService;
@@ -113,7 +113,14 @@ describe('EPersonFormComponent', () => {
 
     groupDataServiceStub = {
       searchGroups(query: string): Observable<RemoteData<PaginatedList<Group>>> {
-        return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [RoleGroupMock, RoleGroupMock2]));
+        if (query === 'ROLE:') {
+          return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [RoleGroupMock, RoleGroupMock2]));
+        } else {
+          return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [InstitutionalRoleGroupMock]));
+        }
+      },
+      findAllByHref(href: string): Observable<RemoteData<PaginatedList<Group>>> {
+        return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [InstitutionalScopedRoleGroupMock, InstitutionalScopedRoleGroupMock2]));
       }
     };
 
@@ -193,6 +200,20 @@ describe('EPersonFormComponent', () => {
               authority: RoleGroupMock2.id,
               confidence: 600
             },
+          ],
+          'perucris.eperson.institutional-role': [
+            {
+              value: InstitutionalRoleGroupMock.name,
+              authority: InstitutionalRoleGroupMock.id,
+              confidence: 600
+            },
+          ],
+          'perucris.eperson.institutional-scoped-role': [
+            {
+              value: InstitutionalScopedRoleGroupMock.name,
+              authority: InstitutionalScopedRoleGroupMock.id,
+              confidence: 600
+            },
           ]
         },
         email: email,
@@ -208,6 +229,11 @@ describe('EPersonFormComponent', () => {
       component.requireCertificate.value = requireCertificate;
       component.roles.group.forEach((model) => {
         if (model.name === RoleGroupMock2.id) {
+          model.value = true;
+        }
+      });
+      component.institutionalScopedRoles[0].group.forEach((model) => {
+        if (model.name === InstitutionalScopedRoleGroupMock.id) {
           model.value = true;
         }
       });
@@ -247,6 +273,20 @@ describe('EPersonFormComponent', () => {
               {
                 value: RoleGroupMock2.name,
                 authority: RoleGroupMock2.id,
+                confidence: 600
+              },
+            ],
+            'perucris.eperson.institutional-role': [
+              {
+                value: InstitutionalRoleGroupMock.name,
+                authority: InstitutionalRoleGroupMock.id,
+                confidence: 600
+              },
+            ],
+            'perucris.eperson.institutional-scoped-role': [
+              {
+                value: InstitutionalScopedRoleGroupMock.name,
+                authority: InstitutionalScopedRoleGroupMock.id,
                 confidence: 600
               },
             ]

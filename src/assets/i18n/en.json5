@@ -271,9 +271,11 @@
 
   "admin.access-control.groups.badge.permanent": "Permanent",
 
-  "admin.access-control.groups.badge.role": "Role",
+  "admin.access-control.groups.badge.institutional": "Institutional Role",
 
   "admin.access-control.groups.badge.normal": "Normal",
+
+  "admin.access-control.groups.badge.role": "Role",
 
   "admin.access-control.groups.title": "DSpace Angular :: Groups",
 
@@ -331,6 +333,8 @@
   "admin.access-control.groups.form.groupStatus.disabled": "Disabled",
 
   "admin.access-control.groups.form.groupType": "Type",
+
+  "admin.access-control.groups.form.groupType.institutional": "Institutional Role type",
 
   "admin.access-control.groups.form.groupType.normal": "Normal type",
 

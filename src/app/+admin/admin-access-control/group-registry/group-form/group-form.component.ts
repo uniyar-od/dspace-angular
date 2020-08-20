@@ -125,11 +125,14 @@ export class GroupFormComponent implements OnInit, OnDestroy {
       this.translateService.get(`${this.messagePrefix}.groupType`),
       this.translateService.get(`${this.messagePrefix}.groupType.normal`),
       this.translateService.get(`${this.messagePrefix}.groupType.role`),
+      this.translateService.get(`${this.messagePrefix}.groupType.institutional`),
       this.translateService.get(`${this.messagePrefix}.groupStatus`),
       this.translateService.get(`${this.messagePrefix}.groupStatus.enabled`),
       this.translateService.get(`${this.messagePrefix}.groupStatus.disabled`),
       this.groupDataService.getActiveGroup()
-    ).subscribe(([groupName, groupDescription, groupType, normalType, roleType, groupStatus, enabledStatus, disabledStatus, activeGroup]) => {
+    ).subscribe(([groupName, groupDescription, groupType, normalType, roleType, institutionalType,
+                  groupStatus, enabledStatus, disabledStatus, activeGroup]) => {
+
       this.groupName = new DynamicInputModel({
         id: 'groupName',
         label: groupName,
@@ -148,7 +151,9 @@ export class GroupFormComponent implements OnInit, OnDestroy {
       this.groupType = new DynamicSelectModel<string>({
         id: 'groupType',
         name: 'groupType',
-        options: [{label: normalType, value: 'NORMAL'},{label: roleType, value: 'ROLE'}],
+        options: [{label: normalType, value: 'NORMAL'},
+                  {label: roleType, value: 'ROLE'},
+                  {label: institutionalType, value: 'INSTITUTIONAL'}],
         label: groupType,
         value: 'NORMAL'
       });

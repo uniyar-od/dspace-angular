@@ -20,7 +20,7 @@
                (submitForm)="onSubmit()">
       </ds-form>
 
-      <ds-members-list *ngIf="groupBeingEdited != null && !(groupDataService.isActiveGroupRule() | async) && (groupDataService.isActiveGroupEnabled() | async)" 
+      <ds-members-list *ngIf="groupBeingEdited != null && !(groupDataService.isActiveGroupRole() | async) && (groupDataService.isActiveGroupEnabled() | async)" 
         [messagePrefix]="messagePrefix + '.members-list'">
       </ds-members-list>
       <ds-subgroups-list *ngIf="groupBeingEdited != null && (groupDataService.isActiveGroupEnabled() | async)" 
