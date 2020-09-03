@@ -1,18 +1,24 @@
-import { HttpClient } from '@angular/common/http';
-import { Store } from '@ngrx/store';
-import { of as observableOf } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { NO_ERRORS_SCHEMA, ChangeDetectorRef } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { Store } from '@ngrx/store';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { of as observableOf } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
+import { GroupDataService } from 'src/app/core/eperson/group-data.service';
+import { Group } from 'src/app/core/eperson/models/group.model';
+import { InstitutionalRoleGroupMock, InstitutionalScopedRoleGroupMock, InstitutionalScopedRoleGroupMock2, RoleGroupMock, RoleGroupMock2 } from 'src/app/shared/testing/group-mock';
+import { AuthService } from '../../../../core/auth/auth.service';
 import { RemoteDataBuildService } from '../../../../core/cache/builders/remote-data-build.service';
 import { ObjectCacheService } from '../../../../core/cache/object-cache.service';
 import { RestResponse } from '../../../../core/cache/response.models';
 import { DSOChangeAnalyzer } from '../../../../core/data/dso-change-analyzer.service';
+import { AuthorizationDataService } from '../../../../core/data/feature-authorization/authorization-data.service';
 import { PaginatedList } from '../../../../core/data/paginated-list';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { FindListOptions } from '../../../../core/data/request.models';
@@ -22,21 +28,17 @@ import { HALEndpointService } from '../../../../core/shared/hal-endpoint.service
 import { PageInfo } from '../../../../core/shared/page-info.model';
 import { UUIDService } from '../../../../core/shared/uuid.service';
 import { FormBuilderService } from '../../../../shared/form/builder/form-builder.service';
+import { getMockFormBuilderService } from '../../../../shared/mocks/form-builder-service.mock';
+import { TranslateLoaderMock } from '../../../../shared/mocks/translate-loader.mock';
+import { getMockTranslateService } from '../../../../shared/mocks/translate.service.mock';
 import { NotificationsService } from '../../../../shared/notifications/notifications.service';
+import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
+import { AuthServiceStub } from '../../../../shared/testing/auth-service.stub';
+import { EPersonMock, EPersonMock2 } from '../../../../shared/testing/eperson.mock';
+import { NotificationsServiceStub } from '../../../../shared/testing/notifications-service.stub';
+import { createPaginatedList } from '../../../../shared/testing/utils.test';
 import { EPeopleRegistryComponent } from '../epeople-registry.component';
 import { EPersonFormComponent } from './eperson-form.component';
-import { EPersonMock, EPersonMock2 } from '../../../../shared/testing/eperson.mock';
-import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-data.utils';
-import { getMockFormBuilderService } from '../../../../shared/mocks/form-builder-service.mock';
-import { getMockTranslateService } from '../../../../shared/mocks/translate.service.mock';
-import { NotificationsServiceStub } from '../../../../shared/testing/notifications-service.stub';
-import { TranslateLoaderMock } from '../../../../shared/mocks/translate-loader.mock';
-import { AuthService } from '../../../../core/auth/auth.service';
-import { AuthServiceStub } from '../../../../shared/testing/auth-service.stub';
-import { GroupDataService } from 'src/app/core/eperson/group-data.service';
-import { Group } from 'src/app/core/eperson/models/group.model';
-import { RoleGroupMock, RoleGroupMock2, InstitutionalScopedRoleGroupMock, InstitutionalScopedRoleGroupMock2, InstitutionalRoleGroupMock } from 'src/app/shared/testing/group-mock';
-import { RouterTestingModule } from '@angular/router/testing';
 
 fdescribe('EPersonFormComponent', () => {
   let component: EPersonFormComponent;
@@ -48,6 +50,8 @@ fdescribe('EPersonFormComponent', () => {
   let ePersonDataServiceStub: any;
   let groupDataServiceStub: any;
   let authService: AuthServiceStub;
+  let authorizationService: AuthorizationDataService;
+  let groupsDataService: GroupDataService;
 
   beforeEach(async(() => {
     mockEPeople = [EPersonMock, EPersonMock2];
@@ -127,6 +131,13 @@ fdescribe('EPersonFormComponent', () => {
     builderService = getMockFormBuilderService();
     translateService = getMockTranslateService();
     authService = new AuthServiceStub();
+    authorizationService = jasmine.createSpyObj('authorizationService', {
+      isAuthorized: observableOf(true)
+    });
+    groupsDataService = jasmine.createSpyObj('groupsDataService', {
+      findAllByHref: createSuccessfulRemoteDataObject$(createPaginatedList([])),
+      getGroupRegistryRouterLink: ''
+    });
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule, RouterTestingModule,
         TranslateModule.forRoot({
@@ -150,6 +161,8 @@ fdescribe('EPersonFormComponent', () => {
         { provide: RemoteDataBuildService, useValue: {} },
         { provide: HALEndpointService, useValue: {} },
         { provide: AuthService, useValue: authService },
+        { provide: AuthorizationDataService, useValue: authorizationService },
+        { provide: GroupDataService, useValue: groupsDataService },
         EPeopleRegistryComponent,
         ChangeDetectorRef
       ],

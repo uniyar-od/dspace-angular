@@ -5,28 +5,26 @@ import {
   DynamicCheckboxModel,
   DynamicFormControlModel,
   DynamicFormLayout,
-  DynamicInputModel,
-  DynamicFormValueControlModel,
-  DynamicFormArrayModel,
-  DynamicSelectModel
+  DynamicInputModel
 } from '@ng-dynamic-forms/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Subscription, combineLatest, of } from 'rxjs';
+import { combineLatest, of, Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { take, map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
+import { AuthService } from '../../../../core/auth/auth.service';
 import { RestResponse } from '../../../../core/cache/response.models';
+import { AuthorizationDataService } from '../../../../core/data/feature-authorization/authorization-data.service';
 import { PaginatedList } from '../../../../core/data/paginated-list';
 import { RemoteData } from '../../../../core/data/remote-data';
 import { EPersonDataService } from '../../../../core/eperson/eperson-data.service';
 import { GroupDataService } from '../../../../core/eperson/group-data.service';
 import { EPerson } from '../../../../core/eperson/models/eperson.model';
 import { Group } from '../../../../core/eperson/models/group.model';
-import { getFirstSucceededRemoteListPayload, getRemoteDataPayload, getSucceededRemoteData, getFirstSucceededRemoteDataPayload, getPaginatedListPayload } from '../../../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload, getFirstSucceededRemoteListPayload, getPaginatedListPayload, getRemoteDataPayload, getSucceededRemoteData } from '../../../../core/shared/operators';
 import { hasValue } from '../../../../shared/empty.util';
 import { FormBuilderService } from '../../../../shared/form/builder/form-builder.service';
 import { NotificationsService } from '../../../../shared/notifications/notifications.service';
 import { PaginationComponentOptions } from '../../../../shared/pagination/pagination-component-options.model';
-import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'ds-eperson-form',
@@ -134,9 +132,8 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
 
   /**
    * Observable whether or not the admin is allowed to impersonate the EPerson
-   * TODO: Initialize the observable once the REST API supports this (currently hardcoded to return true)
    */
-  canImpersonate$: Observable<boolean> = of(true);
+  canImpersonate$: Observable<boolean>;
 
   /**
    * List of subscriptions
@@ -178,7 +175,8 @@ export class EPersonFormComponent implements OnInit, OnDestroy {
               private translateService: TranslateService,
               private notificationsService: NotificationsService,
               private authService: AuthService,
-              private changeDetectorRef: ChangeDetectorRef) {
+              private changeDetectorRef: ChangeDetectorRef,
+              private authorizationService: AuthorizationDataService) {
     this.subs.push(this.epersonService.getActiveEPerson().subscribe((eperson: EPerson) => {
       this.epersonInitial = eperson;
       if (hasValue(eperson)) {
