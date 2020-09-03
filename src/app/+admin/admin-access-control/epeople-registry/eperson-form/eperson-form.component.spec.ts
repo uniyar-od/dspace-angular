@@ -36,11 +36,10 @@ import { createSuccessfulRemoteDataObject$ } from '../../../../shared/remote-dat
 import { AuthServiceStub } from '../../../../shared/testing/auth-service.stub';
 import { EPersonMock, EPersonMock2 } from '../../../../shared/testing/eperson.mock';
 import { NotificationsServiceStub } from '../../../../shared/testing/notifications-service.stub';
-import { createPaginatedList } from '../../../../shared/testing/utils.test';
 import { EPeopleRegistryComponent } from '../epeople-registry.component';
 import { EPersonFormComponent } from './eperson-form.component';
 
-fdescribe('EPersonFormComponent', () => {
+describe('EPersonFormComponent', () => {
   let component: EPersonFormComponent;
   let fixture: ComponentFixture<EPersonFormComponent>;
   let translateService: TranslateService;
@@ -51,7 +50,6 @@ fdescribe('EPersonFormComponent', () => {
   let groupDataServiceStub: any;
   let authService: AuthServiceStub;
   let authorizationService: AuthorizationDataService;
-  let groupsDataService: GroupDataService;
 
   beforeEach(async(() => {
     mockEPeople = [EPersonMock, EPersonMock2];
@@ -125,6 +123,9 @@ fdescribe('EPersonFormComponent', () => {
       },
       findAllByHref(href: string): Observable<RemoteData<PaginatedList<Group>>> {
         return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), [InstitutionalScopedRoleGroupMock, InstitutionalScopedRoleGroupMock2]));
+      },
+      getGroupRegistryRouterLink(): string {
+        return '';
       }
     };
 
@@ -133,10 +134,6 @@ fdescribe('EPersonFormComponent', () => {
     authService = new AuthServiceStub();
     authorizationService = jasmine.createSpyObj('authorizationService', {
       isAuthorized: observableOf(true)
-    });
-    groupsDataService = jasmine.createSpyObj('groupsDataService', {
-      findAllByHref: createSuccessfulRemoteDataObject$(createPaginatedList([])),
-      getGroupRegistryRouterLink: ''
     });
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule, RouterTestingModule,
@@ -162,7 +159,6 @@ fdescribe('EPersonFormComponent', () => {
         { provide: HALEndpointService, useValue: {} },
         { provide: AuthService, useValue: authService },
         { provide: AuthorizationDataService, useValue: authorizationService },
-        { provide: GroupDataService, useValue: groupsDataService },
         EPeopleRegistryComponent,
         ChangeDetectorRef
       ],
