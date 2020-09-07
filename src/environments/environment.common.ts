@@ -154,33 +154,37 @@ export const environment: GlobalConfig = {
     label: 'English',
     active: true,
   }, {
+    code: 'es',
+    label: 'Spanish',
+    active: true,
+  }, {
     code: 'de',
     label: 'Deutsch',
-    active: true,
+    active: false,
   }, {
     code: 'cs',
     label: 'Čeština',
-    active: true,
+    active: false,
   }, {
     code: 'nl',
     label: 'Nederlands',
-    active: true,
+    active: false,
   }, {
     code: 'pt',
     label: 'Português',
-    active: true,
+    active: false,
   }, {
     code: 'fr',
     label: 'Français',
-    active: true,
+    active: false,
   }, {
     code: 'lv',
     label: 'Latviešu',
-    active: true,
+    active: false,
   },{
     code: 'fi',
     label: 'Suomi',
-    active: true,
+    active: false,
   }],
   // Browse-By Pages
   browseBy: {

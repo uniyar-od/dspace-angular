@@ -260,6 +260,10 @@
 
   "admin.access-control.epeople.form.groupsEPersonIsMemberOf": "Member of these groups:",
 
+  "admin.access-control.epeople.form.roles": "Roles",
+
+  "admin.access-control.epeople.form.rolesNoAvailable": "No roles available",
+
   "admin.access-control.epeople.form.table.id": "ID",
 
   "admin.access-control.epeople.form.table.name": "Name",
@@ -273,10 +277,21 @@
   "admin.access-control.epeople.notification.deleted.success": "Successfully deleted EPerson: \"{{name}}\"",
 
 
+  "admin.access-control.groups.badge.disabled": "Disabled",
+
+  "admin.access-control.groups.badge.enabled": "Enabled",
+
+  "admin.access-control.groups.badge.permanent": "Permanent",
+
+  "admin.access-control.groups.badge.institutional": "Institutional Role",
+
+  "admin.access-control.groups.badge.normal": "Normal",
+
+  "admin.access-control.groups.badge.role": "Role",
 
   "admin.access-control.groups.title": "DSpace Angular :: Groups",
 
-  "admin.access-control.groups.head": "Groups",
+  "admin.access-control.groups.head": "Groups/Roles",
 
   "admin.access-control.groups.button.add": "Add group",
 
@@ -296,9 +311,13 @@
 
   "admin.access-control.groups.table.edit": "Edit",
 
+  "admin.access-control.groups.table.edit.buttons.disable": "Disable \"{{name}}\"",
+
   "admin.access-control.groups.table.edit.buttons.edit": "Edit \"{{name}}\"",
 
-  "admin.access-control.groups.table.edit.buttons.remove": "Delete \"{{name}}\"",
+  "admin.access-control.groups.table.type": "Type",
+
+  "admin.access-control.groups.table.status": "Status",
 
   "admin.access-control.groups.no-items": "No groups found with this in their name or this as UUID",
 
@@ -318,6 +337,20 @@
   "admin.access-control.groups.form.groupName": "Group name",
 
   "admin.access-control.groups.form.groupDescription": "Description",
+
+  "admin.access-control.groups.form.groupStatus": "Status",
+
+  "admin.access-control.groups.form.groupStatus.enabled": "Enabled",
+
+  "admin.access-control.groups.form.groupStatus.disabled": "Disabled",
+
+  "admin.access-control.groups.form.groupType": "Type",
+
+  "admin.access-control.groups.form.groupType.institutional": "Institutional Role type",
+
+  "admin.access-control.groups.form.groupType.normal": "Normal type",
+
+  "admin.access-control.groups.form.groupType.role": "Role type",
 
   "admin.access-control.groups.form.notification.created.success": "Successfully created Group \"{{name}}\"",
 

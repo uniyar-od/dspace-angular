@@ -1197,7 +1197,7 @@
 
   // "communityList.title": "List of Communities",
   // TODO New key - Add a translation
-  "communityList.title": "List of Communities",
+  "communityList.title": "Lista de comunidades",
 
   // "communityList.showMore": "Show More",
   // TODO New key - Add a translation
@@ -2510,7 +2510,15 @@
   // "menu.section.browse_global_communities_and_collections": "Communities & Collections",
   "menu.section.browse_global_communities_and_collections": "Comunidades & Colecciones",
 
+  "menu.section.explore_publications": "Resultados de la investigación",
 
+  "menu.section.explore_researcherprofiles": "Personas",
+
+  "menu.section.explore_orgunits": "Organizaciones",
+
+  "menu.section.explore_fundings": "Proyectos",
+
+  "menu.section.communities_and_collections": "Comunidades & Colecciones",
 
   // "menu.section.control_panel": "Control Panel",
   "menu.section.control_panel": "Panel de Control",
@@ -2591,7 +2599,7 @@
   // "menu.section.icon.unpin": "Unpin sidebar",
   "menu.section.icon.unpin": "Unpin sidebar",
 
-
+  "menu.section.processes": "Procesos",
 
   // "menu.section.import": "Import",
   "menu.section.import": "Importar",
