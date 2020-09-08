@@ -180,6 +180,7 @@ import { ResearcherProfile } from './profile/model/researcher-profile.model';
 import { SectionDataService } from './layout/section-data.service';
 import { Section } from './layout/models/section.model';
 import { SearchConfigResponseParsingService } from './data/search-config-response-parsing.service';
+import { GroupDataService } from './eperson/group-data.service';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -222,6 +223,7 @@ const PROVIDERS = [
   FormService,
   EpersonResponseParsingService,
   EPersonDataService,
+  GroupDataService,
   HALEndpointService,
   HostWindowService,
   ItemDataService,

@@ -49,9 +49,7 @@ const editGroupSelector = createSelector(groupRegistryStateSelector, (groupRegis
 /**
  * Provides methods to retrieve eperson group resources from the REST API & Group related CRUD actions.
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 @dataService(GROUP)
 export class GroupDataService extends DataService<Group> {
   public ePersonsEndpoint = 'epersons';
