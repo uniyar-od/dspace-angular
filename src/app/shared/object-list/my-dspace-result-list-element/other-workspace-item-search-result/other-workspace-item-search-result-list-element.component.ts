@@ -29,7 +29,7 @@ import { followLink } from '../../../utils/follow-link-config.model';
 @listableObjectComponent(WorkspaceItemSearchResult, ViewMode.ListElement, Context.OtherWorkspace)
 export class OtherWorkspaceItemSearchResultListElementComponent extends SearchResultListElementComponent<WorkspaceItemSearchResult, WorkspaceItem> {
 
-  context = Context;
+  contextType = Context;
 
   /**
    * The item object that belonging to the result object
