@@ -8,11 +8,11 @@ import { Item } from '../../../../core/shared/item.model';
 import { OtherWorkspaceItemSearchResultListElementComponent } from './other-workspace-item-search-result-list-element.component';
 import { WorkspaceItem } from '../../../../core/submission/models/workspaceitem.model';
 import { MyDspaceItemStatusType } from '../../../object-collection/shared/mydspace-item-status/my-dspace-item-status-type';
-import { createSuccessfulRemoteDataObject } from '../../../testing/utils';
+import { createSuccessfulRemoteDataObject } from '../../../remote-data.utils';
 import { TruncatableService } from '../../../truncatable/truncatable.service';
 import { WorkspaceItemSearchResult } from '../../../object-collection/shared/workspace-item-search-result.model';
 import { LinkService } from '../../../../core/cache/builders/link.service';
-import { getMockLinkService } from '../../../mocks/mock-link-service';
+import { getMockLinkService } from '../../../mocks/link-service.mock';
 import { take } from 'rxjs/operators';
 import { ItemDataService } from '../../../../core/data/item-data.service';
 

@@ -5,12 +5,12 @@ import { By } from '@angular/platform-browser';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { ItemCorrectionComponent } from './item-correction.component';
-import { MockTranslateLoader } from '../../../mocks/mock-translate-loader';
+import { TranslateLoaderMock } from '../../../testing/translate-loader.mock';
 import { RelationshipService } from '../../../../core/data/relationship.service';
 import { Relationship } from '../../../../core/shared/item-relationships/relationship.model';
 import { PaginatedList } from '../../../../core/data/paginated-list';
 import { PageInfo } from '../../../../core/shared/page-info.model';
-import { createSuccessfulRemoteDataObject } from '../../../testing/utils';
+import { createSuccessfulRemoteDataObject } from '../../../remote-data.utils';
 import { cold } from 'jasmine-marbles';
 
 let component: ItemCorrectionComponent;
@@ -46,7 +46,7 @@ describe('ItemCorrectionComponent', () => {
         TranslateModule.forRoot({
           loader: {
             provide: TranslateLoader,
-            useClass: MockTranslateLoader
+            useClass: TranslateLoaderMock
           }
         })
       ],
