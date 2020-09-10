@@ -177,5 +177,4 @@ export class SubmissionResponseParsingService extends BaseResponseParsingService
 
     return definition;
   }
-
 }

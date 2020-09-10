@@ -31,6 +31,10 @@ import { VocabularyTreeviewComponent } from '../../../../../vocabulary-treeview/
 import { VocabularyEntryDetail } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry-detail.model';
 import { FormBuilderService } from '../../../form-builder.service';
 
+/**
+ * Component representing a onebox input field.
+ * If field has a Hierarchical Vocabulary configured, it's rendered with vocabulary tree
+ */
 @Component({
   selector: 'ds-dynamic-onebox',
   styleUrls: ['./dynamic-onebox.component.scss'],
@@ -57,6 +61,7 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
   preloadLevel: number;
 
   private vocabulary$: Observable<Vocabulary>;
+  private isHierarchicalVocabulary$: Observable<boolean>;
   private subs: Subscription[] = [];
 
   constructor(protected vocabularyService: VocabularyService,
@@ -125,11 +130,15 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
       distinctUntilChanged()
     );
 
-    this.group.get(this.model.id).valueChanges.pipe(
+    this.isHierarchicalVocabulary$ = this.vocabulary$.pipe(
+      map((result: Vocabulary) => result.hierarchical)
+    );
+
+    this.subs.push(this.group.get(this.model.id).valueChanges.pipe(
       filter((value) => this.currentValue !== value))
       .subscribe((value) => {
         this.setCurrentValue(this.model.value);
-      });
+      }));
   }
 
   /**
@@ -145,9 +154,7 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
    * Checks if configured vocabulary is Hierarchical or not
    */
   isHierarchicalVocabulary(): Observable<boolean> {
-    return this.vocabulary$.pipe(
-      map((result: Vocabulary) => result.hierarchical)
-    );
+    return this.isHierarchicalVocabulary$;
   }
 
   /**
@@ -249,19 +256,30 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
       this.getInitValueFromModel()
         .subscribe((formValue: FormFieldMetadataValueObject) => {
           this.currentValue = formValue;
+          this.cdr.detectChanges();
         });
     } else {
       if (isEmpty(value)) {
         result = '';
-      } else if (typeof value === 'string') {
-        result = value;
       } else {
-        result = value.display;
+        result = value.value;
       }
 
       this.currentValue = result;
+      this.cdr.detectChanges();
     }
 
+  }
+
+  /**
+   * Get the other information value removing the authority section (after the last ::)
+   * @param itemValue the initial item value
+   */
+  getOtherInfoValue( itemValue: string): string {
+    if (!itemValue) {
+      return itemValue;
+    }
+    return itemValue.substring(0, itemValue.lastIndexOf('::'));
   }
 
   ngOnDestroy(): void {
