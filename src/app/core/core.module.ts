@@ -180,6 +180,8 @@ import { ResearcherProfile } from './profile/model/researcher-profile.model';
 import { SectionDataService } from './layout/section-data.service';
 import { Section } from './layout/models/section.model';
 import { SearchConfigResponseParsingService } from './data/search-config-response-parsing.service';
+import { OrcidQueueService } from './orcid/orcid-queue.service';
+import { OrcidQueue } from './orcid/model/orcid-queue.model';
 import { GroupDataService } from './eperson/group-data.service';
 
 /**
@@ -332,7 +334,8 @@ const PROVIDERS = [
   VocabularyTreeviewService,
   SearchcomponentService,
   ResearcherProfileService,
-  SectionDataService
+  SectionDataService,
+  OrcidQueueService
 ];
 
 /**
@@ -391,6 +394,7 @@ export const models =
     ConfigurationProperty,
     SearchComponent,
     ResearcherProfile,
+    OrcidQueue,
     Section
   ];
 
