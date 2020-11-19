@@ -29,6 +29,7 @@ import { DynamicRowArrayModel } from './ds-dynamic-form-ui/models/ds-dynamic-row
 import { DsDynamicInputModel } from './ds-dynamic-form-ui/models/ds-dynamic-input.model';
 import { FormFieldMetadataValueObject } from './models/form-field-metadata-value.model';
 import { isNgbDateStruct } from '../../date.util';
+import { CONCAT_GROUP_SUFFIX, DynamicConcatModel } from './ds-dynamic-form-ui/models/ds-dynamic-concat.model';
 
 @Injectable()
 export class FormBuilderService extends DynamicFormService {
@@ -48,6 +49,14 @@ export class FormBuilderService extends DynamicFormService {
             result = controlModel;
           }
           break;
+        }
+
+        if (this.isConcatGroup(controlModel)) {
+          const concatGroupId = controlModel.id.replace(CONCAT_GROUP_SUFFIX, '');
+          if (concatGroupId === findId) {
+            result = (controlModel as DynamicConcatModel).group[0];
+            break;
+          }
         }
 
         if (this.isGroup(controlModel)) {
@@ -241,6 +250,10 @@ export class FormBuilderService extends DynamicFormService {
 
   isCustomGroup(model: DynamicFormControlModel): boolean {
     return model && ((model as any).type === DYNAMIC_FORM_CONTROL_TYPE_GROUP && (model as any).isCustomGroup === true);
+  }
+
+  isConcatGroup(model: DynamicFormControlModel): boolean {
+    return this.isCustomGroup(model) && (model.id.indexOf(CONCAT_GROUP_SUFFIX) !== -1);
   }
 
   isRowGroup(model: DynamicFormControlModel): boolean {
