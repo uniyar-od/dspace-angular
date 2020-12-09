@@ -386,7 +386,7 @@ export class AuthService {
   public navigateToRedirectUrl(redirectUrl: string) {
     let url = `/reload/${new Date().getTime()}`;
     if (isNotEmpty(redirectUrl) && !redirectUrl.startsWith(LOGIN_ROUTE)) {
-      url += `?redirect=${encodeURIComponent(redirectUrl)}`;
+      url += `?redirect=${encodeURIComponent(MYDSPACE_ROUTE)}`;
     }
     this.hardRedirectService.redirect(url);
   }
