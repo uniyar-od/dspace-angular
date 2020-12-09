@@ -1,32 +1,30 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BehaviorSubject, of as observableOf } from 'rxjs';
+import { BehaviorSubject, of as observableOf, Subscription } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 
-import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import { Item } from '../../../core/shared/item.model';
+import { NotificationsService } from '../../notifications/notifications.service';
 import { SubmissionService } from '../../../submission/submission.service';
 import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
-import { hasValue, isNotEmpty } from '../../../shared/empty.util';
+import { hasValue, isNotEmpty } from '../../empty.util';
 import { ErrorResponse } from '../../../core/cache/response.models';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { rendersContextMenuEntriesForType } from '../context-menu.decorator';
+import { DSpaceObjectType } from '../../../core/shared/dspace-object-type.model';
+import { ContextMenuEntryComponent } from '../context-menu-entry.component';
+import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 
 /**
  * This component renders a context menu option that provides the request a correction functionality.
  */
 @Component({
-  selector: 'ds-item-page-context-menu-request-correction',
-  templateUrl: './request-correction.component.html'
+  selector: 'ds-context-menu-request-correction',
+  templateUrl: './request-correction-menu.component.html'
 })
-export class RequestCorrectionComponent implements OnDestroy {
-
-  /**
-   * The related item
-   */
-  @Input() item: Item;
+@rendersContextMenuEntriesForType(DSpaceObjectType.ITEM)
+export class RequestCorrectionMenuComponent extends ContextMenuEntryComponent implements OnDestroy {
 
   /**
    * A boolean representing if a request operation is pending
@@ -46,6 +44,8 @@ export class RequestCorrectionComponent implements OnDestroy {
   /**
    * Initialize instance variables
    *
+   * @param {DSpaceObject} injectedContextMenuObject
+   * @param {DSpaceObjectType} injectedContextMenuObjectType
    * @param {NgbModal} modalService
    * @param {NotificationsService} notificationService
    * @param {Router} router
@@ -53,12 +53,15 @@ export class RequestCorrectionComponent implements OnDestroy {
    * @param {TranslateService} translate
    */
   constructor(
+    @Inject('contextMenuObjectProvider') protected injectedContextMenuObject: DSpaceObject,
+    @Inject('contextMenuObjectTypeProvider') protected injectedContextMenuObjectType: DSpaceObjectType,
     private modalService: NgbModal,
     private notificationService: NotificationsService,
     private router: Router,
     private submissionService: SubmissionService,
     private translate: TranslateService
   ) {
+    super(injectedContextMenuObject, injectedContextMenuObjectType);
   }
 
   /**
@@ -75,7 +78,7 @@ export class RequestCorrectionComponent implements OnDestroy {
    */
   public requestCorrection() {
     this.processing$.next(true);
-    this.sub = this.submissionService.createSubmissionByItem(this.item.id, 'isCorrectionOfItem').pipe(
+    this.sub = this.submissionService.createSubmissionByItem(this.contextMenuObject.id, 'isCorrectionOfItem').pipe(
       take(1),
       catchError((error: ErrorResponse) => {
         this.handleErrorResponse(error.statusCode);
