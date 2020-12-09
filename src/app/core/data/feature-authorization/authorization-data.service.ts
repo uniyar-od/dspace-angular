@@ -20,12 +20,11 @@ import { followLink, FollowLinkConfig } from '../../../shared/utils/follow-link-
 import { Observable } from 'rxjs/internal/Observable';
 import { RemoteData } from '../remote-data';
 import { PaginatedList } from '../paginated-list';
-import { find, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, find, map, switchMap, tap } from 'rxjs/operators';
 import { hasValue, isNotEmpty } from '../../../shared/empty.util';
 import { RequestParam } from '../../cache/models/request-param.model';
 import { AuthorizationSearchParams } from './authorization-search-params';
 import {
-  addAuthenticatedUserUuidIfEmpty,
   addSiteObjectUrlIfEmpty,
   oneAuthorizationMatchesFeature
 } from './authorization-utils';
@@ -72,6 +71,7 @@ export class AuthorizationDataService extends DataService<Authorization> {
           return [];
         }
       }),
+      catchError(() => observableOf(false)),
       oneAuthorizationMatchesFeature(featureId)
     );
   }
@@ -90,7 +90,6 @@ export class AuthorizationDataService extends DataService<Authorization> {
   searchByObject(featureId?: FeatureID, objectUrl?: string, ePersonUuid?: string, options: FindListOptions = {}, ...linksToFollow: Array<FollowLinkConfig<Authorization>>): Observable<RemoteData<PaginatedList<Authorization>>> {
     return observableOf(new AuthorizationSearchParams(objectUrl, ePersonUuid, featureId)).pipe(
       addSiteObjectUrlIfEmpty(this.siteService),
-      addAuthenticatedUserUuidIfEmpty(this.authService),
       switchMap((params: AuthorizationSearchParams) => {
         return this.searchBy(this.searchByObjectPath, this.createSearchOptions(params.objectUrl, options, params.ePersonUuid, params.featureId), ...linksToFollow);
       })

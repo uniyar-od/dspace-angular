@@ -1,11 +1,10 @@
 import { Inject, Injectable, Optional } from '@angular/core';
-import { PRIMARY_OUTLET, Router, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpHeaders } from '@angular/common/http';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
 import { Observable, of as observableOf } from 'rxjs';
-import { distinctUntilChanged, filter, map, startWith, switchMap, take, withLatestFrom } from 'rxjs/operators';
-import { RouterReducerState } from '@ngrx/router-store';
+import { map, startWith, switchMap, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { CookieAttributes } from 'js-cookie';
 
@@ -14,20 +13,21 @@ import { AuthRequestService } from './auth-request.service';
 import { HttpOptions } from '../dspace-rest-v2/dspace-rest-v2.service';
 import { AuthStatus } from './models/auth-status.model';
 import { AuthTokenInfo, TOKENITEM } from './models/auth-token-info.model';
-import { hasValue, hasValueOperator, isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
+import { hasNoValue, hasValue, isEmpty, isNotEmpty, isNotNull, isNotUndefined } from '../../shared/empty.util';
 import { CookieService } from '../services/cookie.service';
 import {
   getAuthenticatedUser,
   getAuthenticationToken,
   getRedirectUrl,
   isAuthenticated,
-  isTokenRefreshing,
-  isAuthenticatedLoaded
+  isAuthenticatedLoaded,
+  isTokenRefreshing
 } from './selectors';
-import { AppState, routerStateSelector } from '../../app.reducer';
+import { AppState } from '../../app.reducer';
 import {
   CheckAuthenticationTokenAction,
   ResetAuthenticationMessagesAction,
+  RetrieveAuthMethodsAction,
   SetRedirectUrlAction
 } from './auth.actions';
 import { NativeWindowRef, NativeWindowService } from '../services/window.service';
@@ -36,6 +36,7 @@ import { RouteService } from '../services/route.service';
 import { EPersonDataService } from '../eperson/eperson-data.service';
 import { getAllSucceededRemoteDataPayload } from '../shared/operators';
 import { AuthMethod } from './models/auth.method';
+import { HardRedirectService } from '../services/hard-redirect.service';
 import { MYDSPACE_ROUTE } from '../../+my-dspace-page/my-dspace-page.component';
 
 export const LOGIN_ROUTE = '/login';
@@ -63,43 +64,13 @@ export class AuthService {
               protected router: Router,
               protected routeService: RouteService,
               protected storage: CookieService,
-              protected store: Store<AppState>
+              protected store: Store<AppState>,
+              protected hardRedirectService: HardRedirectService
   ) {
     this.store.pipe(
       select(isAuthenticated),
       startWith(false)
     ).subscribe((authenticated: boolean) => this._authenticated = authenticated);
-
-    // If current route is different from the one setted in authentication guard
-    // and is not the login route, clear redirect url and messages
-    const routeUrl$ = this.store.pipe(
-      select(routerStateSelector),
-      filter((routerState: RouterReducerState) => isNotUndefined(routerState)
-        && isNotUndefined(routerState.state) && isNotEmpty(routerState.state.url)),
-      filter((routerState: RouterReducerState) => !this.isLoginRoute(routerState.state.url)),
-      map((routerState: RouterReducerState) => routerState.state.url)
-    );
-    const redirectUrl$ = this.store.pipe(select(getRedirectUrl), distinctUntilChanged());
-    routeUrl$.pipe(
-      withLatestFrom(redirectUrl$),
-      map(([routeUrl, redirectUrl]) => [routeUrl, redirectUrl])
-    ).pipe(filter(([routeUrl, redirectUrl]) => isNotEmpty(redirectUrl) && (routeUrl !== redirectUrl)))
-      .subscribe(() => {
-        this.clearRedirectUrl();
-      });
-  }
-
-  /**
-   * Check if is a login page route
-   *
-   * @param {string} url
-   * @returns {Boolean}.
-   */
-  protected isLoginRoute(url: string) {
-    const urlTree: UrlTree = this.router.parseUrl(url);
-    const g: UrlSegmentGroup = urlTree.root.children[PRIMARY_OUTLET];
-    const segment = '/' + g.toString();
-    return segment === LOGIN_ROUTE;
   }
 
   /**
@@ -409,46 +380,38 @@ export class AuthService {
   }
 
   /**
-   * Redirect to the route navigated before the login
+   * Perform a hard redirect to the URL
+   * @param redirectUrl
    */
-  public redirectAfterLoginSuccess(isStandalonePage: boolean) {
-    this.router.navigate([MYDSPACE_ROUTE]);
-
-  }
-
-  protected navigateToRedirectUrl(redirectUrl: string) {
-    const url = decodeURIComponent(redirectUrl);
-    // in case the user navigates directly to /login (via bookmark, etc), or the route history is not found.
-    if (isEmpty(url) || url.startsWith(LOGIN_ROUTE)) {
-      this.router.navigateByUrl('/');
-      /* TODO Reenable hard redirect when REST API can handle x-forwarded-for, see https://github.com/DSpace/DSpace/pull/2207 */
-      // this._window.nativeWindow.location.href = '/';
-    } else {
-      /* TODO Reenable hard redirect when REST API can handle x-forwarded-for, see https://github.com/DSpace/DSpace/pull/2207 */
-      // this._window.nativeWindow.location.href = url;
-      this.router.navigateByUrl(url);
+  public navigateToRedirectUrl(redirectUrl: string) {
+    let url = `/reload/${new Date().getTime()}`;
+    if (isNotEmpty(redirectUrl) && !redirectUrl.startsWith(LOGIN_ROUTE)) {
+      url += `?redirect=${encodeURIComponent(MYDSPACE_ROUTE)}`;
     }
+    this.hardRedirectService.redirect(url);
   }
 
   /**
    * Refresh route navigated
    */
   public refreshAfterLogout() {
-    // Hard redirect to the reload page with a unique number behind it
-    // so that all state is definitely lost
-    this._window.nativeWindow.location.href = `/reload/${new Date().getTime()}`;
+    this.navigateToRedirectUrl(undefined);
   }
 
   /**
    * Get redirect url
    */
   getRedirectUrl(): Observable<string> {
-    const redirectUrl = this.storage.get(REDIRECT_COOKIE);
-    if (isNotEmpty(redirectUrl)) {
-      return observableOf(redirectUrl);
-    } else {
-      return this.store.pipe(select(getRedirectUrl));
-    }
+    return this.store.pipe(
+      select(getRedirectUrl),
+      map((urlFromStore: string) => {
+        if (hasValue(urlFromStore)) {
+          return urlFromStore;
+        } else {
+          return this.storage.get(REDIRECT_COOKIE);
+        }
+      })
+    );
   }
 
   /**
@@ -466,10 +429,24 @@ export class AuthService {
   }
 
   /**
+   * Set the redirect url if the current one has not been set yet
+   * @param newRedirectUrl
+   */
+  setRedirectUrlIfNotSet(newRedirectUrl: string) {
+    this.getRedirectUrl().pipe(
+      take(1))
+      .subscribe((currentRedirectUrl) => {
+        if (hasNoValue(currentRedirectUrl)) {
+          this.setRedirectUrl(newRedirectUrl);
+        }
+      })
+  }
+
+  /**
    * Clear redirect url
    */
   clearRedirectUrl() {
-    this.store.dispatch(new SetRedirectUrlAction(''));
+    this.store.dispatch(new SetRedirectUrlAction(undefined));
     this.storage.remove(REDIRECT_COOKIE);
   }
 
@@ -528,6 +505,15 @@ export class AuthService {
     return this.isAuthenticated().pipe(
       switchMap((authenticated) => authenticated ? this.authRequestService.getShortlivedToken() : observableOf(null))
     );
+  }
+
+  /**
+   * Return a new instance of RetrieveAuthMethodsAction
+   *
+   * @param authStatus The auth status
+   */
+  getRetrieveAuthMethodsAction(authStatus: AuthStatus): RetrieveAuthMethodsAction {
+    return new RetrieveAuthMethodsAction(authStatus, false);
   }
 
 }
