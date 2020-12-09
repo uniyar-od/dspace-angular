@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SharedModule } from './../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { GenericItemPageFieldComponent } from './simple/field-components/specific-field/generic/generic-item-page-field.component';
 
 import { ItemPageComponent } from './simple/item-page.component';
@@ -32,6 +32,7 @@ import { StatisticsModule } from '../statistics/statistics.module';
 import { AbstractIncrementalListComponent } from './simple/abstract-incremental-list/abstract-incremental-list.component';
 import { CrisItemPageModule } from '../cris-item-page/cris-item-page.module';
 import { SubmissionModule } from '../submission/submission.module';
+import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { SubmissionModule } from '../submission/submission.module';
     SearchPageModule,
     StatisticsModule.forRoot(),
     CrisItemPageModule,
-    SubmissionModule
+    SubmissionModule,
+    ContextMenuModule
   ],
   declarations: [
     ItemPageComponent,
