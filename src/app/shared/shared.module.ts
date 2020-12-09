@@ -213,8 +213,6 @@ import { DsSelectComponent } from './ds-select/ds-select.component';
 import { VocabularyTreeviewComponent } from './vocabulary-treeview/vocabulary-treeview.component';
 import { CurationFormComponent } from '../curation-form/curation-form.component';
 import { ReserveDoiActionsComponent } from './mydspace-actions/reserve-doi/reserve-doi-actions.component';
-import { ContextMenuComponent } from '../+item-page/context-menu/context-menu.component';
-import { RequestCorrectionComponent } from '../+item-page/context-menu/request-correction/request-correction.component';
 import { ItemCorrectionComponent } from './object-collection/shared/mydspace-item-correction/item-correction.component';
 import { PublicationSidebarSearchListElementComponent } from './object-list/sidebar-search-list-element/item-types/publication/publication-sidebar-search-list-element.component';
 import { SidebarSearchListElementComponent } from './object-list/sidebar-search-list-element/sidebar-search-list-element.component';
@@ -425,8 +423,6 @@ const COMPONENTS = [
   ExportMetadataSelectorComponent,
   ConfirmationModalComponent,
   VocabularyTreeviewComponent,
-  ContextMenuComponent,
-  RequestCorrectionComponent,
   AuthorizedCollectionSelectorComponent,
   ItemExportComponent,
   ItemExportModalWrapperComponent
