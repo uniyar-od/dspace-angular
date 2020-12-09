@@ -12,11 +12,12 @@ import { DefaultChangeAnalyzer } from './default-change-analyzer.service';
 import { Injectable } from '@angular/core';
 import { FindListOptions, GetRequest } from './request.models';
 import { Observable } from 'rxjs/internal/Observable';
-import { switchMap, take, filter } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { RemoteData } from './remote-data';
-import {RelationshipType} from '../shared/item-relationships/relationship-type.model';
-import {PaginatedList} from './paginated-list';
-import {ItemType} from '../shared/item-relationships/item-type.model';
+import { RelationshipType } from '../shared/item-relationships/relationship-type.model';
+import { PaginatedList } from './paginated-list';
+import { ItemType } from '../shared/item-relationships/item-type.model';
+import { getRemoteDataPayload, getSucceededRemoteData } from '../shared/operators';
 
 /**
  * Service handling all ItemType requests
@@ -50,15 +51,84 @@ export class EntityTypeService extends DataService<ItemType> {
       switchMap((href) => this.halService.getEndpoint('relationshiptypes', `${href}/${entityTypeId}`))
     );
   }
+
+  /**
+   * Check whether a given entity type is the left type of a given relationship type, as an observable boolean
+   * @param relationshipType  the relationship type for which to check whether the given entity type is the left type
+   * @param entityType  the entity type for which to check whether it is the left type of the given relationship type
+   */
+  isLeftType(relationshipType: RelationshipType, itemType: ItemType): Observable<boolean> {
+
+    return relationshipType.leftType.pipe(
+      getSucceededRemoteData(),
+      getRemoteDataPayload(),
+      map((leftType) => leftType.uuid === itemType.uuid),
+    );
+  }
+
   /**
    * Get the endpoint for the item type's allowed relationship types
-   * @param entityTypeId
+   *
+   * @param {FindListOptions} options
    */
   getAllAuthorizedRelationshipType(options: FindListOptions = {}): Observable<RemoteData<PaginatedList<ItemType>>> {
     const searchHref = 'findAllByAuthorizedCollection';
 
     return this.searchBy(searchHref, options).pipe(
       filter((type: RemoteData<PaginatedList<ItemType>>) => !type.isResponsePending));
+  }
+
+  /**
+   * Used to verify if there are one or more entities available
+   */
+  hasMoreThanOneAuthorized(): Observable<boolean> {
+    const findListOptions: FindListOptions = {
+      elementsPerPage: 2,
+      currentPage: 1
+    };
+    return this.getAllAuthorizedRelationshipType(findListOptions).pipe(
+      map((result: RemoteData<PaginatedList<ItemType>>) => {
+        let output: boolean;
+        if (result.payload) {
+          output = ( result.payload.page.length > 1 );
+        } else {
+          output = false;
+        }
+        return output;
+      })
+    );
+  }
+
+  /**
+   * Get the endpoint for the item type's allowed relationship types. To use with external source import.
+   * @param entityTypeId
+   */
+  getAllAuthorizedRelationshipTypeImport(options: FindListOptions = {}): Observable<RemoteData<PaginatedList<ItemType>>> {
+    const searchHref = 'findAllByAuthorizedExternalSource';
+
+    return this.searchBy(searchHref, options).pipe(
+      filter((type: RemoteData<PaginatedList<ItemType>>) => !type.isResponsePending));
+  }
+
+  /**
+   * Used to verify if there are one or more entities available. To use with external source import.
+   */
+  hasMoreThanOneAuthorizedImport(): Observable<boolean> {
+    const findListOptions: FindListOptions = {
+      elementsPerPage: 2,
+      currentPage: 1
+    };
+    return this.getAllAuthorizedRelationshipTypeImport(findListOptions).pipe(
+      map((result: RemoteData<PaginatedList<ItemType>>) => {
+        let output: boolean;
+        if (result.payload) {
+          output = ( result.payload.page.length > 1 );
+        } else {
+          output = false;
+        }
+        return output;
+      })
+    );
   }
 
   /**

@@ -35,6 +35,10 @@ export const AuthActionTypes = {
   RETRIEVE_AUTHENTICATED_EPERSON: type('dspace/auth/RETRIEVE_AUTHENTICATED_EPERSON'),
   RETRIEVE_AUTHENTICATED_EPERSON_SUCCESS: type('dspace/auth/RETRIEVE_AUTHENTICATED_EPERSON_SUCCESS'),
   RETRIEVE_AUTHENTICATED_EPERSON_ERROR: type('dspace/auth/RETRIEVE_AUTHENTICATED_EPERSON_ERROR'),
+  REDIRECT_AFTER_LOGIN_SUCCESS: type('dspace/auth/REDIRECT_AFTER_LOGIN_SUCCESS'),
+  REFRESH_TOKEN_AND_REDIRECT: type('dspace/auth/REFRESH_TOKEN_AND_REDIRECT'),
+  REFRESH_TOKEN_AND_REDIRECT_SUCCESS: type('dspace/auth/REFRESH_TOKEN_AND_REDIRECT_SUCCESS'),
+  REFRESH_TOKEN_AND_REDIRECT_ERROR: type('dspace/auth/REFRESH_TOKEN_AND_REDIRECT_ERROR'),
 };
 
 /* tslint:disable:max-classes-per-file */
@@ -292,10 +296,13 @@ export class ResetAuthenticationMessagesAction implements Action {
 export class RetrieveAuthMethodsAction implements Action {
   public type: string = AuthActionTypes.RETRIEVE_AUTH_METHODS;
 
-  payload: AuthStatus;
+  payload: {
+    status: AuthStatus;
+    blocking: boolean;
+  };
 
-  constructor(authStatus: AuthStatus) {
-    this.payload = authStatus;
+  constructor(status: AuthStatus, blocking: boolean) {
+    this.payload = { status, blocking };
   }
 }
 
@@ -306,10 +313,14 @@ export class RetrieveAuthMethodsAction implements Action {
  */
 export class RetrieveAuthMethodsSuccessAction implements Action {
   public type: string = AuthActionTypes.RETRIEVE_AUTH_METHODS_SUCCESS;
-  payload: AuthMethod[];
 
-  constructor(authMethods: AuthMethod[] ) {
-    this.payload = authMethods;
+  payload: {
+    authMethods: AuthMethod[];
+    blocking: boolean;
+  };
+
+  constructor(authMethods: AuthMethod[], blocking: boolean ) {
+    this.payload = { authMethods, blocking };
   }
 }
 
@@ -320,6 +331,12 @@ export class RetrieveAuthMethodsSuccessAction implements Action {
  */
 export class RetrieveAuthMethodsErrorAction implements Action {
   public type: string = AuthActionTypes.RETRIEVE_AUTH_METHODS_ERROR;
+
+  payload: boolean;
+
+  constructor(blocking: boolean) {
+    this.payload = blocking;
+  }
 }
 
 /**
@@ -329,6 +346,20 @@ export class RetrieveAuthMethodsErrorAction implements Action {
  */
 export class SetRedirectUrlAction implements Action {
   public type: string = AuthActionTypes.SET_REDIRECT_URL;
+  payload: string;
+
+  constructor(url: string) {
+    this.payload = url;
+  }
+}
+
+/**
+ * Start loading for a hard redirect
+ * @class StartHardRedirectLoadingAction
+ * @implements {Action}
+ */
+export class RedirectAfterLoginSuccessAction implements Action {
+  public type: string = AuthActionTypes.REDIRECT_AFTER_LOGIN_SUCCESS;
   payload: string;
 
   constructor(url: string) {
@@ -377,6 +408,50 @@ export class RetrieveAuthenticatedEpersonErrorAction implements Action {
     this.payload = payload ;
   }
 }
+
+/**
+ * Refresh authentication token and redirect.
+ * @class RefreshTokenAndRedirectAction
+ * @implements {Action}
+ */
+export class RefreshTokenAndRedirectAction implements Action {
+  public type: string = AuthActionTypes.REFRESH_TOKEN_AND_REDIRECT;
+  payload: {
+    token: AuthTokenInfo,
+    redirectUrl: string
+  };
+
+  constructor(token: AuthTokenInfo, redirectUrl: string) {
+    this.payload = {token, redirectUrl};
+  }
+}
+
+/**
+ * Refresh authentication token and redirect success.
+ * @class RefreshTokenAndRedirectSuccessAction
+ * @implements {Action}
+ */
+export class RefreshTokenAndRedirectSuccessAction implements Action {
+  public type: string = AuthActionTypes.REFRESH_TOKEN_AND_REDIRECT_SUCCESS;
+  payload: {
+    token: AuthTokenInfo,
+    redirectUrl: string
+  };
+
+  constructor(token: AuthTokenInfo, redirectUrl: string) {
+    this.payload = {token, redirectUrl};
+  }
+}
+
+/**
+ * Refresh authentication token and redirect error.
+ * @class RefreshTokenAndRedirectErrorAction
+ * @implements {Action}
+ */
+export class RefreshTokenAndRedirectErrorAction implements Action {
+  public type: string = AuthActionTypes.REFRESH_TOKEN_AND_REDIRECT_ERROR;
+}
+
 /* tslint:enable:max-classes-per-file */
 
 /**
@@ -403,8 +478,11 @@ export type AuthActions
   | RetrieveAuthMethodsSuccessAction
   | RetrieveAuthMethodsErrorAction
   | RetrieveTokenAction
-  | ResetAuthenticationMessagesAction
   | RetrieveAuthenticatedEpersonAction
   | RetrieveAuthenticatedEpersonErrorAction
   | RetrieveAuthenticatedEpersonSuccessAction
-  | SetRedirectUrlAction;
+  | SetRedirectUrlAction
+  | RedirectAfterLoginSuccessAction
+  | RefreshTokenAndRedirectAction
+  | RefreshTokenAndRedirectErrorAction
+  | RefreshTokenAndRedirectSuccessAction;

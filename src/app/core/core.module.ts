@@ -173,6 +173,12 @@ import { VocabularyService } from './submission/vocabularies/vocabulary.service'
 import { VocabularyTreeviewService } from '../shared/vocabulary-treeview/vocabulary-treeview.service';
 import { ConfigurationDataService } from './data/configuration-data.service';
 import { ConfigurationProperty } from './shared/configuration-property.model';
+import { ReloadGuard } from './reload/reload.guard';
+import { EndUserAgreementCurrentUserGuard } from './end-user-agreement/end-user-agreement-current-user.guard';
+import { EndUserAgreementCookieGuard } from './end-user-agreement/end-user-agreement-cookie.guard';
+import { EndUserAgreementService } from './end-user-agreement/end-user-agreement.service';
+import { SiteRegisterGuard } from './data/feature-authorization/feature-authorization-guard/site-register.guard';
+import { UsageReport } from './statistics/models/usage-report.model';
 import { SearchcomponentService } from './layout/searchcomponent.service';
 import { SearchComponent } from './layout/models/search-component.model';
 import { ResearcherProfileService } from './profile/researcher-profile.service';
@@ -183,6 +189,16 @@ import { SearchConfigResponseParsingService } from './data/search-config-respons
 import { OrcidQueueService } from './orcid/orcid-queue.service';
 import { OrcidQueue } from './orcid/model/orcid-queue.model';
 import { GroupDataService } from './eperson/group-data.service';
+import { OrcidHistoryService } from './orcid/orcid-history.service';
+import { OrcidHistory } from './orcid/model/orcid-history.model';
+import { EditItem } from './submission/models/edititem.model';
+import { EditItemDataService } from './submission/edititem-data.service';
+import { EditItemMode } from './submission/models/edititem-mode.model';
+import { EditItemModeDataService } from './submission/edititemmode-data.service';
+import { AuditDataService } from './audit/audit-data.service';
+import { Audit } from './audit/model/audit.model';
+import { ItemExportFormatService } from './itemexportformat/item-export.service';
+import { ItemExportFormat } from './itemexportformat/model/item-export-format.model';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -303,14 +319,20 @@ const PROVIDERS = [
   ItemTypeDataService,
   WorkflowActionDataService,
   ProcessDataService,
+  AuditDataService,
   ScriptDataService,
   ProcessFilesResponseParsingService,
   FeatureDataService,
   AuthorizationDataService,
   SiteAdministratorGuard,
+  SiteRegisterGuard,
   MetadataSchemaDataService,
   MetadataFieldDataService,
   TokenResponseParsingService,
+  ReloadGuard,
+  EndUserAgreementCurrentUserGuard,
+  EndUserAgreementCookieGuard,
+  EndUserAgreementService,
   // register AuthInterceptor as HttpInterceptor
   {
     provide: HTTP_INTERCEPTORS,
@@ -334,8 +356,12 @@ const PROVIDERS = [
   VocabularyTreeviewService,
   SearchcomponentService,
   ResearcherProfileService,
+  ItemExportFormatService,
   SectionDataService,
-  OrcidQueueService
+  OrcidQueueService,
+  OrcidHistoryService,
+  EditItemDataService,
+  EditItemModeDataService
 ];
 
 /**
@@ -378,6 +404,7 @@ export const models =
     ExternalSourceEntry,
     Script,
     Process,
+    Audit,
     Version,
     VersionHistory,
     WorkflowAction,
@@ -392,10 +419,15 @@ export const models =
     VocabularyEntry,
     VocabularyEntryDetail,
     ConfigurationProperty,
+    UsageReport,
     SearchComponent,
     ResearcherProfile,
+    ItemExportFormat,
     OrcidQueue,
-    Section
+    OrcidHistory,
+    Section,
+    EditItem,
+    EditItemMode
   ];
 
 @NgModule({

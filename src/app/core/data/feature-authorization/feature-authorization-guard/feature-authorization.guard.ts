@@ -8,7 +8,10 @@ import {
 import { AuthorizationDataService } from '../authorization-data.service';
 import { FeatureID } from '../feature-id';
 import { Observable } from 'rxjs/internal/Observable';
-import { returnUnauthorizedUrlTreeOnFalse } from '../../../shared/operators';
+import { returnForbiddenUrlTreeOrLoginOnFalse } from '../../../shared/operators';
+import { combineLatest as observableCombineLatest, of as observableOf } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { AuthService } from '../../../auth/auth.service';
 
 /**
  * Abstract Guard for preventing unauthorized activating and loading of routes when a user
@@ -17,36 +20,40 @@ import { returnUnauthorizedUrlTreeOnFalse } from '../../../shared/operators';
  */
 export abstract class FeatureAuthorizationGuard implements CanActivate {
   constructor(protected authorizationService: AuthorizationDataService,
-              protected router: Router) {
+              protected router: Router,
+              protected authService: AuthService) {
   }
 
   /**
    * True when user has authorization rights for the feature and object provided
    * Redirect the user to the unauthorized page when he/she's not authorized for the given feature
    */
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
-    return this.authorizationService.isAuthorized(this.getFeatureID(), this.getObjectUrl(), this.getEPersonUuid()).pipe(returnUnauthorizedUrlTreeOnFalse(this.router));
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> {
+    return observableCombineLatest(this.getFeatureID(route, state), this.getObjectUrl(route, state), this.getEPersonUuid(route, state)).pipe(
+      switchMap(([featureID, objectUrl, ePersonUuid]) => this.authorizationService.isAuthorized(featureID, objectUrl, ePersonUuid)),
+      returnForbiddenUrlTreeOrLoginOnFalse(this.router, this.authService, state.url)
+    );
   }
 
   /**
    * The type of feature to check authorization for
    * Override this method to define a feature
    */
-  abstract getFeatureID(): FeatureID;
+  abstract getFeatureID(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<FeatureID>;
 
   /**
    * The URL of the object to check if the user has authorized rights for
    * Override this method to define an object URL. If not provided, the {@link Site}'s URL will be used
    */
-  getObjectUrl(): string {
-    return undefined;
+  getObjectUrl(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
+    return observableOf(undefined);
   }
 
   /**
    * The UUID of the user to check authorization rights for
    * Override this method to define an {@link EPerson} UUID. If not provided, the authenticated user's UUID will be used.
    */
-  getEPersonUuid(): string {
-    return undefined;
+  getEPersonUuid(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<string> {
+    return observableOf(undefined);
   }
 }
