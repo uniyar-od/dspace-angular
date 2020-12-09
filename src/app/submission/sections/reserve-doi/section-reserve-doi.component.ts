@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject } from '@angular/core';
 
 import { Observable, of as observableOf, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -85,7 +85,7 @@ export class SubmissionSectionReserveDoiComponent extends SectionModelComponent 
   onSectionInit() {
     this.isWorkspaceItem = this.submissionService.getSubmissionScope() === SubmissionScopeType.WorkspaceItem;
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionData.id);
-    this.reservedDoi$ = this.sectionService.getSectionData(this.submissionId, this.sectionData.id).pipe(
+    this.reservedDoi$ = this.sectionService.getSectionData(this.submissionId, this.sectionData.id, SectionsType.ReserveDoi).pipe(
       map((sectionData: WorkspaceitemSectionReserveDoiObject) => isNotEmpty(sectionData) ? sectionData.doi : null),
       take(1)
     );

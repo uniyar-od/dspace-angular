@@ -28,6 +28,10 @@ import { SubmissionSectionUploadFileViewComponent } from './sections/upload/file
 import { SubmissionSectionUploadAccessConditionsComponent } from './sections/upload/accessConditions/submission-section-upload-access-conditions.component';
 import { SubmissionSubmitComponent } from './submit/submission-submit.component';
 import { storeModuleConfig } from '../app.reducer';
+import { SubmissionImportExternalComponent } from './import-external/submission-import-external.component';
+import { SubmissionImportExternalSearchbarComponent } from './import-external/import-external-searchbar/submission-import-external-searchbar.component';
+import { SubmissionImportExternalPreviewComponent } from './import-external/import-external-preview/submission-import-external-preview.component';
+import { SubmissionImportExternalCollectionComponent } from './import-external/import-external-collection/submission-import-external-collection.component';
 import { SubmissionSectionCcLicensesComponent } from './sections/cc-license/submission-section-cc-licenses.component';
 import { CoreState } from '../core/core.reducers';
 import { SubmissionSectionDetectDuplicateComponent } from './sections/detect-duplicate/section-detect-duplicate.component';
@@ -64,6 +68,10 @@ import { SubmissionSectionCorrectionComponent } from './sections/correction/sect
     SubmissionSectionUploadFileComponent,
     SubmissionSectionUploadFileEditComponent,
     SubmissionSectionUploadFileViewComponent,
+    SubmissionImportExternalComponent,
+    SubmissionImportExternalSearchbarComponent,
+    SubmissionImportExternalPreviewComponent,
+    SubmissionImportExternalCollectionComponent,
     SubmissionSectionDetectDuplicateComponent,
     DuplicateMatchComponent,
     SubmissionSectionReserveDoiComponent,
@@ -74,6 +82,8 @@ import { SubmissionSectionCorrectionComponent } from './sections/correction/sect
     SubmissionSectionformComponent,
     SubmissionSectionLicenseComponent,
     SubmissionSectionContainerComponent,
+    SubmissionImportExternalPreviewComponent,
+    SubmissionImportExternalCollectionComponent,
     SubmissionSectionCcLicensesComponent,
     SubmissionSectionDetectDuplicateComponent,
     SubmissionSectionReserveDoiComponent,
@@ -82,7 +92,8 @@ import { SubmissionSectionCorrectionComponent } from './sections/correction/sect
   exports: [
     SubmissionEditComponent,
     SubmissionFormComponent,
-    SubmissionSubmitComponent
+    SubmissionSubmitComponent,
+    SubmissionImportExternalComponent
   ],
   providers: [
     SectionUploadService,
