@@ -25,6 +25,7 @@ import { AttachmentComponent } from './default-layout/boxes/components/attachmen
 import { OrcidSyncQueueComponent } from './custom-layout/orcid-sync-queue/orcid-sync-queue.component';
 import { OrcidAuthorizationsComponent } from './custom-layout/orcid-authorizations/orcid-authorizations.component';
 import { OrcidSyncSettingsComponent } from './custom-layout/orcid-sync-settings/orcid-sync-settings.component';
+import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { OrcidSyncSettingsComponent } from './custom-layout/orcid-sync-settings/
     CommonModule,
     SharedModule,
     SearchPageModule,
-    MyDSpacePageModule
+    MyDSpacePageModule,
+    ContextMenuModule
   ],
   entryComponents: [
     CrisLayoutDefaultComponent,
