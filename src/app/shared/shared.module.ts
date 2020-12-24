@@ -224,6 +224,7 @@ import { HoverClassDirective } from './hover-class.directive';
 import { ValidationSuggestionsComponent } from './input-suggestions/validation-suggestions/validation-suggestions.component';
 import { ItemExportComponent } from './item-export/item-export/item-export.component';
 import { ItemExportModalWrapperComponent } from './item-export/item-export-modal-wrapper/item-export-modal-wrapper.component';
+import { VocabularyExternalSourceComponent } from './vocabulary-external-source/vocabulary-external-source.component';
 
 const MODULES = [
   // Do NOT include UniversalModule, HttpModule, or JsonpModule here
@@ -425,7 +426,8 @@ const COMPONENTS = [
   VocabularyTreeviewComponent,
   AuthorizedCollectionSelectorComponent,
   ItemExportComponent,
-  ItemExportModalWrapperComponent
+  ItemExportModalWrapperComponent,
+  VocabularyExternalSourceComponent
 ];
 
 const ENTRY_COMPONENTS = [
@@ -513,7 +515,8 @@ const ENTRY_COMPONENTS = [
   CollectionSidebarSearchListElementComponent,
   CommunitySidebarSearchListElementComponent,
   AuthorizedCollectionSelectorComponent,
-  ItemExportComponent
+  ItemExportComponent,
+  VocabularyExternalSourceComponent
 ];
 
 const SHARED_ITEM_PAGE_COMPONENTS = [
