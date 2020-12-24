@@ -279,6 +279,13 @@ export class VocabularyService {
   }
 
   /**
+   * Clear all search by Metadata and Collection Requests
+   */
+  clearSearchVocabularyByMetadataAndCollectionRequest(vocabularyOptions: VocabularyOptions) {
+    this.requestService.removeByHrefSubstring(`search/${this.searchByMetadataAndCollectionMethod}?metadata=${vocabularyOptions.metadata}`);
+  }
+
+  /**
    * Returns an observable of {@link RemoteData} of a {@link VocabularyEntryDetail}, based on an href, with a list of {@link FollowLinkConfig},
    * to automatically resolve {@link HALLink}s of the {@link VocabularyEntryDetail}
    * @param href            The url of {@link VocabularyEntryDetail} we want to retrieve
