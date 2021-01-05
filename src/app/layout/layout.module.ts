@@ -25,6 +25,9 @@ import { AttachmentComponent } from './default-layout/boxes/components/attachmen
 import { OrcidSyncQueueComponent } from './custom-layout/orcid-sync-queue/orcid-sync-queue.component';
 import { OrcidAuthorizationsComponent } from './custom-layout/orcid-authorizations/orcid-authorizations.component';
 import { OrcidSyncSettingsComponent } from './custom-layout/orcid-sync-settings/orcid-sync-settings.component';
+import { CrisLayoutMetricsBoxComponent } from './default-layout/boxes/metrics/cris-layout-metrics-box.component';
+import { MetricRowComponent } from './default-layout/boxes/components/metric-row/metric-row.component';
+import { MetricComponent } from './default-layout/boxes/components/metric/metric.component';
 import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
 
 @NgModule({
@@ -35,6 +38,7 @@ import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
     CrisLayoutDefaultComponent,
     CrisLayoutDefaultTabComponent,
     CrisLayoutMetadataBoxComponent,
+    CrisLayoutMetricsBoxComponent,
     RowComponent,
     TextComponent,
     HeadingComponent,
@@ -49,7 +53,9 @@ import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
     AttachmentComponent,
     OrcidSyncSettingsComponent,
     OrcidSyncQueueComponent,
-    OrcidAuthorizationsComponent
+    OrcidAuthorizationsComponent,
+    MetricRowComponent,
+    MetricComponent
   ],
   imports: [
     CommonModule,
@@ -62,6 +68,7 @@ import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
     CrisLayoutDefaultComponent,
     CrisLayoutDefaultTabComponent,
     CrisLayoutMetadataBoxComponent,
+    CrisLayoutMetricsBoxComponent,
     CrisLayoutSearchBoxComponent,
     TextComponent,
     HeadingComponent,
