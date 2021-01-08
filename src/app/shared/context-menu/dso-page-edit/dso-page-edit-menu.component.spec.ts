@@ -9,6 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
 import { By } from '@angular/platform-browser';
 import { TooltipModule } from 'ngx-bootstrap';
+import { DSpaceObjectType } from '../../../core/shared/dspace-object-type.model';
 
 describe('DsoPageEditMenuComponent', () => {
   let component: DsoPageEditMenuComponent;
@@ -31,7 +32,9 @@ describe('DsoPageEditMenuComponent', () => {
       declarations: [ DsoPageEditMenuComponent ],
       imports: [TranslateModule.forRoot(), RouterTestingModule.withRoutes([]), TooltipModule.forRoot()],
       providers: [
-        { provide: AuthorizationDataService, useValue: authorizationService }
+        { provide: AuthorizationDataService, useValue: authorizationService },
+        { provide: 'contextMenuObjectProvider', useValue: dso },
+        { provide: 'contextMenuObjectTypeProvider', useValue: DSpaceObjectType.ITEM },
       ]
     }).compileComponents();
   }));
@@ -54,8 +57,8 @@ describe('DsoPageEditMenuComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should render a link', () => {
-      const link = fixture.debugElement.query(By.css('a'));
+    it('should render a button', () => {
+      const link = fixture.debugElement.query(By.css('button'));
       expect(link).not.toBeNull();
     });
   });
@@ -67,8 +70,8 @@ describe('DsoPageEditMenuComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should not render a link', () => {
-      const link = fixture.debugElement.query(By.css('a'));
+    it('should not render a button', () => {
+      const link = fixture.debugElement.query(By.css('button'));
       expect(link).toBeNull();
     });
   });

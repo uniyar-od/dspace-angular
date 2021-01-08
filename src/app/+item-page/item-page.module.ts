@@ -30,6 +30,7 @@ import { UploadBitstreamComponent } from './bitstreams/upload/upload-bitstream.c
 import { TabbedRelatedEntitiesSearchComponent } from './simple/related-entities/tabbed-related-entities-search/tabbed-related-entities-search.component';
 import { StatisticsModule } from '../statistics/statistics.module';
 import { AbstractIncrementalListComponent } from './simple/abstract-incremental-list/abstract-incremental-list.component';
+import { UntypedItemComponent } from './simple/item-types/untyped-item/untyped-item.component';
 import { CrisItemPageModule } from '../cris-item-page/cris-item-page.module';
 import { SubmissionModule } from '../submission/submission.module';
 import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
@@ -60,6 +61,7 @@ import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
     CollectionsComponent,
     FullFileSectionComponent,
     PublicationComponent,
+    UntypedItemComponent,
     RelatedItemsComponent,
     ItemComponent,
     GenericItemPageFieldComponent,
@@ -81,7 +83,8 @@ import { ContextMenuModule } from '../shared/context-menu/context-menu.module';
     TabbedRelatedEntitiesSearchComponent
   ],
   entryComponents: [
-    PublicationComponent
+    PublicationComponent,
+    UntypedItemComponent
   ]
 })
 export class ItemPageModule {

@@ -30,6 +30,7 @@ import { Vocabulary } from '../../../../../../core/submission/vocabularies/model
 import { VocabularyTreeviewComponent } from '../../../../../vocabulary-treeview/vocabulary-treeview.component';
 import { VocabularyEntryDetail } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry-detail.model';
 import { FormBuilderService } from '../../../form-builder.service';
+import { SubmissionService } from '../../../../../../submission/submission.service';
 
 /**
  * Component representing a onebox input field.
@@ -60,7 +61,6 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
   inputValue: any;
   preloadLevel: number;
 
-  private vocabulary$: Observable<Vocabulary>;
   private isHierarchicalVocabulary$: Observable<boolean>;
   private subs: Subscription[] = [];
 
@@ -69,9 +69,10 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
               protected layoutService: DynamicFormLayoutService,
               protected modalService: NgbModal,
               protected validationService: DynamicFormValidationService,
-              protected formBuilderService: FormBuilderService
+              protected formBuilderService: FormBuilderService,
+              protected submissionService: SubmissionService
   ) {
-    super(vocabularyService, layoutService, validationService, formBuilderService);
+    super(vocabularyService, layoutService, validationService, formBuilderService, modalService, submissionService);
   }
 
   /**
@@ -125,12 +126,10 @@ export class DsDynamicOneboxComponent extends DsDynamicVocabularyComponent imple
       this.setCurrentValue(this.model.value, true);
     }
 
-    this.vocabulary$ = this.vocabularyService.findVocabularyById(this.model.vocabularyOptions.name).pipe(
-      getFirstSucceededRemoteDataPayload(),
-      distinctUntilChanged()
-    );
+    this.initVocabulary();
 
     this.isHierarchicalVocabulary$ = this.vocabulary$.pipe(
+      filter((vocabulary: Vocabulary) => isNotEmpty(vocabulary)),
       map((result: Vocabulary) => result.hierarchical)
     );
 
