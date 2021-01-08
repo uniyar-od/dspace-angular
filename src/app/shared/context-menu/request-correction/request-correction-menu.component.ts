@@ -81,6 +81,7 @@ export class RequestCorrectionMenuComponent extends ContextMenuEntryComponent im
     this.sub = this.submissionService.createSubmissionByItem(this.contextMenuObject.id, 'isCorrectionOfItem').pipe(
       take(1),
       catchError((error: ErrorResponse) => {
+        console.log(error);
         this.handleErrorResponse(error.statusCode);
         return observableOf({});
       })

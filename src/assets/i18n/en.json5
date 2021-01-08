@@ -820,6 +820,10 @@
 
   "collection.edit.tabs.curate.title": "Collection Edit - Curate",
 
+  "collection.edit.tabs.authorizations.head": "Authorizations",
+
+  "collection.edit.tabs.authorizations.title": "Collection Edit - Authorizations",
+
   "collection.edit.tabs.metadata.head": "Edit Metadata",
 
   "collection.edit.tabs.metadata.title": "Collection Edit - Metadata",
@@ -921,6 +925,10 @@
   "collection.form.errors.submissionDefinition.required": "Please choose a submission definition for this collection",
 
   "collection.form.submissionDefinition": "Submission definition",
+
+
+
+  "collection.listelement.badge": "Collection",
 
 
 
@@ -1026,6 +1034,14 @@
   "community.edit.tabs.roles.head": "Assign Roles",
 
   "community.edit.tabs.roles.title": "Community Edit - Roles",
+
+  "community.edit.tabs.authorizations.head": "Authorizations",
+
+  "community.edit.tabs.authorizations.title": "Community Edit - Authorizations",
+
+
+
+  "community.listelement.badge": "Community",
 
 
 
@@ -1562,6 +1578,10 @@
 
   "form.edit-help": "Click here to edit the selected value",
 
+  "form.external.source-help": "Click here to create a new item from this field",
+
+  "form.external.source.group-help": "Click here to create a new item from this group of fields",
+
   "form.first-name": "First name",
 
   "form.group-collapse": "Collapse",
@@ -2031,6 +2051,28 @@
 
 
 
+  "item.listelement.badge": "Item",
+
+  "item.page.description": "Description",
+
+  "item.page.edit": "Edit this item",
+
+  "item.page.journal-issn": "Journal ISSN",
+
+  "item.page.journal-title": "Journal Title",
+
+  "item.page.publisher": "Publisher",
+
+  "item.page.titleprefix": "Item: ",
+
+  "item.page.volume-title": "Volume Title",
+
+  "item.search.results.head": "Item Search Results",
+
+  "item.search.title": "DSpace Angular :: Item Search",
+
+
+
   "item.page.abstract": "Abstract",
 
   "item.page.author": "Authors",
@@ -2060,6 +2102,26 @@
   "item.page.link.full": "Full item page",
 
   "item.page.link.simple": "Simple item page",
+
+  "item.page.metric.deltaPeriod1": "Last Week",
+
+  "item.page.metric.deltaPeriod2": "Last Month",
+
+  "item.page.metric.label.scopusCitation": "Scopus citations",
+
+  "item.page.metric.label.scopus-author-h-index": "H-index",
+
+  "item.page.metric.label.scopus-author-coauthor-count": "Coauthor",
+
+  "item.page.metric.label.scopus-author-cited-count": "Cited By",
+
+  "item.page.metric.label.scopus-author-citation-count": "Author Citations",
+
+  "item.page.metric.label.scopus-author-document-count": "Author Documents",
+
+  "item.page.metric.label.wosCitation": "WOS citations",
+
+  "item.page.metric.label.wosPersonCitation": "WOS citations",
 
   "item.page.person.search.title": "Articles by this author",
 
@@ -3175,6 +3237,10 @@
 
   "resource-policies.add.for.item": "Add a new Item policy",
 
+  "resource-policies.add.for.community": "Add a new Community policy",
+
+  "resource-policies.add.for.collection": "Add a new Collection policy",
+
   "resource-policies.create.page.heading": "Create new resource policy for ",
 
   "resource-policies.create.page.failure.content": "An error occurred while creating the resource policy.",
@@ -3257,6 +3323,10 @@
 
   "resource-policies.table.headers.title.for.item": "Policies for Item",
 
+  "resource-policies.table.headers.title.for.community": "Policies for Community",
+
+  "resource-policies.table.headers.title.for.collection": "Policies for Collection",
+
 
 
   "search.description": "",
@@ -3299,6 +3369,18 @@
   "search.filters.applied.f.withdrawn": "Withdrawn",
 
 
+  "search.filters.applied.charts.chart.bar.dateIssued.year.tab" : "Date Issued",
+
+  "search.filters.applied.charts.chart.pie.itemtype_filter.tab" : "Item Type",
+
+  "search.filters.applied.charts.default.title": "Search Output",
+
+  "search.filters.applied.charts.RELATION.Person.researchoutputs.title": "Research Output",
+
+  "search.filters.applied.charts.no.data.found": "No data found",
+
+
+
 
   "search.filters.filter.author.head": "Author",
 
@@ -3307,14 +3389,6 @@
   "search.filters.filter.birthDate.head": "Birth Date",
 
   "search.filters.filter.birthDate.placeholder": "Birth Date",
-
-  "search.filters.filter.chart.bar.dateIssued.year.head": "Year",
-
-  "search.filters.filter.chart.bar.dateIssued.year.placeholder": "Year",
-
-  "search.filters.filter.chart.pie.itemtype_filter.head": "Type",
-
-  "search.filters.filter.chart.pie.itemtype_filter.placeholder": "Type",
 
   "search.filters.filter.creativeDatePublished.head": "Date Published",
 
@@ -3432,6 +3506,7 @@
   "search.filters.filter.submitter.head": "Submitter",
 
   "search.filters.filter.submitter.placeholder": "Submitter",
+
 
 
 
@@ -4214,7 +4289,37 @@
 
 
 
+  "vocabulary.import-external.preview.title.Dataset": "Dataset Preview",
 
+  "vocabulary.import-external.preview.title.Equipment": "Equipment Preview",
+
+  "vocabulary.import-external.preview.title.Event": "Event Preview",
+
+  "vocabulary.import-external.preview.title.Funding": "Funding Preview",
+
+  "vocabulary.import-external.preview.title.Journal": "Journal Preview",
+
+  "vocabulary.import-external.preview.title.Mainwork": "Mainwork Preview",
+
+  "vocabulary.import-external.preview.title.OrgUnit": "Publisher Preview",
+
+  "vocabulary.import-external.preview.title.Patent": "Patent Preview",
+
+  "vocabulary.import-external.preview.title.Person": "Person Preview",
+
+  "vocabulary.import-external.preview.title.Project": "Project Preview",
+
+  "vocabulary.import-external.preview.title.Publication": "Publication Preview",
+
+  "vocabulary.import-external.preview.subtitle": "The metadata below will be used to create the new entity.",
+
+  "vocabulary.import-external.preview.button.import": "Create entity",
+
+  "vocabulary.import-external.preview.not-found": "It's not possible to create an entity from given source.",
+
+  "vocabulary.import-external.preview.import.error": "An error occurs during the creation process.",
+
+  "vocabulary.import-external.preview.import.success": "Entity created successfully.",
 
   "vocabulary-treeview.header": "Hierarchical tree view",
 
