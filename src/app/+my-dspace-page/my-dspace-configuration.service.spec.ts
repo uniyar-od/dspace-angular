@@ -182,6 +182,20 @@ describe('MyDSpaceConfigurationService', () => {
       }));
     });
 
+    it('should return properly list when user is not a submitter, controller and admin neither', () => {
+      roleService.setSubmitter(false);
+      roleService.setController(false);
+      roleService.setAdmin(false);
+
+      const list$ = service.getAvailableConfigurationTypes();
+
+      expect(list$).toBeObservable(cold('(b|)', {
+        b: [
+          MyDSpaceConfigurationValueType.Workspace
+        ]
+      }));
+    });
+
     it('should return properly list when user is controller', () => {
       roleService.setSubmitter(false);
       roleService.setController(true);
