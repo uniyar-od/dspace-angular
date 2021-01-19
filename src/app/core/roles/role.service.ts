@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, take } from 'rxjs/operators';
 
 import { RoleType } from './role-types';
 import { CollectionDataService } from '../data/collection-data.service';
@@ -27,7 +27,8 @@ export class RoleService {
    */
   isSubmitter(): Observable<boolean> {
     return this.collectionService.hasAuthorizedCollection().pipe(
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      take(1)
     );
   }
 
@@ -35,14 +36,18 @@ export class RoleService {
    * Check if current user is a controller
    */
   isController(): Observable<boolean> {
-    return this.groupService.isMemberOf('Controllers');
+    return this.groupService.isMemberOf('Controllers').pipe(
+      take(1)
+    );
   }
 
   /**
    * Check if current user is an admin
    */
   isAdmin(): Observable<boolean> {
-    return this.groupService.isMemberOf('Administrator');
+    return this.groupService.isMemberOf('Administrator').pipe(
+      take(1)
+    );
   }
 
   /**
