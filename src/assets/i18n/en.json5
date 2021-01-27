@@ -3670,6 +3670,14 @@
 
   "submission.import-external.source.arxiv": "arXiv",
 
+  "submission.import-external.source.zdb": "ZDB",
+
+  "submission.import-external.source.cinii": "CINII",
+
+  "submission.import-external.source.ads": "ADS",
+
+  "submission.import-external.source.pubmedeu": "Pubmed EU",
+
   "submission.import-external.source.crossref": "CrossRef",
 
   "submission.import-external.source.loading": "Loading ...",

@@ -4732,6 +4732,35 @@
   // TODO New key - Add a translation
   "workflow-item.send-back.button.confirm": "Send back",
   
+  "submission.import-external.source.arxiv": "arXiv",
+
+  "submission.import-external.source.zdb": "ZDB",
+
+  "submission.import-external.source.cinii": "CINII",
+
+  "submission.import-external.source.ads": "ADS",
+
+  "submission.import-external.source.pubmedeu": "Pubmed EU",
+
+  "submission.import-external.source.crossref": "CrossRef",
+
+  "submission.import-external.source.loading": "Laden ...",
+
+  "submission.import-external.source.sherpaJournal": "SHERPA Journals",
+
+  "submission.import-external.source.sherpaPublisher": "SHERPA Publishers",
+
+  "submission.import-external.source.orcid": "ORCID",
+
+  "submission.import-external.source.pubmed": "Pubmed",
+
+  "submission.import-external.source.lcname": "Library of Congress Names",
+
+  "submission.import-external.source.scopus": "Scopus",
+
+  "submission.import-external.source.openaire": "OpenAIRE",
+
+  "submission.import-external.source.epo": "European Patent Office (EPO)",
   
 
 }
