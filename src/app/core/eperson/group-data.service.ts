@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { createSelector, select, Store } from '@ngrx/store';
 import { Operation } from 'fast-json-patch/lib/core';
 import { Observable, of as observableOf } from 'rxjs';
-import { catchError, filter, find, map, skipWhile, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
 import {
   GroupRegistryCancelGroupAction,
   GroupRegistryEditGroupAction
@@ -125,39 +125,6 @@ export class GroupDataService extends DataService<Group> {
       getRemoteDataPayload(),
       map((groups: PaginatedList<Group>) => groups.totalElements > 0),
       catchError(() => observableOf(false)),
-    );
-  }
-
-  /**
-   * Make a new FindListRequest with given search method
-   *
-   * @param searchMethod The search method for the object
-   * @param options The [[FindListOptions]] object
-   * @param linksToFollow The array of [[FollowLinkConfig]]
-   * @return {Observable<RemoteData<PaginatedList<T>>}
-   *    Return an observable that emits response from the server
-   */
-  searchBy(searchMethod: string, options: FindListOptions = {}, ...linksToFollow: Array<FollowLinkConfig<Group>>): Observable<RemoteData<PaginatedList<Group>>> {
-
-    const hrefObs = this.getSearchByHref(searchMethod, options, ...linksToFollow);
-
-    return hrefObs.pipe(
-      find((href: string) => hasValue(href)),
-      tap((href: string) => {
-          this.requestService.removeByHrefSubstring(href);
-          const request = new FindListRequest(this.requestService.generateRequestId(), href, options);
-          if (hasValue(this.responseMsToLive)) {
-            request.responseMsToLive = this.responseMsToLive;
-          }
-
-          this.requestService.configure(request);
-        }
-      ),
-      switchMap((href) => this.requestService.getByHref(href)),
-      skipWhile((requestEntry) => hasValue(requestEntry) && requestEntry.completed),
-      switchMap((href) =>
-        this.rdbService.buildList<Group>(hrefObs, ...linksToFollow) as Observable<RemoteData<PaginatedList<Group>>>
-      )
     );
   }
 
