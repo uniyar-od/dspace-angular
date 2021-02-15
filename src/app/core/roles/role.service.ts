@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, take } from 'rxjs/operators';
+import { interval, Observable, race } from 'rxjs';
+import { distinctUntilChanged, mapTo, take } from 'rxjs/operators';
 
 import { RoleType } from './role-types';
 import { CollectionDataService } from '../data/collection-data.service';
@@ -36,7 +36,10 @@ export class RoleService {
    * Check if current user is a controller
    */
   isController(): Observable<boolean> {
-    return this.groupService.isMemberOf('Controllers').pipe(
+    return race([
+        this.groupService.isMemberOf('Controllers'),
+        interval(5000).pipe(mapTo(false))
+    ]).pipe(
       take(1)
     );
   }
@@ -45,7 +48,10 @@ export class RoleService {
    * Check if current user is an admin
    */
   isAdmin(): Observable<boolean> {
-    return this.groupService.isMemberOf('Administrator').pipe(
+    return race([
+      this.groupService.isMemberOf('Administrator'),
+      interval(5000).pipe(mapTo(false))
+    ]).pipe(
       take(1)
     );
   }
