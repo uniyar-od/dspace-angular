@@ -64,7 +64,7 @@ export class DsDynamicFormArrayComponent extends DynamicFormArrayComponent {
         type: DynamicFormControlEventType.Change
       };
 
-      this.onChange($event);
+      this.onCustomEvent({ previousIndex: prevIndex }, 'move');
     }
   }
 

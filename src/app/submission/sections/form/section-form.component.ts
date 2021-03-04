@@ -448,4 +448,8 @@ export class SubmissionSectionformComponent extends SectionModelComponent {
   isFieldToRemove(fieldId, index) {
     return this.fieldsOnTheirWayToBeRemoved.has(fieldId) && this.fieldsOnTheirWayToBeRemoved.get(fieldId).includes(index);
   }
+
+  onCustomEvent($event: any) {
+    console.log($event);
+  }
 }
