@@ -86,7 +86,8 @@ export class SubmissionImportExternalPreviewComponent implements OnInit {
 
     this.modalRef.componentInstance.selectedEvent.pipe(
       mergeMap((collectionListEntry: CollectionListEntry) => {
-        return this.submissionService.createSubmissionFromExternalSource(this.externalSourceEntry._links.self.href, collectionListEntry.collection.id);
+        var obs = this.submissionService.createSubmissionFromExternalSource(this.externalSourceEntry._links.self.href, collectionListEntry.collection.id);
+        return obs;
       })
     ).subscribe((submissionObjects: SubmissionObject[]) => {
       let isValid = false
