@@ -4411,5 +4411,7 @@
   "relation.rp.projects.search.results.head": "Related Projects",
 
   "layout.i18n.link.default": "link"
+
+  "submission.sections.describe.relationship-lookup.selection-tab.title.zdb": "Results",
 }
 
