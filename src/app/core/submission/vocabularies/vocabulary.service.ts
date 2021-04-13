@@ -377,8 +377,6 @@ export class VocabularyService {
       null,
       null,
       null,
-      null,
-      null,
       pageInfo.elementsPerPage,
       pageInfo.currentPage
     );
@@ -402,8 +400,6 @@ export class VocabularyService {
    */
   searchTopEntries(name: string, pageInfo: PageInfo, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<VocabularyEntryDetail>[]): Observable<RemoteData<PaginatedList<VocabularyEntryDetail>>> {
     const options: VocabularyFindOptions = new VocabularyFindOptions(
-      null,
-      null,
       null,
       null,
       null,

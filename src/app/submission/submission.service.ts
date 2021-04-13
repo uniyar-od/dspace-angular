@@ -175,7 +175,7 @@ export class SubmissionService {
     options.params = params;
 
     return this.restService.postToEndpoint('workspaceitems', {}, null, options).pipe(
-      map((workspaceitem: SubmissionObject[]) => workspaceitem[0]))
+      map((workspaceitem: SubmissionObject[]) => workspaceitem[0]));
   }
 
   /**
@@ -209,7 +209,7 @@ export class SubmissionService {
     let headers = new HttpHeaders();
     headers = headers.append('Content-Type', 'text/uri-list');
     options.headers = headers;
-    return this.restService.postToEndpoint(this.workflowLinkPath, selfUrl, null, options, null, false) as Observable<SubmissionObject[]>;
+    return this.restService.postToEndpoint(this.workflowLinkPath, selfUrl, null, options) as Observable<SubmissionObject[]>;
   }
 
   /**

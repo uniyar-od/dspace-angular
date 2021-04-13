@@ -115,24 +115,4 @@ export class ExternalSourceService extends DataService<ExternalSource> {
     return this.rdbService.buildSingle(href$);
   }
 
-  /**
-   * Get an entry for an external source by given entry id
-   * @param externalSourceId  The id of the external source to fetch entries for
-   * @param entryId           The id of the entry to retrieve
-   */
-  getExternalSourceEntryById(externalSourceId: string, entryId: string): Observable<RemoteData<ExternalSourceEntry>> {
-    const requestUuid = this.requestService.generateRequestId();
-
-    const href$ = this.getEntryIDHref(externalSourceId, entryId).pipe(
-      isNotEmptyOperator(),
-      distinctUntilChanged()
-    );
-
-    href$.pipe(
-      map((endpoint: string) => new GetRequest(requestUuid, endpoint)),
-      configureRequest(this.requestService)
-    ).subscribe();
-
-    return this.rdbService.buildSingle(href$);
-  }
 }
