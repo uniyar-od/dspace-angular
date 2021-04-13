@@ -90,7 +90,7 @@ export class ItemDetailPreviewComponent {
       first())
       .subscribe((url) => {
         const fileUrl = `${url}/${uuid}/content`;
-        this.fileService.downloadFile(fileUrl);
+        this.fileService.retrieveFileDownloadLink(fileUrl);
       });
   }
 

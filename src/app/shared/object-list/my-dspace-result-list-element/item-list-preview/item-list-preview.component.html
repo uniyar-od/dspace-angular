@@ -1,4 +1,4 @@
-<ng-container *ngIf="item" @fadeInOut>
+<div *ngIf="item" @fadeInOut>
   <ng-container *ngIf="status">
     <ds-mydspace-item-status [status]="status"></ds-mydspace-item-status>
   </ng-container>
@@ -31,4 +31,4 @@
     </div>
   </ds-truncatable>
   <ds-item-submitter *ngIf="showSubmitter" [object]="getSubmissionObject()"></ds-item-submitter>
-</ng-container>
+</div>

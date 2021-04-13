@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -13,16 +13,24 @@ import { SharedModule } from '../../shared/shared.module';
 import { CollectionDataService } from '../../core/data/collection-data.service';
 import { FindListOptions } from '../../core/data/request.models';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { buildPaginatedList } from '../../core/data/paginated-list.model';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { HostWindowService } from '../../shared/host-window.service';
 import { HostWindowServiceStub } from '../../shared/testing/host-window-service.stub';
 import { SelectableListService } from '../../shared/object-list/selectable-list/selectable-list.service';
+import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
+import { of as observableOf } from 'rxjs';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { getMockThemeService } from '../../shared/mocks/theme-service.mock';
+import { ThemeService } from '../../shared/theme-support/theme.service';
+import { PaginationServiceStub } from '../../shared/testing/pagination-service.stub';
 
 describe('CommunityPageSubCollectionList Component', () => {
   let comp: CommunityPageSubCollectionListComponent;
   let fixture: ComponentFixture<CommunityPageSubCollectionListComponent>;
   let collectionDataServiceStub: any;
+  let themeService;
   let subCollList = [];
 
   const collections = [Object.assign(new Community(), {
@@ -97,7 +105,7 @@ describe('CommunityPageSubCollectionList Component', () => {
       let currentPage = options.currentPage;
       let elementsPerPage = options.elementsPerPage;
       if (currentPage === undefined) {
-        currentPage = 1
+        currentPage = 1;
       }
       elementsPerPage = 5;
       const startPageIndex = (currentPage - 1) * elementsPerPage;
@@ -105,12 +113,16 @@ describe('CommunityPageSubCollectionList Component', () => {
       if (endPageIndex > subCollList.length) {
         endPageIndex = subCollList.length;
       }
-      return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), subCollList.slice(startPageIndex, endPageIndex)));
+      return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), subCollList.slice(startPageIndex, endPageIndex)));
 
     }
   };
 
-  beforeEach(async(() => {
+  const paginationService = new PaginationServiceStub();
+
+  themeService = getMockThemeService();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot(),
@@ -123,7 +135,9 @@ describe('CommunityPageSubCollectionList Component', () => {
       providers: [
         { provide: CollectionDataService, useValue: collectionDataServiceStub },
         { provide: HostWindowService, useValue: new HostWindowServiceStub(0) },
+        { provide: PaginationService, useValue: paginationService },
         { provide: SelectableListService, useValue: {} },
+        { provide: ThemeService, useValue: themeService },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -154,29 +168,5 @@ describe('CommunityPageSubCollectionList Component', () => {
 
     const subComHead = fixture.debugElement.queryAll(By.css('h2'));
     expect(subComHead.length).toEqual(0);
-  });
-
-  it('should update list of collections on pagination change', () => {
-    subCollList = collections;
-    fixture.detectChanges();
-
-    const pagination = Object.create({
-      pagination:{
-        id: comp.pageId,
-        currentPage: 2,
-        pageSize: 5
-      },
-      sort: {
-        field: 'dc.title',
-        direction: 'ASC'
-      }
-    });
-    comp.onPaginationChange(pagination);
-    fixture.detectChanges();
-
-    const collList = fixture.debugElement.queryAll(By.css('li'));
-    expect(collList.length).toEqual(2);
-    expect(collList[0].nativeElement.textContent).toContain('Collection 6');
-    expect(collList[1].nativeElement.textContent).toContain('Collection 7');
   });
 });

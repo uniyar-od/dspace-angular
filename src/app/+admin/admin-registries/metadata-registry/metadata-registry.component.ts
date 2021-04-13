@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { RegistryService } from '../../../core/registry/registry.service';
-import { Observable, combineLatest as observableCombineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest as observableCombineLatest, Observable, zip } from 'rxjs';
 import { RemoteData } from '../../../core/data/remote-data';
-import { PaginatedList } from '../../../core/data/paginated-list';
+import { PaginatedList } from '../../../core/data/paginated-list.model';
 import { PaginationComponentOptions } from '../../../shared/pagination/pagination-component-options.model';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { hasValue } from '../../../shared/empty.util';
-import { RestResponse } from '../../../core/cache/response.models';
-import { zip } from 'rxjs/internal/observable/zip';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MetadataSchema } from '../../../core/metadata/metadata-schema.model';
 import { toFindListOptions } from '../../../shared/pagination/pagination.utils';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+import { NoContent } from '../../../core/shared/NoContent.model';
+import { getFirstCompletedRemoteData } from '../../../core/shared/operators';
+import { PaginationService } from '../../../core/pagination/pagination.service';
 
 @Component({
   selector: 'ds-metadata-registry',
@@ -35,7 +35,7 @@ export class MetadataRegistryComponent {
    * Pagination config used to display the list of metadata schemas
    */
   config: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
-    id: 'registry-metadataschemas-pagination',
+    id: 'rm',
     pageSize: 25
   });
 
@@ -47,26 +47,20 @@ export class MetadataRegistryComponent {
   constructor(private registryService: RegistryService,
               private notificationsService: NotificationsService,
               private router: Router,
+              private paginationService: PaginationService,
               private translateService: TranslateService) {
     this.updateSchemas();
-  }
-
-  /**
-   * Event triggered when the user changes page
-   * @param event
-   */
-  onPageChange(event) {
-    this.config.currentPage = event;
-    this.forceUpdateSchemas();
   }
 
   /**
    * Update the list of schemas by fetching it from the rest api or cache
    */
   private updateSchemas() {
+
     this.metadataSchemas = this.needsUpdate$.pipe(
       filter((update) => update === true),
-      switchMap(() => this.registryService.getMetadataSchemas(toFindListOptions(this.config)))
+      switchMap(() => this.paginationService.getCurrentPagination(this.config.id, this.config)),
+      switchMap((currentPagination) => this.registryService.getMetadataSchemas(toFindListOptions(currentPagination)))
     );
   }
 
@@ -140,12 +134,12 @@ export class MetadataRegistryComponent {
         const tasks$ = [];
         for (const schema of schemas) {
           if (hasValue(schema.id)) {
-            tasks$.push(this.registryService.deleteMetadataSchema(schema.id));
+            tasks$.push(this.registryService.deleteMetadataSchema(schema.id).pipe(getFirstCompletedRemoteData()));
           }
         }
-        zip(...tasks$).subscribe((responses: RestResponse[]) => {
-          const successResponses = responses.filter((response: RestResponse) => response.isSuccessful);
-          const failedResponses = responses.filter((response: RestResponse) => !response.isSuccessful);
+        zip(...tasks$).subscribe((responses: RemoteData<NoContent>[]) => {
+          const successResponses = responses.filter((response: RemoteData<NoContent>) => response.hasSucceeded);
+          const failedResponses = responses.filter((response: RemoteData<NoContent>) => response.hasFailed);
           if (successResponses.length > 0) {
             this.showNotification(true, successResponses.length);
           }
@@ -157,7 +151,7 @@ export class MetadataRegistryComponent {
           this.forceUpdateSchemas();
         });
       }
-    )
+    );
   }
 
   /**
@@ -170,14 +164,18 @@ export class MetadataRegistryComponent {
     const suffix = success ? 'success' : 'failure';
     const messages = observableCombineLatest(
       this.translateService.get(success ? `${prefix}.${suffix}` : `${prefix}.${suffix}`),
-      this.translateService.get(`${prefix}.deleted.${suffix}`, { amount: amount })
+      this.translateService.get(`${prefix}.deleted.${suffix}`, {amount: amount})
     );
     messages.subscribe(([head, content]) => {
       if (success) {
-        this.notificationsService.success(head, content)
+        this.notificationsService.success(head, content);
       } else {
-        this.notificationsService.error(head, content)
+        this.notificationsService.error(head, content);
       }
     });
   }
+  ngOnDestroy(): void {
+    this.paginationService.clearPagination(this.config.id);
+  }
+
 }

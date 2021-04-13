@@ -1,15 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TruncatableService } from '../../../../../shared/truncatable/truncatable.service';
 import { CollectionElementLinkType } from '../../../../../shared/object-collection/collection-element-link.type';
 import { ViewMode } from '../../../../../core/shared/view-mode.model';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ItemSearchResult } from '../../../../../shared/object-collection/shared/item-search-result.model';
 import { ItemAdminSearchResultListElementComponent } from './item-admin-search-result-list-element.component';
 import { Item } from '../../../../../core/shared/item.model';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
+import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service.mock';
 
 describe('ItemAdminSearchResultListElementComponent', () => {
   let component: ItemAdminSearchResultListElementComponent;
@@ -24,7 +24,7 @@ describe('ItemAdminSearchResultListElementComponent', () => {
     searchResult.indexableObject.uuid = id;
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       imports: [
@@ -32,7 +32,8 @@ describe('ItemAdminSearchResultListElementComponent', () => {
         RouterTestingModule.withRoutes([])
       ],
       declarations: [ItemAdminSearchResultListElementComponent],
-      providers: [{ provide: TruncatableService, useValue: {} }],
+      providers: [{ provide: TruncatableService, useValue: {} },
+        { provide: DSONameService, useClass: DSONameServiceMock }],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
@@ -51,51 +52,4 @@ describe('ItemAdminSearchResultListElementComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  describe('when the item is not withdrawn', () => {
-    beforeEach(() => {
-      component.dso.isWithdrawn = false;
-      fixture.detectChanges();
-    });
-
-    it('should not show the withdrawn badge', () => {
-      const badge = fixture.debugElement.query(By.css('div.withdrawn-badge'));
-      expect(badge).toBeNull();
-    });
-  });
-
-  describe('when the item is withdrawn', () => {
-    beforeEach(() => {
-      component.dso.isWithdrawn = true;
-      fixture.detectChanges();
-    });
-
-    it('should show the withdrawn badge', () => {
-      const badge = fixture.debugElement.query(By.css('div.withdrawn-badge'));
-      expect(badge).not.toBeNull();
-    });
-  });
-
-  describe('when the item is not private', () => {
-    beforeEach(() => {
-      component.dso.isDiscoverable = true;
-      fixture.detectChanges();
-    });
-    it('should not show the private badge', () => {
-      const badge = fixture.debugElement.query(By.css('div.private-badge'));
-      expect(badge).toBeNull();
-    });
-  });
-
-  describe('when the item is private', () => {
-    beforeEach(() => {
-      component.dso.isDiscoverable = false;
-      fixture.detectChanges();
-    });
-
-    it('should show the private badge', () => {
-      const badge = fixture.debugElement.query(By.css('div.private-badge'));
-      expect(badge).not.toBeNull();
-    });
-  })
 });

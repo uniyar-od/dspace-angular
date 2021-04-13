@@ -78,7 +78,7 @@ export class VocabularyExternalSourceComponent implements OnInit {
         return this.externalSourceService.getExternalSourceEntryById(
           this.externalSourceIdentifier,
           externalSourceId
-        )
+        );
       }),
       getFinishedRemoteData(),
       catchError((err) => {
@@ -94,7 +94,7 @@ export class VocabularyExternalSourceComponent implements OnInit {
         this.metadataList = [];
       }
       this.loading$.next(false);
-    })
+    });
   }
 
   /**
@@ -121,7 +121,7 @@ export class VocabularyExternalSourceComponent implements OnInit {
   }
 
   private getItemUUIDFromSubmissionObject(): Observable<string> {
-    return this.submissionObjectService.findById(this.submissionObjectID, followLink('item')).pipe(
+    return this.submissionObjectService.findById(this.submissionObjectID, true, true, followLink('item')).pipe(
       getFirstSucceededRemoteDataPayload(),
       switchMap((submissionObject: SubmissionObject) => (submissionObject.item as Observable<RemoteData<Item>>)
         .pipe(

@@ -12,7 +12,7 @@ import { ListableObject } from './shared/listable-object.model';
 import { isNotEmpty } from '../empty.util';
 import { ViewMode } from '../../core/shared/view-mode.model';
 import { CollectionElementLinkType } from './collection-element-link.type';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 import { Context } from '../../core/shared/context.model';
 
 /**
@@ -52,6 +52,11 @@ export class ObjectCollectionComponent implements OnInit {
   @Input() selectionConfig: {repeatable: boolean, listId: string};
   @Output() deselectObject: EventEmitter<ListableObject> = new EventEmitter<ListableObject>();
   @Output() selectObject: EventEmitter<ListableObject> = new EventEmitter<ListableObject>();
+
+  /**
+   * Emit when one of the collection's object has changed.
+   */
+  @Output() contentChange = new EventEmitter<any>();
 
   /**
    * Whether or not to add an import button to the object elements

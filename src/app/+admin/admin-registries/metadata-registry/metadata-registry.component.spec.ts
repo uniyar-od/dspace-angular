@@ -1,7 +1,7 @@
 import { MetadataRegistryComponent } from './metadata-registry.component';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { ComponentFixture, inject, TestBed, waitForAsync } from '@angular/core/testing';
 import { of as observableOf } from 'rxjs';
-import { PaginatedList } from '../../../core/data/paginated-list';
+import { buildPaginatedList } from '../../../core/data/paginated-list.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { By } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
@@ -18,11 +18,17 @@ import { NotificationsServiceStub } from '../../../shared/testing/notifications-
 import { RestResponse } from '../../../core/cache/response.models';
 import { MetadataSchema } from '../../../core/metadata/metadata-schema.model';
 import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
+import { PaginationService } from '../../../core/pagination/pagination.service';
+import { PaginationComponentOptions } from '../../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../../core/data/request.models';
+import { PaginationServiceStub } from '../../../shared/testing/pagination-service.stub';
 
 describe('MetadataRegistryComponent', () => {
   let comp: MetadataRegistryComponent;
   let fixture: ComponentFixture<MetadataRegistryComponent>;
   let registryService: RegistryService;
+  let paginationService;
   const mockSchemasList = [
     {
       id: 1,
@@ -45,27 +51,33 @@ describe('MetadataRegistryComponent', () => {
       namespace: 'http://dspace.org/mockschema'
     }
   ];
-  const mockSchemas = createSuccessfulRemoteDataObject$(new PaginatedList(null, mockSchemasList));
+  const mockSchemas = createSuccessfulRemoteDataObject$(buildPaginatedList(null, mockSchemasList));
   /* tslint:disable:no-empty */
   const registryServiceStub = {
     getMetadataSchemas: () => mockSchemas,
     getActiveMetadataSchema: () => observableOf(undefined),
     getSelectedMetadataSchemas: () => observableOf([]),
-    editMetadataSchema: (schema) => {},
-    cancelEditMetadataSchema: () => {},
+    editMetadataSchema: (schema) => {
+    },
+    cancelEditMetadataSchema: () => {
+    },
     deleteMetadataSchema: () => observableOf(new RestResponse(true, 200, 'OK')),
-    deselectAllMetadataSchema: () => {},
+    deselectAllMetadataSchema: () => {
+    },
     clearMetadataSchemaRequests: () => observableOf(undefined)
   };
   /* tslint:enable:no-empty */
 
-  beforeEach(async(() => {
+  paginationService = new PaginationServiceStub();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule],
       declarations: [MetadataRegistryComponent, PaginationComponent, EnumKeysPipe],
       providers: [
         { provide: RegistryService, useValue: registryServiceStub },
         { provide: HostWindowService, useValue: new HostWindowServiceStub(0) },
+        { provide: PaginationService, useValue: paginationService },
         { provide: NotificationsService, useValue: new NotificationsServiceStub() }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -107,13 +119,13 @@ describe('MetadataRegistryComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should start editing the selected schema', async(() => {
+    it('should start editing the selected schema', waitForAsync(() => {
       fixture.whenStable().then(() => {
         expect(registryService.editMetadataSchema).toHaveBeenCalledWith(mockSchemasList[0] as MetadataSchema);
       });
     }));
 
-    it('should cancel editing the selected schema when clicked again', async(() => {
+    it('should cancel editing the selected schema when clicked again', waitForAsync(() => {
       spyOn(registryService, 'getActiveMetadataSchema').and.returnValue(observableOf(mockSchemasList[0] as MetadataSchema));
       spyOn(registryService, 'cancelEditMetadataSchema');
       row.click();
@@ -134,7 +146,7 @@ describe('MetadataRegistryComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should call deleteMetadataSchema with the selected id', async(() => {
+    it('should call deleteMetadataSchema with the selected id', waitForAsync(() => {
       fixture.whenStable().then(() => {
         expect(registryService.deleteMetadataSchema).toHaveBeenCalledWith(selectedSchemas[0].id);
       });

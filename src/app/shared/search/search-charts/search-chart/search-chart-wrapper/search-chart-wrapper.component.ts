@@ -12,7 +12,7 @@ import { renderChartFilterType } from '../../chart-search-result-element-decorat
 })
 
 /**
- * Wrapper component that renders a specific facet filter based on the filter config's type
+ * Wrapper component that renders a specific chart facet filter based on the filter config's type
  */
 export class SearchChartFilterWrapperComponent implements OnInit {
   /**
@@ -60,7 +60,7 @@ export class SearchChartFilterWrapperComponent implements OnInit {
    * Find the correct component based on the filter config's type
    */
   getSearchFilter() {
-    const type: FilterType = this.filterConfig.type;
+    const type: FilterType = this.filterConfig.filterType;
     return renderChartFilterType(type);
   }
 }

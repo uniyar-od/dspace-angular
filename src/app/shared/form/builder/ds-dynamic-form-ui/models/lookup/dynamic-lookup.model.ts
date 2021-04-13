@@ -24,6 +24,6 @@ export class DynamicLookupModel extends DsDynamicInputModel {
     this.maxOptions = config.maxOptions || 10;
     this.submissionScope = config.submissionScope;
 
-    this.valueUpdates.next(config.value);
+    this.value = config.value;
   }
 }

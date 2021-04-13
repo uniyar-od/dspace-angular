@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -9,7 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { TopLevelCommunityListComponent } from './top-level-community-list.component';
 import { Community } from '../../core/shared/community.model';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { buildPaginatedList } from '../../core/data/paginated-list.model';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { SharedModule } from '../../shared/shared.module';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
@@ -18,11 +18,20 @@ import { HostWindowService } from '../../shared/host-window.service';
 import { HostWindowServiceStub } from '../../shared/testing/host-window-service.stub';
 import { CommunityDataService } from '../../core/data/community-data.service';
 import { SelectableListService } from '../../shared/object-list/selectable-list/selectable-list.service';
+import { of as observableOf } from 'rxjs';
+import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { getMockThemeService } from '../../shared/mocks/theme-service.mock';
+import { ThemeService } from '../../shared/theme-support/theme.service';
+import { PaginationServiceStub } from '../../shared/testing/pagination-service.stub';
 
 describe('TopLevelCommunityList Component', () => {
   let comp: TopLevelCommunityListComponent;
   let fixture: ComponentFixture<TopLevelCommunityListComponent>;
   let communityDataServiceStub: any;
+  let paginationService;
+  let themeService;
 
   const topCommList = [Object.assign(new Community(), {
     id: '123456789-1',
@@ -87,7 +96,7 @@ describe('TopLevelCommunityList Component', () => {
       let currentPage = options.currentPage;
       let elementsPerPage = options.elementsPerPage;
       if (currentPage === undefined) {
-        currentPage = 1
+        currentPage = 1;
       }
       elementsPerPage = 5;
 
@@ -96,12 +105,16 @@ describe('TopLevelCommunityList Component', () => {
       if (endPageIndex > topCommList.length) {
         endPageIndex = topCommList.length;
       }
-      return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), topCommList.slice(startPageIndex, endPageIndex)));
+      return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), topCommList.slice(startPageIndex, endPageIndex)));
 
     }
   };
 
-  beforeEach(async(() => {
+  paginationService = new PaginationServiceStub();
+
+  themeService = getMockThemeService();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot(),
@@ -114,7 +127,9 @@ describe('TopLevelCommunityList Component', () => {
       providers: [
         { provide: CommunityDataService, useValue: communityDataServiceStub },
         { provide: HostWindowService, useValue: new HostWindowServiceStub(0) },
+        { provide: PaginationService, useValue: paginationService },
         { provide: SelectableListService, useValue: {} },
+        { provide: ThemeService, useValue: themeService },
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -136,26 +151,5 @@ describe('TopLevelCommunityList Component', () => {
     expect(subComList[2].nativeElement.textContent).toContain('TopCommunity 3');
     expect(subComList[3].nativeElement.textContent).toContain('TopCommunity 4');
     expect(subComList[4].nativeElement.textContent).toContain('TopCommunity 5');
-  });
-
-  it('should update list of top-communities on pagination change', () => {
-    const pagination = Object.create({
-      pagination:{
-        id: comp.pageId,
-        currentPage: 2,
-        pageSize: 5
-      },
-      sort: {
-        field: 'dc.title',
-        direction: 'ASC'
-      }
-    });
-    comp.onPaginationChange(pagination);
-    fixture.detectChanges();
-
-    const collList = fixture.debugElement.queryAll(By.css('li'));
-    expect(collList.length).toEqual(2);
-    expect(collList[0].nativeElement.textContent).toContain('TopCommunity 6');
-    expect(collList[1].nativeElement.textContent).toContain('TopCommunity 7');
   });
 });

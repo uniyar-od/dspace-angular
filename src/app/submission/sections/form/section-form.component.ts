@@ -2,17 +2,24 @@ import { ChangeDetectorRef, Component, Inject, ViewChild, OnDestroy } from '@ang
 import { DynamicFormControlEvent, DynamicFormControlModel } from '@ng-dynamic-forms/core';
 
 import { combineLatest as observableCombineLatest, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, find, flatMap, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  find,
+  map,
+  take,
+  tap,
+  mergeMap
+} from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
-import { isEqual } from 'lodash';
+import { findIndex, isEqual } from 'lodash';
 
 import { FormBuilderService } from '../../../shared/form/builder/form-builder.service';
 import { FormComponent } from '../../../shared/form/form.component';
 import { FormService } from '../../../shared/form/form.service';
 import { SectionModelComponent } from '../models/section.model';
 import { SubmissionFormsConfigService } from '../../../core/config/submission-forms-config.service';
-import { hasNoValue, hasValue, isNotEmpty, isUndefined } from '../../../shared/empty.util';
-import { ConfigData } from '../../../core/config/config-data';
+import { hasValue, isNotEmpty, isUndefined } from '../../../shared/empty.util';
 import { JsonPatchOperationPathCombiner } from '../../../core/json-patch/builder/json-patch-operation-path-combiner';
 import { SubmissionFormsModel } from '../../../core/config/models/config-submission-forms.model';
 import { SubmissionSectionError, SubmissionSectionObject } from '../../objects/submission-objects.reducer';
@@ -27,13 +34,14 @@ import { SectionsService } from '../sections.service';
 import { difference } from '../../../shared/object.util';
 import { WorkspaceitemSectionFormObject } from '../../../core/submission/models/workspaceitem-section-form.model';
 import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
-import { getRemoteDataPayload, getSucceededRemoteData } from '../../../core/shared/operators';
-import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
+import { getFirstSucceededRemoteData, getRemoteDataPayload } from '../../../core/shared/operators';
 import { SubmissionObjectDataService } from '../../../core/submission/submission-object-data.service';
 import { ObjectCacheService } from '../../../core/cache/object-cache.service';
 import { RequestService } from '../../../core/data/request.service';
 import { followLink } from '../../../shared/utils/follow-link-config.model';
 import { environment } from '../../../../environments/environment';
+import { ConfigObject } from '../../../core/config/models/config.model';
+import { RemoteData } from '../../../core/data/remote-data';
 
 /**
  * This component represents a section that contains a Form.
@@ -89,6 +97,12 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
   protected formData: any = Object.create({});
 
   /**
+   * Store the
+   * @protected
+   */
+  protected sectionMetadata: string[];
+
+  /**
    * The [JsonPatchOperationPathCombiner] object
    * @type {JsonPatchOperationPathCombiner}
    */
@@ -110,7 +124,7 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
   /**
    * The FormComponent reference
    */
-  @ViewChild('formRef', {static: false}) private formRef: FormComponent;
+  @ViewChild('formRef') private formRef: FormComponent;
 
   /**
    * Initialize instance variables
@@ -155,27 +169,17 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
   onSectionInit() {
     this.pathCombiner = new JsonPatchOperationPathCombiner('sections', this.sectionData.id);
     this.formId = this.formService.getUniqueId(this.sectionData.id);
-    this.formConfigService.getConfigByHref(this.sectionData.config).pipe(
-      map((configData: ConfigData) => configData.payload),
+    this.sectionService.dispatchSetSectionFormId(this.submissionId, this.sectionData.id, this.formId);
+    this.formConfigService.findByHref(this.sectionData.config).pipe(
+      map((configData: RemoteData<ConfigObject>) => configData.payload),
       tap((config: SubmissionFormsModel) => this.formConfig = config),
-      flatMap(() =>
-        observableCombineLatest(
+      mergeMap(() =>
+        observableCombineLatest([
           this.sectionService.getSectionData(this.submissionId, this.sectionData.id, this.sectionData.sectionType),
-          this.submissionObjectService.getHrefByID(this.submissionId).pipe(take(1)).pipe(
-            switchMap((href: string) => {
-              this.objectCache.remove(href);
-              this.requestService.removeByHrefSubstring(this.submissionId);
-              return observableCombineLatest(
-                this.objectCache.hasBySelfLinkObservable(href),
-                this.requestService.hasByHrefObservable(href)
-              ).pipe(
-                filter(([existsInOC, existsInRC]) => !existsInOC && !existsInRC),
-                take(1),
-                switchMap(() => this.submissionObjectService.findById(this.submissionId, followLink('item')).pipe(getSucceededRemoteData(), getRemoteDataPayload()) as Observable<SubmissionObject>)
-              )
-            })
-          )
-        )),
+          this.submissionObjectService.findById(this.submissionId, true, false, followLink('item')).pipe(
+            getFirstSucceededRemoteData(),
+            getRemoteDataPayload())
+        ])),
       take(1))
       .subscribe(([sectionData, workspaceItem]: [WorkspaceitemSectionFormObject, WorkspaceItem]) => {
         if (isUndefined(this.formModel)) {
@@ -188,7 +192,7 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
           this.isLoading = false;
           this.cdr.detectChanges();
         }
-      })
+      });
   }
 
   /**
@@ -217,16 +221,25 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
    *    the section data retrieved from the server
    */
   hasMetadataEnrichment(sectionData: WorkspaceitemSectionFormObject): boolean {
+
+    const sectionDataToCheck = {};
+    Object.keys(sectionData).forEach((key) => {
+      if (this.sectionMetadata && this.sectionMetadata.includes(key)) {
+        sectionDataToCheck[key] = sectionData[key];
+      }
+    });
+
     const diffResult = [];
 
     // compare current form data state with section data retrieved from store
-    const diffObj = difference(sectionData, this.formData);
+    const diffObj = difference(sectionDataToCheck, this.formData);
 
     // iterate over differences to check whether they are actually different
     Object.keys(diffObj)
       .forEach((key) => {
         diffObj[key].forEach((value) => {
-          if (value.hasOwnProperty('value')) {
+          // the findIndex extra check excludes values already present in the form but in different positions
+          if (value.hasOwnProperty('value') && findIndex(this.formData[key], { value: value.value }) < 0) {
             diffResult.push(value);
           }
         });
@@ -249,6 +262,9 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
         sectionData,
         this.submissionService.getSubmissionScope()
       );
+      const sectionMetadata = this.sectionService.computeSectionConfiguredMetadata(this.formConfig);
+      this.sectionService.updateSectionData(this.submissionId, this.sectionData.id, sectionData, [], sectionMetadata);
+
       // Add created model to formBulderService
       this.formBuilderService.addFormModel(this.sectionData.id, this.formModel);
     } catch (e) {
@@ -272,15 +288,19 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
    */
   updateForm(sectionData: WorkspaceitemSectionFormObject, errors: SubmissionSectionError[]): void {
 
-    if (hasValue(sectionData) && !isEqual(sectionData, this.sectionData.data)) {
+    if (isNotEmpty(sectionData) && !isEqual(sectionData, this.sectionData.data)) {
       this.sectionData.data = sectionData;
-      this.isUpdating = true;
-      this.formModel = null;
-      this.cdr.detectChanges();
-      this.initForm(sectionData);
-      this.checksForErrors(errors);
-      this.isUpdating = false;
-      this.cdr.detectChanges();
+      if (this.hasMetadataEnrichment(sectionData)) {
+        this.isUpdating = true;
+        this.formModel = null;
+        this.cdr.detectChanges();
+        this.initForm(sectionData);
+        this.checksForErrors(errors);
+        this.isUpdating = false;
+        this.cdr.detectChanges();
+      } else if (isNotEmpty(errors) || isNotEmpty(this.sectionData.errors)) {
+        this.checksForErrors(errors);
+      }
     } else if (isNotEmpty(errors) || isNotEmpty(this.sectionData.errors)) {
       this.checksForErrors(errors);
     }
@@ -322,14 +342,15 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
        */
       this.sectionService.getSectionState(this.submissionId, this.sectionData.id, this.sectionData.sectionType).pipe(
         filter((sectionState: SubmissionSectionObject) => {
-          return isNotEmpty(sectionState) && (isNotEmpty(sectionState.data) || isNotEmpty(sectionState.errors))
+          return isNotEmpty(sectionState) && (isNotEmpty(sectionState.data) || isNotEmpty(sectionState.errors));
         }),
         distinctUntilChanged())
         .subscribe((sectionState: SubmissionSectionObject) => {
           this.fieldsOnTheirWayToBeRemoved = new Map();
+          this.sectionMetadata = sectionState.metadata;
           this.updateForm(sectionState.data as WorkspaceitemSectionFormObject, sectionState.errors);
         })
-    )
+    );
   }
 
   /**
@@ -340,19 +361,16 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
    *    the [[DynamicFormControlEvent]] emitted
    */
   onChange(event: DynamicFormControlEvent): void {
-    // don't handle change events for things with an index < 0, those are template rows.
-    if (hasNoValue(event.context) || hasNoValue(event.context.index) || event.context.index >= 0) {
-      this.formOperationsService.dispatchOperationsFromEvent(
-        this.pathCombiner,
-        event,
-        this.previousValue,
-        this.hasStoredValue(this.formBuilderService.getId(event.model), this.formOperationsService.getArrayIndexFromEvent(event)));
-      const metadata = this.formOperationsService.getFieldPathSegmentedFromChangeEvent(event);
-      const value = this.formOperationsService.getFieldValueFromChangeEvent(event);
+    this.formOperationsService.dispatchOperationsFromEvent(
+      this.pathCombiner,
+      event,
+      this.previousValue,
+      this.hasStoredValue(this.formBuilderService.getId(event.model), this.formOperationsService.getArrayIndexFromEvent(event)));
+    const metadata = this.formOperationsService.getFieldPathSegmentedFromChangeEvent(event);
+    const value = this.formOperationsService.getFieldValueFromChangeEvent(event);
 
-      if (environment.submission.autosave.metadata.indexOf(metadata) !== -1 && isNotEmpty(value)) {
-        this.submissionService.dispatchSave(this.submissionId);
-      }
+    if (environment.submission.autosave.metadata.indexOf(metadata) !== -1 && isNotEmpty(value)) {
+      this.submissionService.dispatchSave(this.submissionId);
     }
   }
 
@@ -431,6 +449,19 @@ export class SubmissionSectionformComponent extends SectionModelComponent implem
    */
   isFieldToRemove(fieldId, index) {
     return this.fieldsOnTheirWayToBeRemoved.has(fieldId) && this.fieldsOnTheirWayToBeRemoved.get(fieldId).includes(index);
+  }
+
+  /**
+   * Handle the customEvent (ex. drag-drop move event).
+   * The customEvent is stored inside event.$event
+   * @param $event
+   */
+  onCustomEvent(event: DynamicFormControlEvent) {
+    this.formOperationsService.dispatchOperationsFromEvent(
+      this.pathCombiner,
+      event,
+      this.previousValue,
+      null);
   }
 
   ngOnDestroy(): void {

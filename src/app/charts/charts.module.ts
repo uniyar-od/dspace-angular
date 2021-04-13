@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { BarChartComponent } from './components/bar-chart/bar-chart.component';
 import { ChartComponent } from './components/chart/chart.component';
 import { LineChartComponent } from './components/line-chart/line-chart.component';
 import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 
+
 const MODULES = [
-  NgxChartsModule
+  NgxChartsModule,
+  TranslateModule
 ];
 
 const COMPONENTS = [
@@ -31,9 +34,6 @@ const ENTRY_COMPONENTS = [
   ],
   declarations: [
     ...COMPONENTS,
-    ...ENTRY_COMPONENTS
-  ],
-  entryComponents: [
     ...ENTRY_COMPONENTS
   ],
   exports: [

@@ -1,5 +1,5 @@
 import { BrowseByDatePageComponent } from './browse-by-date-page.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import { BrowseService } from '../../core/browse/browse.service';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
 import { RouterMock } from '../../shared/mocks/router.mock';
 import { ChangeDetectorRef, NO_ERRORS_SCHEMA } from '@angular/core';
-import { of as observableOf } from 'rxjs/internal/observable/of';
+import { of as observableOf } from 'rxjs';
 import { ActivatedRouteStub } from '../../shared/testing/active-router.stub';
 import { Community } from '../../core/shared/community.model';
 import { Item } from '../../core/shared/item.model';
@@ -18,11 +18,17 @@ import { BrowseEntrySearchOptions } from '../../core/browse/browse-entry-search-
 import { toRemoteData } from '../+browse-by-metadata-page/browse-by-metadata-page.component.spec';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
+import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../core/data/request.models';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../shared/testing/pagination-service.stub';
 
 describe('BrowseByDatePageComponent', () => {
   let comp: BrowseByDatePageComponent;
   let fixture: ComponentFixture<BrowseByDatePageComponent>;
   let route: ActivatedRoute;
+  let paginationService;
 
   const mockCommunity = Object.assign(new Community(), {
     id: 'test-uuid',
@@ -65,7 +71,9 @@ describe('BrowseByDatePageComponent', () => {
     detectChanges: () => fixture.detectChanges()
   });
 
-  beforeEach(async(() => {
+  paginationService = new PaginationServiceStub();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule],
       declarations: [BrowseByDatePageComponent, EnumKeysPipe, VarDirective],
@@ -74,6 +82,7 @@ describe('BrowseByDatePageComponent', () => {
         { provide: BrowseService, useValue: mockBrowseService },
         { provide: DSpaceObjectDataService, useValue: mockDsoService },
         { provide: Router, useValue: new RouterMock() },
+        { provide: PaginationService, useValue: paginationService },
         { provide: ChangeDetectorRef, useValue: mockCdRef }
       ],
       schemas: [NO_ERRORS_SCHEMA]

@@ -6,69 +6,46 @@ import { SharedModule } from '../shared/shared.module';
 import { MyDspacePageRoutingModule } from './my-dspace-page-routing.module';
 import { MyDSpacePageComponent } from './my-dspace-page.component';
 import { MyDSpaceResultsComponent } from './my-dspace-results/my-dspace-results.component';
-import { WorkspaceItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workspace-item-search-result/workspace-item-search-result-list-element.component';
-import { ClaimedSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/claimed-search-result/claimed-search-result-list-element.component';
-import { PoolSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/pool-search-result/pool-search-result-list-element.component';
 import { MyDSpaceNewSubmissionComponent } from './my-dspace-new-submission/my-dspace-new-submission.component';
-import { ItemSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/item-search-result/item-search-result-detail-element.component';
-import { WorkspaceItemSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/workspace-item-search-result/workspace-item-search-result-detail-element.component';
-import { WorkflowItemSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/workflow-item-search-result/workflow-item-search-result-detail-element.component';
-import { ClaimedTaskSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/claimed-task-search-result/claimed-task-search-result-detail-element.component';
 import { MyDSpaceGuard } from './my-dspace.guard';
 import { MyDSpaceConfigurationService } from './my-dspace-configuration.service';
-import { SearchResultListElementComponent } from '../shared/object-list/search-result-list-element/search-result-list-element.component';
-import { ItemSearchResultListElementSubmissionComponent } from '../shared/object-list/my-dspace-result-list-element/item-search-result/item-search-result-list-element-submission.component';
-import { WorkflowItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/workflow-item-search-result/workflow-item-search-result-list-element.component';
-import { PoolSearchResultDetailElementComponent } from '../shared/object-detail/my-dspace-result-detail-element/pool-search-result/pool-search-result-detail-element.component';
-import { OtherWorkspaceItemSearchResultListElementComponent } from '../shared/object-list/my-dspace-result-list-element/other-workspace-item-search-result/other-workspace-item-search-result-list-element.component';
-import { MyDSpaceNewSubmissionDropdownComponent } from './my-dspace-new-submission/my-dspace-new-submission-dropdown/my-dspace-new-submission-dropdown.component';
 import { CollectionSelectorComponent } from './collection-selector/collection-selector.component';
+import { MyDspaceSearchModule } from './my-dspace-search.module';
+import { MyDSpaceNewSubmissionDropdownComponent } from './my-dspace-new-submission/my-dspace-new-submission-dropdown/my-dspace-new-submission-dropdown.component';
 import { MyDSpaceNewExternalDropdownComponent } from './my-dspace-new-submission/my-dspace-new-external-dropdown/my-dspace-new-external-dropdown.component';
+import { SuggestionsService } from '../openaire/reciter-suggestions/suggestions.service';
+import { OpenaireSuggestionsDataService } from '../core/openaire/reciter-suggestions/openaire-suggestions-data.service';
+import { OpenaireModule } from '../openaire/openaire.module';
+import { MyDSpaceNewBulkImportComponent } from './my-dspace-new-submission/my-dspace-new-bulk-import/my-dspace-new-bulk-import.component';
+import { ThemedMyDSpacePageComponent } from './themed-my-dspace-page.component';
+
+const DECLARATIONS = [
+  MyDSpacePageComponent,
+  ThemedMyDSpacePageComponent,
+  MyDSpaceResultsComponent,
+  MyDSpaceNewSubmissionComponent,
+  CollectionSelectorComponent,
+  MyDSpaceNewSubmissionDropdownComponent,
+  MyDSpaceNewExternalDropdownComponent,
+  MyDSpaceNewBulkImportComponent
+];
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
     MyDspacePageRoutingModule,
+    MyDspaceSearchModule.withEntryComponents(),
+    OpenaireModule
   ],
-  declarations: [
-    MyDSpacePageComponent,
-    MyDSpaceResultsComponent,
-    WorkspaceItemSearchResultListElementComponent,
-    WorkflowItemSearchResultListElementComponent,
-    ClaimedSearchResultListElementComponent,
-    PoolSearchResultListElementComponent,
-    ItemSearchResultDetailElementComponent,
-    WorkspaceItemSearchResultDetailElementComponent,
-    WorkflowItemSearchResultDetailElementComponent,
-    ClaimedTaskSearchResultDetailElementComponent,
-    PoolSearchResultDetailElementComponent,
-    MyDSpaceNewSubmissionComponent,
-    ItemSearchResultListElementSubmissionComponent,
-    OtherWorkspaceItemSearchResultListElementComponent,
-    CollectionSelectorComponent,
-    MyDSpaceNewSubmissionDropdownComponent,
-    MyDSpaceNewExternalDropdownComponent,
-  ],
+  declarations: DECLARATIONS,
   providers: [
     MyDSpaceGuard,
-    MyDSpaceConfigurationService
+    MyDSpaceConfigurationService,
+    SuggestionsService,
+    OpenaireSuggestionsDataService
   ],
-  entryComponents: [
-    SearchResultListElementComponent,
-    WorkspaceItemSearchResultListElementComponent,
-    WorkflowItemSearchResultListElementComponent,
-    ClaimedSearchResultListElementComponent,
-    PoolSearchResultListElementComponent,
-    ItemSearchResultDetailElementComponent,
-    WorkspaceItemSearchResultDetailElementComponent,
-    WorkflowItemSearchResultDetailElementComponent,
-    ClaimedTaskSearchResultDetailElementComponent,
-    PoolSearchResultDetailElementComponent,
-    ItemSearchResultListElementSubmissionComponent,
-    CollectionSelectorComponent,
-    OtherWorkspaceItemSearchResultListElementComponent
-  ]
+  exports: DECLARATIONS,
 })
 
 /**

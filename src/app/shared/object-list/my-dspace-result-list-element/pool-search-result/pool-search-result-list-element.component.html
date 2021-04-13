@@ -6,6 +6,5 @@
                         [showSubmitter]="showSubmitter"
                         [status]="status"
                         [showIsCorrection]="true"></ds-item-list-preview>
-
-  <ds-pool-task-actions *ngIf="workflowitem" [object]="dso"></ds-pool-task-actions>
+  <ds-pool-task-actions id="actions" *ngIf="workflowitem" [object]="dso" (processCompleted)="this.reloadedObject.emit($event.reloadedObject)"></ds-pool-task-actions>
 </ng-container>

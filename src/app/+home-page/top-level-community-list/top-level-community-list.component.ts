@@ -1,15 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, OnDestroy } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest as observableCombineLatest, Subscription } from 'rxjs';
 
 import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { CommunityDataService } from '../../core/data/community-data.service';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 import { RemoteData } from '../../core/data/remote-data';
 import { Community } from '../../core/shared/community.model';
 import { fadeInOut } from '../../shared/animations/fade';
 import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { hasValue } from '../../shared/empty.util';
+import { switchMap } from 'rxjs/operators';
+import { PaginationService } from '../../core/pagination/pagination.service';
 
 /**
  * this component renders the Top-Level Community list
@@ -22,7 +24,7 @@ import { PaginationComponentOptions } from '../../shared/pagination/pagination-c
   animations: [fadeInOut]
 })
 
-export class TopLevelCommunityListComponent implements OnInit {
+export class TopLevelCommunityListComponent implements OnInit, OnDestroy {
   /**
    * A list of remote data objects of all top communities
    */
@@ -36,14 +38,20 @@ export class TopLevelCommunityListComponent implements OnInit {
   /**
    * The pagination id
    */
-  pageId = 'top-level-pagination';
+  pageId = 'tl';
 
   /**
    * The sorting configuration
    */
   sortConfig: SortOptions;
 
-  constructor(private cds: CommunityDataService) {
+  /**
+   * The subscription to the observable for the current page.
+   */
+  currentPageSubscription: Subscription;
+
+  constructor(private cds: CommunityDataService,
+              private paginationService: PaginationService) {
     this.config = new PaginationComponentOptions();
     this.config.id = this.pageId;
     this.config.pageSize = 5;
@@ -52,31 +60,45 @@ export class TopLevelCommunityListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.updatePage();
+    this.initPage();
   }
 
-  /**
-   * Called when one of the pagination settings is changed
-   * @param event The new pagination data
-   */
-  onPaginationChange(event) {
-    this.config.currentPage = event.pagination.currentPage;
-    this.config.pageSize = event.pagination.pageSize;
-    this.sortConfig.field = event.sort.field;
-    this.sortConfig.direction = event.sort.direction;
-    this.updatePage();
-  }
 
   /**
    * Update the list of top communities
    */
-  updatePage() {
-    this.cds.findTop({
-      currentPage: this.config.currentPage,
-      elementsPerPage: this.config.pageSize,
-      sort: { field: this.sortConfig.field, direction: this.sortConfig.direction }
-    }).pipe(take(1)).subscribe((results) => {
+  initPage() {
+    const pagination$ = this.paginationService.getCurrentPagination(this.config.id, this.config);
+    const sort$ = this.paginationService.getCurrentSort(this.config.id, this.sortConfig);
+
+    this.currentPageSubscription = observableCombineLatest([pagination$, sort$]).pipe(
+      switchMap(([currentPagination, currentSort]) => {
+        return this.cds.findTop({
+          currentPage: currentPagination.currentPage,
+          elementsPerPage: currentPagination.pageSize,
+          sort: {field: currentSort.field, direction: currentSort.direction}
+        });
+      })
+    ).subscribe((results) => {
       this.communitiesRD$.next(results);
     });
   }
+
+  /**
+   * Unsubscribe the top list subscription if it exists
+   */
+  private unsubscribe() {
+    if (hasValue(this.currentPageSubscription)) {
+      this.currentPageSubscription.unsubscribe();
+    }
+  }
+
+  /**
+   * Clean up subscriptions when the component is destroyed
+   */
+  ngOnDestroy() {
+    this.unsubscribe();
+    this.paginationService.clearPagination(this.config.id);
+  }
+
 }

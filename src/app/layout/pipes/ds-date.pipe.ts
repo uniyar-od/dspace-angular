@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { hasValue } from 'src/app/shared/empty.util';
+import { ChangeDetectorRef, OnDestroy, Pipe, PipeTransform } from '@angular/core';
+import { hasValue } from '../../shared/empty.util';
 import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -36,20 +36,24 @@ export class DsDatePipe implements PipeTransform, OnDestroy {
   transform(value: string, ...params: any[]): string {
     let result: Observable<string>;
     if (hasValue(value)) {
-      const tks = value.split(this.seperator);
-      if (hasValue(tks) && tks.length > 1) {
-        result = this.translateService.get(
-          this.months.get( parseInt(tks[1], 10) )
-        ).pipe(
-          map( (month) => {
-            let date = '';
-            if (tks[2]) {
-              date += tks[2] + ' ';
-            }
-            date += month + ' ' + tks[0];
-            return date;
-          } )
-        );
+      if ( !isNaN(Date.parse(value))) {
+        const tks = value.split(this.seperator);
+        if (hasValue(tks) && tks.length > 1) {
+          result = this.translateService.get(
+            this.months.get( parseInt(tks[1], 10) )
+          ).pipe(
+            map( (month) => {
+              let date = '';
+              if (tks[2]) {
+                date += tks[2] + ' ';
+              }
+              date += month + ' ' + tks[0];
+              return date;
+            } )
+          );
+        } else {
+          result = of(value);
+        }
       } else {
         result = of(value);
       }
