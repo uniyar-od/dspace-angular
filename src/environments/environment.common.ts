@@ -313,10 +313,13 @@ export const environment: GlobalConfig = {
     //   // This theme will use the default bootstrap styling for DSpace components
     //   name: BASE_THEME_NAME
     // },
-
+    // {
+    //   // The default dspace theme
+    //   name: 'dspace'
+    // },
     {
-      // The default dspace theme
-      name: 'dspace'
+      // The publica theme
+      name: 'publica'
     },
   ],
   // Whether the UI should rewrite file download URLs to match its domain. Only necessary to enable when running UI and REST API on separate domains

@@ -65,6 +65,11 @@
                 "input": "src/themes/dspace/styles/theme.scss",
                 "inject": false,
                 "bundleName": "dspace-theme"
+              },
+              {
+                "input": "src/themes/publica/styles/theme.scss",
+                "inject": false,
+                "bundleName": "publica-theme"
               }
             ],
             "scripts": []
