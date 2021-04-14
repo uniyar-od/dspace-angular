@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {
@@ -35,10 +35,10 @@ describe('SectionFormOperationsService test suite', () => {
   let serviceAsAny: any;
 
   const jsonPatchOpBuilder: any = jasmine.createSpyObj('jsonPatchOpBuilder', {
-    add: jasmine.createSpy('add'),
-    replace: jasmine.createSpy('replace'),
-    remove: jasmine.createSpy('remove'),
-  });
+      add: jasmine.createSpy('add'),
+      replace: jasmine.createSpy('replace'),
+      remove: jasmine.createSpy('remove'),
+    });
   const pathCombiner = new JsonPatchOperationPathCombiner('sections', 'test');
 
   const dynamicFormControlChangeEvent: DynamicFormControlEvent = {
@@ -59,7 +59,7 @@ describe('SectionFormOperationsService test suite', () => {
     type: 'remove'
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot({
@@ -78,9 +78,9 @@ describe('SectionFormOperationsService test suite', () => {
   }));
 
   beforeEach(() => {
-    service = TestBed.get(SectionFormOperationsService);
+    service = TestBed.inject(SectionFormOperationsService);
     serviceAsAny = service;
-    formBuilderService = TestBed.get(FormBuilderService);
+    formBuilderService = TestBed.inject(FormBuilderService);
   });
 
   describe('dispatchOperationsFromEvent', () => {
@@ -758,6 +758,6 @@ describe('SectionFormOperationsService test suite', () => {
 
       expect(jsonPatchOpBuilder.remove).toHaveBeenCalledWith(pathCombiner.getPath('path'));
     });
-  })
+  });
 
 });

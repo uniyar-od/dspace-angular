@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { BitstreamDataService } from '../../../../core/data/bitstream-data.service';
 
 import { Bitstream } from '../../../../core/shared/bitstream.model';
@@ -7,13 +7,13 @@ import { Item } from '../../../../core/shared/item.model';
 import { followLink } from '../../../../shared/utils/follow-link-config.model';
 import { FileSectionComponent } from '../../../simple/field-components/file-section/file-section.component';
 import { PaginationComponentOptions } from '../../../../shared/pagination/pagination-component-options.model';
-import { PaginatedList } from '../../../../core/data/paginated-list';
+import { PaginatedList } from '../../../../core/data/paginated-list.model';
 import { RemoteData } from '../../../../core/data/remote-data';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { NotificationsService } from '../../../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
 import { hasValue, isEmpty } from '../../../../shared/empty.util';
-import { tap } from 'rxjs/internal/operators/tap';
+import { PaginationService } from '../../../../core/pagination/pagination.service';
 
 /**
  * This component renders the file section of the item
@@ -36,23 +36,22 @@ export class FullFileSectionComponent extends FileSectionComponent implements On
 
   pageSize = 5;
   originalOptions = Object.assign(new PaginationComponentOptions(), {
-    id: 'original-bitstreams-options',
+    id: 'obo',
     currentPage: 1,
     pageSize: this.pageSize
   });
-  originalCurrentPage$ = new BehaviorSubject<number>(1);
 
   licenseOptions = Object.assign(new PaginationComponentOptions(), {
-    id: 'license-bitstreams-options',
+    id: 'lbo',
     currentPage: 1,
     pageSize: this.pageSize
   });
-  licenseCurrentPage$ = new BehaviorSubject<number>(1);
 
   constructor(
     bitstreamDataService: BitstreamDataService,
     protected notificationsService: NotificationsService,
-    protected translateService: TranslateService
+    protected translateService: TranslateService,
+    protected paginationService: PaginationService
   ) {
     super(bitstreamDataService, notificationsService, translateService);
   }
@@ -62,57 +61,49 @@ export class FullFileSectionComponent extends FileSectionComponent implements On
   }
 
   initialize(): void {
-    this.originals$ = this.originalCurrentPage$.pipe(
-      switchMap((pageNumber: number) => this.bitstreamDataService.findAllByItemAndBundleName(
+    this.originals$ = this.paginationService.getCurrentPagination(this.originalOptions.id, this.originalOptions).pipe(
+      switchMap((options: PaginationComponentOptions) => this.bitstreamDataService.findAllByItemAndBundleName(
         this.item,
         'ORIGINAL',
-        {elementsPerPage: this.pageSize, currentPage: pageNumber},
+        {elementsPerPage: options.pageSize, currentPage: options.currentPage},
+        true,
+        true,
         followLink('format')
       )),
       tap((rd: RemoteData<PaginatedList<Bitstream>>) => {
-          if (hasValue(rd.error)) {
-            this.notificationsService.error(this.translateService.get('file-section.error.header'), `${rd.error.statusCode} ${rd.error.message}`);
+          if (hasValue(rd.errorMessage)) {
+            this.notificationsService.error(this.translateService.get('file-section.error.header'), `${rd.statusCode} ${rd.errorMessage}`);
           }
         }
       )
     );
 
-    this.licenses$ = this.licenseCurrentPage$.pipe(
-      switchMap((pageNumber: number) => this.bitstreamDataService.findAllByItemAndBundleName(
+    this.licenses$ = this.paginationService.getCurrentPagination(this.licenseOptions.id, this.licenseOptions).pipe(
+      switchMap((options: PaginationComponentOptions) => this.bitstreamDataService.findAllByItemAndBundleName(
         this.item,
         'LICENSE',
-        {elementsPerPage: this.pageSize, currentPage: pageNumber},
+        {elementsPerPage: options.pageSize, currentPage: options.currentPage},
+        true,
+        true,
         followLink('format')
       )),
       tap((rd: RemoteData<PaginatedList<Bitstream>>) => {
-          if (hasValue(rd.error)) {
-            this.notificationsService.error(this.translateService.get('file-section.error.header'), `${rd.error.statusCode} ${rd.error.message}`);
+          if (hasValue(rd.errorMessage)) {
+            this.notificationsService.error(this.translateService.get('file-section.error.header'), `${rd.statusCode} ${rd.errorMessage}`);
           }
         }
       )
     );
 
-  }
-
-  /**
-   * Update the current page for the original bundle bitstreams
-   * @param page
-   */
-  switchOriginalPage(page: number) {
-    this.originalOptions.currentPage = page;
-    this.originalCurrentPage$.next(page);
-  }
-
-  /**
-   * Update the current page for the license bundle bitstreams
-   * @param page
-   */
-  switchLicensePage(page: number) {
-    this.licenseOptions.currentPage = page;
-    this.licenseCurrentPage$.next(page);
   }
 
   hasValuesInBundle(bundle: PaginatedList<Bitstream>) {
     return hasValue(bundle) && !isEmpty(bundle.page);
   }
+
+  ngOnDestroy(): void {
+    this.paginationService.clearPagination(this.originalOptions.id);
+    this.paginationService.clearPagination(this.licenseOptions.id);
+  }
+
 }

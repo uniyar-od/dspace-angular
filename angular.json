@@ -17,24 +17,60 @@
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "extractCss": true,
+            "preserveSymlinks": true,
             "customWebpackConfig": {
               "path": "./webpack/webpack.browser.ts",
               "mergeStrategies": {
                 "loaders": "prepend"
               }
             },
+            "allowedCommonJsDependencies": [
+              "angular2-text-mask",
+              "cerialize",
+              "core-js",
+              "file-saver",
+              "html2pdf.js",
+              "lodash",
+              "jwt-decode",
+              "ngx-export-as",
+              "url-parse",
+              "uuid",
+              "webfontloader",
+              "xlsx",
+              "zone.js"
+            ],
             "outputPath": "dist/browser",
             "index": "src/index.html",
             "main": "src/main.browser.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "src/assets",
               "src/robots.txt"
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "src/styles/base-theme.scss",
+                "inject": false,
+                "bundleName": "base-theme"
+              },
+              {
+                "input": "src/themes/custom/styles/theme.scss",
+                "inject": false,
+                "bundleName": "custom-theme"
+              },
+              {
+                "input": "src/themes/dspace/styles/theme.scss",
+                "inject": false,
+                "bundleName": "dspace-theme"
+              },
+              {
+                "input": "src/themes/publica/styles/theme.scss",
+                "inject": false,
+                "bundleName": "publica-theme"
+              }
             ],
             "scripts": []
           },
@@ -56,8 +92,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "200kb",
+                  "maximumError": "300kb"
                 }
               ]
             }
@@ -94,11 +130,21 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "sourceMap": {
+              "scripts": false,
+              "styles": false,
+              "hidden": false,
+              "vendor": false
+            },
             "assets": [
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              {
+                "input": "src/styles/base-theme.scss",
+                "inject": false,
+                "bundleName": "base-theme"
+              }
             ],
             "scripts": []
           }
@@ -149,6 +195,33 @@
                 "styles": true
               }
             }
+          }
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "options": {
+            "browserTarget": "dspace-angular:build",
+            "serverTarget": "dspace-angular:server",
+            "port": 4000
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "dspace-angular:build:production",
+              "serverTarget": "dspace-angular:server:production"
+            }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "dspace-angular:build:production",
+            "serverTarget": "dspace-angular:server:production",
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }

@@ -7,13 +7,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { RemoteData } from 'src/app/core/data/remote-data';
-import { SearchService } from 'src/app/core/shared/search/search.service';
-import { TranslateLoaderMock } from 'src/app/shared/mocks/translate-loader.mock';
-import { createSuccessfulRemoteDataObject$ } from 'src/app/shared/remote-data.utils';
-import { FacetValue } from 'src/app/shared/search/facet-value.model';
-import { FilterType } from 'src/app/shared/search/filter-type.model';
-import { SearchFilterConfig } from 'src/app/shared/search/search-filter-config.model';
+import { RemoteData } from '../../../core/data/remote-data';
+import { SearchService } from '../../../core/shared/search/search.service';
+import { TranslateLoaderMock } from '../../../shared/mocks/translate-loader.mock';
+import { createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
+import { FacetValue } from '../../../shared/search/facet-value.model';
+import { FilterType } from '../../../shared/search/filter-type.model';
+import { SearchFilterConfig } from '../../../shared/search/search-filter-config.model';
 import { FacetSectionComponent } from './facet-section.component';
 
 describe('FacetSectionComponent', () => {
@@ -54,7 +54,7 @@ describe('FacetSectionComponent', () => {
 
   const mockAuthorFilterConfig = Object.assign(new SearchFilterConfig(), {
     name: 'author',
-    type: FilterType.text,
+    filterType: FilterType.text,
     _embedded: {
       values: [authorFirstValue, authorSecondValue]
     }
@@ -62,7 +62,7 @@ describe('FacetSectionComponent', () => {
 
   const mockSubjectFilterConfig = Object.assign(new SearchFilterConfig(), {
     name: 'subject',
-    type: FilterType.hierarchy,
+    filterType: FilterType.hierarchy,
     _embedded: {
       values: []
     }
@@ -70,7 +70,7 @@ describe('FacetSectionComponent', () => {
 
   const mockDateIssuedFilterConfig = Object.assign(new SearchFilterConfig(), {
     name: 'dateIssued',
-    type: FilterType.range,
+    filterType: FilterType.range,
     _embedded: {
       values: [dateIssuedValue]
     }
@@ -85,7 +85,7 @@ describe('FacetSectionComponent', () => {
       getSearchLink(): string {
         return '/search';
       }
-    }
+    };
 
     TestBed.configureTestingModule({
       imports: [CommonModule, NgbModule, FormsModule, ReactiveFormsModule, BrowserModule, RouterTestingModule,
@@ -113,7 +113,7 @@ describe('FacetSectionComponent', () => {
       discoveryConfigurationName: 'publication',
       componentType: 'facet',
       style: 'col-md-12'
-    }
+    };
 
     fixture.detectChanges();
   });
@@ -135,12 +135,12 @@ describe('FacetSectionComponent', () => {
 
     const firstAuthor = authorFacet.children[1];
     expect(firstAuthor.name).toEqual('div');
-    expect(firstAuthor.query(By.css('a')).nativeElement.href).toContain('search?configuration=publication&page=1&f.author=First%20Author');
+    expect(firstAuthor.query(By.css('a')).nativeElement.href).toContain('search?configuration=publication&page=1&f.author=First%20Author,equals');
     expect(firstAuthor.query(By.css('span.badge.badge-secondary')).nativeElement.textContent).toEqual('20');
 
     const secondAuthor = authorFacet.children[2];
     expect(secondAuthor.name).toEqual('div');
-    expect(secondAuthor.query(By.css('a')).nativeElement.href).toContain('search?configuration=publication&page=1&f.author=Second%20Author');
+    expect(secondAuthor.query(By.css('a')).nativeElement.href).toContain('search?configuration=publication&page=1&f.author=Second%20Author,equals');
     expect(secondAuthor.query(By.css('span.badge.badge-secondary')).nativeElement.textContent).toEqual('15');
 
     const dateIssuedFacet = facets[1];

@@ -145,7 +145,7 @@ describe('VocabularyExternalSourceComponent', () => {
     });
 
     it('should init component properly', () => {
-      const expectedMedata = Metadata.toViewModelList(externalEntry.metadata)
+      const expectedMedata = Metadata.toViewModelList(externalEntry.metadata);
       scheduler.schedule(() => component.ngOnInit());
       scheduler.flush();
 
@@ -183,7 +183,7 @@ describe('VocabularyExternalSourceComponent', () => {
 
     it('should show notification when import has not succeeded ', () => {
       spyOn(component, 'closeModal');
-      itemDataService.importExternalSourceEntry.and.returnValue(createFailedRemoteDataObject$(new Item()));
+      itemDataService.importExternalSourceEntry.and.returnValue(createFailedRemoteDataObject$('fail'));
 
       scheduler.schedule(() => componentAsAny.createEntityFromExternalSource(externalEntry, emittedEvent.uuid));
       scheduler.flush();
@@ -195,7 +195,7 @@ describe('VocabularyExternalSourceComponent', () => {
   describe('when external source is retrieved unsuccessfully', () => {
 
     beforeEach(() => {
-      externalSourceService.getExternalSourceEntryById.and.returnValue(createFailedRemoteDataObject$(externalEntry));
+      externalSourceService.getExternalSourceEntryById.and.returnValue(createFailedRemoteDataObject$('fail'));
       fixture = TestBed.createComponent(VocabularyExternalSourceComponent);
       component = fixture.componentInstance;
       componentAsAny = fixture.componentInstance;

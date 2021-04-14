@@ -1,5 +1,5 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, inject, TestBed } from '@angular/core/testing';
 
 import { getTestScheduler } from 'jasmine-marbles';
 import { TranslateModule } from '@ngx-translate/core';
@@ -41,7 +41,7 @@ describe('SubmissionImportExternalComponent test suite', () => {
   };
   const mockExternalSourceService: any = getMockExternalSourceService();
 
-  beforeEach(async (() => {
+  beforeEach(waitForAsync (() => {
     TestBed.configureTestingModule({
       imports: [
         TranslateModule.forRoot()
@@ -91,7 +91,7 @@ describe('SubmissionImportExternalComponent test suite', () => {
       comp = fixture.componentInstance;
       compAsAny = comp;
       scheduler = getTestScheduler();
-      mockExternalSourceService.getExternalSourceEntries.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([])))
+      mockExternalSourceService.getExternalSourceEntries.and.returnValue(createSuccessfulRemoteDataObject$(createPaginatedList([])));
     });
 
     afterEach(() => {
@@ -117,15 +117,22 @@ describe('SubmissionImportExternalComponent test suite', () => {
       spyOn(compAsAny.routeService, 'getQueryParameterValue').and.returnValues(observableOf('entity'), observableOf('source'), observableOf('dummy'));
       fixture.detectChanges();
 
-      expect(compAsAny.retrieveExternalSources).toHaveBeenCalledWith('entity', 'source', 'dummy');
+      expect(compAsAny.retrieveExternalSources).toHaveBeenCalled();
     });
 
     it('Should call \'getExternalSourceEntries\' properly', () => {
-      comp.routeData = { entity: 'Person', sourceId: '', query: '' };
-      scheduler.schedule(() => compAsAny.retrieveExternalSources('Person', 'orcidV2', 'test'));
-      scheduler.flush();
+      spyOn(routeServiceStub, 'getQueryParameterValue').and.callFake((param) => {
+        if (param === 'source') {
+          return observableOf('orcidV2');
+        } else if (param === 'query') {
+          return observableOf('test');
+        }
+        return observableOf({});
+      });
 
-      expect(comp.routeData).toEqual({entity: 'Person', sourceId: 'orcidV2', query: 'test' });
+      fixture.detectChanges();
+
+
       expect(comp.isLoading$.value).toBe(false);
       expect(compAsAny.externalService.getExternalSourceEntries).toHaveBeenCalled();
     });
@@ -133,13 +140,13 @@ describe('SubmissionImportExternalComponent test suite', () => {
     it('Should call \'router.navigate\'', () => {
       comp.routeData = {entity: 'Person', sourceId: '', query: '' };
       spyOn(compAsAny, 'retrieveExternalSources').and.callFake(() => null);
-      compAsAny.router.navigate.and.returnValue( new Promise(() => {return;}))
+      compAsAny.router.navigate.and.returnValue( new Promise(() => {return;}));
       const event = {entity: 'Person', sourceId: 'orcidV2', query: 'dummy' };
 
       scheduler.schedule(() => comp.getExternalSourceData(event));
       scheduler.flush();
 
-      expect(compAsAny.router.navigate).toHaveBeenCalledWith([], { queryParams: { entity: event.entity, source: event.sourceId, query: event.query }, replaceUrl: true });
+      expect(compAsAny.router.navigate).toHaveBeenCalledWith([], { queryParams: { entity: event.entity, sourceId: event.sourceId, query: event.query }, replaceUrl: true });
     });
 
     it('Entry should be passed to the component loaded inside the modal', () => {

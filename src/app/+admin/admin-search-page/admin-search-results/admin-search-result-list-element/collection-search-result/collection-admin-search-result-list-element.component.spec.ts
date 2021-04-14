@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { CollectionAdminSearchResultListElementComponent } from './collection-admin-search-result-list-element.component';
@@ -11,6 +11,8 @@ import { Collection } from '../../../../../core/shared/collection.model';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { getCollectionEditRoute } from '../../../../../+collection-page/collection-page-routing-paths';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
+import { DSONameServiceMock } from '../../../../../shared/mocks/dso-name.service.mock';
 
 describe('CollectionAdminSearchResultListElementComponent', () => {
   let component: CollectionAdminSearchResultListElementComponent;
@@ -24,7 +26,8 @@ describe('CollectionAdminSearchResultListElementComponent', () => {
     searchResult.indexableObject = new Collection();
     searchResult.indexableObject.uuid = id;
   }
-  beforeEach(async(() => {
+
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       imports: [
@@ -32,7 +35,8 @@ describe('CollectionAdminSearchResultListElementComponent', () => {
         RouterTestingModule.withRoutes([])
       ],
       declarations: [CollectionAdminSearchResultListElementComponent],
-      providers: [{ provide: TruncatableService, useValue: {} }],
+      providers: [{ provide: TruncatableService, useValue: {} },
+        { provide: DSONameService, useClass: DSONameServiceMock }],
       schemas: [NO_ERRORS_SCHEMA]
     })
       .compileComponents();
@@ -56,5 +60,5 @@ describe('CollectionAdminSearchResultListElementComponent', () => {
     const a = fixture.debugElement.query(By.css('a'));
     const link = a.nativeElement.href;
     expect(link).toContain(getCollectionEditRoute(id));
-  })
+  });
 });

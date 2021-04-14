@@ -1,4 +1,4 @@
-import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { ChangeDetectionStrategy, Injector, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -16,6 +16,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
+import createSpy = jasmine.createSpy;
 
 describe('AdminSidebarComponent', () => {
   let comp: AdminSidebarComponent;
@@ -24,7 +26,7 @@ describe('AdminSidebarComponent', () => {
   let authorizationService: AuthorizationDataService;
   let scriptService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     authorizationService = jasmine.createSpyObj('authorizationService', {
       isAuthorized: observableOf(true)
     });
@@ -33,7 +35,7 @@ describe('AdminSidebarComponent', () => {
       imports: [TranslateModule.forRoot(), NoopAnimationsModule, RouterTestingModule],
       declarations: [AdminSidebarComponent],
       providers: [
-        { provide: Injector, useValue: {} },
+        Injector,
         { provide: MenuService, useValue: menuService },
         { provide: CSSVariableService, useClass: CSSVariableServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
@@ -72,7 +74,7 @@ describe('AdminSidebarComponent', () => {
 
       it('should set the sidebarClosed to false', () => {
         expect(comp.sidebarClosed).toBeFalsy();
-      })
+      });
     });
 
     describe('when collapsing', () => {
@@ -83,8 +85,8 @@ describe('AdminSidebarComponent', () => {
 
       it('should set the sidebarOpen to false', () => {
         expect(comp.sidebarOpen).toBeFalsy();
-      })
-    })
+      });
+    });
   });
 
   describe('finishSlide', () => {
@@ -96,7 +98,7 @@ describe('AdminSidebarComponent', () => {
 
       it('should set the sidebarClosed to true', () => {
         expect(comp.sidebarClosed).toBeTruthy();
-      })
+      });
     });
 
     describe('when collapsing', () => {
@@ -107,8 +109,8 @@ describe('AdminSidebarComponent', () => {
 
       it('should set the sidebarOpen to true', () => {
         expect(comp.sidebarOpen).toBeTruthy();
-      })
-    })
+      });
+    });
   });
 
   describe('when the collapse icon is clicked', () => {
@@ -169,5 +171,151 @@ describe('AdminSidebarComponent', () => {
       tick(1);
       expect(menuService.collapseMenuPreview).toHaveBeenCalled();
     }));
+  });
+
+  describe('menu', () => {
+    beforeEach(() => {
+      spyOn(menuService, 'addSection');
+    });
+
+    describe('for regular user', () => {
+      beforeEach(() => {
+        authorizationService.isAuthorized = createSpy('isAuthorized').and.callFake(() => {
+          return observableOf(false);
+        });
+      });
+
+      beforeEach(() => {
+        comp.createMenu();
+      });
+
+      it('should not show site admin section', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'admin_search', visible: false,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'registries', visible: false,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          parentID: 'registries', visible: false,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'curation_tasks', visible: false,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'workflow', visible: false,
+        }));
+      });
+
+      it('should not show edit_community', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'edit_community', visible: false,
+        }));
+
+      });
+
+      it('should not show edit_collection', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'edit_collection', visible: false,
+        }));
+      });
+
+      it('should not show access control section', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          id: 'access_control', visible: false,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+          parentID: 'access_control', visible: false,
+        }));
+
+      });
+    });
+
+    describe('for site admin', () => {
+      beforeEach(() => {
+        authorizationService.isAuthorized = createSpy('isAuthorized').and.callFake((featureID: FeatureID) => {
+          return observableOf(featureID === FeatureID.AdministratorOf);
+        });
+      });
+
+      beforeEach(() => {
+        comp.createMenu();
+      });
+
+      it('should contain site admin section', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'admin_search', visible: true,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'registries', visible: true,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            parentID: 'registries', visible: true,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'curation_tasks', visible: true,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'workflow', visible: true,
+        }));
+      });
+    });
+
+    describe('for community admin', () => {
+      beforeEach(() => {
+        authorizationService.isAuthorized = createSpy('isAuthorized').and.callFake((featureID: FeatureID) => {
+          return observableOf(featureID === FeatureID.IsCommunityAdmin);
+        });
+      });
+
+      beforeEach(() => {
+        comp.createMenu();
+      });
+
+      it('should show edit_community', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'edit_community', visible: true,
+        }));
+      });
+    });
+
+    describe('for collection admin', () => {
+      beforeEach(() => {
+        authorizationService.isAuthorized = createSpy('isAuthorized').and.callFake((featureID: FeatureID) => {
+          return observableOf(featureID === FeatureID.IsCollectionAdmin);
+        });
+      });
+
+      beforeEach(() => {
+        comp.createMenu();
+      });
+
+      it('should show edit_collection', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'edit_collection', visible: true,
+        }));
+      });
+    });
+
+    describe('for group admin', () => {
+      beforeEach(() => {
+        authorizationService.isAuthorized = createSpy('isAuthorized').and.callFake((featureID: FeatureID) => {
+          return observableOf(featureID === FeatureID.CanManageGroups);
+        });
+      });
+
+      beforeEach(() => {
+        comp.createMenu();
+      });
+
+      it('should show access control section', () => {
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            id: 'access_control', visible: true,
+        }));
+        expect(menuService.addSection).toHaveBeenCalledWith(comp.menuID, jasmine.objectContaining({
+            parentID: 'access_control', visible: true,
+        }));
+      });
+    });
   });
 });

@@ -1,6 +1,11 @@
 import { FacetValue } from './facet-value.model';
 import { SearchFilterConfig } from './search-filter-config.model';
-import { addOperatorToFilterValue, getFacetValueForType, stripOperatorFromFilterValue } from './search.utils';
+import {
+  addOperatorToFilterValue,
+  escapeRegExp,
+  getFacetValueForType, getFacetValueForTypeAndLabel,
+  stripOperatorFromFilterValue
+} from './search.utils';
 
 describe('Search Utils', () => {
   describe('getFacetValueForType', () => {
@@ -34,6 +39,37 @@ describe('Search Utils', () => {
     });
   });
 
+  describe('getFacetValueForTypeAndLabel', () => {
+    let facetValueWithSearchHref: FacetValue;
+    let facetValueWithoutSearchHref: FacetValue;
+    let searchFilterConfig: SearchFilterConfig;
+
+    beforeEach(() => {
+      facetValueWithSearchHref = Object.assign(new FacetValue(), {
+        label: 'Facet Label',
+        _links: {
+          search: {
+            href: 'rest/api/search?f.otherFacet=Other facet value,operator&f.facetName=Facet Label with search href,operator'
+          }
+        }
+      });
+      facetValueWithoutSearchHref = Object.assign(new FacetValue(), {
+        label: 'Facet Label',
+      });
+      searchFilterConfig = Object.assign(new SearchFilterConfig(), {
+        name: 'facetName'
+      });
+    });
+
+    it('should retrieve the correct value from the search href', () => {
+      expect(getFacetValueForTypeAndLabel(facetValueWithSearchHref, searchFilterConfig)).toEqual('Facet Label with search href,operator');
+    });
+
+    it('should return the facet value with an equals operator by default', () => {
+      expect(getFacetValueForTypeAndLabel(facetValueWithoutSearchHref, searchFilterConfig)).toEqual('Facet Label,equals');
+    });
+  });
+
   describe('stripOperatorFromFilterValue', () => {
     it('should strip the operator from the value', () => {
       expect(stripOperatorFromFilterValue('value,operator')).toEqual('value');
@@ -47,6 +83,84 @@ describe('Search Utils', () => {
 
     it('shouldn\'t add the operator to the value if it already contains the operator', () => {
       expect(addOperatorToFilterValue('value,operator', 'operator')).toEqual('value,operator');
+    });
+  });
+
+  describe(`escapeRegExp`, () => {
+    it(`should escape all occurrences of '.' in the input string`, () => {
+      const input = `a.string.with.a.number.of.'.'s.in.it`;
+      const expected = `a\\.string\\.with\\.a\\.number\\.of\\.'\\.'s\\.in\\.it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '*' in the input string`, () => {
+      const input = `a*string*with*a*number*of*'*'s*in*it`;
+      const expected = `a\\*string\\*with\\*a\\*number\\*of\\*'\\*'s\\*in\\*it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '+' in the input string`, () => {
+      const input = `a+string+with+a+number+of+'+'s+in+it`;
+      const expected = `a\\+string\\+with\\+a\\+number\\+of\\+'\\+'s\\+in\\+it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '-' in the input string`, () => {
+      const input = `a-string-with-a-number-of-'-'s-in-it`;
+      const expected = `a\\-string\\-with\\-a\\-number\\-of\\-'\\-'s\\-in\\-it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '?' in the input string`, () => {
+      const input = `a?string?with?a?number?of?'?'s?in?it`;
+      const expected = `a\\?string\\?with\\?a\\?number\\?of\\?'\\?'s\\?in\\?it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '^' in the input string`, () => {
+      const input = `a^string^with^a^number^of^'^'s^in^it`;
+      const expected = `a\\^string\\^with\\^a\\^number\\^of\\^'\\^'s\\^in\\^it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '$' in the input string`, () => {
+      const input = `a$string$with$a$number$of$'$'s$in$it`;
+      const expected = `a\\$string\\$with\\$a\\$number\\$of\\$'\\$'s\\$in\\$it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '{' in the input string`, () => {
+      const input = `a{string{with{a{number{of{'{'s{in{it`;
+      const expected = `a\\{string\\{with\\{a\\{number\\{of\\{'\\{'s\\{in\\{it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '}' in the input string`, () => {
+      const input = `a}string}with}a}number}of}'}'s}in}it`;
+      const expected = `a\\}string\\}with\\}a\\}number\\}of\\}'\\}'s\\}in\\}it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '(' in the input string`, () => {
+      const input = `a(string(with(a(number(of('('s(in(it`;
+      const expected = `a\\(string\\(with\\(a\\(number\\(of\\('\\('s\\(in\\(it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of ')' in the input string`, () => {
+      const input = `a)string)with)a)number)of)')'s)in)it`;
+      const expected = `a\\)string\\)with\\)a\\)number\\)of\\)'\\)'s\\)in\\)it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '|' in the input string`, () => {
+      const input = `a|string|with|a|number|of|'|'s|in|it`;
+      const expected = `a\\|string\\|with\\|a\\|number\\|of\\|'\\|'s\\|in\\|it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '[' in the input string`, () => {
+      const input = `a[string[with[a[number[of['['s[in[it`;
+      const expected = `a\\[string\\[with\\[a\\[number\\[of\\['\\['s\\[in\\[it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of ']' in the input string`, () => {
+      const input = `a]string]with]a]number]of]']'s]in]it`;
+      const expected = `a\\]string\\]with\\]a\\]number\\]of\\]'\\]'s\\]in\\]it`;
+      expect(escapeRegExp(input)).toEqual(expected);
+    });
+    it(`should escape all occurrences of '\' in the input string`, () => {
+      const input = `a\\string\\with\\a\\number\\of\\'\\'s\\in\\it`;
+      const expected = `a\\\\string\\\\with\\\\a\\\\number\\\\of\\\\'\\\\'s\\\\in\\\\it`;
+      expect(escapeRegExp(input)).toEqual(expected);
     });
   });
 });

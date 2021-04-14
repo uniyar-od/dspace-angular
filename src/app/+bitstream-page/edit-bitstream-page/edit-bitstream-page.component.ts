@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Bitstream } from '../../core/shared/bitstream.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, mergeMap, switchMap} from 'rxjs/operators';
-import { combineLatest as observableCombineLatest, of as observableOf } from 'rxjs';
-import { Subscription } from 'rxjs/internal/Subscription';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
+import { combineLatest as observableCombineLatest, Observable, of as observableOf, Subscription } from 'rxjs';
 import {
   DynamicFormControlModel,
   DynamicFormGroupModel,
@@ -22,22 +21,20 @@ import {
   getAllSucceededRemoteDataPayload,
   getFirstSucceededRemoteDataPayload,
   getRemoteDataPayload,
-  getSucceededRemoteData
+  getFirstSucceededRemoteData,
+  getFirstCompletedRemoteData
 } from '../../core/shared/operators';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { BitstreamFormatDataService } from '../../core/data/bitstream-format-data.service';
 import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 import { BitstreamFormatSupportLevel } from '../../core/shared/bitstream-format-support-level';
-import { RestResponse } from '../../core/cache/response.models';
 import { hasValue, isNotEmpty } from '../../shared/empty.util';
 import { Metadata } from '../../core/shared/metadata.utils';
 import { Location } from '@angular/common';
-import { Observable } from 'rxjs/internal/Observable';
 import { RemoteData } from '../../core/data/remote-data';
-import { PaginatedList } from '../../core/data/paginated-list';
-import { getItemEditRoute } from '../../+item-page/item-page-routing-paths';
-import {Bundle} from '../../core/shared/bundle.model';
-import {Item} from '../../core/shared/item.model';
+import { PaginatedList } from '../../core/data/paginated-list.model';
+import { getEntityEditRoute, getItemEditRoute } from '../../+item-page/item-page-routing-paths';
+import { Bundle } from '../../core/shared/bundle.model';
 
 @Component({
   selector: 'ds-edit-bitstream-page',
@@ -266,8 +263,16 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
   /**
    * The ID of the item the bitstream originates from
    * Taken from the current query parameters when present
+   * This will determine the route of the item edit page to return to
    */
   itemId: string;
+
+  /**
+   * The entity type of the item the bitstream originates from
+   * Taken from the current query parameters when present
+   * This will determine the route of the item edit page to return to
+   */
+  entityType: string;
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -295,16 +300,17 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
     this.formGroup = this.formService.createFormGroup(this.formModel);
 
     this.itemId = this.route.snapshot.queryParams.itemId;
+    this.entityType = this.route.snapshot.queryParams.entityType;
     this.bitstreamRD$ = this.route.data.pipe(map((data) => data.bitstream));
     this.bitstreamFormatsRD$ = this.bitstreamFormatService.findAll(this.findAllOptions);
 
     const bitstream$ = this.bitstreamRD$.pipe(
-      getSucceededRemoteData(),
+      getFirstSucceededRemoteData(),
       getRemoteDataPayload()
     );
 
     const allFormats$ = this.bitstreamFormatsRD$.pipe(
-      getSucceededRemoteData(),
+      getFirstSucceededRemoteData(),
       getRemoteDataPayload()
     );
 
@@ -328,7 +334,7 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
         this.updateFieldTranslations();
       })
     );
-  };
+  }
 
   /**
    * Update the current form values with bitstream properties
@@ -438,16 +444,15 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
 
     if (isNewFormat) {
       bitstream$ = this.bitstreamService.updateFormat(this.bitstream, selectedFormat).pipe(
-        switchMap((formatResponse: RestResponse) => {
-          if (hasValue(formatResponse) && !formatResponse.isSuccessful) {
+        getFirstCompletedRemoteData(),
+        map((formatResponse: RemoteData<Bitstream>) => {
+          if (hasValue(formatResponse) && formatResponse.hasFailed) {
             this.notificationsService.error(
               this.translate.instant(this.NOTIFICATIONS_PREFIX + 'error.format.title'),
-              formatResponse.statusText
+              formatResponse.errorMessage
             );
           } else {
-            return this.bitstreamService.findById(this.bitstream.id).pipe(
-              getFirstSucceededRemoteDataPayload()
-            );
+            return formatResponse.payload;
           }
         })
       );
@@ -502,10 +507,10 @@ export class EditBitstreamPageComponent implements OnInit, OnDestroy {
    */
   navigateToItemEditBitstreams() {
     if (hasValue(this.itemId)) {
-      this.router.navigate([getItemEditRoute(this.itemId), 'bitstreams']);
+      this.router.navigate([getEntityEditRoute(this.entityType, this.itemId), 'bitstreams']);
     } else {
       this.bitstream.bundle.pipe(getFirstSucceededRemoteDataPayload(),
-          mergeMap((bundle: Bundle) => bundle.item.pipe(getFirstSucceededRemoteDataPayload(), map((item: Item) => item.uuid))))
+          mergeMap((bundle: Bundle) => bundle.item.pipe(getFirstSucceededRemoteDataPayload())))
           .subscribe((item) => {
             this.router.navigate(([getItemEditRoute(item), 'bitstreams']));
           });

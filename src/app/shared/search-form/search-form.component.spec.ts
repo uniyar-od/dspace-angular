@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { SearchFormComponent } from './search-form.component';
@@ -8,6 +8,13 @@ import { Community } from '../../core/shared/community.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { DSpaceObject } from '../../core/shared/dspace-object.model';
 import { SearchService } from '../../core/shared/search/search.service';
+import { PaginationComponentOptions } from '../pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../core/data/request.models';
+import { of as observableOf } from 'rxjs';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { SearchConfigurationService } from '../../core/shared/search/search-configuration.service';
+import { PaginationServiceStub } from '../testing/pagination-service.stub';
 
 describe('SearchFormComponent', () => {
   let comp: SearchFormComponent;
@@ -15,14 +22,20 @@ describe('SearchFormComponent', () => {
   let de: DebugElement;
   let el: HTMLElement;
 
-  beforeEach(async(() => {
+  const paginationService = new PaginationServiceStub();
+
+  const searchConfigService = {paginationID: 'test-id'};
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, TranslateModule.forRoot()],
       providers: [
         {
           provide: SearchService,
           useValue: {}
-        }
+        },
+        { provide: PaginationService, useValue: paginationService },
+        { provide: SearchConfigurationService, useValue: searchConfigService }
       ],
       declarations: [SearchFormComponent]
     }).compileComponents();

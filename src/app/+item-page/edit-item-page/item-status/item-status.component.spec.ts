@@ -1,5 +1,5 @@
 import { ItemStatusComponent } from './item-status.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
@@ -20,6 +20,7 @@ describe('ItemStatusComponent', () => {
 
   const mockItem = Object.assign(new Item(), {
     id: 'fake-id',
+    uuid: 'fake-id',
     handle: 'fake/handle',
     lastModified: '2018',
     _links: {
@@ -27,17 +28,17 @@ describe('ItemStatusComponent', () => {
     }
   });
 
-  const itemPageUrl = `items/${mockItem.id}`;
+  const itemPageUrl = `/items/${mockItem.uuid}`;
 
   const routeStub = {
-      parent: {
-        data: observableOf({ dso: createSuccessfulRemoteDataObject(mockItem) })
-      }
-    };
+    parent: {
+      data: observableOf({ dso: createSuccessfulRemoteDataObject(mockItem) })
+    }
+  };
 
   let authorizationService: AuthorizationDataService;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     authorizationService = jasmine.createSpyObj('authorizationService', {
       isAuthorized: observableOf(true)
     });

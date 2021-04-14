@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
 import { CoreModule } from '../core/core.module';
 import { SharedModule } from '../shared/shared.module';
 
@@ -33,12 +32,47 @@ import { SubmissionImportExternalSearchbarComponent } from './import-external/im
 import { SubmissionImportExternalPreviewComponent } from './import-external/import-external-preview/submission-import-external-preview.component';
 import { SubmissionImportExternalCollectionComponent } from './import-external/import-external-collection/submission-import-external-collection.component';
 import { SubmissionSectionCcLicensesComponent } from './sections/cc-license/submission-section-cc-licenses.component';
-import { CoreState } from '../core/core.reducers';
+import { JournalEntitiesModule } from '../entity-groups/journal-entities/journal-entities.module';
+import { ResearchEntitiesModule } from '../entity-groups/research-entities/research-entities.module';
 import { SubmissionSectionDetectDuplicateComponent } from './sections/detect-duplicate/section-detect-duplicate.component';
 import { DuplicateMatchComponent } from './sections/detect-duplicate/duplicate-match/duplicate-match.component';
 import { DetectDuplicateService } from './sections/detect-duplicate/detect-duplicate.service';
 import { SubmissionSectionReserveDoiComponent } from './sections/reserve-doi/section-reserve-doi.component';
 import { SubmissionSectionCorrectionComponent } from './sections/correction/section-correction.component';
+import { ThemedSubmissionEditComponent } from './edit/themed-submission-edit.component';
+import { ThemedSubmissionSubmitComponent } from './submit/themed-submission-submit.component';
+import { ThemedSubmissionImportExternalComponent } from './import-external/themed-submission-import-external.component';
+
+const DECLARATIONS = [
+  SubmissionSectionUploadAccessConditionsComponent,
+  SubmissionSectionUploadComponent,
+  SubmissionSectionformComponent,
+  SubmissionSectionLicenseComponent,
+  SubmissionSectionCcLicensesComponent,
+  SectionsDirective,
+  SubmissionEditComponent,
+  ThemedSubmissionEditComponent,
+  SubmissionFormSectionAddComponent,
+  SubmissionFormCollectionComponent,
+  SubmissionFormComponent,
+  SubmissionFormFooterComponent,
+  SubmissionSubmitComponent,
+  ThemedSubmissionSubmitComponent,
+  SubmissionUploadFilesComponent,
+  SubmissionSectionContainerComponent,
+  SubmissionSectionUploadFileComponent,
+  SubmissionSectionUploadFileEditComponent,
+  SubmissionSectionUploadFileViewComponent,
+  SubmissionImportExternalComponent,
+  ThemedSubmissionImportExternalComponent,
+  SubmissionImportExternalSearchbarComponent,
+  SubmissionImportExternalPreviewComponent,
+  SubmissionImportExternalCollectionComponent,
+  SubmissionSectionDetectDuplicateComponent,
+  DuplicateMatchComponent,
+  SubmissionSectionReserveDoiComponent,
+  SubmissionSectionCorrectionComponent
+];
 
 @NgModule({
   imports: [
@@ -47,54 +81,11 @@ import { SubmissionSectionCorrectionComponent } from './sections/correction/sect
     SharedModule,
     StoreModule.forFeature('submission', submissionReducers, storeModuleConfig as StoreConfig<SubmissionState, Action>),
     EffectsModule.forFeature(submissionEffects),
-    TranslateModule
+    JournalEntitiesModule.withEntryComponents(),
+    ResearchEntitiesModule.withEntryComponents(),
   ],
-  declarations: [
-    SubmissionSectionUploadAccessConditionsComponent,
-    SubmissionSectionUploadComponent,
-    SubmissionSectionformComponent,
-    SubmissionSectionLicenseComponent,
-    SubmissionSectionCcLicensesComponent,
-    SectionsDirective,
-    SubmissionSectionContainerComponent,
-    SubmissionEditComponent,
-    SubmissionFormSectionAddComponent,
-    SubmissionFormCollectionComponent,
-    SubmissionFormComponent,
-    SubmissionFormFooterComponent,
-    SubmissionSubmitComponent,
-    SubmissionUploadFilesComponent,
-    SubmissionSectionContainerComponent,
-    SubmissionSectionUploadFileComponent,
-    SubmissionSectionUploadFileEditComponent,
-    SubmissionSectionUploadFileViewComponent,
-    SubmissionImportExternalComponent,
-    SubmissionImportExternalSearchbarComponent,
-    SubmissionImportExternalPreviewComponent,
-    SubmissionImportExternalCollectionComponent,
-    SubmissionSectionDetectDuplicateComponent,
-    DuplicateMatchComponent,
-    SubmissionSectionReserveDoiComponent,
-    SubmissionSectionCorrectionComponent
-  ],
-  entryComponents: [
-    SubmissionSectionUploadComponent,
-    SubmissionSectionformComponent,
-    SubmissionSectionLicenseComponent,
-    SubmissionSectionContainerComponent,
-    SubmissionImportExternalPreviewComponent,
-    SubmissionImportExternalCollectionComponent,
-    SubmissionSectionCcLicensesComponent,
-    SubmissionSectionDetectDuplicateComponent,
-    SubmissionSectionReserveDoiComponent,
-    SubmissionSectionCorrectionComponent
-  ],
-  exports: [
-    SubmissionEditComponent,
-    SubmissionFormComponent,
-    SubmissionSubmitComponent,
-    SubmissionImportExternalComponent
-  ],
+  declarations: DECLARATIONS,
+  exports: DECLARATIONS,
   providers: [
     SectionUploadService,
     SectionsService,

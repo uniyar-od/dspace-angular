@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { combineLatest, Observable } from 'rxjs';
 import { RemoteData } from '../../core/data/remote-data';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { PaginatedList } from '../../core/data/paginated-list.model';
 import { Process } from '../processes/process.model';
 import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
 import { FindListOptions } from '../../core/data/request.models';
 import { EPersonDataService } from '../../core/eperson/eperson-data.service';
 import { getFirstSucceededRemoteDataPayload } from '../../core/shared/operators';
 import { EPerson } from '../../core/eperson/models/eperson.model';
-import { flatMap, map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ProcessDataService } from '../../core/data/processes/process-data.service';
-import { RoleService } from 'src/app/core/roles/role.service';
-import { AuthorizationDataService } from 'src/app/core/data/feature-authorization/authorization-data.service';
-import { of } from 'rxjs';
-import { FeatureID } from 'src/app/core/data/feature-authorization/feature-id';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../../core/data/feature-authorization/feature-id';
 
 @Component({
   selector: 'ds-process-overview',
@@ -40,7 +39,7 @@ export class ProcessOverviewComponent implements OnInit {
    * The current pagination configuration for the page
    */
   pageConfig: PaginationComponentOptions = Object.assign(new PaginationComponentOptions(), {
-    id: 'process-overview-pagination',
+    id: 'po',
     pageSize: 20
   });
 
@@ -50,6 +49,7 @@ export class ProcessOverviewComponent implements OnInit {
   dateFormat = 'yyyy-MM-dd HH:mm:ss';
 
   constructor(protected processService: ProcessDataService,
+              protected paginationService: PaginationService,
               protected ePersonService: EPersonDataService,
               protected authorizationService: AuthorizationDataService) {
   }
@@ -59,31 +59,23 @@ export class ProcessOverviewComponent implements OnInit {
   }
 
   /**
-   * When the page is changed, make sure to update the list of processes to match the new page
-   * @param event The page change event
-   */
-  onPageChange(event) {
-    this.config = Object.assign(new FindListOptions(), this.config, {
-      currentPage: event,
-    });
-    this.pageConfig.currentPage = event;
-    console.log('onPageChange', this.config);
-    this.setProcesses();
-  }
-
-  /**
    * Send a request to fetch all processes for the current page
    */
   setProcesses() {
-    this.processesRD$ = this.isCurrentUserAdmin().pipe(
-      flatMap((isAdmin) => {
+    const pageConfig$ = this.paginationService.getFindListOptions(this.pageConfig.id, this.config);
+    const isAdmin$ = this.isCurrentUserAdmin();
+    this.processesRD$ = combineLatest([
+      isAdmin$,
+      pageConfig$
+    ]).pipe(
+      switchMap(([isAdmin, config]) => {
         if (isAdmin) {
-          return this.processService.findAll(this.config);
+          return this.processService.findAll(config);
         } else {
-          return this.processService.searchBy('own', this.config);
+          return this.processService.searchBy('own', config);
         }
       })
-    )
+    );
   }
 
   isCurrentUserAdmin(): Observable<boolean> {
@@ -99,6 +91,9 @@ export class ProcessOverviewComponent implements OnInit {
       getFirstSucceededRemoteDataPayload(),
       map((eperson: EPerson) => eperson.name)
     );
+  }
+  ngOnDestroy(): void {
+    this.paginationService.clearPagination(this.pageConfig.id);
   }
 
 }

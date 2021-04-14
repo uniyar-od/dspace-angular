@@ -13,8 +13,9 @@ import { DefaultChangeAnalyzer } from '../data/default-change-analyzer.service';
 import { USAGE_REPORT } from './models/usage-report.resource-type';
 import { UsageReport } from './models/usage-report.model';
 import { Observable } from 'rxjs';
-import { getRemoteDataPayload, getSucceededRemoteData } from '../shared/operators';
+import { getFirstSucceededRemoteData, getRemoteDataPayload } from '../shared/operators';
 import { map } from 'rxjs/operators';
+
 
 /**
  * A service to retrieve {@link UsageReport}s from the REST API
@@ -23,7 +24,7 @@ import { map } from 'rxjs/operators';
 @dataService(USAGE_REPORT)
 export class UsageReportService extends DataService<UsageReport> {
 
-  protected linkPath = 'statistics/usagereports';
+  protected linkPath = 'usagereports';
 
   constructor(
     protected comparator: DefaultChangeAnalyzer<UsageReport>,
@@ -40,21 +41,42 @@ export class UsageReportService extends DataService<UsageReport> {
 
   getStatistic(scope: string, type: string): Observable<UsageReport> {
     return this.findById(`${scope}_${type}`).pipe(
-      getSucceededRemoteData(),
+      getFirstSucceededRemoteData(),
       getRemoteDataPayload(),
     );
   }
 
-  searchStatistics(uri: string, page: number, size: number): Observable<UsageReport[]> {
-    return this.searchBy('object', {
-      searchParams: [{
+  searchStatistics(uri: string, page: number, size: number, categoryId?: string, startDate?: string, endDate?: string): Observable<UsageReport[]> {
+    const params = [
+      {
         fieldName: `uri`,
         fieldValue: uri,
-      }],
+      },{
+        fieldName: `category`,
+        fieldValue: categoryId,
+      }
+    ];
+
+    if (startDate !== undefined) {
+      params.push({
+        fieldName: `startDate`,
+        fieldValue: startDate,
+      });
+    }
+
+    if (endDate !== undefined) {
+      params.push({
+        fieldName: `endDate`,
+        fieldValue: endDate,
+      });
+    }
+
+    return this.searchBy('object', {
+      searchParams: params,
       currentPage: page,
       elementsPerPage: size,
-    }).pipe(
-      getSucceededRemoteData(),
+    }, true, false).pipe(
+      getFirstSucceededRemoteData(),
       getRemoteDataPayload(),
       map((list) => list.page),
     );

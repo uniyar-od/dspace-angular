@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { FacetSection } from 'src/app/core/layout/models/section.model';
-import { getFirstSucceededRemoteDataPayload } from 'src/app/core/shared/operators';
-import { SearchService } from 'src/app/core/shared/search/search.service';
-import { SearchFilterConfig } from 'src/app/shared/search/search-filter-config.model';
+import { FacetSection } from '../../../core/layout/models/section.model';
+import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
+import { SearchService } from '../../../core/shared/search/search.service';
+import { SearchFilterConfig } from '../../../shared/search/search-filter-config.model';
+import { FilterType } from '../../../shared/search/filter-type.model';
+import { FacetValue } from '../../../shared/search/facet-value.model';
+import { getFacetValueForTypeAndLabel } from '../../../shared/search/search.utils';
 
 /**
  * Component representing the Facet component section.
@@ -47,25 +50,29 @@ export class FacetSectionComponent implements OnInit {
      * Returns the queryParams for the search related to the given facet.
      *
      * @param facet the facet
-     * @param value the facet value
+     * @param facetValue the FacetValue
      */
-    getSearchQueryParams(facet: SearchFilterConfig, value: string) {
+    getSearchQueryParams(facet: SearchFilterConfig, facetValue: FacetValue) {
         const queryParams = {
             configuration: this.facetSection.discoveryConfigurationName,
             page: 1
         };
-        if ( facet.type === 'date') {
-            const dates = value.split('-');
-            if ( dates.length === 2) {
-                queryParams[facet.paramName + '.min'] = dates[0].trim();
-                queryParams[facet.paramName + '.max'] = dates[1].trim();
-            } else {
-                queryParams[facet.paramName] = dates[0].trim();
-            }
-        } else {
-            queryParams[facet.paramName] = value;
-        }
+        this.addFacetValuesToQueryParams(facet, facetValue, queryParams);
         return queryParams;
+    }
+
+    private addFacetValuesToQueryParams(facet: SearchFilterConfig, facetValue: FacetValue, queryParams) {
+        if ( this.isRangeFacet(facet.filterType, facetValue.label)) {
+            const dates = facetValue.label.split('-');
+            queryParams[facet.paramName + '.min'] = dates[0].trim();
+            queryParams[facet.paramName + '.max'] = dates[1].trim();
+            return;
+        }
+        queryParams[facet.paramName] = getFacetValueForTypeAndLabel(facetValue, facet);
+    }
+
+    private isRangeFacet(filterType: FilterType, value: string) {
+        return filterType === FilterType.range && value.split('-').length === 2;
     }
 
 }

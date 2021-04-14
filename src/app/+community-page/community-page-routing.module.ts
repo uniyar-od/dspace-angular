@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { CommunityPageComponent } from './community-page.component';
 import { CommunityPageResolver } from './community-page.resolver';
 import { CreateCommunityPageComponent } from './create-community-page/create-community-page.component';
 import { AuthenticatedGuard } from '../core/auth/authenticated.guard';
@@ -14,6 +13,7 @@ import { COMMUNITY_EDIT_PATH, COMMUNITY_CREATE_PATH } from './community-page-rou
 import { CommunityPageAdministratorGuard } from './community-page-administrator.guard';
 import { MenuItemType } from '../shared/menu/initial-menus-state';
 import { LinkMenuItemModel } from '../shared/menu/menu-item/models/link.model';
+import { ThemedCommunityPageComponent } from './themed-community-page.component';
 
 @NgModule({
   imports: [
@@ -33,7 +33,8 @@ import { LinkMenuItemModel } from '../shared/menu/menu-item/models/link.model';
         children: [
           {
             path: COMMUNITY_EDIT_PATH,
-            loadChildren: './edit-community-page/edit-community-page.module#EditCommunityPageModule',
+            loadChildren: () => import('./edit-community-page/edit-community-page.module')
+              .then((m) => m.EditCommunityPageModule),
             canActivate: [CommunityPageAdministratorGuard]
           },
           {
@@ -44,7 +45,7 @@ import { LinkMenuItemModel } from '../shared/menu/menu-item/models/link.model';
           },
           {
             path: '',
-            component: CommunityPageComponent,
+            component: ThemedCommunityPageComponent,
             pathMatch: 'full',
           }
         ],

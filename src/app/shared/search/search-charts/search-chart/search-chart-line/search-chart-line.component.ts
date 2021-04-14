@@ -8,15 +8,10 @@ import { filter, map } from 'rxjs/operators';
 import { ChartData } from '../../../../../charts/models/chart-data';
 import { Observable } from 'rxjs/internal/Observable';
 import { RemoteData } from '../../../../../core/data/remote-data';
-import { PaginatedList } from '../../../../../core/data/paginated-list';
+import { PaginatedList } from '../../../../../core/data/paginated-list.model';
 import { FacetValue } from '../../../facet-value.model';
 import { isNotEmpty } from '../../../../empty.util';
-
-/**
- * This component renders a simple item page.
- * The route parameter 'id' is used to request the item it represents.
- * All fields of the item that should be displayed, are defined in its template.
- */
+import { FacetValues } from '../../../facet-values.model';
 
 @Component({
   selector: 'ds-search-chart-line',
@@ -25,24 +20,23 @@ import { isNotEmpty } from '../../../../empty.util';
   animations: [facetLoad]
 })
 /**
- * Component that represents a text facet for a specific configuration
+ * Component that represents a search line chart filter
  */
 @renderChartFor(FilterType['chart.line'])
 export class SearchChartLineComponent extends SearchChartFilterComponent {
 
   protected getInitData(): Observable<ChartData[]> {
     return this.filterValues$.pipe(
-      filter((rd: RemoteData<Array<PaginatedList<FacetValue>>>) => isNotEmpty(rd.payload)),
-      map((result: RemoteData<Array<PaginatedList<FacetValue>>>) => {
-        return result.payload.map((res) => ({
-          name: this.filter,
-          series: res.page.map((item) => ({
-            name: item.value,
-            value: item.count,
-            extra: item,
-          })),
-        }));
-      })
+      filter((rd: RemoteData<PaginatedList<FacetValue>[]>) => isNotEmpty(rd.payload)),
+      map((rd: RemoteData<PaginatedList<FacetValue>[]>) => rd.payload[0]),
+      map((facet: FacetValues) => ([{
+        name: this.filter,
+        series: facet.page.map((item) => ({
+          name: item.value,
+          value: item.count,
+          extra: item,
+        })),
+      }] as ChartData[]))
     );
   }
 }

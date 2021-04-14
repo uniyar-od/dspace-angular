@@ -1,7 +1,6 @@
-import { ItemSearchResult } from '../../object-collection/shared/item-search-result.model';
 import { Item } from '../../../core/shared/item.model';
-import { of as observableOf } from 'rxjs/internal/observable/of';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of as observableOf } from 'rxjs';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { TruncatePipe } from '../../utils/truncate.pipe';
 import { ChangeDetectionStrategy, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -13,10 +12,10 @@ let fixture: ComponentFixture<TypeBadgeComponent>;
 
 const type = 'authorOfPublication';
 
-const mockItemWithRelationshipType = Object.assign(new Item(), {
+const mockItemWithEntityType = Object.assign(new Item(), {
   bundles: observableOf({}),
   metadata: {
-    'relationship.type': [
+    'dspace.entity.type': [
       {
         language: 'en_US',
         value: type
@@ -25,7 +24,7 @@ const mockItemWithRelationshipType = Object.assign(new Item(), {
   }
 });
 
-const mockItemWithoutRelationshipType = Object.assign(new Item(), {
+const mockItemWithoutEntityType = Object.assign(new Item(), {
   bundles: observableOf({}),
   metadata: {
     'dc.title': [
@@ -38,7 +37,7 @@ const mockItemWithoutRelationshipType = Object.assign(new Item(), {
 });
 
 describe('ItemTypeBadgeComponent', () => {
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [TypeBadgeComponent, TruncatePipe],
@@ -48,26 +47,26 @@ describe('ItemTypeBadgeComponent', () => {
     }).compileComponents();
   }));
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     fixture = TestBed.createComponent(TypeBadgeComponent);
     comp = fixture.componentInstance;
   }));
 
-  describe('When the item has a relationship type', () => {
+  describe('When the item has an entity type', () => {
     beforeEach(() => {
-      comp.object = mockItemWithRelationshipType;
+      comp.object = mockItemWithEntityType;
       fixture.detectChanges();
     });
 
-    it('should show the relationship type badge', () => {
+    it('should show the entity type badge', () => {
       const badge = fixture.debugElement.query(By.css('span.badge'));
       expect(badge.nativeElement.textContent).toContain(type.toLowerCase());
     });
   });
 
-  describe('When the item has no relationship type', () => {
+  describe('When the item has no entity type', () => {
     beforeEach(() => {
-      comp.object = mockItemWithoutRelationshipType;
+      comp.object = mockItemWithoutEntityType;
       fixture.detectChanges();
     });
 

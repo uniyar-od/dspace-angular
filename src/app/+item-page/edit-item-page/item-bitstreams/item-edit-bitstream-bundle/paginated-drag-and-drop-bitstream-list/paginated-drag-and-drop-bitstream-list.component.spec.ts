@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Bundle } from '../../../../../core/shared/bundle.model';
 import { TranslateModule } from '@ngx-translate/core';
@@ -7,16 +7,20 @@ import { VarDirective } from '../../../../../shared/utils/var.directive';
 import { ObjectValuesPipe } from '../../../../../shared/utils/object-values-pipe';
 import { ObjectUpdatesService } from '../../../../../core/data/object-updates/object-updates.service';
 import { BundleDataService } from '../../../../../core/data/bundle-data.service';
-import { createMockRDObs } from '../../item-bitstreams.component.spec';
 import { Bitstream } from '../../../../../core/shared/bitstream.model';
 import { BitstreamFormat } from '../../../../../core/shared/bitstream-format.model';
-import { of as observableOf } from 'rxjs/internal/observable/of';
+import { of as observableOf } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ResponsiveTableSizes } from '../../../../../shared/responsive-table-sizes/responsive-table-sizes';
 import { ResponsiveColumnSizes } from '../../../../../shared/responsive-table-sizes/responsive-column-sizes';
 import { createSuccessfulRemoteDataObject$ } from '../../../../../shared/remote-data.utils';
 import { createPaginatedList } from '../../../../../shared/testing/utils.test';
 import { RequestService } from '../../../../../core/data/request.service';
+import { PaginationService } from '../../../../../core/pagination/pagination.service';
+import { PaginationComponentOptions } from '../../../../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../../../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../../../../core/data/request.models';
+import { PaginationServiceStub } from '../../../../../shared/testing/pagination-service.stub';
 
 describe('PaginatedDragAndDropBitstreamListComponent', () => {
   let comp: PaginatedDragAndDropBitstreamListComponent;
@@ -25,6 +29,7 @@ describe('PaginatedDragAndDropBitstreamListComponent', () => {
   let bundleService: BundleDataService;
   let objectValuesPipe: ObjectValuesPipe;
   let requestService: RequestService;
+  let paginationService;
 
   const columnSizes = new ResponsiveTableSizes([
     new ResponsiveColumnSizes(2, 2, 3, 4, 4),
@@ -49,7 +54,7 @@ describe('PaginatedDragAndDropBitstreamListComponent', () => {
     name: 'Fake Bitstream 1',
     bundleName: 'ORIGINAL',
     description: 'Description',
-    format: createMockRDObs(format)
+    format: createSuccessfulRemoteDataObject$(format)
   });
   const fieldUpdate1 = {
     field: bitstream1,
@@ -60,14 +65,14 @@ describe('PaginatedDragAndDropBitstreamListComponent', () => {
     name: 'Fake Bitstream 2',
     bundleName: 'ORIGINAL',
     description: 'Description',
-    format: createMockRDObs(format)
+    format: createSuccessfulRemoteDataObject$(format)
   });
   const fieldUpdate2 = {
     field: bitstream2,
     changeType: undefined
   };
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     objectUpdatesService = jasmine.createSpyObj('objectUpdatesService',
       {
         getFieldUpdates: observableOf({
@@ -107,8 +112,10 @@ describe('PaginatedDragAndDropBitstreamListComponent', () => {
     objectValuesPipe = new ObjectValuesPipe();
 
     requestService = jasmine.createSpyObj('requestService', {
-      hasByHrefObservable: observableOf(true)
+      hasByHref$: observableOf(true)
     });
+
+    paginationService = new PaginationServiceStub();
 
     TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
@@ -117,7 +124,8 @@ describe('PaginatedDragAndDropBitstreamListComponent', () => {
         { provide: ObjectUpdatesService, useValue: objectUpdatesService },
         { provide: BundleDataService, useValue: bundleService },
         { provide: ObjectValuesPipe, useValue: objectValuesPipe },
-        { provide: RequestService, useValue: requestService }
+        { provide: RequestService, useValue: requestService },
+        { provide: PaginationService, useValue: paginationService }
       ], schemas: [
         NO_ERRORS_SCHEMA
       ]

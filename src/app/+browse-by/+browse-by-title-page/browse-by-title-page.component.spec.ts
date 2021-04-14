@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Item } from '../../core/shared/item.model';
 import { ActivatedRouteStub } from '../../shared/testing/active-router.stub';
-import { of as observableOf } from 'rxjs/internal/observable/of';
+import { of as observableOf } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,6 +18,11 @@ import { BrowseService } from '../../core/browse/browse.service';
 import { RouterMock } from '../../shared/mocks/router.mock';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
+import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../core/data/request.models';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { PaginationServiceStub } from '../../shared/testing/pagination-service.stub';
 
 describe('BrowseByTitlePageComponent', () => {
   let comp: BrowseByTitlePageComponent;
@@ -61,7 +66,9 @@ describe('BrowseByTitlePageComponent', () => {
     data: observableOf({ metadata: 'title' })
   });
 
-  beforeEach(async(() => {
+  const paginationService = new PaginationServiceStub();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule],
       declarations: [BrowseByTitlePageComponent, EnumKeysPipe, VarDirective],
@@ -69,6 +76,7 @@ describe('BrowseByTitlePageComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: BrowseService, useValue: mockBrowseService },
         { provide: DSpaceObjectDataService, useValue: mockDsoService },
+        { provide: PaginationService, useValue: paginationService },
         { provide: Router, useValue: new RouterMock() }
       ],
       schemas: [NO_ERRORS_SCHEMA]

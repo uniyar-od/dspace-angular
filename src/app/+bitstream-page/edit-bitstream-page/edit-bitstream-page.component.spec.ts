@@ -1,10 +1,9 @@
 import { EditBitstreamPageComponent } from './edit-bitstream-page.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RemoteData } from '../../core/data/remote-data';
-import { of as observableOf } from 'rxjs/internal/observable/of';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of as observableOf } from 'rxjs';
 import { DynamicFormControlModel, DynamicFormService } from '@ng-dynamic-forms/core';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { BitstreamDataService } from '../../core/data/bitstream-data.service';
@@ -17,16 +16,16 @@ import { BitstreamFormat } from '../../core/shared/bitstream-format.model';
 import { BitstreamFormatSupportLevel } from '../../core/shared/bitstream-format-support-level';
 import { hasValue } from '../../shared/empty.util';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PaginatedList } from '../../core/data/paginated-list';
-import { PageInfo } from '../../core/shared/page-info.model';
 import { FileSizePipe } from '../../shared/utils/file-size-pipe';
-import { RestResponse } from '../../core/cache/response.models';
 import { VarDirective } from '../../shared/utils/var.directive';
 import {
+  createSuccessfulRemoteDataObject,
   createSuccessfulRemoteDataObject$
 } from '../../shared/remote-data.utils';
-import {RouterStub} from '../../shared/testing/router.stub';
-import { getItemEditRoute } from '../../+item-page/item-page-routing-paths';
+import { RouterStub } from '../../shared/testing/router.stub';
+import { getEntityEditRoute, getItemEditRoute } from '../../+item-page/item-page-routing-paths';
+import { createPaginatedList } from '../../shared/testing/utils.test';
+import { Item } from '../../core/shared/item.model';
 
 const infoNotification: INotification = new Notification('id', NotificationType.Info, 'info');
 const warningNotification: INotification = new Notification('id', NotificationType.Warning, 'warning');
@@ -46,7 +45,7 @@ describe('EditBitstreamPageComponent', () => {
   let comp: EditBitstreamPageComponent;
   let fixture: ComponentFixture<EditBitstreamPageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     allFormats = [
       Object.assign({
         id: '1',
@@ -109,25 +108,25 @@ describe('EditBitstreamPageComponent', () => {
           }
         ]
       },
-      format: observableOf(new RemoteData(false, false, true, null, selectedFormat)),
+      format: createSuccessfulRemoteDataObject$(selectedFormat),
       _links: {
         self: 'bitstream-selflink'
       },
       bundle: createSuccessfulRemoteDataObject$({
-        item: createSuccessfulRemoteDataObject$({
+        item: createSuccessfulRemoteDataObject$(Object.assign(new Item(), {
           uuid: 'some-uuid'
-        })
+        }))
       })
     });
     bitstreamService = jasmine.createSpyObj('bitstreamService', {
-      findById: observableOf(new RemoteData(false, false, true, null, bitstream)),
-      update: observableOf(new RemoteData(false, false, true, null, bitstream)),
-      updateFormat: observableOf(new RestResponse(true, 200, 'OK')),
+      findById: createSuccessfulRemoteDataObject$(bitstream),
+      update: createSuccessfulRemoteDataObject$(bitstream),
+      updateFormat: createSuccessfulRemoteDataObject$(bitstream),
       commitUpdates: {},
       patch: {}
     });
     bitstreamFormatService = jasmine.createSpyObj('bitstreamFormatService', {
-      findAll: observableOf(new RemoteData(false, false, true, null, new PaginatedList(new PageInfo(), allFormats)))
+      findAll: createSuccessfulRemoteDataObject$(createPaginatedList(allFormats))
     });
 
     const itemPageUrl = `fake-url/some-uuid`;
@@ -140,7 +139,7 @@ describe('EditBitstreamPageComponent', () => {
       providers: [
         { provide: NotificationsService, useValue: notificationsService },
         { provide: DynamicFormService, useValue: formService },
-        { provide: ActivatedRoute, useValue: { data: observableOf({ bitstream: new RemoteData(false, false, true, null, bitstream) }), snapshot: { queryParams: {} } } },
+        { provide: ActivatedRoute, useValue: { data: observableOf({ bitstream: createSuccessfulRemoteDataObject(bitstream) }), snapshot: { queryParams: {} } } },
         { provide: BitstreamDataService, useValue: bitstreamService },
         { provide: BitstreamFormatDataService, useValue: bitstreamFormatService },
         { provide: Router, useValue: routerStub },
@@ -240,16 +239,16 @@ describe('EditBitstreamPageComponent', () => {
   });
   describe('when navigateToItemEditBitstreams is called, and the component has an itemId', () => {
     it('should redirect to the item edit page on the bitstreams tab with the itemId from the component', () => {
-      comp.itemId = 'some-uuid1'
+      comp.itemId = 'some-uuid1';
       comp.navigateToItemEditBitstreams();
-      expect(routerStub.navigate).toHaveBeenCalledWith([getItemEditRoute('some-uuid1'), 'bitstreams']);
+      expect(routerStub.navigate).toHaveBeenCalledWith([getEntityEditRoute(null, 'some-uuid1'), 'bitstreams']);
     });
   });
   describe('when navigateToItemEditBitstreams is called, and the component does not have an itemId', () => {
     it('should redirect to the item edit page on the bitstreams tab with the itemId from the bundle links ', () => {
       comp.itemId = undefined;
       comp.navigateToItemEditBitstreams();
-      expect(routerStub.navigate).toHaveBeenCalledWith([getItemEditRoute('some-uuid'), 'bitstreams']);
+      expect(routerStub.navigate).toHaveBeenCalledWith([getEntityEditRoute(null, 'some-uuid'), 'bitstreams']);
     });
   });
 });

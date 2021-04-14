@@ -1,26 +1,23 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { RemoteData } from '../../../core/data/remote-data';
 import { Item } from '../../../core/shared/item.model';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UploaderOptions } from '../../../shared/uploader/uploader-options.model';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { hasValue, isEmpty, isNotEmpty } from '../../../shared/empty.util';
 import { ItemDataService } from '../../../core/data/item-data.service';
 import { AuthService } from '../../../core/auth/auth.service';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { PaginatedList } from '../../../core/data/paginated-list';
+import { PaginatedList } from '../../../core/data/paginated-list.model';
 import { Bundle } from '../../../core/shared/bundle.model';
 import { BundleDataService } from '../../../core/data/bundle-data.service';
-import {
-  getFirstSucceededRemoteDataPayload
-} from '../../../core/shared/operators';
+import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
 import { UploaderComponent } from '../../../shared/uploader/uploader.component';
 import { RequestService } from '../../../core/data/request.service';
 import { getBitstreamModuleRoute } from '../../../app-routing-paths';
-import { getItemEditRoute } from '../../item-page-routing-paths';
+import { getEntityEditRoute } from '../../item-page-routing-paths';
 
 @Component({
   selector: 'ds-upload-bitstream',
@@ -33,12 +30,18 @@ export class UploadBitstreamComponent implements OnInit, OnDestroy {
   /**
    * The file uploader component
    */
-  @ViewChild(UploaderComponent, {static: false}) uploaderComponent: UploaderComponent;
+  @ViewChild(UploaderComponent) uploaderComponent: UploaderComponent;
 
   /**
    * The ID of the item to upload a bitstream to
    */
   itemId: string;
+
+  /**
+   * The entity type of the item
+   * This is fetched from the current URL and will determine the item's page route
+   */
+  entityType: string;
 
   /**
    * The item to upload a bitstream to
@@ -103,7 +106,8 @@ export class UploadBitstreamComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
     this.itemId = this.route.snapshot.params.id;
-    this.itemRD$ = this.route.data.pipe(map((data) => data.item));
+    this.entityType = this.route.snapshot.params['entity-type'];
+    this.itemRD$ = this.route.data.pipe(map((data) => data.dso));
     this.bundlesRD$ = this.itemRD$.pipe(
       switchMap((itemRD: RemoteData<Item>) => itemRD.payload.bundles)
     );
@@ -170,7 +174,7 @@ export class UploadBitstreamComponent implements OnInit, OnDestroy {
     });
 
     // Bring over the item ID as a query parameter
-    const queryParams = { itemId: this.itemId };
+    const queryParams = { itemId: this.itemId, entityType: this.entityType };
     this.router.navigate([getBitstreamModuleRoute(), bitstream.id, 'edit'], { queryParams: queryParams });
   }
 
@@ -196,7 +200,7 @@ export class UploadBitstreamComponent implements OnInit, OnDestroy {
    * When cancel is clicked, navigate back to the item's edit bitstreams page
    */
   onCancel() {
-    this.router.navigate([getItemEditRoute(this.itemId), 'bitstreams']);
+    this.router.navigate([getEntityEditRoute(this.entityType, this.itemId), 'bitstreams']);
   }
 
   /**

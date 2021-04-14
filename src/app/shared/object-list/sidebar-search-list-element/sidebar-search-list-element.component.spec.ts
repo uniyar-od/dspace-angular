@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { VarDirective } from '../../utils/var.directive';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,6 +10,8 @@ import { LinkService } from '../../../core/cache/builders/link.service';
 import { createSuccessfulRemoteDataObject$ } from '../../remote-data.utils';
 import { HALResource } from '../../../core/shared/hal-resource.model';
 import { ChildHALResource } from '../../../core/shared/child-hal-resource.model';
+import { DSONameService } from '../../../core/breadcrumbs/dso-name.service';
+import { DSONameServiceMock } from '../../mocks/dso-name.service.mock';
 
 export function createSidebarSearchListElementTests(
   componentClass: any,
@@ -26,7 +28,7 @@ export function createSidebarSearchListElementTests(
 
     let linkService;
 
-    beforeEach(async(() => {
+    beforeEach(waitForAsync(() => {
       linkService = jasmine.createSpyObj('linkService', {
         resolveLink: Object.assign(new HALResource(), {
           [object.indexableObject.getParentLinkKey()]: createSuccessfulRemoteDataObject$(parent)
@@ -38,6 +40,7 @@ export function createSidebarSearchListElementTests(
         providers: [
           { provide: TruncatableService, useValue: {} },
           { provide: LinkService, useValue: linkService },
+          { provide: DSONameService, useClass: DSONameServiceMock },
           ...extraProviders
         ],
         schemas: [NO_ERRORS_SCHEMA]

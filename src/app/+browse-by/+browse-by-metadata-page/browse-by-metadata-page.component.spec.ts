@@ -1,5 +1,5 @@
 import { BrowseByMetadataPageComponent, browseParamsToOptions } from './browse-by-metadata-page.component';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BrowseService } from '../../core/browse/browse.service';
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,14 +8,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EnumKeysPipe } from '../../shared/utils/enum-keys-pipe';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivatedRouteStub } from '../../shared/testing/active-router.stub';
-import { of as observableOf } from 'rxjs/internal/observable/of';
+import { Observable, of as observableOf } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
 import { RemoteData } from '../../core/data/remote-data';
-import { PaginatedList } from '../../core/data/paginated-list';
+import { buildPaginatedList, PaginatedList } from '../../core/data/paginated-list.model';
 import { PageInfo } from '../../core/shared/page-info.model';
 import { BrowseEntrySearchOptions } from '../../core/browse/browse-entry-search-options.model';
-import { SortDirection } from '../../core/cache/models/sort-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
 import { Item } from '../../core/shared/item.model';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
 import { Community } from '../../core/shared/community.model';
@@ -23,12 +22,16 @@ import { RouterMock } from '../../shared/mocks/router.mock';
 import { BrowseEntry } from '../../core/shared/browse-entry.model';
 import { VarDirective } from '../../shared/utils/var.directive';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { PaginationServiceStub } from '../../shared/testing/pagination-service.stub';
 
 describe('BrowseByMetadataPageComponent', () => {
   let comp: BrowseByMetadataPageComponent;
   let fixture: ComponentFixture<BrowseByMetadataPageComponent>;
   let browseService: BrowseService;
   let route: ActivatedRoute;
+  let paginationService;
 
   const mockCommunity = Object.assign(new Community(), {
     id: 'test-uuid',
@@ -83,7 +86,9 @@ describe('BrowseByMetadataPageComponent', () => {
     params: observableOf({})
   });
 
-  beforeEach(async(() => {
+  paginationService = new PaginationServiceStub();
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule.withRoutes([]), TranslateModule.forRoot(), NgbModule],
       declarations: [BrowseByMetadataPageComponent, EnumKeysPipe, VarDirective],
@@ -91,6 +96,7 @@ describe('BrowseByMetadataPageComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteStub },
         { provide: BrowseService, useValue: mockBrowseService },
         { provide: DSpaceObjectDataService, useValue: mockDsoService },
+        { provide: PaginationService, useValue: paginationService },
         { provide: Router, useValue: new RouterMock() }
       ],
       schemas: [NO_ERRORS_SCHEMA]
@@ -127,35 +133,40 @@ describe('BrowseByMetadataPageComponent', () => {
       comp.items$.subscribe((result) => {
         expect(result.payload.page).toEqual(mockItems);
       });
-    })
+    });
   });
 
   describe('when calling browseParamsToOptions', () => {
     let result: BrowseEntrySearchOptions;
 
     beforeEach(() => {
-      const paramsWithPaginationAndScope = {
-        page: 5,
-        pageSize: 10,
-        sortDirection: SortDirection.ASC,
-        sortField: 'fake-field',
+      const paramsScope = {
         scope: 'fake-scope'
       };
+      const paginationOptions = Object.assign(new PaginationComponentOptions(), {
+        currentPage: 5,
+        pageSize: 10,
+      });
+      const sortOptions = {
+        direction: SortDirection.ASC,
+        field: 'fake-field',
+      };
 
-      result = browseParamsToOptions(paramsWithPaginationAndScope, Object.assign({}), Object.assign({}), 'author');
+      result = browseParamsToOptions(paramsScope, paginationOptions, sortOptions, 'author');
     });
 
     it('should return BrowseEntrySearchOptions with the correct properties', () => {
+
       expect(result.metadataDefinition).toEqual('author');
       expect(result.pagination.currentPage).toEqual(5);
       expect(result.pagination.pageSize).toEqual(10);
       expect(result.sort.direction).toEqual(SortDirection.ASC);
       expect(result.sort.field).toEqual('fake-field');
       expect(result.scope).toEqual('fake-scope');
-    })
+    });
   });
 });
 
 export function toRemoteData(objects: any[]): Observable<RemoteData<PaginatedList<any>>> {
-  return createSuccessfulRemoteDataObject$(new PaginatedList(new PageInfo(), objects));
+  return createSuccessfulRemoteDataObject$(buildPaginatedList(new PageInfo(), objects));
 }

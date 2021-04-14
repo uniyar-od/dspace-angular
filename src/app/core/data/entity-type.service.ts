@@ -10,14 +10,15 @@ import { NotificationsService } from '../../shared/notifications/notifications.s
 import { HttpClient } from '@angular/common/http';
 import { DefaultChangeAnalyzer } from './default-change-analyzer.service';
 import { Injectable } from '@angular/core';
-import { FindListOptions, GetRequest } from './request.models';
-import { Observable } from 'rxjs/internal/Observable';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { FindListOptions } from './request.models';
+import { Observable } from 'rxjs';
+import { filter, switchMap, take, map } from 'rxjs/operators';
 import { RemoteData } from './remote-data';
 import { RelationshipType } from '../shared/item-relationships/relationship-type.model';
-import { PaginatedList } from './paginated-list';
+import { PaginatedList } from './paginated-list.model';
 import { ItemType } from '../shared/item-relationships/item-type.model';
-import { getRemoteDataPayload, getSucceededRemoteData } from '../shared/operators';
+import { getRemoteDataPayload, getFirstSucceededRemoteData } from '../shared/operators';
+import { RelationshipTypeService } from './relationship-type.service';
 
 /**
  * Service handling all ItemType requests
@@ -33,6 +34,7 @@ export class EntityTypeService extends DataService<ItemType> {
               protected halService: HALEndpointService,
               protected objectCache: ObjectCacheService,
               protected notificationsService: NotificationsService,
+              protected relationshipTypeService: RelationshipTypeService,
               protected http: HttpClient,
               protected comparator: DefaultChangeAnalyzer<ItemType>) {
     super();
@@ -60,7 +62,7 @@ export class EntityTypeService extends DataService<ItemType> {
   isLeftType(relationshipType: RelationshipType, itemType: ItemType): Observable<boolean> {
 
     return relationshipType.leftType.pipe(
-      getSucceededRemoteData(),
+      getFirstSucceededRemoteData(),
       getRemoteDataPayload(),
       map((leftType) => leftType.uuid === itemType.uuid),
     );
@@ -134,18 +136,16 @@ export class EntityTypeService extends DataService<ItemType> {
   /**
    * Get the allowed relationship types for an entity type
    * @param entityTypeId
-   * @param linksToFollow     List of {@link FollowLinkConfig} that indicate which {@link HALLink}s should be automatically resolved
+   * @param useCachedVersionIfAvailable If this is true, the request will only be sent if there's
+   *                                    no valid cached version. Defaults to true
+   * @param reRequestOnStale            Whether or not the request should automatically be re-
+   *                                    requested after the response becomes stale
+   * @param linksToFollow               List of {@link FollowLinkConfig} that indicate which
+   *                                    {@link HALLink}s should be automatically resolved
    */
-  getEntityTypeRelationships(entityTypeId: string, ...linksToFollow: Array<FollowLinkConfig<RelationshipType>>): Observable<RemoteData<PaginatedList<RelationshipType>>> {
-
+  getEntityTypeRelationships(entityTypeId: string, useCachedVersionIfAvailable = true, reRequestOnStale = true, ...linksToFollow: FollowLinkConfig<RelationshipType>[]): Observable<RemoteData<PaginatedList<RelationshipType>>> {
     const href$ = this.getRelationshipTypesEndpoint(entityTypeId);
-
-    href$.pipe(take(1)).subscribe((href) => {
-      const request = new GetRequest(this.requestService.generateRequestId(), href);
-      this.requestService.configure(request);
-    });
-
-    return this.rdbService.buildList(href$, ...linksToFollow);
+    return this.relationshipTypeService.findAllByHref(href$, undefined, useCachedVersionIfAvailable, reRequestOnStale, ...linksToFollow);
   }
 
   /**
@@ -153,30 +153,10 @@ export class EntityTypeService extends DataService<ItemType> {
    * @param label
    */
   getEntityTypeByLabel(label: string): Observable<RemoteData<ItemType>> {
-
-    // TODO: Remove mock data once REST API supports this
-    /*
-    href$.pipe(take(1)).subscribe((href) => {
-      const request = new GetRequest(this.requestService.generateRequestId(), href);
-      this.requestService.configure(request);
-    });
-
-    return this.rdbService.buildSingle<EntityType>(href$);
-    */
-
-    // Mock:
-    const index = [
-      'Publication',
-      'Person',
-      'Project',
-      'OrgUnit',
-      'Journal',
-      'JournalVolume',
-      'JournalIssue',
-      'DataPackage',
-      'DataFile',
-    ].indexOf(label);
-
-    return this.findById((index + 1) + '');
+    return this.halService.getEndpoint(this.linkPath).pipe(
+      take(1),
+      switchMap((endPoint: string) =>
+        this.findByHref(endPoint + '/label/' + label))
+    );
   }
 }

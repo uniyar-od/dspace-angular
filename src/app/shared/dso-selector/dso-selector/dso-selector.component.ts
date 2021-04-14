@@ -10,7 +10,16 @@ import {
   ViewChildren
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import {
+  BehaviorSubject,
+  combineLatest as observableCombineLatest,
+  Observable,
+  of as observableOf,
+  Subscription
+} from 'rxjs';
 import { debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
+
 import { SearchService } from '../../../core/shared/search/search.service';
 import { CollectionElementLinkType } from '../../object-collection/collection-element-link.type';
 import { PaginatedSearchOptions } from '../../search/paginated-search-options.model';
@@ -18,13 +27,9 @@ import { DSpaceObjectType } from '../../../core/shared/dspace-object-type.model'
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
 import { ViewMode } from '../../../core/shared/view-mode.model';
 import { Context } from '../../../core/shared/context.model';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { getFirstSucceededRemoteDataPayload } from '../../../core/shared/operators';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { hasValue, isEmpty, isNotEmpty } from '../../empty.util';
-import { combineLatest as observableCombineLatest, of as observableOf } from 'rxjs';
-import { Observable } from 'rxjs/internal/Observable';
-import { PaginatedList } from '../../../core/data/paginated-list';
+import { PaginatedList, buildPaginatedList } from '../../../core/data/paginated-list.model';
 import { SearchResult } from '../../search/search-result.model';
 
 @Component({
@@ -52,6 +57,11 @@ export class DSOSelectorComponent implements OnInit, OnDestroy {
    */
   @Input() types: DSpaceObjectType[];
 
+  /**
+   * The configuration.
+   */
+  @Input() configuration = 'default';
+
   // list of allowed selectable dsoTypes
   typesString: string;
 
@@ -73,7 +83,7 @@ export class DSOSelectorComponent implements OnInit, OnDestroy {
   /**
    * List with search results of DSpace objects for the current query
    */
-  listEntries: Array<SearchResult<DSpaceObject>> = [];
+  listEntries: SearchResult<DSpaceObject>[] = [];
 
   /**
    * The current page to load
@@ -110,7 +120,7 @@ export class DSOSelectorComponent implements OnInit, OnDestroy {
   /**
    * Track whether the element has the mouse over it
    */
-  isMouseOver = false
+  isMouseOver = false;
 
   /**
    * Array to track all subscriptions and unsubscribe them onDestroy
@@ -133,7 +143,7 @@ export class DSOSelectorComponent implements OnInit, OnDestroy {
     if (isNotEmpty(this.currentDSOId)) {
       currentDSOResult$ = this.search(this.getCurrentDSOQuery(), 1);
     } else {
-      currentDSOResult$ = observableOf(new PaginatedList(undefined, []));
+      currentDSOResult$ = observableOf(buildPaginatedList(undefined, []));
     }
 
     // Combine current DSO, query and page
@@ -192,6 +202,7 @@ export class DSOSelectorComponent implements OnInit, OnDestroy {
       new PaginatedSearchOptions({
         query: query,
         dsoTypes: this.types,
+        configuration: this.configuration,
         pagination: Object.assign({}, this.defaultPagination, {
           currentPage: page
         })

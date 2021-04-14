@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/internal/Observable';
+import { Observable } from 'rxjs';
 import { BitstreamDataService } from '../../../../../core/data/bitstream-data.service';
 import { Bitstream } from '../../../../../core/shared/bitstream.model';
 import { getFirstSucceededRemoteDataPayload } from '../../../../../core/shared/operators';
@@ -19,6 +19,7 @@ import { NameVariantModalComponent } from '../../name-variant-modal/name-variant
 import { MetadataValue } from '../../../../../core/shared/metadata.models';
 import { ItemDataService } from '../../../../../core/data/item-data.service';
 import { SelectableListService } from '../../../../../shared/object-list/selectable-list/selectable-list.service';
+import { DSONameService } from '../../../../../core/breadcrumbs/dso-name.service';
 import { isNotEmpty } from '../../../../../shared/empty.util';
 
 @listableObjectComponent('PersonSearchResult', ViewMode.ListElement, Context.EntitySearchModalWithNameVariants)
@@ -43,8 +44,10 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
               private modalService: NgbModal,
               private itemDataService: ItemDataService,
               private bitstreamDataService: BitstreamDataService,
-              private selectableListService: SelectableListService) {
-    super(truncatableService);
+              private selectableListService: SelectableListService,
+              protected dsoNameService: DSONameService
+  ) {
+    super(truncatableService, dsoNameService);
   }
 
   ngOnInit() {
@@ -95,7 +98,7 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
         // user clicked cancel: use the name variant only for this relation, no further action required
       }).finally(() => {
         this.select(value);
-      })
+      });
     }
   }
 
@@ -117,9 +120,9 @@ export class PersonSearchResultListSubmissionElementComponent extends SearchResu
   getPersonName(): string {
     let personName = this.dso.name;
     if (isNotEmpty(this.firstMetadataValue('person.familyName')) && isNotEmpty(this.firstMetadataValue('person.givenName'))) {
-      personName = this.firstMetadataValue('person.familyName') + ', ' + this.firstMetadataValue('person.givenName')
+      personName = this.firstMetadataValue('person.familyName') + ', ' + this.firstMetadataValue('person.givenName');
     }
 
-    return personName
+    return personName;
   }
 }

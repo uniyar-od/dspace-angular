@@ -1,19 +1,25 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ProcessOverviewComponent } from './process-overview.component';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { VarDirective } from '../../shared/utils/var.directive';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
-import { AuthorizationDataService } from 'src/app/core/data/feature-authorization/authorization-data.service';
 import { ProcessDataService } from '../../core/data/processes/process-data.service';
+import { Process } from '../processes/process.model';
 import { EPersonDataService } from '../../core/eperson/eperson-data.service';
 import { EPerson } from '../../core/eperson/models/eperson.model';
+import { By } from '@angular/platform-browser';
+import { ProcessStatus } from '../processes/process-status.model';
 import { createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
 import { createPaginatedList } from '../../shared/testing/utils.test';
-import { VarDirective } from '../../shared/utils/var.directive';
-import { ProcessStatus } from '../processes/process-status.model';
-import { Process } from '../processes/process.model';
-import { ProcessOverviewComponent } from './process-overview.component';
+import { AuthorizationDataService } from '../../core/data/feature-authorization/authorization-data.service';
+import { of as observableOf } from 'rxjs';
+import { PaginationService } from '../../core/pagination/pagination.service';
+import { PaginationComponentOptions } from '../../shared/pagination/pagination-component-options.model';
+import { SortDirection, SortOptions } from '../../core/cache/models/sort-options.model';
+import { FindListOptions } from '../../core/data/request.models';
+import { PaginationServiceStub } from '../../shared/testing/pagination-service.stub';
 
 describe('ProcessOverviewComponent', () => {
   let component: ProcessOverviewComponent;
@@ -22,6 +28,7 @@ describe('ProcessOverviewComponent', () => {
   let processService: ProcessDataService;
   let ePersonService: EPersonDataService;
   let authorizationService: any;
+  let paginationService;
 
   let adminProcesses: Process[];
   let noAdminProcesses: Process[];
@@ -91,9 +98,11 @@ describe('ProcessOverviewComponent', () => {
       findById: createSuccessfulRemoteDataObject$(ePerson)
     });
     authorizationService = jasmine.createSpyObj('authorizationService', ['isAuthorized']);
+
+    paginationService = new PaginationServiceStub();
   }
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     init();
     TestBed.configureTestingModule({
       declarations: [ProcessOverviewComponent, VarDirective],
@@ -101,7 +110,8 @@ describe('ProcessOverviewComponent', () => {
       providers: [
         { provide: ProcessDataService, useValue: processService },
         { provide: EPersonDataService, useValue: ePersonService },
-        { provide: AuthorizationDataService, useValue: authorizationService }
+        { provide: AuthorizationDataService, useValue: authorizationService },
+        { provide: PaginationService, useValue: paginationService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -172,16 +182,7 @@ describe('ProcessOverviewComponent', () => {
       });
     });
 
-    describe('onPageChange', () => {
-      const toPage = 2;
-
-      it('should call a new findAll with the corresponding page', () => {
-        component.onPageChange(toPage);
-        fixture.detectChanges();
-        expect(processService.findAll).toHaveBeenCalledWith(jasmine.objectContaining({ currentPage: toPage }));
-      });
-    });
-  })
+  });
 
   describe('if the current user is not an admin', () => {
 
@@ -247,16 +248,6 @@ describe('ProcessOverviewComponent', () => {
         });
       });
 
-      describe('onPageChange', () => {
-        const toPage = 2;
-
-        it('should call a new searchBy with the corresponding page', () => {
-          component.onPageChange(toPage);
-          fixture.detectChanges();
-          expect(processService.searchBy).toHaveBeenCalledWith('own', jasmine.objectContaining({ currentPage: toPage }));
-        });
-      });
-
     });
-  })
+  });
 });

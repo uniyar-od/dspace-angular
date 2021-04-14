@@ -15,15 +15,15 @@ import { FormBuilderService } from '../../../form-builder.service';
 import { DynamicListRadioGroupModel } from './dynamic-list-radio-group.model';
 import { VocabularyService } from '../../../../../../core/submission/vocabularies/vocabulary.service';
 import { getFirstSucceededRemoteDataPayload } from '../../../../../../core/shared/operators';
-import { PaginatedList } from '../../../../../../core/data/paginated-list';
+import { PaginatedList } from '../../../../../../core/data/paginated-list.model';
 import { VocabularyEntry } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { PageInfo } from '../../../../../../core/shared/page-info.model';
 
 export interface ListItem {
-  id: string,
-  label: string,
-  value: boolean,
-  index: number
+  id: string;
+  label: string;
+  value: boolean;
+  index: number;
 }
 
 /**
@@ -35,7 +35,7 @@ export interface ListItem {
   templateUrl: './dynamic-list.component.html'
 })
 export class DsDynamicListComponent extends DynamicFormControlComponent implements OnInit {
-  @Input() bindId = true;
+
   @Input() group: FormGroup;
   @Input() model: any;
 
@@ -90,16 +90,16 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
       // Target tabindex coincide with the array index of the value into the authority list
       const entry: VocabularyEntry = this.optionsList[target.tabIndex];
       if (target.checked) {
-        this.model.valueUpdates.next(entry);
+        this.model.valueChanges.next(entry);
       } else {
         const newValue = [];
         this.model.value
           .filter((item) => item.value !== entry.value)
           .forEach((item) => newValue.push(item));
-        this.model.valueUpdates.next(newValue);
+        this.model.valueChanges.next(newValue);
       }
     } else {
-      (this.model as DynamicListRadioGroupModel).valueUpdates.next(this.optionsList[target.value]);
+      (this.model as DynamicListRadioGroupModel).value = this.optionsList[target.value];
     }
     this.change.emit(event);
   }
@@ -111,7 +111,7 @@ export class DsDynamicListComponent extends DynamicFormControlComponent implemen
     if (this.model.vocabularyOptions.name && this.model.vocabularyOptions.name.length > 0) {
       const listGroup = this.group.controls[this.model.id] as FormGroup;
       const pageInfo: PageInfo = new PageInfo({
-        elementsPerPage: Number.MAX_VALUE, currentPage: 1
+        elementsPerPage: 9999, currentPage: 1
       } as PageInfo);
       this.vocabularyService.getVocabularyEntries(this.model.vocabularyOptions, pageInfo).pipe(
         getFirstSucceededRemoteDataPayload()
