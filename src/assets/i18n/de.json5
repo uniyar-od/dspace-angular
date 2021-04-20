@@ -1319,11 +1319,11 @@
   
   // "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
   // TODO New key - Add a translation
-  "comcol-role.edit.community-admin.description": "Community-Administratoren können Unter-Communities und Collections erstellen und deren Zugriffsrechte verwalten. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  "comcol-role.edit.community-admin.description": "Community-Administratoren können Unter-Communities und Collections erstellen und deren Zugriffsrechte verwalten. Zusätzlich können sie entscheiden, wer in Unter-Collections veröffentlichen kann, sie können Veröffentlichungsmetadate bearbeiten (nach der Einreichung) und (map) zusätzliche Veröffentlichungen von anderen Collections hinzufügen (abhängig von ihrer Autorisierung).",
   
   // "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
   // TODO New key - Add a translation
-  "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
+  "comcol-role.edit.collection-admin.description": "Collection-Administratoren können entscheiden, wer in der Collection veröffentlichen darf, sie können Metadaten bearbeiten (nach der Einreichung) und sie können zusätzliche Veröffentlichungen (map) von anderen Collections hinzufügen (abhängig von ihrer Autorisierung).",
   
   
   // "comcol-role.edit.submitters.name": "Submitters",
@@ -1354,7 +1354,7 @@
   
   // "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
   // TODO New key - Add a translation
-  "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  "comcol-role.edit.bitstream_read.description": "Community-Administratoren können Unter-Communities und Collections erstellen und verwalten oder Verwaltungsrechte für diese Unter-Communities und Collections zuweisen. Zusätzliche entscheiden sie, wer in Unter-Collections einreichen darf, bearbeiten Metadaten (nach der Einreichung) und fügen existierende Veröffentlichungen (map) von anderen Collections hinzu (abhängig von der Autorisierung).",
   
   // "comcol-role.edit.bitstream_read.anonymous-group": "Default read for incoming bitstreams is currently set to Anonymous.",
   // TODO New key - Add a translation
@@ -1749,55 +1749,55 @@
   
   // "item.edit.bitstreams.notifications.discarded.content": "Your changes were discarded. To reinstate your changes click the 'Undo' button",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.discarded.content": "Ihre Veränderungen wurden verworfen. To reinstate your changes click the 'Undo' button",
+  "item.edit.bitstreams.notifications.discarded.content": "Ihre Veränderungen wurden verworfen. Um die Änderungen zurückzusetzen, klicken Sie bitte den 'Rückgängig'-Button",
   
   // "item.edit.bitstreams.notifications.discarded.title": "Changes discarded",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.discarded.title": "Changes discarded",
+  "item.edit.bitstreams.notifications.discarded.title": "Änderungen verworfen",
   
   // "item.edit.bitstreams.notifications.move.failed.title": "Error moving bitstreams",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.move.failed.title": "Error moving bitstreams",
+  "item.edit.bitstreams.notifications.move.failed.title": "Fehler beim Verschieben von Dateien",
   
   // "item.edit.bitstreams.notifications.move.saved.content": "Your move changes to this item's bitstreams and bundles have been saved.",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.move.saved.content": "Your move changes to this item's bitstreams and bundles have been saved.",
+  "item.edit.bitstreams.notifications.move.saved.content": "Ihre Ortsveränderungen dieser Dateien der Veröffentlichung und ihrer Bundle wurden gespeichert.",
   
   // "item.edit.bitstreams.notifications.move.saved.title": "Move changes saved",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.move.saved.title": "Move changes saved",
+  "item.edit.bitstreams.notifications.move.saved.title": "Ortsveränderungen gespeichert",
   
   // "item.edit.bitstreams.notifications.outdated.content": "The item you're currently working on has been changed by another user. Your current changes are discarded to prevent conflicts",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.outdated.content": "The item you're currently working on has been changed by another user. Your current changes are discarded to prevent conflicts",
+  "item.edit.bitstreams.notifications.outdated.content": "Die Veröffentlichung, an der Sie gerade arbeiten, wurde von einem anderen Nutzer verändert. Ihre aktuellen Änderungen wurden verworfen, um Konflikte zu verhinden.",
   
   // "item.edit.bitstreams.notifications.outdated.title": "Changes outdated",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.outdated.title": "Changes outdated",
+  "item.edit.bitstreams.notifications.outdated.title": "Veränderungen veraltet",
   
   // "item.edit.bitstreams.notifications.remove.failed.title": "Error deleting bitstream",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.remove.failed.title": "Error deleting bitstream",
+  "item.edit.bitstreams.notifications.remove.failed.title": "Fehler beim Löschen einer Datei",
   
   // "item.edit.bitstreams.notifications.remove.saved.content": "Your removal changes to this item's bitstreams have been saved.",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.remove.saved.content": "Your removal changes to this item's bitstreams have been saved.",
+  "item.edit.bitstreams.notifications.remove.saved.content": "Ihre Löschänderungen der Dateien dieser Veröffentlichung wurden gespeichert.",
   
   // "item.edit.bitstreams.notifications.remove.saved.title": "Removal changes saved",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.notifications.remove.saved.title": "Removal changes saved",
+  "item.edit.bitstreams.notifications.remove.saved.title": "Löschänderungen wurden gespeichert",
   
   // "item.edit.bitstreams.reinstate-button": "Undo",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.reinstate-button": "Undo",
+  "item.edit.bitstreams.reinstate-button": "Rückgängig",
   
   // "item.edit.bitstreams.save-button": "Save",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.save-button": "Save",
+  "item.edit.bitstreams.save-button": "Sichern",
   
   // "item.edit.bitstreams.upload-button": "Upload",
   // TODO New key - Add a translation
-  "item.edit.bitstreams.upload-button": "Upload",
+  "item.edit.bitstreams.upload-button": "Hochladen",
   
   
   
@@ -2188,15 +2188,15 @@
   
   // "item.edit.tabs.versionhistory.head": "Version History",
   // TODO New key - Add a translation
-  "item.edit.tabs.versionhistory.head": "Version History",
+  "item.edit.tabs.versionhistory.head": "Versionsgeschichte",
   
   // "item.edit.tabs.versionhistory.title": "Item Edit - Version History",
   // TODO New key - Add a translation
-  "item.edit.tabs.versionhistory.title": "Item Edit - Version History",
+  "item.edit.tabs.versionhistory.title": "Veröffentlichung bearbeiten - Versionsgeschichte",
   
   // "item.edit.tabs.versionhistory.under-construction": "Editing or adding new versions is not yet possible in this user interface.",
   // TODO New key - Add a translation
-  "item.edit.tabs.versionhistory.under-construction": "Editing or adding new versions is not yet possible in this user interface.",
+  "item.edit.tabs.versionhistory.under-construction": "Bearbeiten oder Hinzufügen von neuen Versionen ist auf dieser Oberfläche noch nicht möglich.",
   
   // "item.edit.tabs.view.head": "View Item",
   "item.edit.tabs.view.head": "Ressource Ansehen",
@@ -2240,35 +2240,35 @@
   
   // "item.page.context-menu.options": "Options",
   // TODO New key - Add a translation
-  "item.page.context-menu.options": "Options",
+  "item.page.context-menu.options": "Optionen",
   
   // "item.page.context-menu.options.request-correction.btn": "Request correction",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.btn": "Request correction",
+  "item.page.context-menu.options.request-correction.btn": "Korrekturanfrage",
   
   // "item.page.context-menu.options.request-correction.confirm.cancel": "Cancel",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.confirm.cancel": "Cancel",
+  "item.page.context-menu.options.request-correction.confirm.cancel": "Abbrechen",
   
   // "item.page.context-menu.options.request-correction.confirm.submit": "Yes, I'm sure",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.confirm.submit": "Yes, I'm sure",
+  "item.page.context-menu.options.request-correction.confirm.submit": "Ja, ich bin mir sicher",
   
   // "item.page.context-menu.options.request-correction.error.403": "A request for correction has already been sent, impossible to proceed with the operation.",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.error.403": "A request for correction has already been sent, impossible to proceed with the operation.",
+  "item.page.context-menu.options.request-correction.error.403": "Eine Korrekturanfrage wurde schon gesendet, es ist daher nicht möglich fortzufahren.",
   
   // "item.page.context-menu.options.request-correction.error.generic": "There was an issue when requesting a correction for the item, please try again later.",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.error.generic": "There was an issue when requesting a correction for the item, please try again later.",
+  "item.page.context-menu.options.request-correction.error.generic": "Es gab einen Fehler bei der Korrekturanfrage für diese Veröffentlichung, bitte versuchen Sie es später erneut.",
   
   // "item.page.context-menu.options.request-correction.info": "Are you sure you want to proceed with this operation?",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.info": "Are you sure you want to proceed with this operation?",
+  "item.page.context-menu.options.request-correction.info": "Wollen Sie wirklich mit dieser Operation fortfahren?",
   
   // "item.page.context-menu.options.request-correction.title": "Request correction",
   // TODO New key - Add a translation
-  "item.page.context-menu.options.request-correction.title": "Request correction",
+  "item.page.context-menu.options.request-correction.title": "Korrekturanfrage",
   
   
   
@@ -2349,11 +2349,11 @@
   
   // "item.version.history.empty": "There are no other versions for this item yet.",
   // TODO New key - Add a translation
-  "item.version.history.empty": "There are no other versions for this item yet.",
+  "item.version.history.empty": "Bisher gibt es keine anderen Versionen für diese Veröffentlichung.",
   
   // "item.version.history.head": "Version History",
   // TODO New key - Add a translation
-  "item.version.history.head": "Version History",
+  "item.version.history.head": "Versionsgeschichte",
   
   // "item.version.history.return": "Return",
   // TODO New key - Add a translation
@@ -2361,7 +2361,7 @@
   
   // "item.version.history.selected": "Selected version",
   // TODO New key - Add a translation
-  "item.version.history.selected": "Selected version",
+  "item.version.history.selected": "Ausgewählte Version",
   
   // "item.version.history.table.version": "Version",
   // TODO New key - Add a translation
@@ -2369,25 +2369,25 @@
   
   // "item.version.history.table.item": "Item",
   // TODO New key - Add a translation
-  "item.version.history.table.item": "Item",
+  "item.version.history.table.item": "Veröffentlichung",
   
   // "item.version.history.table.editor": "Editor",
   // TODO New key - Add a translation
-  "item.version.history.table.editor": "Editor",
+  "item.version.history.table.editor": "Redakteur",
   
   // "item.version.history.table.date": "Date",
   // TODO New key - Add a translation
-  "item.version.history.table.date": "Date",
+  "item.version.history.table.date": "Datum",
   
   // "item.version.history.table.summary": "Summary",
   // TODO New key - Add a translation
-  "item.version.history.table.summary": "Summary",
+  "item.version.history.table.summary": "Zusammenfassung",
   
   
   
   // "item.version.notice": "This is not the latest version of this item. The latest version can be found <a href='{{destination}}'>here</a>.",
   // TODO New key - Add a translation
-  "item.version.notice": "This is not the latest version of this item. The latest version can be found <a href='{{destination}}'>here</a>.",
+  "item.version.notice": "Dies ist nicht die aktuelle Version dieser Veröffentlichung. Die neuester Version ist <a href='{{destination}}'>hier</a> zu finden.",
   
   
   
@@ -2414,7 +2414,7 @@
   
   // "journal.search.title": "DSpace Cris Angular :: Journal Search",
   // TODO New key - Add a translation
-  "journal.search.title": "DSpace Cris Angular :: Journal Search",
+  "journal.search.title": "Fraunhofer-Publica :: Zeitschriftensuche",
   
   
   
@@ -2463,11 +2463,11 @@
   
   // "loading.bitstream": "Loading bitstream...",
   // TODO New key - Add a translation
-  "loading.bitstream": "Loading bitstream...",
+  "loading.bitstream": "Datei laden...",
   
   // "loading.bitstreams": "Loading bitstreams...",
   // TODO New key - Add a translation
-  "loading.bitstreams": "Loading bitstreams...",
+  "loading.bitstreams": "Laden von Dateien...",
   
   // "loading.browse-by": "Loading items...",
   "loading.browse-by": "Ressourcen am laden...",
@@ -2533,14 +2533,14 @@
   
   // "login.form.or-divider": "or",
   // TODO New key - Add a translation
-  "login.form.or-divider": "or",
+  "login.form.or-divider": "oder",
   
   // "login.form.password": "Password",
   "login.form.password": "Passwort",
   
   // "login.form.shibboleth": "Log in with Shibboleth",
   // TODO New key - Add a translation
-  "login.form.shibboleth": "Log in with Shibboleth",
+  "login.form.shibboleth": "Login mit Shibboleth",
   
   // "login.form.submit": "Log in",
   "login.form.submit": "Einloggen",
@@ -2588,7 +2588,7 @@
   
   // "menu.section.admin_search": "Admin Search",
   // TODO New key - Add a translation
-  "menu.section.admin_search": "Admin Search",
+  "menu.section.admin_search": "Admin Suche",
   
   
   
@@ -2668,7 +2668,7 @@
   
   // "menu.section.icon.admin_search": "Admin search menu section",
   // TODO New key - Add a translation
-  "menu.section.icon.admin_search": "Admin search menu section",
+  "menu.section.icon.admin_search": "Admin Suchmenü-Bereich",
   
   // "menu.section.icon.control_panel": "Control Panel menu section",
   "menu.section.icon.control_panel": "Menübereich Kontrollfeld",
@@ -2793,7 +2793,7 @@
   
   // "menu.section.workflow": "Administer Workflow",
   // TODO New key - Add a translation
-  "menu.section.workflow": "Administer Workflow",
+  "menu.section.workflow": "Workflow administrieren",
   
   
   // "mydspace.description": "",
@@ -2849,7 +2849,7 @@
   
   // "mydspace.results.is-correction": "Is a request of correction",
   // TODO New key - Add a translation
-  "mydspace.results.is-correction": "Is a request of correction",
+  "mydspace.results.is-correction": "Dies ist eine Korrekturanfrage",
   
   // "mydspace.results.no-abstract": "No Abstract",
   "mydspace.results.no-abstract": "Keine Zusammenfassung",
@@ -2877,7 +2877,7 @@
   
   // "mydspace.show.otherworkspace": "Other Submissions",
   // TODO New key - Add a translation
-  "mydspace.show.otherworkspace": "Other Submissions",
+  "mydspace.show.otherworkspace": "Andere Einreichungen",
   
   // "mydspace.show.workflow": "All tasks",
   "mydspace.show.workflow": "Alle Aufgaben",
@@ -2937,7 +2937,7 @@
   
   // "nav.profile": "Profile",
   // TODO New key - Add a translation
-  "nav.profile": "Profile",
+  "nav.profile": "Profil",
   
   // "nav.search": "Search",
   "nav.search": "Suche",
@@ -2947,7 +2947,7 @@
   
   // "nav.stop-impersonating": "Stop impersonating Nutzer",
   // TODO New key - Add a translation
-  "nav.stop-impersonating": "Stop impersonating Nutzer",
+  "nav.stop-impersonating": "Stop Rechteausweitung für diesen Nutzer",
   
   
   
@@ -3023,135 +3023,135 @@
   
   // "person.search.title": "DSpace Cris Angular :: Person Search",
   // TODO New key - Add a translation
-  "person.search.title": "DSpace Cris Angular :: Person Search",
+  "person.search.title": "Fraunhofer-Publica :: Personensuche",
   
   
   
   // "profile.breadcrumbs": "Update Profile",
   // TODO New key - Add a translation
-  "profile.breadcrumbs": "Update Profile",
+  "profile.breadcrumbs": "Profil aktualisieren",
   
   // "profile.card.identify": "Identify",
   // TODO New key - Add a translation
-  "profile.card.identify": "Identify",
+  "profile.card.identify": "Identifizieren",
   
   // "profile.card.security": "Security",
   // TODO New key - Add a translation
-  "profile.card.security": "Security",
+  "profile.card.security": "Sicherheit",
   
   // "profile.form.submit": "Update Profile",
   // TODO New key - Add a translation
-  "profile.form.submit": "Update Profile",
+  "profile.form.submit": "Profil aktualisieren",
   
   // "profile.groups.head": "Authorization groups you belong to",
   // TODO New key - Add a translation
-  "profile.groups.head": "Authorization groups you belong to",
+  "profile.groups.head": "Autorisierungsgruppen, zu denen Sie gehören",
   
   // "profile.head": "Update Profile",
   // TODO New key - Add a translation
-  "profile.head": "Update Profile",
+  "profile.head": "Profil aktualisieren",
   
   // "profile.metadata.form.error.firstname.required": "First Name is required",
   // TODO New key - Add a translation
-  "profile.metadata.form.error.firstname.required": "First Name is required",
+  "profile.metadata.form.error.firstname.required": "Vorname wird benötigt",
   
   // "profile.metadata.form.error.lastname.required": "Last Name is required",
   // TODO New key - Add a translation
-  "profile.metadata.form.error.lastname.required": "Last Name is required",
+  "profile.metadata.form.error.lastname.required": "Nachname wird benötigt",
   
   // "profile.metadata.form.label.email": "Email Address",
   // TODO New key - Add a translation
-  "profile.metadata.form.label.email": "Email Address",
+  "profile.metadata.form.label.email": "Email-Adresse",
   
   // "profile.metadata.form.label.firstname": "First Name",
   // TODO New key - Add a translation
-  "profile.metadata.form.label.firstname": "First Name",
+  "profile.metadata.form.label.firstname": "Vorname",
   
   // "profile.metadata.form.label.language": "Language",
   // TODO New key - Add a translation
-  "profile.metadata.form.label.language": "Language",
+  "profile.metadata.form.label.language": "Sprache",
   
   // "profile.metadata.form.label.lastname": "Last Name",
   // TODO New key - Add a translation
-  "profile.metadata.form.label.lastname": "Last Name",
+  "profile.metadata.form.label.lastname": "Nachname",
   
   // "profile.metadata.form.label.phone": "Contact Telephone",
   // TODO New key - Add a translation
-  "profile.metadata.form.label.phone": "Contact Telephone",
+  "profile.metadata.form.label.phone": "Kontakttelefonnummer",
   
   // "profile.metadata.form.notifications.success.content": "Your changes to the profile were saved.",
   // TODO New key - Add a translation
-  "profile.metadata.form.notifications.success.content": "Your changes to the profile were saved.",
+  "profile.metadata.form.notifications.success.content": "Ihre Änderungen zu diesem Profil wurden gespeichert.",
   
   // "profile.metadata.form.notifications.success.title": "Profile saved",
   // TODO New key - Add a translation
-  "profile.metadata.form.notifications.success.title": "Profile saved",
+  "profile.metadata.form.notifications.success.title": "Profil gespeichert",
   
   // "profile.notifications.warning.no-changes.content": "No changes were made to the Profile.",
   // TODO New key - Add a translation
-  "profile.notifications.warning.no-changes.content": "No changes were made to the Profile.",
+  "profile.notifications.warning.no-changes.content": "Es wurden keine Veränderungen an dem Profil vorgenommen.",
   
   // "profile.notifications.warning.no-changes.title": "No changes",
   // TODO New key - Add a translation
-  "profile.notifications.warning.no-changes.title": "No changes",
+  "profile.notifications.warning.no-changes.title": "Keine Veränderungen",
   
   // "profile.security.form.error.matching-passwords": "The passwords do not match.",
   // TODO New key - Add a translation
-  "profile.security.form.error.matching-passwords": "The passwords do not match.",
+  "profile.security.form.error.matching-passwords": "Die Passwörter stimmen nicht überein.",
   
   // "profile.security.form.error.password-length": "The password should be at least 6 characters long.",
   // TODO New key - Add a translation
-  "profile.security.form.error.password-length": "The password should be at least 6 characters long.",
+  "profile.security.form.error.password-length": "Das Passwort sollte mindestens 6 Zeichen lang sein.",
   
   // "profile.security.form.info": "Optionally, you can enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
   // TODO New key - Add a translation
-  "profile.security.form.info": "Optionally, you can enter a new password in the box below, and confirm it by typing it again into the second box. It should be at least six characters long.",
+  "profile.security.form.info": "Optional, können Sie ein neues Passwort in die untere Box eintragen und es durch erneutes Eintragen in die zweite, darunterliegende Box bestätigen. Das Passwort sollte mindestens 6 Zeichen lang sein.",
   
   // "profile.security.form.label.password": "Password",
   // TODO New key - Add a translation
-  "profile.security.form.label.password": "Password",
+  "profile.security.form.label.password": "Passwort",
   
   // "profile.security.form.label.passwordrepeat": "Retype to confirm",
   // TODO New key - Add a translation
-  "profile.security.form.label.passwordrepeat": "Retype to confirm",
+  "profile.security.form.label.passwordrepeat": "Wiederholen, um zu bestätigen",
   
   // "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
   // TODO New key - Add a translation
-  "profile.security.form.notifications.success.content": "Your changes to the password were saved.",
+  "profile.security.form.notifications.success.content": "Ihre Passwortänderung wurde gespeichert.",
   
   // "profile.security.form.notifications.success.title": "Password saved",
   // TODO New key - Add a translation
-  "profile.security.form.notifications.success.title": "Password saved",
+  "profile.security.form.notifications.success.title": "Passwort gespeichert",
   
   // "profile.security.form.notifications.error.title": "Error changing passwords",
   // TODO New key - Add a translation
-  "profile.security.form.notifications.error.title": "Error changing passwords",
+  "profile.security.form.notifications.error.title": "Fehler beim Speichern des Passworts",
   
   // "profile.security.form.notifications.error.not-long-enough": "The password has to be at least 6 characters long.",
   // TODO New key - Add a translation
-  "profile.security.form.notifications.error.not-long-enough": "The password has to be at least 6 characters long.",
+  "profile.security.form.notifications.error.not-long-enough": "Das Passwort sollte mindestens 6 Zeichen lang sein.",
   
   // "profile.security.form.notifications.error.not-same": "The provided passwords are not the same.",
   // TODO New key - Add a translation
-  "profile.security.form.notifications.error.not-same": "The provided passwords are not the same.",
+  "profile.security.form.notifications.error.not-same": "Die eingegebenen Passwörter sind nicht identisch.",
   
   // "profile.title": "Update Profile",
   // TODO New key - Add a translation
-  "profile.title": "Update Profile",
+  "profile.title": "Profil aktualisieren",
   
   
   
   // "profile.breadcrumbs": "Update Profile",
   // TODO New key - Add a translation
-  "profile.breadcrumbs": "Update Profile",
+  "profile.breadcrumbs": "Profil aktualisieren",
   
   // "profile.card.identify": "Identify",
   // TODO New key - Add a translation
-  "profile.card.identify": "Identify",
+  "profile.card.identify": "Identifizieren",
   
   // "profile.card.security": "Security",
   // TODO New key - Add a translation
-  "profile.card.security": "Security",
+  "profile.card.security": "Sicherheit",
   
   // "profile.form.submit": "Update Profile",
   // TODO New key - Add a translation
