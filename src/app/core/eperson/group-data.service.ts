@@ -2,9 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { createSelector, select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
-import { findIndex } from 'lodash';
+import { Observable, of as observableOf } from 'rxjs';
+import { catchError, map, take } from 'rxjs/operators';
 
 import {
   GroupRegistryCancelGroupAction,
@@ -13,7 +12,7 @@ import {
 import { GroupRegistryState } from '../../access-control/group-registry/group-registry.reducers';
 import { AppState } from '../../app.reducer';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
-import { followLink, FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
+import { FollowLinkConfig } from '../../shared/utils/follow-link-config.model';
 import { RemoteDataBuildService } from '../cache/builders/remote-data-build.service';
 import { RequestParam } from '../cache/models/request-param.model';
 import { ObjectCacheService } from '../cache/object-cache.service';
@@ -26,11 +25,7 @@ import { CreateRequest, DeleteRequest, FindListOptions, PostRequest } from '../d
 import { RequestService } from '../data/request.service';
 import { HttpOptions } from '../dspace-rest/dspace-rest.service';
 import { HALEndpointService } from '../shared/hal-endpoint.service';
-import {
-  getFirstCompletedRemoteData,
-  getFirstSucceededRemoteDataPayload,
-  getFirstSucceededRemoteListPayload
-} from '../shared/operators';
+import { getFinishedRemoteData, getFirstCompletedRemoteData, getRemoteDataPayload } from '../shared/operators';
 import { EPerson } from './models/eperson.model';
 import { Group } from './models/group.model';
 import { dataService } from '../cache/builders/build-decorators';
@@ -39,9 +34,7 @@ import { DSONameService } from '../breadcrumbs/dso-name.service';
 import { Community } from '../shared/community.model';
 import { Collection } from '../shared/collection.model';
 import { NoContent } from '../shared/NoContent.model';
-import { hasValue } from '../../shared/empty.util';
-import { EPersonDataService } from './eperson-data.service';
-import { getAuthenticatedUser } from '../auth/selectors';
+import { isNotEmpty } from '../../shared/empty.util';
 
 const groupRegistryStateSelector = (state: AppState) => state.groupRegistry;
 const editGroupSelector = createSelector(groupRegistryStateSelector, (groupRegistryState: GroupRegistryState) => groupRegistryState.editGroup);
@@ -60,7 +53,6 @@ export class GroupDataService extends DataService<Group> {
   public subgroupsEndpoint = 'subgroups';
 
   constructor(
-    protected epersonService: EPersonDataService,
     protected comparator: DSOChangeAnalyzer<Group>,
     protected http: HttpClient,
     protected notificationsService: NotificationsService,
@@ -109,18 +101,15 @@ export class GroupDataService extends DataService<Group> {
    *    true if user is member of the indicated group, false otherwise
    */
   isMemberOf(groupName: string): Observable<boolean> {
-    return this.store.pipe(
-      select(getAuthenticatedUser),
-      map ((eperson) => Object.assign(new EPerson(), eperson)),
-      take(1)
-    ).pipe(
-      filter((user: EPerson) => hasValue(user.id)),
-      switchMap((user: EPerson) => this.epersonService.findById(user.id, true, true, followLink('groups'))),
-      getFirstSucceededRemoteDataPayload(),
-      switchMap((user: EPerson) => user.groups.pipe(
-        getFirstSucceededRemoteListPayload(),
-        map((groups: Group[]) => findIndex(groups, {name: groupName}) !== -1)
-      ))
+    const searchHref = 'isMemberOf';
+    const options = new FindListOptions();
+    options.searchParams = [new RequestParam('groupName', groupName)];
+
+    return this.findByHref(this.getSearchByHref(searchHref, options), false, true).pipe(
+      getFinishedRemoteData(),
+      getRemoteDataPayload(),
+      map((group: Group) => isNotEmpty(group)),
+      catchError(() => observableOf(false)),
     );
   }
 
