@@ -105,7 +105,7 @@ export class GroupDataService extends DataService<Group> {
     const options = new FindListOptions();
     options.searchParams = [new RequestParam('groupName', groupName)];
 
-    return this.findByHref(this.getSearchByHref(searchHref, options), false, true).pipe(
+    return this.findByHref(this.getSearchByHref(searchHref, options), true, true).pipe(
       getFinishedRemoteData(),
       getRemoteDataPayload(),
       map((group: Group) => isNotEmpty(group)),
