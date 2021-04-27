@@ -8,11 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { ClaimedTaskDataService } from '../../../core/tasks/claimed-task-data.service';
 import { ClaimedTask } from '../../../core/tasks/models/claimed-task-object.model';
 import { ProcessTaskResponse } from '../../../core/tasks/models/process-task-response';
-import { isNotUndefined } from '../../empty.util';
+import { isEmpty, isNotUndefined } from '../../empty.util';
 import { WorkflowItem } from '../../../core/submission/models/workflowitem.model';
 import { RemoteData } from '../../../core/data/remote-data';
 import { MyDSpaceActionsComponent } from '../mydspace-actions';
 import { NotificationsService } from '../../notifications/notifications.service';
+import { SubmissionObject } from '../../../core/submission/models/submission-object.model';
 
 /**
  * This component represents mydspace actions related to ClaimedTask object.
@@ -95,6 +96,11 @@ export class ClaimedTaskActionsComponent extends MyDSpaceActionsComponent<Claime
       });
   }
 
+  canApprove(): Observable<boolean> {
+    return this.workflowitem$.pipe(
+      map((wfi: SubmissionObject) => isEmpty(wfi.errors))
+    );
+  }
   /**
    * Reject the task.
    */
