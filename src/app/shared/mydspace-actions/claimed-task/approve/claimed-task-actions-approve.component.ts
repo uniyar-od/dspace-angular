@@ -19,6 +19,11 @@ export class ClaimedTaskActionsApproveComponent {
   @Input() wrapperClass: string;
 
   /**
+   * A boolean representing if a task can be approved or not
+   */
+  @Input() canApprove: boolean;
+
+  /**
    * An event fired when a approve action is confirmed.
    */
   @Output() approve: EventEmitter<any> = new EventEmitter<any>();
