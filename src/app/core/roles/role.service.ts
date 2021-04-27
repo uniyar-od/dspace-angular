@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 
 import { interval, Observable, race } from 'rxjs';
-import { distinctUntilChanged, mapTo, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, mapTo, mergeMap, take } from 'rxjs/operators';
 
 import { RoleType } from './role-types';
 import { CollectionDataService } from '../data/collection-data.service';
 import { GroupDataService } from '../eperson/group-data.service';
+import { ConfigurationDataService } from '../data/configuration-data.service';
+import { getFirstSucceededRemoteDataPayload } from '../shared/operators';
+import { ConfigurationProperty } from '../shared/configuration-property.model';
 
 /**
  * A service that provides methods to identify user role.
@@ -17,9 +20,13 @@ export class RoleService {
    * Initialize instance variables
    *
    * @param {CollectionDataService} collectionService
+   * @param {ConfigurationDataService} configService
    * @param {GroupDataService} groupService
    */
-  constructor(private collectionService: CollectionDataService, private groupService: GroupDataService) {
+  constructor(
+    private collectionService: CollectionDataService,
+    private configService: ConfigurationDataService,
+    private groupService: GroupDataService) {
   }
 
   /**
@@ -50,6 +57,20 @@ export class RoleService {
   isAdmin(): Observable<boolean> {
     return race([
       this.groupService.isMemberOf('Administrator'),
+      interval(5000).pipe(mapTo(false))
+    ]).pipe(
+      take(1)
+    );
+  }
+
+  isMemberOfRSOSGroup(): Observable<boolean> {
+    const isMemberOf$ = this.configService.findByPropertyName('workflow.rsos.group').pipe(
+      getFirstSucceededRemoteDataPayload(),
+      map((response: ConfigurationProperty) => response.values[0]),
+      mergeMap((groupName: string) => this.groupService.isMemberOf(groupName))
+    );
+    return race([
+      isMemberOf$,
       interval(5000).pipe(mapTo(false))
     ]).pipe(
       take(1)

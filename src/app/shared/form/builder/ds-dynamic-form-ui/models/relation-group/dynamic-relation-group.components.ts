@@ -37,6 +37,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VocabularyEntry } from '../../../../../../core/submission/vocabularies/models/vocabulary-entry.model';
 import { SubmissionScopeType } from '../../../../../../core/submission/submission-scope-type';
 import { SubmissionService } from '../../../../../../submission/submission.service';
+import { RoleService } from '../../../../../../core/roles/role.service';
 
 /**
  * Component representing a group input field
@@ -79,6 +80,7 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
               protected layoutService: DynamicFormLayoutService,
               protected validationService: DynamicFormValidationService,
               protected modalService: NgbModal,
+              protected roleService: RoleService,
               protected submissionService: SubmissionService
   ) {
     super(layoutService, validationService);
@@ -195,9 +197,14 @@ export class DsDynamicRelationGroupComponent extends DynamicFormControlComponent
   canShowExternalSourceButton(): Observable<boolean> {
     const model = this.getMandatoryFieldModel();
     if ((this.model as any).submissionScope === SubmissionScopeType.WorkflowItem && model.vocabularyOptions && isNotEmpty(model.vocabularyOptions.name)) {
-      return this.vocabulary$.pipe(
+      const hasConfigEntity$ = this.vocabulary$.pipe(
         filter((vocabulary: Vocabulary) => isNotEmpty(vocabulary)),
         map((vocabulary: Vocabulary) => isNotEmpty(vocabulary.entity) && isNotEmpty(vocabulary.getExternalSourceByMetadata(this.model.mandatoryField)))
+      );
+      const isMemberOfRSOS$ = this.roleService.isMemberOfRSOSGroup().pipe(take(1));
+      return combineLatest([hasConfigEntity$, isMemberOfRSOS$]).pipe(
+        map(([hasConfigEntity, isMemberOfRSOS]) => hasConfigEntity && isMemberOfRSOS),
+        take(1)
       );
     } else {
       return observableOf(false);
