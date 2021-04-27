@@ -9,6 +9,7 @@
 
   <ds-claimed-task-actions-approve [processingApprove]="(processingApprove$ | async)"
                                    [wrapperClass]="'mt-1 mb-3'"
+                                   [canApprove]="canApprove() | async"
                                    (approve)="approve()"></ds-claimed-task-actions-approve>
 
   <ds-claimed-task-actions-reject [processingReject]="(processingReject$ | async)"

@@ -37,6 +37,7 @@
     </button>
     <ds-claimed-task-actions-approve *ngIf="(showApproveAndReject | async)"
                                      [processingApprove]="(processingApprove | async) || (processingSaveStatus | async)"
+                                     [canApprove]="!(submissionIsInvalid | async)"
                                      (approve)="approve()"></ds-claimed-task-actions-approve>
   </div>
 </div>
