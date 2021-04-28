@@ -232,12 +232,12 @@ export const environment: GlobalConfig = {
     // in this list will get priority. It is advisable to always have a theme that matches
     // every route as the last one
 
-    // {
-    //   // A theme with a handle property will match the community, collection or item with the given
-    //   // handle, and all collections and/or items within it
-    //   name: 'custom',
-    //   handle: '10673/1233'
-    // },
+    {
+      // A theme with a handle property will match the community, collection or item with the given
+      // handle, and all collections and/or items within it
+      name: 'custom',
+      handle: '10673/1167'
+    },
     // {
     //   // A theme with a regex property will match the route using a regular expression. If it
     //   // matches the route for a community or collection it will also apply to all collections
