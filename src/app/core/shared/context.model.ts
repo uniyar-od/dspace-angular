@@ -16,4 +16,5 @@ export enum Context {
   OtherWorkspace = 'otherworkspace',
   SideBarSearchModal = 'sideBarSearchModal',
   SideBarSearchModalCurrent = 'sideBarSearchModalCurrent',
+  RelationshipItem = 'relationshipItem',
 }
