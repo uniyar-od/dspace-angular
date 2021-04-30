@@ -23,7 +23,7 @@ const COMPONENTS = [
   EditItemMenuComponent,
   ExportItemMenuComponent,
   ExportCollectionMenuComponent,
-  EditItemRelationshipsMenuComponent
+  EditItemRelationshipsMenuComponent,
   RequestCorrectionMenuComponent,
   ExportCollectionMenuComponent
 ];
@@ -35,7 +35,7 @@ const ENTRY_COMPONENTS = [
   EditItemMenuComponent,
   ExportItemMenuComponent,
   ExportCollectionMenuComponent,
-  EditItemRelationshipsMenuComponent
+  EditItemRelationshipsMenuComponent,
   RequestCorrectionMenuComponent,
   ExportCollectionMenuComponent
 ];
