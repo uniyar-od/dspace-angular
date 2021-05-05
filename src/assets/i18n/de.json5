@@ -61,7 +61,7 @@
   "admin.registries.bitstream-formats.edit.extensions.placeholder": "Geben Sie die Endung ohne Punkt ein",
   
   // "admin.registries.bitstream-formats.edit.failure.content": "An error occurred while editing the bitstream format.",
-  "admin.registries.bitstream-formats.edit.failure.content": "Ein Fehler ist beim Editieren des Dateiformates",
+  "admin.registries.bitstream-formats.edit.failure.content": "Ein Fehler ist beim Editieren des Dateiformates aufgetreten",
   
   // "admin.registries.bitstream-formats.edit.failure.head": "Failure",
   "admin.registries.bitstream-formats.edit.failure.head": "Fehler",
@@ -112,7 +112,7 @@
   "admin.registries.bitstream-formats.table.deselect-all": "Alle abwählen",
   
   // "admin.registries.bitstream-formats.table.internal": "internal",
-  "admin.registries.bitstream-formats.table.internal": "intern",
+  "admin.registries.bitstream-formats.table.internal": "Intern",
   
   // "admin.registries.bitstream-formats.table.mimetype": "MIME Type",
   "admin.registries.bitstream-formats.table.mimetype": "MIME Typ",
@@ -273,11 +273,11 @@
   
   // "admin.access-control.epeople.title": "DSpace Angular :: EPeople",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.title": "Publica :: EPeople Verwaltung",
+  "admin.access-control.epeople.title": "Publica :: EPeople-Verwaltung",
   
   // "admin.access-control.epeople.head": "EPeople",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.head": "Nutzernenverwaltung",
+  "admin.access-control.epeople.head": "Nutzerverwaltung",
   
   // "admin.access-control.epeople.search.head": "Search",
   // TODO New key - Add a translation
@@ -289,17 +289,17 @@
   
   // "admin.access-control.epeople.search.scope.metadata": "Metadata",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.search.scope.metadata": "Metadaten der Nutzernen",
+  "admin.access-control.epeople.search.scope.metadata": "Metadaten der Nutzer",
   
-  // "admin.access-control.epeople.search.scope.email": "E-mail (genau)",
+  // "admin.access-control.epeople.search.scope.email": "E-Mail (genau)",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.search.scope.email": "E-mail",
+  "admin.access-control.epeople.search.scope.email": "E-Mail",
   
   // "admin.access-control.epeople.search.button": "Search",
   // TODO New key - Add a translation
   "admin.access-control.epeople.search.button": "Suche",
   
-  // "admin.access-control.epeople.button.add": "Add Nutzer",
+  // "admin.access-control.epeople.button.add": "Add Userr",
   // TODO New key - Add a translation
   "admin.access-control.epeople.button.add": "Nutzer hinzufügen",
   
@@ -311,9 +311,9 @@
   // TODO New key - Add a translation
   "admin.access-control.epeople.table.name": "Name",
   
-  // "admin.access-control.epeople.table.email": "E-mail (genau)",
+  // "admin.access-control.epeople.table.email": "E-Mail (genau)",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.table.email": "E-mail",
+  "admin.access-control.epeople.table.email": "E-Mail",
   
   // "admin.access-control.epeople.table.edit": "Edit",
   // TODO New key - Add a translation
@@ -329,7 +329,7 @@
   
   // "admin.access-control.epeople.no-items": "No EPeople to show.",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.no-items": "Keine Nutzernen gefunden.",
+  "admin.access-control.epeople.no-items": "Keine Nutzern gefunden.",
   
   // "admin.access-control.epeople.form.create": "Create Nutzer",
   // TODO New key - Add a translation
@@ -347,13 +347,13 @@
   // TODO New key - Add a translation
   "admin.access-control.epeople.form.lastName": "Nachname",
   
-  // "admin.access-control.epeople.form.email": "E-mail",
+  // "admin.access-control.epeople.form.email": "E-Mail",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.form.email": "E-mail",
+  "admin.access-control.epeople.form.email": "E-Mail",
   
   // "admin.access-control.epeople.form.emailHint": "Must be valid e-mail address",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.form.emailHint": "Gültige E-Mailadresse eingeben",
+  "admin.access-control.epeople.form.emailHint": "Gültige E-Mail-Adresse eingeben",
   
   // "admin.access-control.epeople.form.canLogIn": "Can log in",
   // TODO New key - Add a translation
@@ -532,7 +532,7 @@
   
   // "admin.access-control.groups.form.members-list.search.scope.email": "E-mail (genau)",
   // TODO New key - Add a translation
-  "admin.access-control.groups.form.members-list.search.scope.email": "E-mail (genau)",
+  "admin.access-control.groups.form.members-list.search.scope.email": "E-Mail (genau)",
   
   // "admin.access-control.groups.form.members-list.search.button": "Search",
   // TODO New key - Add a translation
