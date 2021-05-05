@@ -1608,7 +1608,7 @@
   
   
   // "home.description": "",
-  "home.description": "",
+  "home.description": "Home-Bereich",
   
   // "home.title": "DSpace Cris Angular :: Home",
   // TODO New key - Add a translation
@@ -2797,7 +2797,7 @@
   
   
   // "mydspace.description": "",
-  "mydspace.description": "",
+  "mydspace.description": "Meine Publica - Persönlicher Bereich",
   
   // "mydspace.general.text-here": "HERE",
   "mydspace.general.text-here": "Hier",
@@ -3320,7 +3320,7 @@
   
   
   // "search.description": "",
-  "search.description": "",
+  "search.description": "Suche",
   
   // "search.switch-configuration.title": "Show",
   "search.switch-configuration.title": "Zeige",
