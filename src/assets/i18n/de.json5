@@ -4533,6 +4533,8 @@
 
   "submission.import-external.source.scopus": "Scopus",
 
+  "submission.import-external.source.wos": "Web Of Science",
+
   "submission.import-external.source.openaire": "OpenAIRE nach Autor",
 
   "submission.import-external.source.openaireTitle": "OpenAIRE nach Titel",
