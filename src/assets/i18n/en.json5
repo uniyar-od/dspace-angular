@@ -4143,6 +4143,8 @@
 
   "submission.import-external.source.arxiv": "arXiv",
 
+  "submission.import-external.source.zdb": "ZDB",
+
   "submission.import-external.source.cinii": "CiNii",
 
   "submission.import-external.source.crossref": "CrossRef",
