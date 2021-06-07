@@ -61,7 +61,7 @@
   "admin.registries.bitstream-formats.edit.extensions.placeholder": "Geben Sie die Endung ohne Punkt ein",
   
   // "admin.registries.bitstream-formats.edit.failure.content": "An error occurred while editing the bitstream format.",
-  "admin.registries.bitstream-formats.edit.failure.content": "Ein Fehler ist beim Editieren des Dateiformates",
+  "admin.registries.bitstream-formats.edit.failure.content": "Ein Fehler ist beim Editieren des Dateiformates aufgetreten",
   
   // "admin.registries.bitstream-formats.edit.failure.head": "Failure",
   "admin.registries.bitstream-formats.edit.failure.head": "Fehler",
@@ -112,7 +112,7 @@
   "admin.registries.bitstream-formats.table.deselect-all": "Alle abwählen",
   
   // "admin.registries.bitstream-formats.table.internal": "internal",
-  "admin.registries.bitstream-formats.table.internal": "intern",
+  "admin.registries.bitstream-formats.table.internal": "Intern",
   
   // "admin.registries.bitstream-formats.table.mimetype": "MIME Type",
   "admin.registries.bitstream-formats.table.mimetype": "MIME Typ",
@@ -142,7 +142,7 @@
   
   
   // "admin.registries.metadata.description": "The metadata registry maintains a list of all metadata fields available in the repository. These fields may be divided amongst multiple schemas. However, DSpace requires the qualified Dublin Core schema.",
-  "admin.registries.metadata.description": "In der Referenzliste der Metadaten sind alle Metadatenfelder aufgeführt, die in diesem Repositorium zur Verfügung stehen. Diese Felder können auf verschiedene Schemata aufgeteilt sein. Für DSpace ist das Dublin Core Schema auf jeden Fall erforderlich.",
+  "admin.registries.metadata.description": "In der Referenzliste der Metadaten sind alle Metadatenfelder aufgeführt, die in diesem Repositorium zur Verfügung stehen. Diese Felder können auf verschiedene Schemata aufgeteilt sein. Für DSpace ist das Dublin-Core-Schema auf jeden Fall erforderlich.",
   
   // "admin.registries.metadata.form.create": "Create metadata schema",
   "admin.registries.metadata.form.create": "Metadatenschema anlegen",
@@ -163,7 +163,7 @@
   "admin.registries.metadata.schemas.no-items": "Es gibt keinen Metadatenschemata in der Referenzliste.",
   
   // "admin.registries.metadata.schemas.table.delete": "Delete selected",
-  "admin.registries.metadata.schemas.table.delete": "Ausgewählte löschen",
+  "admin.registries.metadata.schemas.table.delete": "Auswahl löschen",
   
   // "admin.registries.metadata.schemas.table.id": "ID",
   "admin.registries.metadata.schemas.table.id": "ID",
@@ -273,11 +273,11 @@
   
   // "admin.access-control.epeople.title": "DSpace Angular :: EPeople",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.title": "Publica :: EPeople Verwaltung",
+  "admin.access-control.epeople.title": "Publica :: EPeople-Verwaltung",
   
   // "admin.access-control.epeople.head": "EPeople",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.head": "Nutzernenverwaltung",
+  "admin.access-control.epeople.head": "Nutzerverwaltung",
   
   // "admin.access-control.epeople.search.head": "Search",
   // TODO New key - Add a translation
@@ -289,17 +289,17 @@
   
   // "admin.access-control.epeople.search.scope.metadata": "Metadata",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.search.scope.metadata": "Metadaten der Nutzernen",
+  "admin.access-control.epeople.search.scope.metadata": "Metadaten der Nutzer",
   
-  // "admin.access-control.epeople.search.scope.email": "E-mail (genau)",
+  // "admin.access-control.epeople.search.scope.email": "E-Mail (genau)",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.search.scope.email": "E-mail",
+  "admin.access-control.epeople.search.scope.email": "E-Mail",
   
   // "admin.access-control.epeople.search.button": "Search",
   // TODO New key - Add a translation
   "admin.access-control.epeople.search.button": "Suche",
   
-  // "admin.access-control.epeople.button.add": "Add Nutzer",
+  // "admin.access-control.epeople.button.add": "Add Userr",
   // TODO New key - Add a translation
   "admin.access-control.epeople.button.add": "Nutzer hinzufügen",
   
@@ -311,9 +311,9 @@
   // TODO New key - Add a translation
   "admin.access-control.epeople.table.name": "Name",
   
-  // "admin.access-control.epeople.table.email": "E-mail (genau)",
+  // "admin.access-control.epeople.table.email": "E-Mail (genau)",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.table.email": "E-mail",
+  "admin.access-control.epeople.table.email": "E-Mail",
   
   // "admin.access-control.epeople.table.edit": "Edit",
   // TODO New key - Add a translation
@@ -329,7 +329,7 @@
   
   // "admin.access-control.epeople.no-items": "No EPeople to show.",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.no-items": "Keine Nutzernen gefunden.",
+  "admin.access-control.epeople.no-items": "Keine Nutzern gefunden.",
   
   // "admin.access-control.epeople.form.create": "Create Nutzer",
   // TODO New key - Add a translation
@@ -347,13 +347,13 @@
   // TODO New key - Add a translation
   "admin.access-control.epeople.form.lastName": "Nachname",
   
-  // "admin.access-control.epeople.form.email": "E-mail",
+  // "admin.access-control.epeople.form.email": "E-Mail",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.form.email": "E-mail",
+  "admin.access-control.epeople.form.email": "E-Mail",
   
   // "admin.access-control.epeople.form.emailHint": "Must be valid e-mail address",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.form.emailHint": "Gültige E-Mailadresse eingeben",
+  "admin.access-control.epeople.form.emailHint": "Gültige E-Mail-Adresse eingeben",
   
   // "admin.access-control.epeople.form.canLogIn": "Can log in",
   // TODO New key - Add a translation
@@ -532,7 +532,7 @@
   
   // "admin.access-control.groups.form.members-list.search.scope.email": "E-mail (genau)",
   // TODO New key - Add a translation
-  "admin.access-control.groups.form.members-list.search.scope.email": "E-mail (genau)",
+  "admin.access-control.groups.form.members-list.search.scope.email": "E-Mail (genau)",
   
   // "admin.access-control.groups.form.members-list.search.button": "Search",
   // TODO New key - Add a translation
@@ -1608,7 +1608,7 @@
   
   
   // "home.description": "",
-  "home.description": "",
+  "home.description": "Home-Bereich",
   
   // "home.title": "DSpace Cris Angular :: Home",
   // TODO New key - Add a translation
@@ -2797,7 +2797,7 @@
   
   
   // "mydspace.description": "",
-  "mydspace.description": "",
+  "mydspace.description": "Meine Publica - Persönlicher Bereich",
   
   // "mydspace.general.text-here": "HERE",
   "mydspace.general.text-here": "Hier",
@@ -3320,7 +3320,7 @@
   
   
   // "search.description": "",
-  "search.description": "",
+  "search.description": "Suche",
   
   // "search.switch-configuration.title": "Show",
   "search.switch-configuration.title": "Zeige",
@@ -3801,7 +3801,7 @@
   "submission.sections.describe.relationship-lookup.close": "Schließen",
   
   // "submission.sections.describe.relationship-lookup.external-source.added": "Successfully added local entry to the selection",
-  "submission.sections.describe.relationship-lookup.external-source.added": "Der lokale Eintrage wurde erfolgreich zur Auswahl hinzugefügt.",
+  "submission.sections.describe.relationship-lookup.external-source.added": "Der lokale Eintrag wurde erfolgreich zur Auswahl hinzugefügt.",
   
   // "submission.sections.describe.relationship-lookup.external-source.import-button-title.Author": "Import remote author",
   "submission.sections.describe.relationship-lookup.external-source.import-button-title.Author": "AutorIn importieren",
@@ -3843,16 +3843,16 @@
   "submission.sections.describe.relationship-lookup.external-source.import-modal.entities.new": "Als neue lokale Entität importieren",
   
   // "submission.sections.describe.relationship-lookup.external-source.import-modal.head.lcname": "Importing from LC Name",
-  "submission.sections.describe.relationship-lookup.external-source.import-modal.head.lcname": "Von LC Name importieren",
+  "submission.sections.describe.relationship-lookup.external-source.import-modal.head.lcname": "Von LC-Name importieren",
   
   // "submission.sections.describe.relationship-lookup.external-source.import-modal.head.orcid": "Importing from ORCID",
   "submission.sections.describe.relationship-lookup.external-source.import-modal.head.orcid": "Von ORCID importieren",
   
   // "submission.sections.describe.relationship-lookup.external-source.import-modal.head.sherpaJournal": "Importing from Sherpa Journal",
-  "submission.sections.describe.relationship-lookup.external-source.import-modal.head.sherpaJournal": "Von Sherpa Zeitschriften importieren",
+  "submission.sections.describe.relationship-lookup.external-source.import-modal.head.sherpaJournal": "Von Sherpa-Zeitschriften importieren",
   
   // "submission.sections.describe.relationship-lookup.external-source.import-modal.head.sherpaPublisher": "Importing from Sherpa Publisher",
-  "submission.sections.describe.relationship-lookup.external-source.import-modal.head.sherpaPublisher": "Von Sherpa Verlag importieren",
+  "submission.sections.describe.relationship-lookup.external-source.import-modal.head.sherpaPublisher": "Von Sherpa-Verlag importieren",
   
   // "submission.sections.describe.relationship-lookup.external-source.import-modal.import": "Import",
   "submission.sections.describe.relationship-lookup.external-source.import-modal.import": "Import",
@@ -3996,7 +3996,7 @@
   "submission.sections.describe.relationship-lookup.selection-tab.title.lcname": "Suchergebnisse",
   
   // "submission.sections.describe.relationship-lookup.name-variant.notification.content": "Would you like to save \"{{ value }}\" as a name variant for this person so you and others can reuse it for future submissions? If you don\'t you can still use it for this submission.",
-  "submission.sections.describe.relationship-lookup.name-variant.notification.content": "Möchten Sie \"{{ value }}\" als Namesvariante für diese Person speichern? So können Sie und andere diese bei zukünftigen Veröffentlichungen verwenden. Wenn Sie das nicht tun, können Sie die Variante immer noch für diese Veröffentlichung verwenden.",
+  "submission.sections.describe.relationship-lookup.name-variant.notification.content": "Möchten Sie \"{{ value }}\" als Namensvariante für diese Person speichern? So können Sie und Andere diese bei zukünftigen Veröffentlichungen verwenden. Wenn Sie das nicht tun, können Sie die Variante immer noch für diese Veröffentlichung verwenden.",
   
   // "submission.sections.describe.relationship-lookup.name-variant.notification.confirm": "Save a new name variant",
   "submission.sections.describe.relationship-lookup.name-variant.notification.confirm": "Als Namensvariante speichern",
@@ -4023,7 +4023,7 @@
   "submission.sections.general.discard_success_notice": "Einreichung erfolgreich verworfen.",
   
   // "submission.sections.general.metadata-extracted": "New metadata have been extracted and added to the <strong>{{sectionId}}</strong> section.",
-  "submission.sections.general.metadata-extracted": "Neue Metainformation wurden extrahier unt dem Bereich <strong>{{sectionId}}</strong> zugeordnet.",
+  "submission.sections.general.metadata-extracted": "Neue Metainformation wurden extrahiert und dem Bereich <strong>{{sectionId}}</strong> zugeordnet.",
   
   // "submission.sections.general.metadata-extracted-new-section": "New <strong>{{sectionId}}</strong> section has been added to submission.",
   "submission.sections.general.metadata-extracted-new-section": "Neuer Bereich <strong>{{sectionId}}</strong> wurde zur Einreichung hinzugefügt.",
@@ -4406,12 +4406,12 @@
   
   // "menu.section.admin_search": "Admin Search",
   // TODO New key - Add a translation
-  "menu.section.admin_search": "Admin Suche",
+  "menu.section.admin_search": "Admin-Suche",
   
   
   
   // "uploader.browse": "browse",
-  "uploader.browse": "stöbern",
+  "uploader.browse": "Stöbern",
   
   // "uploader.drag-message": "Drag & Drop your files here",
   "uploader.drag-message": "Ziehen Sie Ihre Dateien hierhin",
@@ -4507,6 +4507,39 @@
   // TODO New key - Add a translation
   "workflow-item.send-back.button.confirm": "Zurücksenden",
   
+  "submission.import-external.source.ads": "NASA/ADS",
+
+  "submission.import-external.source.arxiv": "arXiv",
+
+  "submission.import-external.source.zdb": "ZDB",
+
+  "submission.import-external.source.cinii": "CiNii",
+
+  "submission.import-external.source.crossref": "CrossRef",
+
+  "submission.import-external.source.loading": "Laden ...",
+
+  "submission.import-external.source.sherpaJournal": "SHERPA Journals",
+
+  "submission.import-external.source.sherpaPublisher": "SHERPA Publishers",
+
+  "submission.import-external.source.orcid": "ORCID",
+
+  "submission.import-external.source.pubmed": "Pubmed",
+
+  "submission.import-external.source.pubmedeu": "Pubmed Europe",
+
+  "submission.import-external.source.lcname": "Library of Congress Names",
+
+  "submission.import-external.source.scopus": "Scopus",
+
+  "submission.import-external.source.wos": "Web Of Science",
+
+  "submission.import-external.source.openaire": "OpenAIRE nach Autor",
+
+  "submission.import-external.source.openaireTitle": "OpenAIRE nach Titel",
+
+  "submission.import-external.source.epo": "European Patent Office (EPO)",
   
 
 }

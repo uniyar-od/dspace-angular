@@ -4143,6 +4143,8 @@
 
   "submission.import-external.source.arxiv": "arXiv",
 
+  "submission.import-external.source.zdb": "ZDB",
+
   "submission.import-external.source.cinii": "CiNii",
 
   "submission.import-external.source.crossref": "CrossRef",
@@ -4162,6 +4164,8 @@
   "submission.import-external.source.lcname": "Library of Congress Names",
 
   "submission.import-external.source.scopus": "Scopus",
+
+  "submission.import-external.source.wos": "Web Of Science",
 
   "submission.import-external.source.openaire": "OpenAIRE by Author",
 
