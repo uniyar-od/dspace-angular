@@ -200,6 +200,7 @@ import { StatisticsCategory } from './statistics/models/statistics-category.mode
 import { RootDataService } from './data/root-data.service';
 import { SearchConfig } from '../shared/search/search-filters/search-config.model';
 import { EditItemRelationsGuard } from '../edit-item-relationships/guards/edit-item-relationships.guard';
+import { ProfileClaimService } from '../profile-page/profile-claim/profile-claim.service';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -331,6 +332,7 @@ const PROVIDERS = [
   VocabularyService,
   VocabularyTreeviewService,
   SearchcomponentService,
+  ProfileClaimService,
   ResearcherProfileService,
   ItemExportFormatService,
   SectionDataService,

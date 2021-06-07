@@ -15,6 +15,8 @@ import { LinkService } from '../../../../core/cache/builders/link.service';
 import { getMockLinkService } from '../../../mocks/link-service.mock';
 import { take } from 'rxjs/operators';
 import { ItemDataService } from '../../../../core/data/item-data.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoaderMock } from '../../../mocks/translate-loader.mock';
 
 let component: OtherWorkspaceItemSearchResultListElementComponent;
 let fixture: ComponentFixture<OtherWorkspaceItemSearchResultListElementComponent>;
@@ -23,6 +25,10 @@ const compIndex = 1;
 
 const mockResultObject: WorkspaceItemSearchResult = new WorkspaceItemSearchResult();
 mockResultObject.hitHighlights = {};
+
+const truncatableServiceStub: any = {
+  isCollapsed: (id: number) => observableOf(true),
+};
 
 const item = Object.assign(new Item(), {
   bitstreams: observableOf({}),
@@ -61,10 +67,18 @@ describe('OtherWorkspaceItemSearchResultListElementComponent', () => {
   beforeEach(async(() => {
     linkService = getMockLinkService();
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
+      imports: [
+        NoopAnimationsModule,
+        TranslateModule.forRoot({
+          loader: {
+            provide: TranslateLoader,
+            useClass: TranslateLoaderMock
+          }
+        })
+      ],
       declarations: [OtherWorkspaceItemSearchResultListElementComponent],
       providers: [
-        { provide: TruncatableService, useValue: {} },
+        { provide: TruncatableService, useValue: truncatableServiceStub },
         { provide: ItemDataService, useValue: {} },
         { provide: LinkService, useValue: linkService },
       ],

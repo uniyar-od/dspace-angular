@@ -13,6 +13,7 @@ import { By } from '@angular/platform-browser';
 import { createSuccessfulRemoteDataObject } from '../../../remote-data.utils';
 import { Observable } from 'rxjs/internal/Observable';
 import { SubmissionObject } from '../../../../core/submission/models/submission-object.model';
+import { RemoteData } from '../../../../core/data/remote-data';
 
 let component: ItemSubmitterComponent;
 let fixture: ComponentFixture<ItemSubmitterComponent>;

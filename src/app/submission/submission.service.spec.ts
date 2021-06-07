@@ -1,5 +1,5 @@
 import { StoreModule } from '@ngrx/store';
-import { waitForAsync, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, flush, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
@@ -32,9 +32,7 @@ import {
   SaveSubmissionSectionFormAction,
   SetActiveSectionAction
 } from './objects/submission-objects.actions';
-import {
-  createFailedRemoteDataObject,
-} from '../shared/remote-data.utils';
+import { createFailedRemoteDataObject, } from '../shared/remote-data.utils';
 import { getMockSearchService } from '../shared/mocks/search-service.mock';
 import { getMockRequestService } from '../shared/mocks/request.service.mock';
 import { RequestService } from '../core/data/request.service';
@@ -46,6 +44,7 @@ import { SubmissionJsonPatchOperationsService } from '../core/submission/submiss
 import { SubmissionJsonPatchOperationsServiceStub } from '../shared/testing/submission-json-patch-operations-service.stub';
 import { ScrollToService } from '@nicky-lenaers/ngx-scroll-to';
 import { NotificationOptions } from '../shared/notifications/models/notification-options.model';
+import { SubmissionVisibilityValue } from '../core/config/models/config-submission-section.model';
 
 describe('SubmissionService test suite', () => {
   const collectionId = '43fe1f8c-09a6-4fcf-9c78-5d4fed8f2c8f';
@@ -64,13 +63,14 @@ describe('SubmissionService test suite', () => {
             mandatory: true,
             sectionType: 'utils',
             visibility: {
-              main: 'HIDDEN',
-              other: 'HIDDEN'
+              submission: SubmissionVisibilityValue.Hidden,
+              workflow: SubmissionVisibilityValue.Hidden
             },
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -79,13 +79,14 @@ describe('SubmissionService test suite', () => {
             mandatory: true,
             sectionType: 'collection',
             visibility: {
-              main: 'HIDDEN',
-              other: 'HIDDEN'
+              submission: SubmissionVisibilityValue.Hidden,
+              workflow: SubmissionVisibilityValue.Hidden
             },
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -97,7 +98,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -109,7 +111,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -121,7 +124,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: true
           },
@@ -133,7 +137,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -145,7 +150,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -157,7 +163,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -169,7 +176,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -179,13 +187,13 @@ describe('SubmissionService test suite', () => {
             mandatory: true,
             sectionType: 'license',
             visibility: {
-              main: null,
-              other: 'READONLY'
+              workflow: SubmissionVisibilityValue.ReadOnly
             },
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           }
@@ -210,13 +218,14 @@ describe('SubmissionService test suite', () => {
             mandatory: true,
             sectionType: 'utils',
             visibility: {
-              main: 'HIDDEN',
-              other: 'HIDDEN'
+              submission: SubmissionVisibilityValue.Hidden,
+              workflow: SubmissionVisibilityValue.Hidden
             },
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -225,13 +234,14 @@ describe('SubmissionService test suite', () => {
             mandatory: true,
             sectionType: 'collection',
             visibility: {
-              main: 'HIDDEN',
-              other: 'HIDDEN'
+              submission: SubmissionVisibilityValue.Hidden,
+              workflow: SubmissionVisibilityValue.Hidden
             },
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -243,7 +253,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: true
           },
@@ -255,7 +266,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -267,7 +279,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: true
           },
@@ -279,7 +292,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -291,7 +305,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -303,7 +318,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: false,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: false
           },
@@ -315,7 +331,8 @@ describe('SubmissionService test suite', () => {
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: true
           },
@@ -325,13 +342,13 @@ describe('SubmissionService test suite', () => {
             mandatory: true,
             sectionType: 'license',
             visibility: {
-              main: null,
-              other: 'READONLY'
+              workflow: SubmissionVisibilityValue.ReadOnly
             },
             collapsed: false,
             enabled: true,
             data: {},
-            errors: [],
+            errorsToShow: [],
+            serverValidationErrors: [],
             isLoading: false,
             isValid: true
           }
@@ -474,7 +491,7 @@ describe('SubmissionService test suite', () => {
 
       service.depositSubmission(selfUrl);
 
-      expect((service as any).restService.postToEndpoint).toHaveBeenCalledWith('workflowitems', selfUrl, null, options, null, false);
+      expect((service as any).restService.postToEndpoint).toHaveBeenCalledWith('workflowitems', selfUrl, null, options);
     });
   });
 
@@ -495,7 +512,7 @@ describe('SubmissionService test suite', () => {
         submissionDefinition,
         {},
         new Item(),
-        []
+        null
       );
       const expected = new InitSubmissionFormAction(
         collectionId,
@@ -504,7 +521,7 @@ describe('SubmissionService test suite', () => {
         submissionDefinition,
         {},
         new Item(),
-        []);
+        null);
 
       expect((service as any).store.dispatch).toHaveBeenCalledWith(expected);
     });
@@ -591,6 +608,7 @@ describe('SubmissionService test suite', () => {
 
   describe('getSubmissionSections', () => {
     it('should return submission form sections', () => {
+      spyOn(service, 'getSubmissionScope').and.returnValue(SubmissionScopeType.WorkspaceItem);
       spyOn((service as any).store, 'select').and.returnValue(hot('a|', {
         a: subState.objects[826]
       }));
@@ -607,7 +625,9 @@ describe('SubmissionService test suite', () => {
               mandatory: true,
               sectionType: 'submission-form',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.describe.indexing',
@@ -616,7 +636,9 @@ describe('SubmissionService test suite', () => {
               mandatory: false,
               sectionType: 'submission-form',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.describe.publicationchannel',
@@ -625,7 +647,9 @@ describe('SubmissionService test suite', () => {
               mandatory: true,
               sectionType: 'submission-form',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.describe.acknowledgement',
@@ -634,7 +658,9 @@ describe('SubmissionService test suite', () => {
               mandatory: false,
               sectionType: 'submission-form',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.describe.identifiers',
@@ -643,7 +669,9 @@ describe('SubmissionService test suite', () => {
               mandatory: false,
               sectionType: 'submission-form',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.describe.references',
@@ -652,7 +680,9 @@ describe('SubmissionService test suite', () => {
               mandatory: false,
               sectionType: 'submission-form',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.upload',
@@ -661,7 +691,9 @@ describe('SubmissionService test suite', () => {
               mandatory: true,
               sectionType: 'upload',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: undefined
             },
             {
               header: 'submit.progressbar.license',
@@ -670,7 +702,11 @@ describe('SubmissionService test suite', () => {
               mandatory: true,
               sectionType: 'license',
               data: {},
-              errors: []
+              errorsToShow: [],
+              serverValidationErrors: [],
+              sectionVisibility: {
+                workflow: SubmissionVisibilityValue.ReadOnly
+              }
             }
           ]
       });
@@ -752,6 +788,7 @@ describe('SubmissionService test suite', () => {
 
   describe('getSubmissionStatus', () => {
     it('should return properly submission status', () => {
+      spyOn(service, 'getSubmissionScope').and.returnValue(SubmissionScopeType.WorkspaceItem);
       spyOn((service as any).store, 'select').and.returnValue(hot('-a-b', {
         a: subState,
         b: validSubState
@@ -827,23 +864,24 @@ describe('SubmissionService test suite', () => {
 
   describe('isSectionHidden', () => {
     it('should return true/false when section is hidden/visible', () => {
+      spyOn(service, 'getSubmissionScope').and.returnValue(SubmissionScopeType.WorkspaceItem);
       let section: any = {
         config: '',
         header: '',
         mandatory: true,
         sectionType: 'collection' as any,
         visibility: {
-          main: 'HIDDEN',
-          other: 'HIDDEN'
+          submission: SubmissionVisibilityValue.Hidden
         },
         collapsed: false,
         enabled: true,
         data: {},
-        errors: [],
+        errorsToShow: [],
+        serverValidationErrors: [],
         isLoading: false,
         isValid: false
       };
-      expect(service.isSectionHidden(section)).toBeTruthy();
+      expect((service as  any).isSectionHidden(section)).toBeTruthy();
 
       section = {
         header: 'submit.progressbar.describe.keyinformation',
@@ -853,11 +891,12 @@ describe('SubmissionService test suite', () => {
         collapsed: false,
         enabled: true,
         data: {},
-        errors: [],
+        errorsToShow: [],
+        serverValidationErrors: [],
         isLoading: false,
         isValid: false
       };
-      expect(service.isSectionHidden(section)).toBeFalsy();
+      expect((service as  any).isSectionHidden(section)).toBeFalsy();
     });
   });
 
