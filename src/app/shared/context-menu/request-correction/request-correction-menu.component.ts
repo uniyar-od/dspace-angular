@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { BehaviorSubject, of as observableOf, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of as observableOf, Subscription } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,8 @@ import { rendersContextMenuEntriesForType } from '../context-menu.decorator';
 import { DSpaceObjectType } from '../../../core/shared/dspace-object-type.model';
 import { ContextMenuEntryComponent } from '../context-menu-entry.component';
 import { DSpaceObject } from '../../../core/shared/dspace-object.model';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { FeatureID } from '../../../core/data/feature-authorization/feature-id';
 
 /**
  * This component renders a context menu option that provides the request a correction functionality.
@@ -46,6 +48,7 @@ export class RequestCorrectionMenuComponent extends ContextMenuEntryComponent im
    *
    * @param {DSpaceObject} injectedContextMenuObject
    * @param {DSpaceObjectType} injectedContextMenuObjectType
+   * @param {AuthorizationDataService} authorizationService
    * @param {NgbModal} modalService
    * @param {NotificationsService} notificationService
    * @param {Router} router
@@ -55,6 +58,7 @@ export class RequestCorrectionMenuComponent extends ContextMenuEntryComponent im
   constructor(
     @Inject('contextMenuObjectProvider') protected injectedContextMenuObject: DSpaceObject,
     @Inject('contextMenuObjectTypeProvider') protected injectedContextMenuObjectType: DSpaceObjectType,
+    private authorizationService: AuthorizationDataService,
     private modalService: NgbModal,
     private notificationService: NotificationsService,
     private router: Router,
@@ -81,7 +85,6 @@ export class RequestCorrectionMenuComponent extends ContextMenuEntryComponent im
     this.sub = this.submissionService.createSubmissionByItem(this.contextMenuObject.id, 'isCorrectionOfItem').pipe(
       take(1),
       catchError((error: ErrorResponse) => {
-        console.log(error);
         this.handleErrorResponse(error.statusCode);
         return observableOf({});
       })
@@ -98,6 +101,13 @@ export class RequestCorrectionMenuComponent extends ContextMenuEntryComponent im
         this.router.navigate(['workspaceitems', response.id, 'edit']);
       }
     });
+  }
+
+  /**
+   * Return a boolean representing if user can create a correction
+   */
+  public canCreateCorrection(): Observable<boolean> {
+    return this.authorizationService.isAuthorized(FeatureID.CanCorrectItem, this.contextMenuObject.self);
   }
 
   /**

@@ -18,6 +18,8 @@ import { SubmissionService } from '../../../submission/submission.service';
 import { Item } from '../../../core/shared/item.model';
 import { createSuccessfulRemoteDataObject$ } from '../../remote-data.utils';
 import { WorkspaceItem } from '../../../core/submission/models/workspaceitem.model';
+import { AuthorizationDataService } from '../../../core/data/feature-authorization/authorization-data.service';
+import { By } from '@angular/platform-browser';
 
 describe('RequestCorrectionMenuComponent', () => {
   let component: RequestCorrectionMenuComponent;
@@ -29,6 +31,7 @@ describe('RequestCorrectionMenuComponent', () => {
   let requestService: any;
   let router: any;
   let submissionService: any;
+  let authorizationService;
 
   const ngbModal = jasmine.createSpyObj('modal', ['open']);
   const mockItem: Item = Object.assign(new Item(), {
@@ -74,6 +77,10 @@ describe('RequestCorrectionMenuComponent', () => {
       }
     });
 
+    authorizationService = jasmine.createSpyObj('AuthorizationDataService', {
+      isAuthorized: jasmine.createSpy('isAuthorized')
+    });
+
     requestService = jasmine.createSpyObj('RequestService', {
       removeByHrefSubstring: jasmine.createSpy('removeByHrefSubstring')
     });
@@ -101,6 +108,7 @@ describe('RequestCorrectionMenuComponent', () => {
         { provide: Router, useValue: router },
         { provide: NgbModal, useValue: ngbModal },
         { provide: SubmissionService, useValue: submissionService },
+        { provide: AuthorizationDataService, useValue: authorizationService },
         TranslateService
       ]
     }).compileComponents();
@@ -114,38 +122,65 @@ describe('RequestCorrectionMenuComponent', () => {
     component.contextMenuObject = dso;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy()
+  describe('when the user can create correction', () => {
+    beforeEach(() => {
+      authorizationService.isAuthorized.and.returnValue(observableOf(false));
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should open modal', () => {
+      component.openRequestModal({});
+      expect(componentAsAny.modalService.open).toHaveBeenCalled();
+    });
+
+    it('should redirect to workspaceitem edit page when correction is created successfully ', () => {
+      componentAsAny.submissionService.createSubmissionByItem.and.returnValue(observableOf(submissionObject));
+      component.modalRef = {
+        close: () => {
+          return;
+        }
+      } as NgbModalRef;
+      spyOn(component.modalRef, 'close');
+
+      scheduler.schedule(() => componentAsAny.requestCorrection());
+      scheduler.flush();
+
+      expect(componentAsAny.modalRef.close).toHaveBeenCalled();
+      expect(componentAsAny.notificationService.success).toHaveBeenCalled();
+      expect(componentAsAny.router.navigate).toHaveBeenCalledWith(['workspaceitems', submissionObject.id, 'edit']);
+    });
+
+    it('should show notification when correction is created unsuccessfully ', () => {
+      componentAsAny.submissionService.createSubmissionByItem.and.returnValue(observableThrow({ statusCode: 403 }));
+      component.modalRef = {
+        close: () => {
+          return;
+        }
+      } as NgbModalRef;
+      spyOn(component.modalRef, 'close');
+
+      scheduler.schedule(() => componentAsAny.requestCorrection());
+      scheduler.flush();
+
+      expect(componentAsAny.modalRef.close).toHaveBeenCalled();
+      expect(componentAsAny.notificationService.warning).toHaveBeenCalled();
+      expect(componentAsAny.router.navigate).not.toHaveBeenCalled();
+    });
   });
 
-  it('should open modal', () => {
-    component.openRequestModal({});
-    expect(componentAsAny.modalService.open).toHaveBeenCalled()
-  });
+  describe('when the user cannot create correction', () => {
+    beforeEach(() => {
+      authorizationService.isAuthorized.and.returnValue(observableOf(false));
+      fixture.detectChanges();
+    });
 
-  it('should redirect to workspaceitem edit page when correction is created successfully ', () => {
-    componentAsAny.submissionService.createSubmissionByItem.and.returnValue(observableOf(submissionObject));
-    component.modalRef = { close: () => { return; }} as NgbModalRef;
-    spyOn(component.modalRef, 'close');
-
-    scheduler.schedule(() => componentAsAny.requestCorrection());
-    scheduler.flush();
-
-    expect(componentAsAny.modalRef.close).toHaveBeenCalled();
-    expect(componentAsAny.notificationService.success).toHaveBeenCalled();
-    expect(componentAsAny.router.navigate).toHaveBeenCalledWith(['workspaceitems', submissionObject.id, 'edit']);
-  });
-
-  it('should show notification when correction is created unsuccessfully ', () => {
-    componentAsAny.submissionService.createSubmissionByItem.and.returnValue(observableThrow({ statusCode: 403 }));
-    component.modalRef = { close: () => { return; }} as NgbModalRef;
-    spyOn(component.modalRef, 'close');
-
-    scheduler.schedule(() => componentAsAny.requestCorrection());
-    scheduler.flush();
-
-    expect(componentAsAny.modalRef.close).toHaveBeenCalled();
-    expect(componentAsAny.notificationService.warning).toHaveBeenCalled();
-    expect(componentAsAny.router.navigate).not.toHaveBeenCalled();
+    it('should not render the button', () => {
+      const link = fixture.debugElement.query(By.css('button'));
+      expect(link).toBeNull();
+    });
   });
 });

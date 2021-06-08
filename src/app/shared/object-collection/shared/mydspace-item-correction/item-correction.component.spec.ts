@@ -8,7 +8,7 @@ import { ItemCorrectionComponent } from './item-correction.component';
 import { TranslateLoaderMock } from '../../../testing/translate-loader.mock';
 import { RelationshipService } from '../../../../core/data/relationship.service';
 import { Relationship } from '../../../../core/shared/item-relationships/relationship.model';
-import { PaginatedList } from '../../../../core/data/paginated-list';
+import { buildPaginatedList } from '../../../../core/data/paginated-list.model';
 import { PageInfo } from '../../../../core/shared/page-info.model';
 import { createSuccessfulRemoteDataObject } from '../../../remote-data.utils';
 import { cold } from 'jasmine-marbles';
@@ -34,8 +34,8 @@ const relationship = Object.assign(new Relationship(), {
   rightId: 'publication',
 });
 
-const relationshipPaginatedList = new PaginatedList(new PageInfo(), [relationship]);
-const relationshipPaginatedListEmpty = new PaginatedList(new PageInfo(), [relationship]);
+const relationshipPaginatedList =  buildPaginatedList(new PageInfo(), [relationship]);
+const relationshipPaginatedListEmpty = buildPaginatedList(new PageInfo(), [relationship]);
 const relationshipPaginatedListRD = createSuccessfulRemoteDataObject(relationshipPaginatedList);
 const relationshipPaginatedListEmptyRD = createSuccessfulRemoteDataObject(relationshipPaginatedListEmpty);
 
@@ -73,7 +73,7 @@ describe('ItemCorrectionComponent', () => {
   it('should show a badge when item is a correction', () => {
     relationshipService.getItemRelationshipsByLabel.and.returnValue(cold('a', {
       a: relationshipPaginatedListRD
-    }))
+    }));
     fixture.detectChanges();
     const badge = fixture.debugElement.query(By.css('.text-muted'));
 
@@ -83,7 +83,7 @@ describe('ItemCorrectionComponent', () => {
   it('should not show a badge when item is not a correction', () => {
     relationshipService.getItemRelationshipsByLabel.and.returnValue(cold('a', {
       a: relationshipPaginatedListEmptyRD
-    }))
+    }));
     fixture.detectChanges();
     const badge = fixture.debugElement.query(By.css('.text-muted'));
 

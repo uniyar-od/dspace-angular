@@ -78,10 +78,12 @@ const sectionObject: SectionDataObject = {
       }
     ]
   },
-  errors: [],
+  errorsToShow: [],
+  serverValidationErrors: [],
   header: 'submit.progressbar.describe.license',
   id: 'license',
-  sectionType: SectionsType.License
+  sectionType: SectionsType.License,
+  sectionVisibility: null
 };
 const submissionId = mockSubmissionId;
 const collectionId = mockSubmissionCollectionId;
