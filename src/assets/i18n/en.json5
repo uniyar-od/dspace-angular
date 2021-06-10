@@ -2482,6 +2482,14 @@
 
   "item.preview.person.identifier.scopus-author-id": "Scopus Author Id",
 
+  "item.preview.publica.identifier.misc": "Alternative Identifier:",
+
+  "item.preview.dc.identifier.zdb": "ZDB ID:",
+
+  "item.preview.dcterms.issued": "Date issued:",
+
+  "item.preview.dcterms.license": "License:",
+
   "item.select.confirm": "Confirm selected",
 
   "item.select.empty": "No items to show",
