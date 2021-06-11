@@ -2392,7 +2392,7 @@
 
   "item.preview.dc.identifier.scopus" : "Scopus id",
 
-  "item.preview.dc.publisher" : "Publisher",
+  "item.preview.dc.publisher" : "Publisher:",
 
   "item.preview.dc.relation.grantno" : "Grant no.",
 
@@ -2428,13 +2428,15 @@
 
   "item.preview.dc.rights" : "Rights",
 
+  "item.preview.dc.rights.license" : "License:",
+
   "item.preview.dc.rights.uri" : "Rights URI",
 
   "item.preview.dc.subject": "Subjects:",
 
   "item.preview.dc.title": "Title:",
 
-  "item.preview.dc.title.alternative" : "Alternative Title",
+  "item.preview.dc.title.alternative" : "Alternative Title:",
 
   "item.preview.dc.type": "Type:",
 

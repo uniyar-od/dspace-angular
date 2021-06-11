@@ -4549,7 +4549,11 @@
 
   "item.preview.dcterms.issued": "Veröffentlichungsdatum:",
 
+  "item.preview.dc.date.issued": "Veröffentlichungsdatum:",
+
   "item.preview.dcterms.license": "Lizenz:",
+
+  "item.preview.dc.rights.license" : "Lizenz:",
 
   "item.preview.dc.title": "Titel:",
 
