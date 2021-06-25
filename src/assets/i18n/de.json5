@@ -4541,5 +4541,25 @@
 
   "submission.import-external.source.epo": "European Patent Office (EPO)",
 
+  "item.preview.dc.publisher": "Verlag:",
+
+  "item.preview.publica.identifier.misc": "Alternativer Identifier:",
+
+  "item.preview.dc.identifier.zdb": "ZDB ID:",
+
+  "item.preview.dcterms.issued": "Veröffentlichungsdatum:",
+
+  "item.preview.dc.date.issued": "Veröffentlichungsdatum:",
+
+  "item.preview.dcterms.license": "Lizenz:",
+
+  "item.preview.dc.rights.license" : "Lizenz:",
+
+  "item.preview.dc.title": "Titel:",
+
+  "item.preview.dc.subject": "Schlagwörter:",
+
+  "item.preview.dc.title.alternative" : "Alternativer Titel:",
+
 
 }
