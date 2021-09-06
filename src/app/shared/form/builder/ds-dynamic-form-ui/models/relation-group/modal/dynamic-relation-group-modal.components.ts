@@ -1,13 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { combineLatest, Observable, of as observableOf, Subscription } from 'rxjs';
@@ -39,8 +30,8 @@ import { VocabularyEntry } from '../../../../../../../core/submission/vocabulari
 import { DsDynamicInputModel } from '../../ds-dynamic-input.model';
 import { getFirstSucceededRemoteDataPayload } from '../../../../../../../core/shared/operators';
 import { VocabularyOptions } from '../../../../../../../core/submission/vocabularies/models/vocabulary-options.model';
+import { MetadataSecurityConfiguration } from '../../../../../../../core/submission/models/metadata-security-configuration';
 import { RoleService } from '../../../../../../../core/roles/role.service';
-
 
 /**
  * Component representing a group input field
@@ -59,6 +50,8 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
 
   @Input() item: any;
   @Input() itemIndex: number;
+  @Input() changedSecurity: boolean;
+  @Input() metadataSecurityConfiguration: MetadataSecurityConfiguration;
 
   @Input() value: any;
 
@@ -69,7 +62,7 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
   @Output() edit: EventEmitter<any> = new EventEmitter<any>();
   @Output() add: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('formRef', { static: false }) private formRef: FormComponent;
+  @ViewChild('formRef', {static: false}) private formRef: FormComponent;
 
   public formModel: DynamicFormControlModel[];
   public vocabulary$: Observable<Vocabulary>;
@@ -92,9 +85,7 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
   }
 
   ngOnInit() {
-
-    const config = { rows: this.model.formConfiguration } as SubmissionFormsModel;
-
+    const config = {rows: this.model.formConfiguration} as SubmissionFormsModel;
     this.formId = this.formService.getUniqueId(this.model.id);
     this.formModel = this.formBuilderService.modelFromConfiguration(
       this.model.submissionId,
@@ -104,9 +95,9 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
       this.model.submissionScope,
       this.model.readOnly,
       null,
-      true);
+      true,
+      this.metadataSecurityConfiguration);
     this.formBuilderService.addFormModel(this.formId, this.formModel);
-
     if (this.item) {
       this.formModel.forEach((row) => {
         const modelRow = row as DynamicFormGroupModel;
@@ -115,19 +106,21 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
             || this.item[model.name].value === PLACEHOLDER_PARENT_METADATA)
             ? null
             : this.item[model.name];
-
           const nextValue = (this.formBuilderService.isInputModel(model) && isNotNull(value) && (typeof value !== 'string')) ?
             value.value : value;
           model.value = nextValue;
-
+          // as the value doesn't support the security level, add into the big model
+          if (value && typeof value !== 'string') {
+            (model as any).securityLevel = value.securityLevel;
+          }
         });
       });
     }
-
     const mandatoryFieldModel = this.getMandatoryFieldModel(); // @Input
     if (mandatoryFieldModel.vocabularyOptions && isNotEmpty(mandatoryFieldModel.vocabularyOptions.name)) {
       this.retrieveVocabulary(mandatoryFieldModel.vocabularyOptions);
     }
+
   }
 
   getHeader() {
@@ -220,7 +213,15 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
     const model = this.getMandatoryFieldModel();
     const currentValue: string = (model.value instanceof FormFieldMetadataValueObject
       || model.value instanceof VocabularyEntry) ? model.value.value : model.value;
-    const valueWithAuthority: any = new FormFieldMetadataValueObject(currentValue, null, authority);
+    let security = null;
+    if (this.model.value instanceof VocabularyEntry) {
+      security = this.model.value.securityLevel;
+    } else {
+      if (this.model.metadataValue) {
+        security = this.model.metadataValue.securityLevel;
+      }
+    }
+    const valueWithAuthority: any = new FormFieldMetadataValueObject(currentValue, null, security, authority);
     model.value = valueWithAuthority;
     this.modifyChip();
     setTimeout(() => {
@@ -278,7 +279,11 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
     this.formModel.forEach((row) => {
       const modelRow = row as DynamicFormGroupModel;
       modelRow.group.forEach((control: DynamicInputModel) => {
-        item[control.name] = control.value || PLACEHOLDER_PARENT_METADATA;
+        if (typeof control.value === 'string' && (control as any).securityLevel !== undefined) {
+          item[control.name] = new FormFieldMetadataValueObject(control.value || PLACEHOLDER_PARENT_METADATA, null, (control as any).securityLevel);
+        } else {
+          item[control.name] = control.value || PLACEHOLDER_PARENT_METADATA;
+        }
       });
     });
     return item;
@@ -291,6 +296,9 @@ export class DsDynamicRelationGroupModalComponent extends DynamicFormControlComp
     );
   }
 
-
-
+  changeSecurity($event) {
+    if ($event.type === 'changeSecurityLevelGroup') {
+      this.changedSecurity = true;
+    }
+  }
 }

@@ -10,7 +10,7 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 
 import { Action, StoreConfig, StoreModule } from '@ngrx/store';
-import { MyDSpaceGuard } from '../+my-dspace-page/my-dspace.guard';
+import { MyDSpaceGuard } from '../my-dspace-page/my-dspace.guard';
 
 import { isNotEmpty } from '../shared/empty.util';
 import { FormBuilderService } from '../shared/form/builder/form-builder.service';
@@ -201,6 +201,7 @@ import { RootDataService } from './data/root-data.service';
 import { SearchConfig } from '../shared/search/search-filters/search-config.model';
 import { EditItemRelationsGuard } from '../edit-item-relationships/guards/edit-item-relationships.guard';
 import { ProfileClaimService } from '../profile-page/profile-claim/profile-claim.service';
+import { SequenceService } from './shared/sequence.service';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -341,6 +342,7 @@ const PROVIDERS = [
   EditItemDataService,
   EditItemModeDataService,
   EditItemRelationsGuard,
+  SequenceService,
 ];
 
 /**
