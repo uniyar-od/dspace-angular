@@ -23,6 +23,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 const sectionObject: SectionDataObject = {
   config: 'https://dspace7.4science.it/or2018/api/config/submissionforms/license',
   mandatory: true,
+  opened: true,
   data: {
     metadata: [
       {

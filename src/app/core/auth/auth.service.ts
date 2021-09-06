@@ -52,7 +52,7 @@ import { RemoteData } from '../data/remote-data';
 import { environment } from '../../../environments/environment';
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { TranslateService } from '@ngx-translate/core';
-import { MYDSPACE_ROUTE } from '../../+my-dspace-page/my-dspace-page.component';
+import { MYDSPACE_ROUTE } from '../../my-dspace-page/my-dspace-page.component';
 
 export const LOGIN_ROUTE = '/login';
 export const LOGOUT_ROUTE = '/logout';
