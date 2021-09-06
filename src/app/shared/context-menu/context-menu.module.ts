@@ -15,6 +15,7 @@ import { ExportCollectionMenuComponent } from './export-collection/export-collec
 import { BulkImportMenuComponent } from './bulk-import/bulk-import-menu.component';
 import { EditItemRelationshipsMenuComponent } from './edit-item-relationships/edit-item-relationships-menu.component';
 import { ClaimItemMenuComponent } from './claim-item/claim-item-menu.component';
+import { StatisticsMenuComponent } from './statistics/statistics-menu.component';
 
 const COMPONENTS = [
   BulkImportMenuComponent,
@@ -26,7 +27,8 @@ const COMPONENTS = [
   ExportCollectionMenuComponent,
   EditItemRelationshipsMenuComponent,
   RequestCorrectionMenuComponent,
-  ClaimItemMenuComponent
+  ClaimItemMenuComponent,
+  StatisticsMenuComponent
 ];
 
 const ENTRY_COMPONENTS = [
@@ -38,6 +40,7 @@ const ENTRY_COMPONENTS = [
   ExportCollectionMenuComponent,
   EditItemRelationshipsMenuComponent,
   ClaimItemMenuComponent,
+  StatisticsMenuComponent,
   RequestCorrectionMenuComponent
 ];
 
