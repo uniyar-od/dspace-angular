@@ -129,6 +129,12 @@ export class AuthEffects {
     tap((action: RefreshTokenSuccessAction) => this.authService.replaceToken(action.payload))
   );
 
+  @Effect({ dispatch: false })
+  public refreshTokenError$: Observable<Action> = this.actions$.pipe(
+    ofType(AuthActionTypes.REFRESH_TOKEN_ERROR),
+    tap((action: RefreshTokenSuccessAction) => this.authService.redirectToLoginWhenTokenExpired())
+  );
+
   /**
    * When the store is rehydrated in the browser,
    * clear a possible invalid token or authentication errors
