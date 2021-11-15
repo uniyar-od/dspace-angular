@@ -202,6 +202,7 @@ import { SearchConfig } from '../shared/search/search-filters/search-config.mode
 import { EditItemRelationsGuard } from '../edit-item-relationships/guards/edit-item-relationships.guard';
 import { ProfileClaimService } from '../profile-page/profile-claim/profile-claim.service';
 import { SequenceService } from './shared/sequence.service';
+import { Subscription } from '../shared/subscriptions/models/subscription.model';
 
 /**
  * When not in production, endpoint responses can be mocked for testing purposes
@@ -421,7 +422,8 @@ export const models =
     OpenaireSuggestionSource,
     StatisticsCategory,
     Root,
-    SearchConfig
+    SearchConfig,
+    Subscription
   ];
 
 @NgModule({
