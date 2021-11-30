@@ -360,7 +360,7 @@ export const environment: GlobalConfig = {
     image: false,
     video: false,
   },
-  layout: {
+  crisLayout: {
     urn: [
       {
         name: 'doi',
@@ -388,7 +388,19 @@ export const environment: GlobalConfig = {
         entityType: 'ORGUNIT',
         icon: 'fa fa-university'
       }
-    ]
+    ],
+    itemPage: {
+      Person: {
+          orientation: 'horizontal'
+      },
+      default: {
+          orientation: 'vertical'
+      },
+    },
+    metadataBox: {
+      defaultMetadataLabelColStyle: 'col-3',
+      defaultMetadataValueColStyle: 'col-9'
+    }
   },
   security: {
     levels: [
