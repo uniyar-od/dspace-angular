@@ -62,7 +62,7 @@ export class ItemListPreviewComponent {
     if (this.isWorkspaceItem) {
       return createSuccessfulRemoteDataObject$(this.object.indexableObject);
     } else {
-      return this.object.indexableObject.workflowitem
+      return this.object.indexableObject.workflowitem;
     }
   }
 }

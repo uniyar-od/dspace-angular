@@ -126,7 +126,7 @@ export class ReserveDoiActionsComponent implements OnInit, OnDestroy {
         } else {
           this.notificationService.error(null, this.translate.get('submission.sections.reserve-doi.confirm.error_notice'));
         }
-      })
+      });
   }
 
   /**

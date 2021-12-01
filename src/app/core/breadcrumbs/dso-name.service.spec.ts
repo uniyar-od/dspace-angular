@@ -49,7 +49,7 @@ describe(`DSONameService`, () => {
           }
         ]
       },
-      getRenderTypes(): Array<string | GenericConstructor<ListableObject>> {
+      getRenderTypes(): (string | GenericConstructor<ListableObject>)[] {
         return ['Person', Item, DSpaceObject];
       }
     });

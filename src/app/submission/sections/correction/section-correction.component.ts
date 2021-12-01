@@ -37,12 +37,12 @@ export class SubmissionSectionCorrectionComponent extends SectionModelComponent 
   }
 
   getItemData(): WorkspaceitemSectionCorrectionMetadataObject[] {
-    const correctionObject: WorkspaceitemSectionCorrectionObject =  this.sectionData.data as WorkspaceitemSectionCorrectionObject
-    return correctionObject.metadata
+    const correctionObject: WorkspaceitemSectionCorrectionObject =  this.sectionData.data as WorkspaceitemSectionCorrectionObject;
+    return correctionObject.metadata;
   }
 
   getFileData(): WorkspaceitemSectionCorrectionBitstreamObject[] {
-    const correctionObject: WorkspaceitemSectionCorrectionObject =  this.sectionData.data as WorkspaceitemSectionCorrectionObject
+    const correctionObject: WorkspaceitemSectionCorrectionObject =  this.sectionData.data as WorkspaceitemSectionCorrectionObject;
     return correctionObject.bitstream
       .sort((obj1: WorkspaceitemSectionCorrectionBitstreamObject, obj2: WorkspaceitemSectionCorrectionBitstreamObject) => {
         return obj1.filename > obj2.filename ? 1 : -1;
@@ -70,7 +70,7 @@ export class SubmissionSectionCorrectionComponent extends SectionModelComponent 
   sortMetadataByLabel(metadata: WorkspaceitemSectionCorrectionMetadataObject[]): WorkspaceitemSectionCorrectionMetadataObject[] {
     return metadata.sort((obj1: WorkspaceitemSectionCorrectionMetadataObject, obj2: WorkspaceitemSectionCorrectionMetadataObject) => {
       return obj1.label > obj2.label ? 1 : -1;
-    })
+    });
   }
 
   showTable(): boolean {
