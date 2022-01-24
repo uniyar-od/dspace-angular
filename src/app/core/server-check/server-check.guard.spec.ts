@@ -1,11 +1,12 @@
 import { ServerCheckGuard } from './server-check.guard';
-import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../shared/remote-data.utils';
-import { take } from 'rxjs/operators';
-import { getPageInternalServerErrorRoute } from '../../app-routing-paths';
 import { Router } from '@angular/router';
-import { RootDataService } from '../data/root-data.service';
-import { Root } from '../data/root.model';
+
+import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import SpyObj = jasmine.SpyObj;
+
+import { getPageInternalServerErrorRoute } from '../../app-routing-paths';
+import { RootDataService } from '../data/root-data.service';
 
 describe('ServerCheckGuard', () => {
   let guard: ServerCheckGuard;
@@ -13,7 +14,7 @@ describe('ServerCheckGuard', () => {
   let rootDataServiceStub: SpyObj<RootDataService>;
 
   rootDataServiceStub = jasmine.createSpyObj('RootDataService', {
-    findRoot: jasmine.createSpy('findRoot'),
+    checkServerAvailability: jasmine.createSpy('findRoot'),
     invalidateRootCache: jasmine.createSpy('invalidateRootCache')
   });
   router = jasmine.createSpyObj('Router', {
@@ -27,7 +28,6 @@ describe('ServerCheckGuard', () => {
   afterEach(() => {
     router.navigateByUrl.calls.reset();
     rootDataServiceStub.invalidateRootCache.calls.reset();
-    rootDataServiceStub.findRoot.calls.reset();
   });
 
   it('should be created', () => {
@@ -36,7 +36,7 @@ describe('ServerCheckGuard', () => {
 
   describe('when root endpoint has succeeded', () => {
     beforeEach(() => {
-      rootDataServiceStub.findRoot.and.returnValue(createSuccessfulRemoteDataObject$<Root>({} as any));
+      rootDataServiceStub.checkServerAvailability.and.returnValue(of(true));
     });
 
     it('should not redirect to error page', () => {
@@ -52,7 +52,7 @@ describe('ServerCheckGuard', () => {
 
   describe('when root endpoint has not succeeded', () => {
     beforeEach(() => {
-      rootDataServiceStub.findRoot.and.returnValue(createFailedRemoteDataObject$<Root>());
+      rootDataServiceStub.checkServerAvailability.and.returnValue(of(false));
     });
 
     it('should redirect to error page', () => {
