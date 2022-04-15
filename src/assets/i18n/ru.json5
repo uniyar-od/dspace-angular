@@ -3828,47 +3828,38 @@
   
   // "footer.built-with":"Built with",
   // TODO New key - Add a translation
-  "footer.built-with":"Built with",
+  "footer.built-with":"Построено с использованием",
   
   // "footer.copyright": "copyright © 2002-{{ year }}",
   // TODO New key - Add a translation
   "footer.copyright": "copyright © 2002-{{ year }}",
   
   // "footer.extension-by": "- Extension maintained and optimized by",
-  // TODO New key - Add a translation
-  "footer.extension-by": "- Extension maintained and optimized by",
+  "footer.extension-by": "- Расширение, которое поддерживается и оптимизируется",
   
   // "footer.link.4science": "4Science",
-  // TODO New key - Add a translation
   "footer.link.4science": "4Science",
   
   // "footer.link.dspace": "DSpace software",
-  // TODO New key - Add a translation
-  "footer.link.dspace": "DSpace software",
+  "footer.link.dspace": "программное обеспечение DSpace",
   
   // "footer.link.dspace-cris": "DSpace-CRIS software",
-  // TODO New key - Add a translation
-  "footer.link.dspace-cris": "DSpace-CRIS software",
+  "footer.link.dspace-cris": "программное обеспечение DSpace-CRIS",
   
   // "footer.link.lyrasis": "LYRASIS",
-  // TODO New key - Add a translation
   "footer.link.lyrasis": "LYRASIS",
   
   // "footer.link.cookies": "Cookie settings",
-  // TODO New key - Add a translation
-  "footer.link.cookies": "Cookie settings",
+  "footer.link.cookies": "Cookie-настройки",
   
   // "footer.link.privacy-policy": "Privacy policy",
-  // TODO New key - Add a translation
-  "footer.link.privacy-policy": "Privacy policy",
+  "footer.link.privacy-policy": "Политика конфиденциальности",
   
   // "footer.link.end-user-agreement":"End User Agreement",
-  // TODO New key - Add a translation
-  "footer.link.end-user-agreement":"End User Agreement",
+  "footer.link.end-user-agreement":"Соглашение об использовании",
   
   // "footer.link.feedback":"Send Feedback",
-  // TODO New key - Add a translation
-  "footer.link.feedback":"Send Feedback",
+  "footer.link.feedback":"Обратная связь",
   
   
   
