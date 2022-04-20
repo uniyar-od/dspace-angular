@@ -1549,117 +1549,92 @@
   
   
   // "browse.comcol.by.author": "By Author",
-  // TODO New key - Add a translation
-  "browse.comcol.by.author": "By Author",
+  "browse.comcol.by.author": "По Автору",
   
   // "browse.comcol.by.dateissued": "By Issue Date",
-  // TODO New key - Add a translation
-  "browse.comcol.by.dateissued": "By Issue Date",
+  "browse.comcol.by.dateissued": "По Дате Выпуска",
   
   // "browse.comcol.by.ouname": "By Name",
-  // TODO New key - Add a translation
-  "browse.comcol.by.ouname": "By Name",
+  // не уверен, нужно определить, что за ИМЯ
+  "browse.comcol.by.ouname": "По Имени",
   
   // "browse.comcol.by.pjtitle": "By Title",
-  // TODO New key - Add a translation
-  "browse.comcol.by.pjtitle": "By Title",
+  "browse.comcol.by.pjtitle": "По Заглавию",
   
   // "browse.comcol.by.rodept": "By Department",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rodept": "By Department",
+  "browse.comcol.by.rodept": "По Организации",
   
   // "browse.comcol.by.rpdept": "By Department",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rpdept": "By Department",
+  "browse.comcol.by.rpdept": "По Организации",
   
   // "browse.comcol.by.rpname": "By Name",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rpname": "By Name",
+  "browse.comcol.by.rpname": "По Имени",
   
   // "browse.comcol.by.subject": "By Subject",
-  // TODO New key - Add a translation
-  "browse.comcol.by.subject": "By Subject",
+  // по Дисциплине или по Теме исследования?
+  "browse.comcol.by.subject": "По Дисциплине",
   
   // "browse.comcol.by.title": "By Title",
-  // TODO New key - Add a translation
-  "browse.comcol.by.title": "By Title",
+  "browse.comcol.by.title": "По Заглавию",
   
   // "browse.comcol.by.type": "By Type",
-  // TODO New key - Add a translation
-  "browse.comcol.by.type": "By Type",
+  // по Типу или по Формату?
+  "browse.comcol.by.type": "По Типу",
   
   
   // "browse.comcol.head": "Browse",
-  // TODO New key - Add a translation
-  "browse.comcol.head": "Browse",
+  "browse.comcol.head": "Поиск",
   
   // "browse.empty": "No items to show.",
-  // TODO New key - Add a translation
-  "browse.empty": "No items to show.",
+  "browse.empty": "Данных по запросу не найдено.",
   
   // "browse.metadata.author": "Author",
-  // TODO New key - Add a translation
-  "browse.metadata.author": "Author",
+  "browse.metadata.author": "Автор",
   
   // "browse.metadata.dateissued": "Issue Date",
-  // TODO New key - Add a translation
-  "browse.metadata.dateissued": "Issue Date",
+  "browse.metadata.dateissued": "Дата Выпуска",
   
   // "browse.metadata.eqdatecreated": "Date Created",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatecreated": "Date Created",
+  "browse.metadata.eqdatecreated": "Дата Размещения",
   
   // "browse.metadata.eqdatemodified": "Date Modified",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatemodified": "Date Modified",
+  "browse.metadata.eqdatemodified": "Дата Изменения",
   
   // "browse.metadata.eqtitle": "Title",
-  // TODO New key - Add a translation
-  "browse.metadata.eqtitle": "Title",
+  "browse.metadata.eqtitle": "Заглавие",
   
   // "browse.metadata.ouname" : "Name",
-  // TODO New key - Add a translation
-  "browse.metadata.ouname" : "Name",
+  "browse.metadata.ouname" : "Имя",
   
   // "browse.metadata.pjtitle" : "Title",
-  // TODO New key - Add a translation
-  "browse.metadata.pjtitle" : "Title",
+  "browse.metadata.pjtitle" : "Заглавие",
   
   // "browse.metadata.rodept": "Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rodept": "Department",
+  "browse.metadata.rodept": "Организация",
   
   // "browse.metadata.rpdept": "Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rpdept": "Department",
+  "browse.metadata.rpdept": "Организация",
   
   // "browse.metadata.rpname": "Name",
-  // TODO New key - Add a translation
-  "browse.metadata.rpname": "Name",
+  "browse.metadata.rpname": "Имя",
   
   // "browse.metadata.subject": "Subject",
-  // TODO New key - Add a translation
-  "browse.metadata.subject": "Subject",
+  "browse.metadata.subject": "Дисциплина",
   
   // "browse.metadata.type": "Type",
-  // TODO New key - Add a translation
-  "browse.metadata.type": "Type",
+  "browse.metadata.type": "Тип",
   
   // "browse.metadata.title": "Title",
-  // TODO New key - Add a translation
-  "browse.metadata.title": "Title",
+  "browse.metadata.title": "Заглавие",
   
   // "browse.metadata.author.breadcrumbs": "Browse by Author",
-  // TODO New key - Add a translation
-  "browse.metadata.author.breadcrumbs": "Browse by Author",
+  "browse.metadata.author.breadcrumbs": "Поиск по Автору",
   
   // "browse.metadata.dateissued.breadcrumbs": "Browse by Date",
-  // TODO New key - Add a translation
-  "browse.metadata.dateissued.breadcrumbs": "Browse by Date",
+  "browse.metadata.dateissued.breadcrumbs": "Поиск по Дате",
   
   // "browse.metadata.eqdatecreated.breadcrumbs": "Browse by Creation Date",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatecreated.breadcrumbs": "Browse by Creation Date",
+  "browse.metadata.eqdatecreated.breadcrumbs": "Поиск по Дате Создания",
   
   // "browse.metadata.eqdatemodified.breadcrumbs": "Browse by Modification Date",
   // TODO New key - Add a translation
