@@ -1741,20 +1741,16 @@
   "browse.startsWith.submit": "Поиск",
   
   // "browse.startsWith.type_date": "Or type in a date (year-month) and click 'Browse'",
-  // TODO New key - Add a translation
-  "browse.startsWith.type_date": "Or type in a date (year-month) and click 'Browse'",
+  "browse.startsWith.type_date": "Или введите дату (год-месяц) и нажмите 'Поиск'",
   
   // "browse.startsWith.type_date.label": "Or type in a date (year-month) and click on the Browse button",
-  // TODO New key - Add a translation
-  "browse.startsWith.type_date.label": "Or type in a date (year-month) and click on the Browse button",
+  "browse.startsWith.type_date.label": "Или введите дату (год-месяц) и нажмите кнопку Поиска",
   
   // "browse.startsWith.type_text": "Type the first few letters and click on the Browse button",
-  // TODO New key - Add a translation
-  "browse.startsWith.type_text": "Type the first few letters and click on the Browse button",
+  "browse.startsWith.type_text": "Введите первые несколько букв и нажмите кнопку Поиска",
   
   // "browse.title": "Browsing {{ collection }} by {{ field }} {{ value }}",
-  // TODO New key - Add a translation
-  "browse.title": "Browsing {{ collection }} by {{ field }} {{ value }}",
+  "browse.title": "Поиск {{ collection }} по {{ field }} {{ value }}",
   
   
   
