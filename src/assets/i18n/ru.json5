@@ -9768,232 +9768,175 @@
   "statistics.breadcrumbs": "Статистика",
   
   // "statistics.page.no-data": "No data available",
-  // TODO New key - Add a translation
-  "statistics.page.no-data": "No data available",
+  "statistics.page.no-data": "Нет доступных данных",
   
   // "statistics.table.no-data": "No data available",
-  // TODO New key - Add a translation
-  "statistics.table.no-data": "No data available",
+  "statistics.table.no-data": "Нет доступных данных",
   
   // "statistics.table.mainReports.title.TotalVisits": "Total Visits",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TotalVisits": "Total Visits",
+  "statistics.table.mainReports.title.TotalVisits": "Всего заходов",
   
   // "statistics.table.mainReports.title.TopItems": "Most Viewed",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TopItems": "Most Viewed",
+  "statistics.table.mainReports.title.TopItems": "Наиболее просматриваемые",
   
   // "statistics.table.mainReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
+  "statistics.table.mainReports.title.TotalVisitsPerMonth": "Всего заходов за месяц",
   
   // "statistics.table.mainReports.title.TotalDownloads": "File Visits",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TotalDownloads": "File Visits",
+  "statistics.table.mainReports.title.TotalDownloads": "Скачано файлов",
   
   // "statistics.table.mainReports.title.TotalVisitsAndDownloads": "Items and file Visits",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TotalVisitsAndDownloads": "Items and file Visits",
+  "statistics.table.mainReports.title.TotalVisitsAndDownloads": "Всего заходов и скачек",
   
   // "statistics.table.mainReports.title.TopCountries": "Top Country Views",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TopCountries": "Top Country Views",
+  "statistics.table.mainReports.title.TopCountries": "Наиболее просматривающие страны",
   
   // "statistics.table.mainReports.title.TopContinents": "Top Region Views",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TopContinents": "Top Region Views",
+  "statistics.table.mainReports.title.TopContinents": "Наиболее просматривающие континенты",
   
   // "statistics.table.mainReports.title.TopCategories": "Categories",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TopCategories": "Categories",
+  "statistics.table.mainReports.title.TopCategories": "Категории",
   
   // "statistics.table.mainReports.title.TopCities": "Top City Views",
-  // TODO New key - Add a translation
-  "statistics.table.mainReports.title.TopCities": "Top City Views",
+  "statistics.table.mainReports.title.TopCities": "Наиболее просматриающие города",
   
   // "statistics.table.downloadReports.title.TotalVisits": "Most downloaded",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TotalVisits": "Most downloaded",
+  "statistics.table.downloadReports.title.TotalVisits": "Наиболее скачиваемые",
   
   // "statistics.table.downloadReports.title.TopItems": "Most downloaded",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TopItems": "Most downloaded",
+  "statistics.table.downloadReports.title.TopItems": "Наиболее скачиваемые",
   
   // "statistics.table.downloadReports.title.TotalVisitsPerMonth": "Total Downloads Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TotalVisitsPerMonth": "Total Downloads Per Month",
+  "statistics.table.downloadReports.title.TotalVisitsPerMonth": "Всего скачек за месяц",
   
   // "statistics.table.downloadReports.title.TotalDownloads": "Most Downloaded",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TotalDownloads": "Most Downloaded",
+  "statistics.table.downloadReports.title.TotalDownloads": "Наиболее скачиваемые",
   
   // "statistics.table.downloadReports.title.TotalDownloadsPerMonth": "Total Downloads Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TotalDownloadsPerMonth": "Total Downloads Per Month",
+  "statistics.table.downloadReports.title.TotalDownloadsPerMonth": "Всего скачек за месяц",
   
   // "statistics.table.downloadReports.title.TopCountries": "Top country downloads",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TopCountries": "Top country downloads",
+  "statistics.table.downloadReports.title.TopCountries": "Наиболее скачивающие страны",
   
   // "statistics.table.downloadReports.title.TopContinents": "Top region downloads",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TopContinents": "Top region downloads",
+  "statistics.table.downloadReports.title.TopContinents": "Наиболее скачивающие континенты",
   
   // "statistics.table.downloadReports.title.TopCategories": "Categories",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TopCategories": "Categories",
+  "statistics.table.downloadReports.title.TopCategories": "Категории",
   
   // "statistics.table.downloadReports.title.TopCities": "Top city downloads",
-  // TODO New key - Add a translation
-  "statistics.table.downloadReports.title.TopCities": "Top city downloads",
+  "statistics.table.downloadReports.title.TopCities": "Наиболее скачивающие города",
   
   // "statistics.table.header.views": "Views",
-  // TODO New key - Add a translation
-  "statistics.table.header.views": "Views",
+  "statistics.table.header.views": "Виды",
   
   // "statistics.table.publicationsReports.title.TotalVisits": "Total Visits",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TotalVisits": "Total Visits",
+  "statistics.table.publicationsReports.title.TotalVisits": "Всего заходов",
   
   // "statistics.table.publicationsReports.title.TopItems": "Most Viewed",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TopItems": "Most Viewed",
+  "statistics.table.publicationsReports.title.TopItems": "Наиболее просматриваемые",
   
   // "statistics.table.publicationsReports.title.TopCities": "Top Cities",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TopCities": "Top Cities",
+  "statistics.table.publicationsReports.title.TopCities": "Основные города",
   
   // "statistics.table.publicationsReports.title.TopCountries": "Top Countries",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TopCountries": "Top Countries",
+  "statistics.table.publicationsReports.title.TopCountries": "Основные страны",
   
   // "statistics.table.publicationsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
+  "statistics.table.publicationsReports.title.TotalVisitsPerMonth": "Всего заходов за месяц",
   
   // "statistics.table.publicationsReports.title.TotalDownloads": "Downloads",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TotalDownloads": "Downloads",
+  "statistics.table.publicationsReports.title.TotalDownloads": "Загрузки",
   
   // "statistics.table.publicationsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
-  // TODO New key - Add a translation
-  "statistics.table.publicationsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
+  "statistics.table.publicationsReports.title.TotalVisitsAndDownloads": "Всего заходов и скачек",
   
   // "statistics.table.projectsReports.title.TotalVisits": "Total Visits",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TotalVisits": "Total Visits",
+  "statistics.table.projectsReports.title.TotalVisits": "Всего заходов",
   
   // "statistics.table.projectsReports.title.TopItems": "Most Viewed",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TopItems": "Most Viewed",
+  "statistics.table.projectsReports.title.TopItems": "Наиболее просматриваемые",
   
   // "statistics.table.projectsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
+  "statistics.table.projectsReports.title.TotalVisitsPerMonth": "Всего заходов за месяц",
   
   // "statistics.table.projectsReports.title.TopCities": "Top Cities",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TopCities": "Top Cities",
+  "statistics.table.projectsReports.title.TopCities": "Основные города",
   
   // "statistics.table.projectsReports.title.TopCountries": "Top Countries",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TopCountries": "Top Countries",
+  "statistics.table.projectsReports.title.TopCountries": "Основные страны",
   
   // "statistics.table.projectsReports.title.TotalDownloads": "Downloads",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TotalDownloads": "Downloads",
+  "statistics.table.projectsReports.title.TotalDownloads": "Загрузки",
   
   // "statistics.table.projectsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
-  // TODO New key - Add a translation
-  "statistics.table.projectsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
+  "statistics.table.projectsReports.title.TotalVisitsAndDownloads": "Всего заходов и скачек",
   
   // "statistics.table.rppublicationsReports.title.TotalVisits": "Total Visits",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TotalVisits": "Total Visits",
+  "statistics.table.rppublicationsReports.title.TotalVisits": "Всего заходов",
   
   // "statistics.table.rppublicationsReports.title.TopItems": "Most Viewed",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TopItems": "Most Viewed",
+  "statistics.table.rppublicationsReports.title.TopItems": "Наиболее просматриваемые",
   
   // "statistics.table.rppublicationsReports.title.TopCities": "Top Cities",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TopCities": "Top Cities",
+  "statistics.table.rppublicationsReports.title.TopCities": "Основные города",
   
   // "statistics.table.rppublicationsReports.title.TopCountries": "Top Countries",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TopCountries": "Top Countries",
+  "statistics.table.rppublicationsReports.title.TopCountries": "Основные страны",
   
   // "statistics.table.rppublicationsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
+  "statistics.table.rppublicationsReports.title.TotalVisitsPerMonth": "Всего заходов за месяц",
   
   // "statistics.table.rppublicationsReports.title.TotalDownloads": "Downloads",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TotalDownloads": "Downloads",
+  "statistics.table.rppublicationsReports.title.TotalDownloads": "Загрузки",
   
   // "statistics.table.rppublicationsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
-  // TODO New key - Add a translation
-  "statistics.table.rppublicationsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
+  "statistics.table.rppublicationsReports.title.TotalVisitsAndDownloads": "Всего заходов и скачек",
   
   // "statistics.table.rpprojectsReports.title.TotalVisits": "Total Visits",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TotalVisits": "Total Visits",
+  "statistics.table.rpprojectsReports.title.TotalVisits": "Всего заходов",
   
   // "statistics.table.rpprojectsReports.title.TopItems": "Most Viewed",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TopItems": "Most Viewed",
+  "statistics.table.rpprojectsReports.title.TopItems": "Наиболее просматриваемые",
   
   // "statistics.table.rpprojectsReports.title.TopCities": "Top Cities",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TopCities": "Top Cities",
+  "statistics.table.rpprojectsReports.title.TopCities": "Основные города",
   
   // "statistics.table.rpprojectsReports.title.TopCountries": "Top Countries",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TopCountries": "Top Countries",
+  "statistics.table.rpprojectsReports.title.TopCountries": "Основные страны",
   
   // "statistics.table.rpprojectsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TotalVisitsPerMonth": "Total Visits Per Month",
+  "statistics.table.rpprojectsReports.title.TotalVisitsPerMonth": "Всего заходов за месяц",
   
   // "statistics.table.rpprojectsReports.title.TotalDownloads": "Downloads",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TotalDownloads": "Downloads",
+  "statistics.table.rpprojectsReports.title.TotalDownloads": "Загрузки",
   
   // "statistics.table.rpprojectsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
-  // TODO New key - Add a translation
-  "statistics.table.rpprojectsReports.title.TotalVisitsAndDownloads": "Items and file Visits",
+  "statistics.table.rpprojectsReports.title.TotalVisitsAndDownloads": "Всего заходов и скачек",
   
   // "statistics.categories.title": "Statistics by Category",
-  // TODO New key - Add a translation
-  "statistics.categories.title": "Statistics by Category",
+  "statistics.categories.title": "Статистика по категории",
   
   // "statistics.categories.mainReports.tab": "Views Reports",
-  // TODO New key - Add a translation
-  "statistics.categories.mainReports.tab": "Views Reports",
+  "statistics.categories.mainReports.tab": "Отчёты по просмотрам",
   
   // "statistics.categories.projectsReports.tab": "Project Reports",
-  // TODO New key - Add a translation
-  "statistics.categories.projectsReports.tab": "Project Reports",
+  "statistics.categories.projectsReports.tab": "Отчеты по проекту",
   
   // "statistics.categories.rpprojectsReports.tab": "Researchers Projects Reports",
-  // TODO New key - Add a translation
-  "statistics.categories.rpprojectsReports.tab": "Researchers Projects Reports",
+  "statistics.categories.rpprojectsReports.tab": "Отчёты по проектам исследователей",
   
   // "statistics.categories.publicationsReports.tab": "Publications Reports",
-  // TODO New key - Add a translation
-  "statistics.categories.publicationsReports.tab": "Publications Reports",
+  "statistics.categories.publicationsReports.tab": "Отчеты по публикациям",
   
   // "statistics.categories.rppublicationsReports.tab": "Researchers Publication Reports",
-  // TODO New key - Add a translation
-  "statistics.categories.rppublicationsReports.tab": "Researchers Publication Reports",
+  "statistics.categories.rppublicationsReports.tab": "Отчёты по публикациям исследователей",
   
   // "statistics.categories.downloadReports.tab": "Downloads Reports",
-  // TODO New key - Add a translation
-  "statistics.categories.downloadReports.tab": "Downloads Reports",
+  "statistics.categories.downloadReports.tab": "Загрузка отчетов",
   
   // "statistics.reports.title": "Reports",
-  // TODO New key - Add a translation
-  "statistics.reports.title": "Reports",
+  "statistics.reports.title": "Отчёты",
   
   
   // "submission.edit.breadcrumbs": "Edit Submission",
