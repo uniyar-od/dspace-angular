@@ -1678,7 +1678,7 @@
   // "browse.startsWith.choose_start": "(Choose start)",
   // Почему в скобках?
   // TODO New key - Add a translation
- "browse.startsWith.choose_start": "(Choose start)",
+  "browse.startsWith.choose_start": "(Choose start)",
   
   // "browse.startsWith.choose_year": "(Choose year)",
   // Почему в скобках?
