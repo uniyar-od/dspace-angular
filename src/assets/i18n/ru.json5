@@ -9747,28 +9747,22 @@
   
   
   // "statistics.export.csv": "Export CSV",
-  // TODO New key - Add a translation
-  "statistics.export.csv": "Export CSV",
+  "statistics.export.csv": "Экспорт в CSV",
   
   // "statistics.export.excel": "Export Excel",
-  // TODO New key - Add a translation
-  "statistics.export.excel": "Export Excel",
+  "statistics.export.excel": "Экспорт в Excel",
   
   // "statistics.export.jpg": "Export as JPEG",
-  // TODO New key - Add a translation
-  "statistics.export.jpg": "Export as JPEG",
+  "statistics.export.jpg": "Экспорт в JPEG",
   
   // "statistics.export.png": "Export as PNG",
-  // TODO New key - Add a translation
-  "statistics.export.png": "Export as PNG",
+  "statistics.export.png": "Экспорт в PNG",
   
   // "statistics.title": "Statistics",
-  // TODO New key - Add a translation
-  "statistics.title": "Statistics",
+  "statistics.title": "Статистика",
   
   // "statistics.header": "Statistics for {{ scope }}",
-  // TODO New key - Add a translation
-  "statistics.header": "Statistics for {{ scope }}",
+  "statistics.header": "Статистика по {{ scope }}",
   
   // "statistics.breadcrumbs": "Statistics",
   // TODO New key - Add a translation
