@@ -9765,8 +9765,7 @@
   "statistics.header": "Статистика по {{ scope }}",
   
   // "statistics.breadcrumbs": "Statistics",
-  // TODO New key - Add a translation
-  "statistics.breadcrumbs": "Statistics",
+  "statistics.breadcrumbs": "Статистика",
   
   // "statistics.page.no-data": "No data available",
   // TODO New key - Add a translation
