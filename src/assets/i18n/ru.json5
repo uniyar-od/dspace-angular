@@ -1673,17 +1673,16 @@
   "browse.next.button": "Далее",
   
   // "browse.previous.button": "Previous",
-  // TODO New key - Add a translation
   "browse.previous.button": "Назад",
   
   // "browse.startsWith.choose_start": "(Choose start)",
-  // TODO New key - Add a translation
   // Почему в скобках?
-  "browse.startsWith.choose_start": "(Choose start)",
+  // TODO New key - Add a translation
+ "browse.startsWith.choose_start": "(Choose start)",
   
   // "browse.startsWith.choose_year": "(Choose year)",
-  // TODO New key - Add a translation
   // Почему в скобках?
+  // TODO New key - Add a translation
   "browse.startsWith.choose_year": "(Choose year)",
   
   // "browse.startsWith.choose_year.label": "Choose the issue year",
@@ -1722,6 +1721,7 @@
   "browse.startsWith.months.may": "Май",
   
   // "browse.startsWith.months.none": "(Choose month)",
+  // Почему в скобках?
   // TODO New key - Add a translation
   "browse.startsWith.months.none": "(Choose month)",
   
