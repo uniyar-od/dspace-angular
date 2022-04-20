@@ -1637,128 +1637,108 @@
   "browse.metadata.eqdatecreated.breadcrumbs": "Поиск по Дате Создания",
   
   // "browse.metadata.eqdatemodified.breadcrumbs": "Browse by Modification Date",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatemodified.breadcrumbs": "Browse by Modification Date",
+  "browse.metadata.eqdatemodified.breadcrumbs": "Поиск по Дате Изменения",
   
   // "browse.metadata.eqtitle.breadcrumbs": "Browse by Title",
-  // TODO New key - Add a translation
-  "browse.metadata.eqtitle.breadcrumbs": "Browse by Title",
+  "browse.metadata.eqtitle.breadcrumbs": "Поиск по Заглавию",
   
   // "browse.metadata.ouname.breadcrumbs" : "Browse by Name",
-  // TODO New key - Add a translation
-  "browse.metadata.ouname.breadcrumbs" : "Browse by Name",
+  "browse.metadata.ouname.breadcrumbs" : "Поиск по Имени",
   
   // "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
-  // TODO New key - Add a translation
-  "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
+  // необходимо понять, что за pjtitle и eqtitle
+  "browse.metadata.pjtitle.breadcrumbs" : "Поиск по Заглавию",
   
   // "browse.metadata.rodept.breadcrumbs": "Browse by Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rodept.breadcrumbs": "Browse by Department",
+  "browse.metadata.rodept.breadcrumbs": "Поиск по Организации",
   
   // "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
+  // необходимо понять, что за rpdept и rodept
+  "browse.metadata.rpdept.breadcrumbs" : "Поиск по Организации",
   
   // "browse.metadata.rpname.breadcrumbs": "Browse by Name",
-  // TODO New key - Add a translation
-  "browse.metadata.rpname.breadcrumbs": "Browse by Name",
+  // необходимо понять, что за ouname и rpname
+  "browse.metadata.rpname.breadcrumbs": "Поиск по Имени",
   
   // "browse.metadata.subject.breadcrumbs": "Browse by Subject",
-  // TODO New key - Add a translation
-  "browse.metadata.subject.breadcrumbs": "Browse by Subject",
+  "browse.metadata.subject.breadcrumbs": "Поиск по Дисциплине",
   
   // "browse.metadata.type.breadcrumbs": "Browse by Type",
-  // TODO New key - Add a translation
-  "browse.metadata.type.breadcrumbs": "Browse by Type",
+  "browse.metadata.type.breadcrumbs": "Поиск по Типу",
   
   // "browse.metadata.title.breadcrumbs": "Browse by Title",
-  // TODO New key - Add a translation
-  "browse.metadata.title.breadcrumbs": "Browse by Title",
+  "browse.metadata.title.breadcrumbs": "Поиск по Заглавию",
   
   // "browse.next.button": "Next",
-  // TODO New key - Add a translation
-  "browse.next.button": "Next",
+  "browse.next.button": "Далее",
   
   // "browse.previous.button": "Previous",
   // TODO New key - Add a translation
-  "browse.previous.button": "Previous",
+  "browse.previous.button": "Назад",
   
   // "browse.startsWith.choose_start": "(Choose start)",
   // TODO New key - Add a translation
+  // Почему в скобках?
   "browse.startsWith.choose_start": "(Choose start)",
   
   // "browse.startsWith.choose_year": "(Choose year)",
   // TODO New key - Add a translation
+  // Почему в скобках?
   "browse.startsWith.choose_year": "(Choose year)",
   
   // "browse.startsWith.choose_year.label": "Choose the issue year",
-  // TODO New key - Add a translation
-  "browse.startsWith.choose_year.label": "Choose the issue year",
+  "browse.startsWith.choose_year.label": "Выберите год выпуска",
   
   // "browse.startsWith.jump": "Jump to a point in the index:",
+  // Тут я встрял
   // TODO New key - Add a translation
   "browse.startsWith.jump": "Jump to a point in the index:",
   
   // "browse.startsWith.months.april": "April",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.april": "April",
+  "browse.startsWith.months.april": "Апрель",
   
   // "browse.startsWith.months.august": "August",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.august": "August",
+  "browse.startsWith.months.august": "Август",
   
   // "browse.startsWith.months.december": "December",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.december": "December",
+  "browse.startsWith.months.december": "Декабрь",
   
   // "browse.startsWith.months.february": "February",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.february": "February",
+  "browse.startsWith.months.february": "Февраль",
   
   // "browse.startsWith.months.january": "January",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.january": "January",
+  "browse.startsWith.months.january": "Январь",
   
   // "browse.startsWith.months.july": "July",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.july": "July",
+  "browse.startsWith.months.july": "Июль",
   
   // "browse.startsWith.months.june": "June",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.june": "June",
+  "browse.startsWith.months.june": "Июнь",
   
   // "browse.startsWith.months.march": "March",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.march": "March",
+  "browse.startsWith.months.march": "Март",
   
   // "browse.startsWith.months.may": "May",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.may": "May",
+  "browse.startsWith.months.may": "Май",
   
   // "browse.startsWith.months.none": "(Choose month)",
   // TODO New key - Add a translation
   "browse.startsWith.months.none": "(Choose month)",
   
   // "browse.startsWith.months.none.label": "Choose the issue month",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.none.label": "Choose the issue month",
+  "browse.startsWith.months.none.label": "Выберите месяц выпуска",
   
   // "browse.startsWith.months.november": "November",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.november": "November",
+  "browse.startsWith.months.november": "Ноябрь",
   
   // "browse.startsWith.months.october": "October",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.october": "October",
+  "browse.startsWith.months.october": "Октябрь",
   
   // "browse.startsWith.months.september": "September",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.september": "September",
+  "browse.startsWith.months.september": "Сентябрь",
   
   // "browse.startsWith.submit": "Browse",
-  // TODO New key - Add a translation
-  "browse.startsWith.submit": "Browse",
+  "browse.startsWith.submit": "Поиск",
   
   // "browse.startsWith.type_date": "Or type in a date (year-month) and click 'Browse'",
   // TODO New key - Add a translation
