@@ -2113,142 +2113,123 @@
   "collection.edit.tabs.source.head": "Источник Контента",
   
   // "collection.edit.tabs.source.notifications.discarded.content": "Your changes were discarded. To reinstate your changes click the 'Undo' button",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.notifications.discarded.content": "Your changes were discarded. To reinstate your changes click the 'Undo' button",
+  "collection.edit.tabs.source.notifications.discarded.content": "Вносимые изменения были отклонены. Для их восстановления нажмите кнопку 'Отменить'",
   
   // "collection.edit.tabs.source.notifications.discarded.title": "Changed discarded",
+  // Тут нужна умная голова, я не понимаю что за одновременное изменение отклонено
   // TODO New key - Add a translation
   "collection.edit.tabs.source.notifications.discarded.title": "Changed discarded",
   
   // "collection.edit.tabs.source.notifications.invalid.content": "Your changes were not saved. Please make sure all fields are valid before you save.",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.notifications.invalid.content": "Your changes were not saved. Please make sure all fields are valid before you save.",
+  "collection.edit.tabs.source.notifications.invalid.content": "Вносимые изменения не были сохранены. Перед сохранением, пожалуйста, удостоверьтесь в правильности заполнения полей.",
   
   // "collection.edit.tabs.source.notifications.invalid.title": "Metadata invalid",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.notifications.invalid.title": "Metadata invalid",
+  "collection.edit.tabs.source.notifications.invalid.title": "Недействительные метаданные",
   
   // "collection.edit.tabs.source.notifications.saved.content": "Your changes to this collection's content source were saved.",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.notifications.saved.content": "Your changes to this collection's content source were saved.",
+  "collection.edit.tabs.source.notifications.saved.content": "Вносимые в источник контента данной коллекции изменения были сохранены.",
   
   // "collection.edit.tabs.source.notifications.saved.title": "Content Source saved",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.notifications.saved.title": "Content Source saved",
+  "collection.edit.tabs.source.notifications.saved.title": "Источник Контента сохранен",
   
   // "collection.edit.tabs.source.title": "Collection Edit - Content Source",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.title": "Collection Edit - Content Source",
+  "collection.edit.tabs.source.title": "Редактирование Коллекции - Источник Контента",
   
   
   
   // "collection.edit.template.add-button": "Add",
-  // TODO New key - Add a translation
-  "collection.edit.template.add-button": "Add",
+  "collection.edit.template.add-button": "Добавить",
   
   // "collection.edit.template.breadcrumbs": "Item template",
-  // TODO New key - Add a translation
-  "collection.edit.template.breadcrumbs": "Item template",
+  "collection.edit.template.breadcrumbs": "Шаблон объекта",
   
   // "collection.edit.template.cancel": "Cancel",
-  // TODO New key - Add a translation
-  "collection.edit.template.cancel": "Cancel",
+  "collection.edit.template.cancel": "Отмена",
   
   // "collection.edit.template.delete-button": "Delete",
-  // TODO New key - Add a translation
-  "collection.edit.template.delete-button": "Delete",
+  "collection.edit.template.delete-button": "Удалить",
   
   // "collection.edit.template.edit-button": "Edit",
-  // TODO New key - Add a translation
-  "collection.edit.template.edit-button": "Edit",
+  "collection.edit.template.edit-button": "Редактировать",
   
   // "collection.edit.template.error": "An error occurred retrieving the template item",
-  // TODO New key - Add a translation
-  "collection.edit.template.error": "An error occurred retrieving the template item",
+  "collection.edit.template.error": "В процессе извлечения шаблона объекта произошла ошибка",
   
   // "collection.edit.template.head": "Edit Template Item for Collection \"{{ collection }}\"",
-  // TODO New key - Add a translation
-  "collection.edit.template.head": "Edit Template Item for Collection \"{{ collection }}\"",
+  "collection.edit.template.head": "Редактировать Шаблон Объекта в Коллекции \"{{ collection }}\"",
   
   // "collection.edit.template.label": "Template item",
-  // TODO New key - Add a translation
-  "collection.edit.template.label": "Template item",
+  "collection.edit.template.label": "Шаблон Объекта",
   
   // "collection.edit.template.loading": "Loading template item...",
-  // TODO New key - Add a translation
-  "collection.edit.template.loading": "Loading template item...",
+  "collection.edit.template.loading": "Загрузка шаблона объекта...",
   
   // "collection.edit.template.notifications.delete.error": "Failed to delete the item template",
-  // TODO New key - Add a translation
-  "collection.edit.template.notifications.delete.error": "Failed to delete the item template",
+  "collection.edit.template.notifications.delete.error": "Не удалось удалить шаблон объекта",
   
   // "collection.edit.template.notifications.delete.success": "Successfully deleted the item template",
-  // TODO New key - Add a translation
-  "collection.edit.template.notifications.delete.success": "Successfully deleted the item template",
+  "collection.edit.template.notifications.delete.success": "Шаблон объекта успешно удален",
   
   // "collection.edit.template.title": "Edit Template Item",
-  // TODO New key - Add a translation
-  "collection.edit.template.title": "Edit Template Item",
+  "collection.edit.template.title": "Редактировать Шаблон Объекта",
   
   
   // "collection-export.success": "Export of the collection's items started successfully",
-  // TODO New key - Add a translation
-  "collection-export.success": "Export of the collection's items started successfully",
+  "collection-export.success": "Экспорт элементов коллекции успешно запущен",
   
   // "collection-export.error": "An error occurs starting the collection's items export",
-  // TODO New key - Add a translation
-  "collection-export.error": "An error occurs starting the collection's items export",
+  "collection-export.error": "Ошибка запуска экспорта элементов коллекции",
   
   
   // "collection.form.abstract": "Short Description",
-  // TODO New key - Add a translation
-  "collection.form.abstract": "Short Description",
+  "collection.form.abstract": "Краткое Описание",
   
   // "collection.form.description": "Introductory text (HTML)",
-  // TODO New key - Add a translation
-  "collection.form.description": "Introductory text (HTML)",
+  "collection.form.description": "Вводный текст (HTML)",
   
   // "collection.form.errors.title.required": "Please enter a collection name",
-  // TODO New key - Add a translation
-  "collection.form.errors.title.required": "Please enter a collection name",
+  "collection.form.errors.title.required": "Пожалуйста, введите назвние коллекции",
   
   // "collection.form.license": "License",
-  // TODO New key - Add a translation
-  "collection.form.license": "License",
+  "collection.form.license": "Лицензия",
   
   // "collection.form.provenance": "Provenance",
+  // Происхождение? Всмысле???
   // TODO New key - Add a translation
   "collection.form.provenance": "Provenance",
   
   // "collection.form.rights": "Copyright text (HTML)",
-  // TODO New key - Add a translation
-  "collection.form.rights": "Copyright text (HTML)",
+  // Копирайт разве переводится?
+  "collection.form.rights": "Описание авторских прав (HTML)",
   
   // "collection.form.sharedWorkspace": "Shared workspace",
+  // Общее рабочее простанство???
   // TODO New key - Add a translation
   "collection.form.sharedWorkspace": "Shared workspace",
   
   // "collection.form.tableofcontents": "News (HTML)",
-  // TODO New key - Add a translation
-  "collection.form.tableofcontents": "News (HTML)",
+  "collection.form.tableofcontents": "Новости (HTML)",
   
   // "collection.form.title": "Name",
-  // TODO New key - Add a translation
-  "collection.form.title": "Name",
+  "collection.form.title": "Название",
   
   // "collection.form.entityType": "Entity Type",
+  // Юр. Лицо???
   // TODO New key - Add a translation
-  "collection.form.entityType": "Entity Type",
+  "collection.form.entityType": "Тип Юр. Лица",
   
   // "collection.form.errors.entityType.required": "Please choose an entity type for this collection",
+  // ТИП Юр. Лица???
   // TODO New key - Add a translation
-  "collection.form.errors.entityType.required": "Please choose an entity type for this collection",
+  "collection.form.errors.entityType.required": "Пожалуйста, выберите тип юридического лица для данной коллекции",
   
   // "collection.form.errors.submissionDefinition.required": "Please choose a submission definition for this collection",
+  // Слишком сложно!
   // TODO New key - Add a translation
   "collection.form.errors.submissionDefinition.required": "Please choose a submission definition for this collection",
   
   // "collection.form.submissionDefinition": "Submission definition",
+  // Слишком сложно!
   // TODO New key - Add a translation
   "collection.form.submissionDefinition": "Submission definition",
   
@@ -2256,7 +2237,7 @@
   
   // "collection.listelement.badge": "Collection",
   // TODO New key - Add a translation
-  "collection.listelement.badge": "Collection",
+  "collection.listelement.badge": "Коллекция",
   
   
   
