@@ -1859,65 +1859,53 @@
   
   
   // "collection.create.head": "Create a Collection",
-  // TODO New key - Add a translation
-  "collection.create.head": "Create a Collection",
+  "collection.create.head": "Создать Коллекцию",
   
   // "collection.create.notifications.success": "Successfully created the Collection",
-  // TODO New key - Add a translation
-  "collection.create.notifications.success": "Successfully created the Collection",
+  "collection.create.notifications.success": "Коллекция успешно создана",
   
   // "collection.create.sub-head": "Create a Collection for Community {{ parent }}",
-  // TODO New key - Add a translation
-  "collection.create.sub-head": "Create a Collection for Community {{ parent }}",
+  // В вообществе или же ДЛЯ сообщества?
+  "collection.create.sub-head": "Создать Коллекцию в Сообществе {{ parent }}",
   
   // "collection.curate.header": "Curate Collection: {{collection}}",
-  // TODO New key - Add a translation
-  "collection.curate.header": "Curate Collection: {{collection}}",
+  // Необходимо определить, что значит "Курировать колекцию"
+  "collection.curate.header": "Курировать Коллекцию: {{collection}}",
   
   // "collection.delete.cancel": "Cancel",
-  // TODO New key - Add a translation
-  "collection.delete.cancel": "Cancel",
+  "collection.delete.cancel": "Отмена",
   
   // "collection.delete.confirm": "Confirm",
-  // TODO New key - Add a translation
-  "collection.delete.confirm": "Confirm",
+  "collection.delete.confirm": "Подтверждение",
   
   // "collection.delete.processing": "Deleting",
-  // TODO New key - Add a translation
-  "collection.delete.processing": "Deleting",
+  "collection.delete.processing": "Удаление",
   
   // "collection.delete.head": "Delete Collection",
-  // TODO New key - Add a translation
-  "collection.delete.head": "Delete Collection",
+  "collection.delete.head": "Удалить Коллекцию",
   
   // "collection.delete.notification.fail": "Collection could not be deleted",
-  // TODO New key - Add a translation
-  "collection.delete.notification.fail": "Collection could not be deleted",
+  "collection.delete.notification.fail": "Коллекция не может быть удалена",
   
   // "collection.delete.notification.success": "Successfully deleted collection",
-  // TODO New key - Add a translation
-  "collection.delete.notification.success": "Successfully deleted collection",
+  "collection.delete.notification.success": "Коллекция успешно удалена",
   
   // "collection.delete.text": "Are you sure you want to delete collection \"{{ dso }}\"",
-  // TODO New key - Add a translation
-  "collection.delete.text": "Are you sure you want to delete collection \"{{ dso }}\"",
+  "collection.delete.text": "Вы действительно хотите удалить коллекцию \"{{ dso }}\"",
   
   
   
   // "collection.edit.delete": "Delete this collection",
-  // TODO New key - Add a translation
-  "collection.edit.delete": "Delete this collection",
+  "collection.edit.delete": "Удалить эту коллекцию",
   
   // "collection.edit.head": "Edit Collection",
-  // TODO New key - Add a translation
-  "collection.edit.head": "Edit Collection",
+  "collection.edit.head": "Редактировать Коллекцию",
   
   // "collection.edit.breadcrumbs": "Edit Collection",
-  // TODO New key - Add a translation
-  "collection.edit.breadcrumbs": "Edit Collection",
+  "collection.edit.breadcrumbs": "Редактировать Коллекцию",
   
   
-  
+  // ЗАПАРА С ITEM MAPPER-ом
   // "collection.edit.tabs.mapper.head": "Item Mapper",
   // TODO New key - Add a translation
   "collection.edit.tabs.mapper.head": "Item Mapper",
@@ -1927,12 +1915,10 @@
   "collection.edit.tabs.item-mapper.title": "Collection Edit - Item Mapper",
   
   // "collection.edit.item-mapper.cancel": "Cancel",
-  // TODO New key - Add a translation
-  "collection.edit.item-mapper.cancel": "Cancel",
+  "collection.edit.item-mapper.cancel": "Отмена",
   
   // "collection.edit.item-mapper.collection": "Collection: \"<b>{{name}}</b>\"",
-  // TODO New key - Add a translation
-  "collection.edit.item-mapper.collection": "Collection: \"<b>{{name}}</b>\"",
+  "collection.edit.item-mapper.collection": "Коллекция: \"<b>{{name}}</b>\"",
   
   // "collection.edit.item-mapper.confirm": "Map selected items",
   // TODO New key - Add a translation
@@ -2000,154 +1986,131 @@
   
   
   // "collection.edit.logo.delete.title": "Delete logo",
-  // TODO New key - Add a translation
-  "collection.edit.logo.delete.title": "Delete logo",
+  "collection.edit.logo.delete.title": "Удалить логотип",
   
   // "collection.edit.logo.delete-undo.title": "Undo delete",
-  // TODO New key - Add a translation
-  "collection.edit.logo.delete-undo.title": "Undo delete",
+  "collection.edit.logo.delete-undo.title": "Отменить удаление",
   
   // "collection.edit.logo.label": "Collection logo",
-  // TODO New key - Add a translation
-  "collection.edit.logo.label": "Collection logo",
+  "collection.edit.logo.label": "Логотип коллекции",
   
   // "collection.edit.logo.notifications.add.error": "Uploading Collection logo failed. Please verify the content before retrying.",
-  // TODO New key - Add a translation
-  "collection.edit.logo.notifications.add.error": "Uploading Collection logo failed. Please verify the content before retrying.",
+  "collection.edit.logo.notifications.add.error": "Загрузка Логотипа коллекции не удалась. Пожалуйста, проверьте содержимое перед повторной отправкой.",
   
   // "collection.edit.logo.notifications.add.success": "Upload Collection logo successful.",
-  // TODO New key - Add a translation
-  "collection.edit.logo.notifications.add.success": "Upload Collection logo successful.",
+  "collection.edit.logo.notifications.add.success": "Логотип Коллекции успешно загружен.",
   
   // "collection.edit.logo.notifications.delete.success.title": "Logo deleted",
-  // TODO New key - Add a translation
-  "collection.edit.logo.notifications.delete.success.title": "Logo deleted",
+  "collection.edit.logo.notifications.delete.success.title": "Логотип удален",
   
   // "collection.edit.logo.notifications.delete.success.content": "Successfully deleted the collection's logo",
-  // TODO New key - Add a translation
-  "collection.edit.logo.notifications.delete.success.content": "Successfully deleted the collection's logo",
+  "collection.edit.logo.notifications.delete.success.content": "Логотип Коллекции успешно удалён",
   
   // "collection.edit.logo.notifications.delete.error.title": "Error deleting logo",
-  // TODO New key - Add a translation
-  "collection.edit.logo.notifications.delete.error.title": "Error deleting logo",
+  "collection.edit.logo.notifications.delete.error.title": "Ошибка удаления логотипа",
   
   // "collection.edit.logo.upload": "Drop a Collection Logo to upload",
-  // TODO New key - Add a translation
-  "collection.edit.logo.upload": "Drop a Collection Logo to upload",
+  "collection.edit.logo.upload": "Перетащите загружаемый Логотип Коллекции",
   
   // "collection.edit.notifications.success": "Successfully edited the Collection",
-  // TODO New key - Add a translation
-  "collection.edit.notifications.success": "Successfully edited the Collection",
+  "collection.edit.notifications.success": "Коллекция успешно отредактирована",
   
   // "collection.edit.return": "Back",
-  // TODO New key - Add a translation
-  "collection.edit.return": "Back",
+  "collection.edit.return": "Назад",
   
   
-  
+  // Что за Куратор?
   // "collection.edit.tabs.curate.head": "Curate",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.curate.head": "Curate",
+  "collection.edit.tabs.curate.head": "Куратор",
   
   // "collection.edit.tabs.curate.title": "Collection Edit - Curate",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.curate.title": "Collection Edit - Curate",
+  "collection.edit.tabs.curate.title": "Редактирование Коллекции - Куратор",
   
   // "collection.edit.tabs.authorizations.head": "Authorizations",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.authorizations.head": "Authorizations",
+  "collection.edit.tabs.authorizations.head": "Авторизации",
   
   // "collection.edit.tabs.authorizations.title": "Collection Edit - Authorizations",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.authorizations.title": "Collection Edit - Authorizations",
+  "collection.edit.tabs.authorizations.title": "Редактирование Коллекции - Авторизации",
   
   // "collection.edit.tabs.metadata.head": "Edit Metadata",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.metadata.head": "Edit Metadata",
+  "collection.edit.tabs.metadata.head": "Редактировать Метаданные",
   
   // "collection.edit.tabs.metadata.title": "Collection Edit - Metadata",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.metadata.title": "Collection Edit - Metadata",
+  "collection.edit.tabs.metadata.title": "Редактирование Коллекции - Метаданные",
   
   // "collection.edit.tabs.roles.head": "Assign Roles",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.roles.head": "Assign Roles",
+  "collection.edit.tabs.roles.head": "Назначение Ролей",
   
   // "collection.edit.tabs.roles.title": "Collection Edit - Roles",
   // TODO New key - Add a translation
-  "collection.edit.tabs.roles.title": "Collection Edit - Roles",
+  "collection.edit.tabs.roles.title": "Редактирование Коллекции - Роли",
   
   // "collection.edit.tabs.source.external": "This collection harvests its content from an external source",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.external": "This collection harvests its content from an external source",
+  // Тут не уверен ВКЛЮЧАЕТ ли или СОБИРАЕТ контент
+  "collection.edit.tabs.source.external": "Данная коллекция включает в себя контент из внених источников",
   
   // "collection.edit.tabs.source.form.adminEmail": "Admin's address",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.adminEmail": "Admin's address",
+  "collection.edit.tabs.source.form.adminEmail": "Адрес админимтратора",
   
   // "collection.edit.tabs.source.form.errors.oaiSource.required": "You must provide a set id of the target collection.",
+  // Тут не понимаю, что есть set id
   // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.errors.oaiSource.required": "You must provide a set id of the target collection.",
+  "collection.edit.tabs.source.form.errors.oaiSource.required": "Вы должны указать set id набора выбранной коллекции.",
   
   // "collection.edit.tabs.source.form.harvestType": "Content being harvested",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.harvestType": "Content being harvested",
+  "collection.edit.tabs.source.form.harvestType": "Контент собирается",
   
   // "collection.edit.tabs.source.form.head": "Configure an external source",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.head": "Configure an external source",
+  "collection.edit.tabs.source.form.head": "Настроить внешний источник",
   
   // "collection.edit.tabs.source.form.metadataConfigId": "Metadata Format",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.metadataConfigId": "Metadata Format",
+  "collection.edit.tabs.source.form.metadataConfigId": "Формат Метаданных",
   
   // "collection.edit.tabs.source.form.oaiSetId": "OAI specific set id",
+  // Тут не понимаю, что есть OAI
   // TODO New key - Add a translation
   "collection.edit.tabs.source.form.oaiSetId": "OAI specific set id",
   
   // "collection.edit.tabs.source.form.oaiSource": "OAI Provider",
+  // Тут не понимаю, что есть OAI
   // TODO New key - Add a translation
   "collection.edit.tabs.source.form.oaiSource": "OAI Provider",
   
   // "collection.edit.tabs.source.form.options.harvestType.METADATA_AND_BITSTREAMS": "Harvest metadata and bitstreams (requires ORE support)",
+  // Тут не понимаю, что есть ORE
   // TODO New key - Add a translation
   "collection.edit.tabs.source.form.options.harvestType.METADATA_AND_BITSTREAMS": "Harvest metadata and bitstreams (requires ORE support)",
   
   // "collection.edit.tabs.source.form.options.harvestType.METADATA_AND_REF": "Harvest metadata and references to bitstreams (requires ORE support)",
+  // Тут не понимаю, что есть ORE
   // TODO New key - Add a translation
   "collection.edit.tabs.source.form.options.harvestType.METADATA_AND_REF": "Harvest metadata and references to bitstreams (requires ORE support)",
   
   // "collection.edit.tabs.source.form.options.harvestType.METADATA_ONLY": "Harvest metadata only",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.options.harvestType.METADATA_ONLY": "Harvest metadata only",
+  "collection.edit.tabs.source.form.options.harvestType.METADATA_ONLY": "Собирать только метаданные",
   
   // "collection.edit.tabs.source.form.preTransform": "Pre transformation name",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.preTransform": "Pre transformation name",
+  "collection.edit.tabs.source.form.preTransform": "Название до преобразование",
   
   // "collection.edit.tabs.source.form.postTransform": "Post transformation name",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.postTransform": "Post transformation name",
+  "collection.edit.tabs.source.form.postTransform": "Название после преобразование",
   
   // "collection.edit.tabs.source.form.forceSynchronization": "Force Synchronization",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.forceSynchronization": "Force Synchronization",
+  "collection.edit.tabs.source.form.forceSynchronization": "Принудительная Синхронизация",
   
   // "collection.edit.tabs.source.form.recordValidationEnabled": "Record validation",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.recordValidationEnabled": "Record validation",
+  "collection.edit.tabs.source.form.recordValidationEnabled": "Проверка записи",
   
-  // "collection.edit.tabs.source.form.itemValidationEnabled": "Item validation",
-  // TODO New key - Add a translation
+  // "collection.edit.tabs.source.form.itemValidationEnabled": "Проверка объекта",
   "collection.edit.tabs.source.form.itemValidationEnabled": "Item validation",
   
   // "collection.edit.tabs.source.form.ccAddresses": "CC's addresses",
+  // Что такое CC?
   // TODO New key - Add a translation
   "collection.edit.tabs.source.form.ccAddresses": "CC's addresses",
   
   // "collection.edit.tabs.source.head": "Content Source",
-  // TODO New key - Add a translation
-  "collection.edit.tabs.source.head": "Content Source",
+  "collection.edit.tabs.source.head": "Источник Контента",
   
   // "collection.edit.tabs.source.notifications.discarded.content": "Your changes were discarded. To reinstate your changes click the 'Undo' button",
   // TODO New key - Add a translation
