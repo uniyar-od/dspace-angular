@@ -1549,17 +1549,17 @@
   
   
   // "browse.comcol.by.author": "By Author",
-  "browse.comcol.by.author": "По Автору",
+  "browse.comcol.by.author": "По автору",
   
   // "browse.comcol.by.dateissued": "By Issue Date",
   "browse.comcol.by.dateissued": "По дате выпуска",
   
   // "browse.comcol.by.ouname": "By Name",
   // не уверен, нужно определить, что за ИМЯ
-  "browse.comcol.by.ouname": "По Имени",
+  "browse.comcol.by.ouname": "По имени",
   
   // "browse.comcol.by.pjtitle": "By Title",
-  "browse.comcol.by.pjtitle": "По Заглавию",
+  "browse.comcol.by.pjtitle": "По заглавию",
   
   // "browse.comcol.by.rodept": "By Department",
   "browse.comcol.by.rodept": "По подразделению",
@@ -1568,18 +1568,18 @@
   "browse.comcol.by.rpdept": "По подразделению",
   
   // "browse.comcol.by.rpname": "By Name",
-  "browse.comcol.by.rpname": "По Имени",
+  "browse.comcol.by.rpname": "По имени",
   
   // "browse.comcol.by.subject": "By Subject",
   // по Дисциплине или по Теме исследования?
-  "browse.comcol.by.subject": "По Дисциплине",
+  "browse.comcol.by.subject": "По дисциплине",
   
   // "browse.comcol.by.title": "By Title",
-  "browse.comcol.by.title": "По Заглавию",
+  "browse.comcol.by.title": "По заглавию",
   
   // "browse.comcol.by.type": "By Type",
   // по Типу или по Формату?
-  "browse.comcol.by.type": "По Типу",
+  "browse.comcol.by.type": "По типу",
   
   
   // "browse.comcol.head": "Browse",
@@ -1592,13 +1592,13 @@
   "browse.metadata.author": "Автор",
   
   // "browse.metadata.dateissued": "Issue Date",
-  "browse.metadata.dateissued": "Дата Выпуска",
+  "browse.metadata.dateissued": "Дата выпуска",
   
   // "browse.metadata.eqdatecreated": "Date Created",
-  "browse.metadata.eqdatecreated": "Дата Размещения",
+  "browse.metadata.eqdatecreated": "Дата размещения",
   
   // "browse.metadata.eqdatemodified": "Date Modified",
-  "browse.metadata.eqdatemodified": "Дата Изменения",
+  "browse.metadata.eqdatemodified": "Дата изменения",
   
   // "browse.metadata.eqtitle": "Title",
   "browse.metadata.eqtitle": "Заглавие",
@@ -1628,46 +1628,46 @@
   "browse.metadata.title": "Заглавие",
   
   // "browse.metadata.author.breadcrumbs": "Browse by Author",
-  "browse.metadata.author.breadcrumbs": "Поиск по Автору",
+  "browse.metadata.author.breadcrumbs": "Поиск по автору",
   
   // "browse.metadata.dateissued.breadcrumbs": "Browse by Date",
-  "browse.metadata.dateissued.breadcrumbs": "Поиск по Дате",
+  "browse.metadata.dateissued.breadcrumbs": "Поиск по дате",
   
   // "browse.metadata.eqdatecreated.breadcrumbs": "Browse by Creation Date",
-  "browse.metadata.eqdatecreated.breadcrumbs": "Поиск по Дате Создания",
+  "browse.metadata.eqdatecreated.breadcrumbs": "Поиск по дате создания",
   
   // "browse.metadata.eqdatemodified.breadcrumbs": "Browse by Modification Date",
-  "browse.metadata.eqdatemodified.breadcrumbs": "Поиск по Дате Изменения",
+  "browse.metadata.eqdatemodified.breadcrumbs": "Поиск по дате изменения",
   
   // "browse.metadata.eqtitle.breadcrumbs": "Browse by Title",
-  "browse.metadata.eqtitle.breadcrumbs": "Поиск по Заглавию",
+  "browse.metadata.eqtitle.breadcrumbs": "Поиск по заглавию",
   
   // "browse.metadata.ouname.breadcrumbs" : "Browse by Name",
-  "browse.metadata.ouname.breadcrumbs" : "Поиск по Имени",
+  "browse.metadata.ouname.breadcrumbs" : "Поиск по имени",
   
   // "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
   // необходимо понять, что за pjtitle и eqtitle
-  "browse.metadata.pjtitle.breadcrumbs" : "Поиск по Заглавию",
+  "browse.metadata.pjtitle.breadcrumbs" : "Поиск по заглавию",
   
   // "browse.metadata.rodept.breadcrumbs": "Browse by Department",
-  "browse.metadata.rodept.breadcrumbs": "Поиск по Организации",
+  "browse.metadata.rodept.breadcrumbs": "Поиск по организации",
   
   // "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
   // необходимо понять, что за rpdept и rodept
-  "browse.metadata.rpdept.breadcrumbs" : "Поиск по Организации",
+  "browse.metadata.rpdept.breadcrumbs" : "Поиск по организации",
   
   // "browse.metadata.rpname.breadcrumbs": "Browse by Name",
   // необходимо понять, что за ouname и rpname
-  "browse.metadata.rpname.breadcrumbs": "Поиск по Имени",
+  "browse.metadata.rpname.breadcrumbs": "Поиск по имени",
   
   // "browse.metadata.subject.breadcrumbs": "Browse by Subject",
-  "browse.metadata.subject.breadcrumbs": "Поиск по Дисциплине",
+  "browse.metadata.subject.breadcrumbs": "Поиск по дисциплине",
   
   // "browse.metadata.type.breadcrumbs": "Browse by Type",
-  "browse.metadata.type.breadcrumbs": "Поиск по Типу",
+  "browse.metadata.type.breadcrumbs": "Поиск по типу",
   
   // "browse.metadata.title.breadcrumbs": "Browse by Title",
-  "browse.metadata.title.breadcrumbs": "Поиск по Заглавию",
+  "browse.metadata.title.breadcrumbs": "Поиск по заглавию",
   
   // "browse.next.button": "Next",
   "browse.next.button": "Далее",
@@ -1744,10 +1744,10 @@
   "browse.startsWith.type_date": "Или введите дату (год-месяц) и нажмите 'Поиск'",
   
   // "browse.startsWith.type_date.label": "Or type in a date (year-month) and click on the Browse button",
-  "browse.startsWith.type_date.label": "Или введите дату (год-месяц) и нажмите кнопку Поиска",
+  "browse.startsWith.type_date.label": "Или введите дату (год-месяц) и нажмите кнопку поиска",
   
   // "browse.startsWith.type_text": "Type the first few letters and click on the Browse button",
-  "browse.startsWith.type_text": "Введите первые несколько букв и нажмите кнопку Поиска",
+  "browse.startsWith.type_text": "Введите первые несколько букв и нажмите кнопку поиска",
   
   // "browse.title": "Browsing {{ collection }} by {{ field }} {{ value }}",
   "browse.title": "Поиск {{ collection }} по {{ field }} {{ value }}",
