@@ -1552,7 +1552,7 @@
   "browse.comcol.by.author": "По Автору",
   
   // "browse.comcol.by.dateissued": "By Issue Date",
-  "browse.comcol.by.dateissued": "По Дате Выпуска",
+  "browse.comcol.by.dateissued": "По дате выпуска",
   
   // "browse.comcol.by.ouname": "By Name",
   // не уверен, нужно определить, что за ИМЯ
@@ -1562,10 +1562,10 @@
   "browse.comcol.by.pjtitle": "По Заглавию",
   
   // "browse.comcol.by.rodept": "By Department",
-  "browse.comcol.by.rodept": "По Организации",
+  "browse.comcol.by.rodept": "По подразделению",
   
   // "browse.comcol.by.rpdept": "By Department",
-  "browse.comcol.by.rpdept": "По Организации",
+  "browse.comcol.by.rpdept": "По подразделению",
   
   // "browse.comcol.by.rpname": "By Name",
   "browse.comcol.by.rpname": "По Имени",
@@ -1586,7 +1586,7 @@
   "browse.comcol.head": "Поиск",
   
   // "browse.empty": "No items to show.",
-  "browse.empty": "Данных по запросу не найдено.",
+  "browse.empty": "Ничего не найдено.",
   
   // "browse.metadata.author": "Author",
   "browse.metadata.author": "Автор",
@@ -1610,10 +1610,10 @@
   "browse.metadata.pjtitle" : "Заглавие",
   
   // "browse.metadata.rodept": "Department",
-  "browse.metadata.rodept": "Организация",
+  "browse.metadata.rodept": "Подразделение",
   
   // "browse.metadata.rpdept": "Department",
-  "browse.metadata.rpdept": "Организация",
+  "browse.metadata.rpdept": "Подразделение",
   
   // "browse.metadata.rpname": "Name",
   "browse.metadata.rpname": "Имя",
