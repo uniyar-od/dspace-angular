@@ -2185,7 +2185,7 @@
   "collection.form.abstract": "Краткое описание",
   
   // "collection.form.description": "Introductory text (HTML)",
-  "collection.form.description": "Введение (HTML)",
+  "collection.form.description": "Вводный текст (HTML)",
   
   // "collection.form.errors.title.required": "Please enter a collection name",
   "collection.form.errors.title.required": "Пожалуйста, введите назвние коллекции",
