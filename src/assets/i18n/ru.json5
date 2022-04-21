@@ -6139,66 +6139,53 @@
   
   
   // "login.form.email": "Email address",
-  // TODO New key - Add a translation
-  "login.form.email": "Email address",
+  "login.form.email": "Email-адрес",
   
   // "login.form.forgot-password": "Have you forgotten your password?",
-  // TODO New key - Add a translation
-  "login.form.forgot-password": "Have you forgotten your password?",
+  "login.form.forgot-password": "Вы забыли пароль?",
   
   // "login.form.header": "Please log in to DSpace",
-  // TODO New key - Add a translation
-  "login.form.header": "Please log in to DSpace",
+  "login.form.header": "Войдите, пожалуйста, в систему",
   
   // "login.form.new-user": "New user? Click here to register.",
-  // TODO New key - Add a translation
-  "login.form.new-user": "New user? Click here to register.",
+  "login.form.new-user": "Новичёк? Жми сюда для регистрации.",
   
   // "login.form.or-divider": "or",
-  // TODO New key - Add a translation
-  "login.form.or-divider": "or",
+  "login.form.or-divider": "или",
   
   // "login.form.oidc": "Log in with OIDC",
-  // TODO New key - Add a translation
-  "login.form.oidc": "Log in with OIDC",
+  "login.form.oidc": "Вход с OIDC",
   
   // "login.form.orcid": "Log in with ORCID",
-  // TODO New key - Add a translation
-  "login.form.orcid": "Log in with ORCID",
+  "login.form.orcid": "Вход с ORCID",
   
   // "login.form.password": "Password",
-  // TODO New key - Add a translation
-  "login.form.password": "Password",
+  "login.form.password": "Пароль",
   
   // "login.form.shibboleth": "Log in with Shibboleth",
   // TODO New key - Add a translation
-  "login.form.shibboleth": "Log in with Shibboleth",
+  "login.form.shibboleth": "Вход с Shibboleth",
   
   // "login.form.submit": "Log in",
   // TODO New key - Add a translation
-  "login.form.submit": "Log in",
+  "login.form.submit": "Вход",
   
   // "login.title": "Login",
-  // TODO New key - Add a translation
-  "login.title": "Login",
+  "login.title": "Вход",
   
   // "login.breadcrumbs": "Login",
-  // TODO New key - Add a translation
-  "login.breadcrumbs": "Login",
+  "login.breadcrumbs": "Вход",
   
   
   
   // "logout.form.header": "Log out from DSpace",
-  // TODO New key - Add a translation
-  "logout.form.header": "Log out from DSpace",
+  "logout.form.header": "Выйти из системы",
   
   // "logout.form.submit": "Log out",
-  // TODO New key - Add a translation
-  "logout.form.submit": "Log out",
+  "logout.form.submit": "Выход",
   
   // "logout.title": "Logout",
-  // TODO New key - Add a translation
-  "logout.title": "Logout",
+  "logout.title": "Выход",
   
   
   // "manage.relationships.select": "Select",
