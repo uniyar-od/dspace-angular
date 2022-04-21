@@ -2127,7 +2127,7 @@
   "collection.edit.tabs.source.notifications.invalid.title": "Недействительные метаданные",
   
   // "collection.edit.tabs.source.notifications.saved.content": "Your changes to this collection's content source were saved.",
-  "collection.edit.tabs.source.notifications.saved.content": "Вносимые в источник контента данной коллекции изменения были сохранены.",
+  "collection.edit.tabs.source.notifications.saved.content": "Изменения в источник контента коллекции были сохранены.",
   
   // "collection.edit.tabs.source.notifications.saved.title": "Content Source saved",
   "collection.edit.tabs.source.notifications.saved.title": "Источник контента сохранен",
