@@ -1549,257 +1549,208 @@
   
   
   // "browse.comcol.by.author": "By Author",
-  // TODO New key - Add a translation
-  "browse.comcol.by.author": "By Author",
+  "browse.comcol.by.author": "По автору",
   
   // "browse.comcol.by.dateissued": "By Issue Date",
-  // TODO New key - Add a translation
-  "browse.comcol.by.dateissued": "By Issue Date",
+  "browse.comcol.by.dateissued": "По дате выпуска",
   
   // "browse.comcol.by.ouname": "By Name",
-  // TODO New key - Add a translation
-  "browse.comcol.by.ouname": "By Name",
+  // не уверен, нужно определить, что за ИМЯ
+  "browse.comcol.by.ouname": "По имени",
   
   // "browse.comcol.by.pjtitle": "By Title",
-  // TODO New key - Add a translation
-  "browse.comcol.by.pjtitle": "By Title",
+  "browse.comcol.by.pjtitle": "По заглавию",
   
   // "browse.comcol.by.rodept": "By Department",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rodept": "By Department",
+  "browse.comcol.by.rodept": "По подразделению",
   
   // "browse.comcol.by.rpdept": "By Department",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rpdept": "By Department",
+  "browse.comcol.by.rpdept": "По подразделению",
   
   // "browse.comcol.by.rpname": "By Name",
-  // TODO New key - Add a translation
-  "browse.comcol.by.rpname": "By Name",
+  "browse.comcol.by.rpname": "По имени",
   
   // "browse.comcol.by.subject": "By Subject",
-  // TODO New key - Add a translation
-  "browse.comcol.by.subject": "By Subject",
+  // по Дисциплине или по Теме исследования?
+  "browse.comcol.by.subject": "По дисциплине",
   
   // "browse.comcol.by.title": "By Title",
-  // TODO New key - Add a translation
-  "browse.comcol.by.title": "By Title",
+  "browse.comcol.by.title": "По заглавию",
   
   // "browse.comcol.by.type": "By Type",
-  // TODO New key - Add a translation
-  "browse.comcol.by.type": "By Type",
+  // по Типу или по Формату?
+  "browse.comcol.by.type": "По типу",
   
   
   // "browse.comcol.head": "Browse",
-  // TODO New key - Add a translation
-  "browse.comcol.head": "Browse",
+  "browse.comcol.head": "Поиск",
   
   // "browse.empty": "No items to show.",
-  // TODO New key - Add a translation
-  "browse.empty": "No items to show.",
+  "browse.empty": "Ничего не найдено.",
   
   // "browse.metadata.author": "Author",
-  // TODO New key - Add a translation
-  "browse.metadata.author": "Author",
+  "browse.metadata.author": "Автор",
   
   // "browse.metadata.dateissued": "Issue Date",
-  // TODO New key - Add a translation
-  "browse.metadata.dateissued": "Issue Date",
+  "browse.metadata.dateissued": "Дата выпуска",
   
   // "browse.metadata.eqdatecreated": "Date Created",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatecreated": "Date Created",
+  "browse.metadata.eqdatecreated": "Дата размещения",
   
   // "browse.metadata.eqdatemodified": "Date Modified",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatemodified": "Date Modified",
+  "browse.metadata.eqdatemodified": "Дата изменения",
   
   // "browse.metadata.eqtitle": "Title",
-  // TODO New key - Add a translation
-  "browse.metadata.eqtitle": "Title",
+  "browse.metadata.eqtitle": "Заглавие",
   
   // "browse.metadata.ouname" : "Name",
-  // TODO New key - Add a translation
-  "browse.metadata.ouname" : "Name",
+  "browse.metadata.ouname" : "Имя",
   
   // "browse.metadata.pjtitle" : "Title",
-  // TODO New key - Add a translation
-  "browse.metadata.pjtitle" : "Title",
+  "browse.metadata.pjtitle" : "Заглавие",
   
   // "browse.metadata.rodept": "Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rodept": "Department",
+  "browse.metadata.rodept": "Подразделение",
   
   // "browse.metadata.rpdept": "Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rpdept": "Department",
+  "browse.metadata.rpdept": "Подразделение",
   
   // "browse.metadata.rpname": "Name",
-  // TODO New key - Add a translation
-  "browse.metadata.rpname": "Name",
+  "browse.metadata.rpname": "Имя",
   
   // "browse.metadata.subject": "Subject",
-  // TODO New key - Add a translation
-  "browse.metadata.subject": "Subject",
+  "browse.metadata.subject": "Дисциплина",
   
   // "browse.metadata.type": "Type",
-  // TODO New key - Add a translation
-  "browse.metadata.type": "Type",
+  "browse.metadata.type": "Тип",
   
   // "browse.metadata.title": "Title",
-  // TODO New key - Add a translation
-  "browse.metadata.title": "Title",
+  "browse.metadata.title": "Заглавие",
   
   // "browse.metadata.author.breadcrumbs": "Browse by Author",
-  // TODO New key - Add a translation
-  "browse.metadata.author.breadcrumbs": "Browse by Author",
+  "browse.metadata.author.breadcrumbs": "Поиск по автору",
   
   // "browse.metadata.dateissued.breadcrumbs": "Browse by Date",
-  // TODO New key - Add a translation
-  "browse.metadata.dateissued.breadcrumbs": "Browse by Date",
+  "browse.metadata.dateissued.breadcrumbs": "Поиск по дате",
   
   // "browse.metadata.eqdatecreated.breadcrumbs": "Browse by Creation Date",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatecreated.breadcrumbs": "Browse by Creation Date",
+  "browse.metadata.eqdatecreated.breadcrumbs": "Поиск по дате создания",
   
   // "browse.metadata.eqdatemodified.breadcrumbs": "Browse by Modification Date",
-  // TODO New key - Add a translation
-  "browse.metadata.eqdatemodified.breadcrumbs": "Browse by Modification Date",
+  "browse.metadata.eqdatemodified.breadcrumbs": "Поиск по дате изменения",
   
   // "browse.metadata.eqtitle.breadcrumbs": "Browse by Title",
-  // TODO New key - Add a translation
-  "browse.metadata.eqtitle.breadcrumbs": "Browse by Title",
+  "browse.metadata.eqtitle.breadcrumbs": "Поиск по заглавию",
   
   // "browse.metadata.ouname.breadcrumbs" : "Browse by Name",
-  // TODO New key - Add a translation
-  "browse.metadata.ouname.breadcrumbs" : "Browse by Name",
+  "browse.metadata.ouname.breadcrumbs" : "Поиск по имени",
   
   // "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
-  // TODO New key - Add a translation
-  "browse.metadata.pjtitle.breadcrumbs" : "Browse by Title",
+  // необходимо понять, что за pjtitle и eqtitle
+  "browse.metadata.pjtitle.breadcrumbs" : "Поиск по заглавию",
   
   // "browse.metadata.rodept.breadcrumbs": "Browse by Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rodept.breadcrumbs": "Browse by Department",
+  "browse.metadata.rodept.breadcrumbs": "Поиск по организации",
   
   // "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
-  // TODO New key - Add a translation
-  "browse.metadata.rpdept.breadcrumbs" : "Browse by Department",
+  // необходимо понять, что за rpdept и rodept
+  "browse.metadata.rpdept.breadcrumbs" : "Поиск по организации",
   
   // "browse.metadata.rpname.breadcrumbs": "Browse by Name",
-  // TODO New key - Add a translation
-  "browse.metadata.rpname.breadcrumbs": "Browse by Name",
+  // необходимо понять, что за ouname и rpname
+  "browse.metadata.rpname.breadcrumbs": "Поиск по имени",
   
   // "browse.metadata.subject.breadcrumbs": "Browse by Subject",
-  // TODO New key - Add a translation
-  "browse.metadata.subject.breadcrumbs": "Browse by Subject",
+  "browse.metadata.subject.breadcrumbs": "Поиск по дисциплине",
   
   // "browse.metadata.type.breadcrumbs": "Browse by Type",
-  // TODO New key - Add a translation
-  "browse.metadata.type.breadcrumbs": "Browse by Type",
+  "browse.metadata.type.breadcrumbs": "Поиск по типу",
   
   // "browse.metadata.title.breadcrumbs": "Browse by Title",
-  // TODO New key - Add a translation
-  "browse.metadata.title.breadcrumbs": "Browse by Title",
+  "browse.metadata.title.breadcrumbs": "Поиск по заглавию",
   
   // "browse.next.button": "Next",
-  // TODO New key - Add a translation
-  "browse.next.button": "Next",
+  "browse.next.button": "Далее",
   
   // "browse.previous.button": "Previous",
-  // TODO New key - Add a translation
-  "browse.previous.button": "Previous",
+  "browse.previous.button": "Назад",
   
   // "browse.startsWith.choose_start": "(Choose start)",
+  // Почему в скобках?
   // TODO New key - Add a translation
   "browse.startsWith.choose_start": "(Choose start)",
   
   // "browse.startsWith.choose_year": "(Choose year)",
+  // Почему в скобках?
   // TODO New key - Add a translation
   "browse.startsWith.choose_year": "(Choose year)",
   
   // "browse.startsWith.choose_year.label": "Choose the issue year",
-  // TODO New key - Add a translation
-  "browse.startsWith.choose_year.label": "Choose the issue year",
+  "browse.startsWith.choose_year.label": "Выберите год выпуска",
   
   // "browse.startsWith.jump": "Jump to a point in the index:",
+  // Тут я встрял
   // TODO New key - Add a translation
   "browse.startsWith.jump": "Jump to a point in the index:",
   
   // "browse.startsWith.months.april": "April",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.april": "April",
+  "browse.startsWith.months.april": "Апрель",
   
   // "browse.startsWith.months.august": "August",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.august": "August",
+  "browse.startsWith.months.august": "Август",
   
   // "browse.startsWith.months.december": "December",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.december": "December",
+  "browse.startsWith.months.december": "Декабрь",
   
   // "browse.startsWith.months.february": "February",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.february": "February",
+  "browse.startsWith.months.february": "Февраль",
   
   // "browse.startsWith.months.january": "January",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.january": "January",
+  "browse.startsWith.months.january": "Январь",
   
   // "browse.startsWith.months.july": "July",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.july": "July",
+  "browse.startsWith.months.july": "Июль",
   
   // "browse.startsWith.months.june": "June",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.june": "June",
+  "browse.startsWith.months.june": "Июнь",
   
   // "browse.startsWith.months.march": "March",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.march": "March",
+  "browse.startsWith.months.march": "Март",
   
   // "browse.startsWith.months.may": "May",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.may": "May",
+  "browse.startsWith.months.may": "Май",
   
   // "browse.startsWith.months.none": "(Choose month)",
+  // Почему в скобках?
   // TODO New key - Add a translation
   "browse.startsWith.months.none": "(Choose month)",
   
   // "browse.startsWith.months.none.label": "Choose the issue month",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.none.label": "Choose the issue month",
+  "browse.startsWith.months.none.label": "Выберите месяц выпуска",
   
   // "browse.startsWith.months.november": "November",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.november": "November",
+  "browse.startsWith.months.november": "Ноябрь",
   
   // "browse.startsWith.months.october": "October",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.october": "October",
+  "browse.startsWith.months.october": "Октябрь",
   
   // "browse.startsWith.months.september": "September",
-  // TODO New key - Add a translation
-  "browse.startsWith.months.september": "September",
+  "browse.startsWith.months.september": "Сентябрь",
   
   // "browse.startsWith.submit": "Browse",
-  // TODO New key - Add a translation
-  "browse.startsWith.submit": "Browse",
+  "browse.startsWith.submit": "Поиск",
   
   // "browse.startsWith.type_date": "Or type in a date (year-month) and click 'Browse'",
-  // TODO New key - Add a translation
-  "browse.startsWith.type_date": "Or type in a date (year-month) and click 'Browse'",
+  "browse.startsWith.type_date": "Или введите дату (год-месяц) и нажмите 'Поиск'",
   
   // "browse.startsWith.type_date.label": "Or type in a date (year-month) and click on the Browse button",
-  // TODO New key - Add a translation
-  "browse.startsWith.type_date.label": "Or type in a date (year-month) and click on the Browse button",
+  "browse.startsWith.type_date.label": "Или введите дату (год-месяц) и нажмите кнопку поиска",
   
   // "browse.startsWith.type_text": "Type the first few letters and click on the Browse button",
-  // TODO New key - Add a translation
-  "browse.startsWith.type_text": "Type the first few letters and click on the Browse button",
+  "browse.startsWith.type_text": "Введите первые несколько букв и нажмите кнопку поиска",
   
   // "browse.title": "Browsing {{ collection }} by {{ field }} {{ value }}",
-  // TODO New key - Add a translation
-  "browse.title": "Browsing {{ collection }} by {{ field }} {{ value }}",
+  "browse.title": "Поиск {{ collection }} по {{ field }} {{ value }}",
   
   
   
