@@ -2373,115 +2373,89 @@
   
   
   // "communityList.breadcrumbs": "Community List",
-  // TODO New key - Add a translation
-  "communityList.breadcrumbs": "Community List",
+  "communityList.breadcrumbs": "Список сообщества",
   
   // "communityList.tabTitle": "Community List",
-  // TODO New key - Add a translation
-  "communityList.tabTitle": "Community List",
+  "communityList.tabTitle": "Список сообщества",
   
   // "communityList.title": "List of Communities",
-  // TODO New key - Add a translation
-  "communityList.title": "List of Communities",
+  "communityList.title": "Список сообществ",
   
   // "communityList.showMore": "Show More",
-  // TODO New key - Add a translation
-  "communityList.showMore": "Show More",
+  "communityList.showMore": "Показать больше",
   
   
   
   // "community.create.head": "Create a Community",
-  // TODO New key - Add a translation
-  "community.create.head": "Create a Community",
+  "community.create.head": "Создать сообщество",
   
   // "community.create.notifications.success": "Successfully created the Community",
-  // TODO New key - Add a translation
-  "community.create.notifications.success": "Successfully created the Community",
+  "community.create.notifications.success": "Сообщество успешно создано",
   
   // "community.create.sub-head": "Create a Sub-Community for Community {{ parent }}",
-  // TODO New key - Add a translation
-  "community.create.sub-head": "Create a Sub-Community for Community {{ parent }}",
+  "community.create.sub-head": "Создать подсообщество для сообщества {{ parent }}",
   
   // "community.curate.header": "Curate Community: {{community}}",
-  // TODO New key - Add a translation
-  "community.curate.header": "Curate Community: {{community}}",
+  "community.curate.header": "Курировать сообщество: {{community}}",
   
   // "community.delete.cancel": "Cancel",
-  // TODO New key - Add a translation
-  "community.delete.cancel": "Cancel",
+  "community.delete.cancel": "Закончить",
   
   // "community.delete.confirm": "Confirm",
-  // TODO New key - Add a translation
-  "community.delete.confirm": "Confirm",
+  "community.delete.confirm": "Подтвердить",
   
   // "community.delete.processing": "Deleting...",
-  // TODO New key - Add a translation
-  "community.delete.processing": "Deleting...",
+  "community.delete.processing": "Удаление...",
   
   // "community.delete.head": "Delete Community",
-  // TODO New key - Add a translation
-  "community.delete.head": "Delete Community",
+  "community.delete.head": "Удалить сообщество",
   
   // "community.delete.notification.fail": "Community could not be deleted",
-  // TODO New key - Add a translation
-  "community.delete.notification.fail": "Community could not be deleted",
+  "community.delete.notification.fail": "Сообщество не может быть удалено",
   
   // "community.delete.notification.success": "Successfully deleted community",
-  // TODO New key - Add a translation
-  "community.delete.notification.success": "Successfully deleted community",
+  "community.delete.notification.success": "Сообщество успешно удалено",
   
   // "community.delete.text": "Are you sure you want to delete community \"{{ dso }}\"",
-  // TODO New key - Add a translation
-  "community.delete.text": "Are you sure you want to delete community \"{{ dso }}\"",
+  "community.delete.text": "Вы действительно хотите удалить сообщество \"{{ dso }}\"",
   
   // "community.edit.delete": "Delete this community",
-  // TODO New key - Add a translation
-  "community.edit.delete": "Delete this community",
+  "community.edit.delete": "Удалить это сообщество",
   
   // "community.edit.head": "Edit Community",
-  // TODO New key - Add a translation
-  "community.edit.head": "Edit Community",
+  "community.edit.head": "Редактировать сообщество",
   
   // "community.edit.breadcrumbs": "Edit Community",
-  // TODO New key - Add a translation
-  "community.edit.breadcrumbs": "Edit Community",
+  "community.edit.breadcrumbs": "Редактировать сообщество",
   
   
   // "community.edit.logo.delete.title": "Delete logo",
-  // TODO New key - Add a translation
-  "community.edit.logo.delete.title": "Delete logo",
+  "community.edit.logo.delete.title": "Удалить логотип",
   
   // "community.edit.logo.delete-undo.title": "Undo delete",
-  // TODO New key - Add a translation
-  "community.edit.logo.delete-undo.title": "Undo delete",
+  "community.edit.logo.delete-undo.title": "Отменить удаление",
   
   // "community.edit.logo.label": "Community logo",
-  // TODO New key - Add a translation
-  "community.edit.logo.label": "Community logo",
+  "community.edit.logo.label": "Логотип сообщества",
   
   // "community.edit.logo.notifications.add.error": "Uploading Community logo failed. Please verify the content before retrying.",
-  // TODO New key - Add a translation
-  "community.edit.logo.notifications.add.error": "Uploading Community logo failed. Please verify the content before retrying.",
+  "community.edit.logo.notifications.add.error": "Сбой загрузки логотипа сообщества. Верефицируйте изображение перед повторной попыткой.",
   
   // "community.edit.logo.notifications.add.success": "Upload Community logo successful.",
-  // TODO New key - Add a translation
-  "community.edit.logo.notifications.add.success": "Upload Community logo successful.",
+  "community.edit.logo.notifications.add.success": "Загрузка логотипа сообщества прошла успешно.",
   
   // "community.edit.logo.notifications.delete.success.title": "Logo deleted",
-  // TODO New key - Add a translation
-  "community.edit.logo.notifications.delete.success.title": "Logo deleted",
+  "community.edit.logo.notifications.delete.success.title": "Логотип удален",
   
   // "community.edit.logo.notifications.delete.success.content": "Successfully deleted the community's logo",
-  // TODO New key - Add a translation
-  "community.edit.logo.notifications.delete.success.content": "Successfully deleted the community's logo",
+  "community.edit.logo.notifications.delete.success.content": "Логотип сообщества успешно удалён.",
   
   // "community.edit.logo.notifications.delete.error.title": "Error deleting logo",
-  // TODO New key - Add a translation
-  "community.edit.logo.notifications.delete.error.title": "Error deleting logo",
+  "community.edit.logo.notifications.delete.error.title": "Ошибка удаления логотипа",
   
   // "community.edit.logo.upload": "Drop a Community Logo to upload",
   // TODO New key - Add a translation
-  "community.edit.logo.upload": "Drop a Community Logo to upload",
+  "community.edit.logo.upload": "Загрузите логотип сообщества",
   
   
   
