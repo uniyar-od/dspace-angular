@@ -2021,10 +2021,10 @@
   
   // Что за Куратор?
   // "collection.edit.tabs.curate.head": "Curate",
-  "collection.edit.tabs.curate.head": "Куратор",
+  "collection.edit.tabs.curate.head": "Курировать",
   
   // "collection.edit.tabs.curate.title": "Collection Edit - Curate",
-  "collection.edit.tabs.curate.title": "Редактирование коллекции - Куратор",
+  "collection.edit.tabs.curate.title": "Редактирование коллекции - Курировать",
   
   // "collection.edit.tabs.authorizations.head": "Authorizations",
   "collection.edit.tabs.authorizations.head": "Авторизации",
@@ -2055,7 +2055,7 @@
   // "collection.edit.tabs.source.form.errors.oaiSource.required": "You must provide a set id of the target collection.",
   // Тут не понимаю, что есть set id
   // TODO New key - Add a translation
-  "collection.edit.tabs.source.form.errors.oaiSource.required": "Вы должны указать set id набора выбранной коллекции.",
+  "collection.edit.tabs.source.form.errors.oaiSource.required": "Требуется указать идентификатор набора (set id) выбранной коллекции.",
   
   // "collection.edit.tabs.source.form.harvestType": "Content being harvested",
   "collection.edit.tabs.source.form.harvestType": "Контент собирается",
@@ -2099,7 +2099,7 @@
   "collection.edit.tabs.source.form.forceSynchronization": "Принудительная Синхронизация",
   
   // "collection.edit.tabs.source.form.recordValidationEnabled": "Record validation",
-  "collection.edit.tabs.source.form.recordValidationEnabled": "Проверка записи",
+  "collection.edit.tabs.source.form.recordValidationEnabled": "Валидация",
   
   // "collection.edit.tabs.source.form.itemValidationEnabled": "Item validation",
   "collection.edit.tabs.source.form.itemValidationEnabled": "Проверка объекта",
@@ -2110,21 +2110,21 @@
   "collection.edit.tabs.source.form.ccAddresses": "CC's addresses",
   
   // "collection.edit.tabs.source.head": "Content Source",
-  "collection.edit.tabs.source.head": "Источник Контента",
+  "collection.edit.tabs.source.head": "Источник контента",
   
   // "collection.edit.tabs.source.notifications.discarded.content": "Your changes were discarded. To reinstate your changes click the 'Undo' button",
-  "collection.edit.tabs.source.notifications.discarded.content": "Вносимые изменения были отклонены. Для их восстановления нажмите кнопку 'Отменить'",
+  "collection.edit.tabs.source.notifications.discarded.content": "Вносимые изменения были отклонены. Для их восстановления нажмите кнопку «Отменить»",
   
   // "collection.edit.tabs.source.notifications.discarded.title": "Changed discarded",
   // Тут нужна умная голова, я не понимаю что за одновременное изменение отклонено
   // TODO New key - Add a translation
-  "collection.edit.tabs.source.notifications.discarded.title": "Changed discarded",
+  "collection.edit.tabs.source.notifications.discarded.title": "Изменения отменены",
   
   // "collection.edit.tabs.source.notifications.invalid.content": "Your changes were not saved. Please make sure all fields are valid before you save.",
   "collection.edit.tabs.source.notifications.invalid.content": "Вносимые изменения не были сохранены. Перед сохранением удостоверьтесь в правильности заполнения полей.",
   
   // "collection.edit.tabs.source.notifications.invalid.title": "Metadata invalid",
-  "collection.edit.tabs.source.notifications.invalid.title": "Недействительные метаданные",
+  "collection.edit.tabs.source.notifications.invalid.title": "Неправильные метаданные",
   
   // "collection.edit.tabs.source.notifications.saved.content": "Your changes to this collection's content source were saved.",
   "collection.edit.tabs.source.notifications.saved.content": "Изменения в источник контента коллекции были сохранены.",
@@ -2200,7 +2200,7 @@
   
   // "collection.form.rights": "Copyright text (HTML)",
   // Копирайт разве переводится?
-  "collection.form.rights": "Авторские права (HTML)",
+  "collection.form.rights": "Текст авторских прав (HTML)",
   
   // "collection.form.sharedWorkspace": "Shared workspace",
   // Общее рабочее простанство???
@@ -2216,12 +2216,12 @@
   // "collection.form.entityType": "Entity Type",
   // Юр. Лицо???
   // TODO New key - Add a translation
-  "collection.form.entityType": "Тип юр. лица",
+  "collection.form.entityType": "Тип сущности",
   
   // "collection.form.errors.entityType.required": "Please choose an entity type for this collection",
   // ТИП Юр. Лица???
   // TODO New key - Add a translation
-  "collection.form.errors.entityType.required": "Выберите тип юридического лица для данной коллекции",
+  "collection.form.errors.entityType.required": "Выберите тип сущности для данной коллекции",
   
   // "collection.form.errors.submissionDefinition.required": "Please choose a submission definition for this collection",
   // Слишком сложно!
@@ -2242,126 +2242,115 @@
   
   
   // "collection.page.browse.recent.head": "Recent Submissions",
-  // TODO New key - Add a translation
-  "collection.page.browse.recent.head": "Recent Submissions",
+  "collection.page.browse.recent.head": "Последние материалы",
   
   // "collection.page.browse.recent.empty": "No items to show",
-  // TODO New key - Add a translation
-  "collection.page.browse.recent.empty": "No items to show",
+  "collection.page.browse.recent.empty": "Результаты отсутствуют",
   
   // "collection.page.edit": "Edit this collection",
-  // TODO New key - Add a translation
-  "collection.page.edit": "Edit this collection",
+  "collection.page.edit": "Редактировать данную коллекцию",
   
   // "collection.page.export": "Export items from this collection",
-  // TODO New key - Add a translation
-  "collection.page.export": "Export items from this collection",
+  "collection.page.export": "Экспортировать материалы из данной коллекции",
   
   // "collection.page.handle": "Permanent URI for this collection",
-  // TODO New key - Add a translation
-  "collection.page.handle": "Permanent URI for this collection",
+  "collection.page.handle": "Постоянный унифицированный идентификатор ресурса (URI) для данной коллекции",
   
   // "collection.page.license": "License",
-  // TODO New key - Add a translation
-  "collection.page.license": "License",
+  "collection.page.license": "Лицензия",
   
   // "collection.page.news": "News",
-  // TODO New key - Add a translation
-  "collection.page.news": "News",
+  "collection.page.news": "Новости",
   
   
   
   // "collection.select.confirm": "Confirm selected",
-  // TODO New key - Add a translation
-  "collection.select.confirm": "Confirm selected",
+  "collection.select.confirm": "Подтвердить выбор",
   
   // "collection.select.empty": "No collections to show",
-  // TODO New key - Add a translation
-  "collection.select.empty": "No collections to show",
+  "collection.select.empty": "Коллекция для показа отсутствует",
   
   // "collection.select.table.title": "Title",
-  // TODO New key - Add a translation
-  "collection.select.table.title": "Title",
+  "collection.select.table.title": "Заголовок",
   
   
   // "collection.source.controls.head": "Harvest Controls",
-  // TODO New key - Add a translation
-  "collection.source.controls.head": "Harvest Controls",
+  "collection.source.controls.head": "Контроль сбора",
+  
   // "collection.source.controls.test.submit.error": "Something went wrong with initiating the testing of the settings",
-  // TODO New key - Add a translation
-  "collection.source.controls.test.submit.error": "Something went wrong with initiating the testing of the settings",
+  "collection.source.controls.test.submit.error": "Что-то пошло не так при запуске тестирования настроек",
+  
   // "collection.source.controls.test.failed": "The script to test the settings has failed",
-  // TODO New key - Add a translation
-  "collection.source.controls.test.failed": "The script to test the settings has failed",
+  "collection.source.controls.test.failed": "Скрипт проверки настроек не выполнен",
+  
   // "collection.source.controls.test.completed": "The script to test the settings has successfully finished",
-  // TODO New key - Add a translation
-  "collection.source.controls.test.completed": "The script to test the settings has successfully finished",
+  "collection.source.controls.test.completed": "Скрипт проверки настроек успешно выполнен",
+  
   // "collection.source.controls.test.submit": "Test configuration",
-  // TODO New key - Add a translation
-  "collection.source.controls.test.submit": "Test configuration",
+  "collection.source.controls.test.submit": "Проверить конфигурацию",
+  
   // "collection.source.controls.test.running": "Testing configuration...",
-  // TODO New key - Add a translation
-  "collection.source.controls.test.running": "Testing configuration...",
+  "collection.source.controls.test.running": "Тестирование конфигурации...",
+  
   // "collection.source.controls.import.submit.success": "The import has been successfully initiated",
-  // TODO New key - Add a translation
-  "collection.source.controls.import.submit.success": "The import has been successfully initiated",
+  "collection.source.controls.import.submit.success": "Импорт успешно заупщен",
+  
   // "collection.source.controls.import.submit.error": "Something went wrong with initiating the import",
-  // TODO New key - Add a translation
-  "collection.source.controls.import.submit.error": "Something went wrong with initiating the import",
+  "collection.source.controls.import.submit.error": "Что-то пошло не так при запуске импорта",
+  
   // "collection.source.controls.import.submit": "Import now",
-  // TODO New key - Add a translation
-  "collection.source.controls.import.submit": "Import now",
+  "collection.source.controls.import.submit": "Импортировать сейчас",
+  
   // "collection.source.controls.import.running": "Importing...",
-  // TODO New key - Add a translation
-  "collection.source.controls.import.running": "Importing...",
+  "collection.source.controls.import.running": "Импортирование...",
+  
   // "collection.source.controls.import.failed": "An error occurred during the import",
-  // TODO New key - Add a translation
-  "collection.source.controls.import.failed": "An error occurred during the import",
+  "collection.source.controls.import.failed": "Во время импорта произошла ошибка",
+  
   // "collection.source.controls.import.completed": "The import completed",
-  // TODO New key - Add a translation
-  "collection.source.controls.import.completed": "The import completed",
+  "collection.source.controls.import.completed": "Импорт завершен",
+  
   // "collection.source.controls.reset.submit.success": "The reset and reimport has been successfully initiated",
-  // TODO New key - Add a translation
-  "collection.source.controls.reset.submit.success": "The reset and reimport has been successfully initiated",
+  "collection.source.controls.reset.submit.success": "Сброс и повторный импорт успешно запущены",
+  
   // "collection.source.controls.reset.submit.error": "Something went wrong with initiating the reset and reimport",
-  // TODO New key - Add a translation
-  "collection.source.controls.reset.submit.error": "Something went wrong with initiating the reset and reimport",
+  // TODO New key - Add a "collection.source.controls.reset.submit.error": "Что-то пошло не так при запуске сброса и повторного импорта",
+  
   // "collection.source.controls.reset.failed": "An error occurred during the reset and reimport",
-  // TODO New key - Add a translation
-  "collection.source.controls.reset.failed": "An error occurred during the reset and reimport",
+  "collection.source.controls.reset.failed": "Во время сброса и повторного импорта произошла ошибка",
+  
   // "collection.source.controls.reset.completed": "The reset and reimport completed",
-  // TODO New key - Add a translation
-  "collection.source.controls.reset.completed": "The reset and reimport completed",
+  "collection.source.controls.reset.completed": "Сброс и повторный импорт завершены",
+  
   // "collection.source.controls.reset.submit": "Reset and reimport",
-  // TODO New key - Add a translation
-  "collection.source.controls.reset.submit": "Reset and reimport",
+  "collection.source.controls.reset.submit": "Сброс и повторный импорт",
+  
   // "collection.source.controls.reset.running": "Resetting and reimporting...",
-  // TODO New key - Add a translation
-  "collection.source.controls.reset.running": "Resetting and reimporting...",
+  "collection.source.controls.reset.running": "Сброс и повторное импортирование...",
+  
   // "collection.source.controls.harvest.status": "Harvest status:",
-  // TODO New key - Add a translation
-  "collection.source.controls.harvest.status": "Harvest status:",
+  "collection.source.controls.harvest.status": "Статус сбора:",
+  
   // "collection.source.controls.harvest.start": "Harvest start time:",
-  // TODO New key - Add a translation
-  "collection.source.controls.harvest.start": "Harvest start time:",
+  "collection.source.controls.harvest.start": "Время начала сбора:",
+  
   // "collection.source.controls.harvest.last": "Last time harvested:",
-  // TODO New key - Add a translation
-  "collection.source.controls.harvest.last": "Last time harvested:",
+  "collection.source.controls.harvest.last": "Собрана в последний раз:",
+  
   // "collection.source.controls.harvest.message": "Harvest info:",
-  // TODO New key - Add a translation
-  "collection.source.controls.harvest.message": "Harvest info:",
+  "collection.source.controls.harvest.message": "Информация сбора:",
+  
   // "collection.source.controls.harvest.no-information": "N/A",
-  // TODO New key - Add a translation
-  "collection.source.controls.harvest.no-information": "N/A",
+  "collection.source.controls.harvest.no-information": "Нет сведений",
   
   
   // "collection.source.update.notifications.error.content": "The provided settings have been tested and didn't work.",
   // TODO New key - Add a translation
-  "collection.source.update.notifications.error.content": "The provided settings have been tested and didn't work.",
+  "collection.source.update.notifications.error.content": "Предоставленные настройки были протестированы и не заработали.",
   
   // "collection.source.update.notifications.error.title": "Server Error",
   // TODO New key - Add a translation
-  "collection.source.update.notifications.error.title": "Server Error",
+  "collection.source.update.notifications.error.title": "Ошибка сервера",
   
   
   
