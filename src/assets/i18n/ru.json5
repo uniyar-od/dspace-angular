@@ -2454,102 +2454,82 @@
   "community.edit.logo.notifications.delete.error.title": "Ошибка удаления логотипа",
   
   // "community.edit.logo.upload": "Drop a Community Logo to upload",
-  // TODO New key - Add a translation
   "community.edit.logo.upload": "Загрузите логотип сообщества",
   
   
   
   // "community.edit.notifications.success": "Successfully edited the Community",
-  // TODO New key - Add a translation
-  "community.edit.notifications.success": "Successfully edited the Community",
+  "community.edit.notifications.success": "Сообщество успешно отредактировано",
   
   // "community.edit.notifications.unauthorized": "You do not have privileges to make this change",
-  // TODO New key - Add a translation
-  "community.edit.notifications.unauthorized": "You do not have privileges to make this change",
+  "community.edit.notifications.unauthorized": "Недостаточно прав для подобных изменений",
   
   // "community.edit.notifications.error": "An error occured while editing the Community",
-  // TODO New key - Add a translation
-  "community.edit.notifications.error": "An error occured while editing the Community",
+  "community.edit.notifications.error": "Во время редактирования сообщества произошла ошибка",
   
   // "community.edit.return": "Back",
-  // TODO New key - Add a translation
-  "community.edit.return": "Back",
+  "community.edit.return": "Назад",
   
   
   
   // "community.edit.tabs.curate.head": "Curate",
-  // TODO New key - Add a translation
-  "community.edit.tabs.curate.head": "Curate",
+  "community.edit.tabs.curate.head": "Курировать",
   
   // "community.edit.tabs.curate.title": "Community Edit - Curate",
-  // TODO New key - Add a translation
-  "community.edit.tabs.curate.title": "Community Edit - Curate",
+  "community.edit.tabs.curate.title": "Редактирование сообщества - Курировать",
   
   // "community.edit.tabs.metadata.head": "Edit Metadata",
-  // TODO New key - Add a translation
-  "community.edit.tabs.metadata.head": "Edit Metadata",
+  "community.edit.tabs.metadata.head": "Редактировать метаданные",
   
   // "community.edit.tabs.metadata.title": "Community Edit - Metadata",
-  // TODO New key - Add a translation
-  "community.edit.tabs.metadata.title": "Community Edit - Metadata",
+  "community.edit.tabs.metadata.title": "Редактирование сообщества - Метаданные",
   
   // "community.edit.tabs.roles.head": "Assign Roles",
-  // TODO New key - Add a translation
-  "community.edit.tabs.roles.head": "Assign Roles",
+  "community.edit.tabs.roles.head": "Назначение ролей",
   
   // "community.edit.tabs.roles.title": "Community Edit - Roles",
   // TODO New key - Add a translation
-  "community.edit.tabs.roles.title": "Community Edit - Roles",
+  "community.edit.tabs.roles.title": "Редактирование сообщества - Роли",
   
   // "community.edit.tabs.authorizations.head": "Authorizations",
-  // TODO New key - Add a translation
-  "community.edit.tabs.authorizations.head": "Authorizations",
+  "community.edit.tabs.authorizations.head": "Авторизации",
   
   // "community.edit.tabs.authorizations.title": "Community Edit - Authorizations",
-  // TODO New key - Add a translation
-  "community.edit.tabs.authorizations.title": "Community Edit - Authorizations",
+  "community.edit.tabs.authorizations.title": "Редактирование сообщества - Авторизации",
   
   
   
   // "community.listelement.badge": "Community",
-  // TODO New key - Add a translation
-  "community.listelement.badge": "Community",
+  "community.listelement.badge": "Сообщество",
   
   
   
   // "comcol-role.edit.no-group": "None",
-  // TODO New key - Add a translation
-  "comcol-role.edit.no-group": "None",
+  "comcol-role.edit.no-group": "Ничего",
   
   // "comcol-role.edit.create": "Create",
-  // TODO New key - Add a translation
-  "comcol-role.edit.create": "Create",
+  "comcol-role.edit.create": "Создать",
   
   // "comcol-role.edit.restrict": "Restrict",
-  // TODO New key - Add a translation
-  "comcol-role.edit.restrict": "Restrict",
+  "comcol-role.edit.restrict": "Ограничить",
   
   // "comcol-role.edit.delete": "Delete",
-  // TODO New key - Add a translation
-  "comcol-role.edit.delete": "Delete",
+  "comcol-role.edit.delete": "Удалить",
   
   
   // "comcol-role.edit.community-admin.name": "Administrators",
-  // TODO New key - Add a translation
-  "comcol-role.edit.community-admin.name": "Administrators",
+  "comcol-role.edit.community-admin.name": "Администраторы",
   
   // "comcol-role.edit.collection-admin.name": "Administrators",
-  // TODO New key - Add a translation
-  "comcol-role.edit.collection-admin.name": "Administrators",
+  "comcol-role.edit.collection-admin.name": "Администраторы",
   
   
   // "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
-  // TODO New key - Add a translation
-  "comcol-role.edit.community-admin.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
+  "comcol-role.edit.community-admin.description": "Администраторы сообщества могут создавать подсообщества или коллекции, а также управлять или назначать управляющих для этих подсообществ или коллекций. Кроме того, они решают, кто может отправлять элементы в любые подсообщества, редактировать метаданные элемента (после отправки) и добавлять (сопостовлять) существующие элементы из других коллекций (при условии авторизации).",
   
   // "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
   // TODO New key - Add a translation
-  "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
+  "comcol-role.edit.collection-admin.description": "Администраторы коллекций решают, кто может отправлять элементы в коллекцию, редактировать меданные элементов (после отправки) и добавлять (сопоставлять) существоющие элементы других коллекций в данную коллекцию (при условии авторизации в данной коллекции).",
   
   
   // "comcol-role.edit.submitters.name": "Submitters",
