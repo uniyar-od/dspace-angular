@@ -2528,22 +2528,19 @@
   "comcol-role.edit.community-admin.description": "Администраторы сообщества могут создавать подсообщества или коллекции, а также управлять или назначать управляющих для этих подсообществ или коллекций. Кроме того, они решают, кто может отправлять элементы в любые подсообщества, редактировать метаданные элемента (после отправки) и добавлять (сопостовлять) существующие элементы из других коллекций (при условии авторизации).",
   
   // "comcol-role.edit.collection-admin.description": "Collection administrators decide who can submit items to the collection, edit item metadata (after submission), and add (map) existing items from other collections to this collection (subject to authorization for that collection).",
-  // TODO New key - Add a translation
   "comcol-role.edit.collection-admin.description": "Администраторы коллекций решают, кто может отправлять элементы в коллекцию, редактировать меданные элементов (после отправки) и добавлять (сопоставлять) существоющие элементы других коллекций в данную коллекцию (при условии авторизации в данной коллекции).",
   
   
   // "comcol-role.edit.submitters.name": "Submitters",
-  // TODO New key - Add a translation
-  "comcol-role.edit.submitters.name": "Submitters",
+  "comcol-role.edit.submitters.name": "Отправители",
   
   // "comcol-role.edit.submitters.description": "The E-People and Groups that have permission to submit new items to this collection.",
-  // TODO New key - Add a translation
-  "comcol-role.edit.submitters.description": "The E-People and Groups that have permission to submit new items to this collection.",
+  "comcol-role.edit.submitters.description": "Электронные люди и группы, имеющие доступ к отправке новых элементов в данную коллекцию.",
   
   
   // "comcol-role.edit.item_read.name": "Default item read access",
   // TODO New key - Add a translation
-  "comcol-role.edit.item_read.name": "Default item read access",
+  "comcol-role.edit.item_read.name": "The E-People and Groups that have permission to submit new items to this collection",
   
   // "comcol-role.edit.item_read.description": "E-People and Groups that can read new items submitted to this collection. Changes to this role are not retroactive. Existing items in the system will still be viewable by those who had read access at the time of their addition.",
   // TODO New key - Add a translation
