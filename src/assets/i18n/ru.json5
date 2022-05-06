@@ -2302,11 +2302,9 @@
   
   // "collection.source.update.notifications.error.title": "Server Error",
   // TODO New key - Add a translation
-  "collection.source.update.notifications.error.title": "Ошибка сервера",
+  "collection.source.update.notifications.error.title": "Ошибка сервера",  
+  
 
-  
-  
-  
     // "communityList.breadcrumbs": "Community List",
   "communityList.breadcrumbs": "Список сообщества",
   
@@ -2389,8 +2387,7 @@
   "community.edit.logo.notifications.delete.error.title": "Ошибка удаления логотипа",
   
   // "community.edit.logo.upload": "Drop a Community Logo to upload",
-  "community.edit.logo.upload": "Загрузите логотип сообщества",
-  
+  "community.edit.logo.upload": "Загрузите логотип сообщества",  
   
   
   // "community.edit.notifications.success": "Successfully edited the Community",
@@ -2420,18 +2417,16 @@
   "community.edit.tabs.metadata.title": "Редактирование сообщества - Метаданные",
   
   // "community.edit.tabs.roles.head": "Assign Roles",
-  "community.edit.tabs.roles.head": "Назначение ролей",
+  "community.edit.tabs.roles.head": "Назначить роли",
   
   // "community.edit.tabs.roles.title": "Community Edit - Roles",
-  // TODO New key - Add a translation
   "community.edit.tabs.roles.title": "Редактирование сообщества - Роли",
   
   // "community.edit.tabs.authorizations.head": "Authorizations",
   "community.edit.tabs.authorizations.head": "Авторизации",
   
   // "community.edit.tabs.authorizations.title": "Community Edit - Authorizations",
-  "community.edit.tabs.authorizations.title": "Редактирование сообщества - Авторизации",
-  
+  "community.edit.tabs.authorizations.title": "Редактирование сообщества - Авторизации",  
   
   
   // "community.listelement.badge": "Community",
