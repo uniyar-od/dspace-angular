@@ -2474,329 +2474,249 @@
   
   
   // "comcol-role.edit.item_read.name": "Default item read access",
-  // TODO New key - Add a translation
-  "comcol-role.edit.item_read.name": "Доступ на чтение элемента по умолчанию",
+  "comcol-role.edit.item_read.name": "Доступ к чтению элемента по умолчанию",
   
   // "comcol-role.edit.item_read.description": "E-People and Groups that can read new items submitted to this collection. Changes to this role are not retroactive. Existing items in the system will still be viewable by those who had read access at the time of their addition.",
-  // TODO New key - Add a translation
-  "comcol-role.edit.item_read.description": "Электронные люди и группы, которые могут читать новые элементы, отправленные в эту коллекцию. Изменения этой роли не имеют обратной силы. Существующие элементы в системе по-прежнему будут доступны для просмотра тем, у кого был доступ для чтения на момент их добавления.",
+  "comcol-role.edit.item_read.description": "E-People и группы, имеющие доступ к чтению новых элементов, отправлены в эту коллекцию. Изменения этой роли не имеют обратной силы. Существующие элементы в системе по-прежнему будут доступны для просмотра теми, у кого был доступ к чтению на момент их добавления.",
   
   // "comcol-role.edit.item_read.anonymous-group": "Default read for incoming items is currently set to Anonymous.",
-  // TODO New key - Add a translation
-  "comcol-role.edit.item_read.anonymous-group": "Чтение по умолчанию для входящих элементов в настоящее время установлено как Анонимное.",
+  "comcol-role.edit.item_read.anonymous-group": "Чтение по умолчанию для входящих элементов в настоящее время установлено как анонимное.",
   
   
   // "comcol-role.edit.bitstream_read.name": "Default bitstream read access",
-  // TODO New key - Add a translation
-  "comcol-role.edit.bitstream_read.name": "Доступ на чтение битового потока по умолчанию",
+  "comcol-role.edit.bitstream_read.name": "Доступ к чтению битового потока по умолчанию",
   
   // "comcol-role.edit.bitstream_read.description": "Community administrators can create sub-communities or collections, and manage or assign management for those sub-communities or collections. In addition, they decide who can submit items to any sub-collections, edit item metadata (after submission), and add (map) existing items from other collections (subject to authorization).",
-  // TODO New key - Add a translation
-  "comcol-role.edit.bitstream_read.description": "Администраторы сообщества могут создавать подсообщества или коллекции, а также управлять или назначать управление для этих подсообществ или коллекций. Кроме того, они решают, кто может отправлять элементы в какие-либо подколлекции, редактировать метаданные элементов (после отправки) и добавлять (сопоставить) существующие предметы из других коллекций (при условии авторизации).",
+  "comcol-role.edit.bitstream_read.description": "Администраторы сообщества могут создавать подсообщества или коллекции, а также управлять ими или назначать управление для этих подсообществ или коллекций. Кроме того, они решают, кто может отправлять элементы в какие-либо подколлекции, редактировать метаданные элементов (после отправки) и добавлять (сопоставлять) существующие элементы из других коллекций (при условии авторизации).",
   
   // "comcol-role.edit.bitstream_read.anonymous-group": "Default read for incoming bitstreams is currently set to Anonymous.",
-  // TODO New key - Add a translation
   "comcol-role.edit.bitstream_read.anonymous-group": "Чтение по умолчанию для входящих битовых потоков в настоящее время установлено как анонимное.",
   
   
   // "comcol-role.edit.editor.name": "Editors",
-  // TODO New key - Add a translation
-  "comcol-role.edit.editor.name": "Редактор",
+  "comcol-role.edit.editor.name": "Редакторы",
   
   // "comcol-role.edit.editor.description": "Editors are able to edit the metadata of incoming submissions, and then accept or reject them.",
-  // TODO New key - Add a translation
-  "comcol-role.edit.editor.description": "Редакторы могут редактировать метаданные входящих материалов, а затем принимать или отклонять их.",
+  "comcol-role.edit.editor.description": "Редакторы могут редактировать метаданные входящих материалов, а затем принимать или отклонять входящие материалы.",
   
   
   // "comcol-role.edit.finaleditor.name": "Final editors",
-  // TODO New key - Add a translation
-  "comcol-role.edit.finaleditor.name": "Выходные редакторы",
+  "comcol-role.edit.finaleditor.name": "Итоговые редакторы",
   
   // "comcol-role.edit.finaleditor.description": "Final editors are able to edit the metadata of incoming submissions, but will not be able to reject them.",
-  // TODO New key - Add a translation
-  "comcol-role.edit.finaleditor.description": "Окончательные редакторы могут редактировать метаданные входящих материалов, но не могут их отклонить.",
+  "comcol-role.edit.finaleditor.description": "Итоговые редакторы могут редактировать метаданные входящих материалов, но не могут отклонить входящие материалы.",
   
   
   // "comcol-role.edit.reviewer.name": "Reviewers",
-  // TODO New key - Add a translation
   "comcol-role.edit.reviewer.name": "Рецензенты",
   
   // "comcol-role.edit.reviewer.description": "Reviewers are able to accept or reject incoming submissions. However, they are not able to edit the submission's metadata.",
-  // TODO New key - Add a translation
   "comcol-role.edit.reviewer.description": "Рецензенты могут принимать или отклонять входящие материалы. Однако они не могут редактировать метаданные материалов.",
   
   
   
   // "community.form.abstract": "Short Description",
-  // TODO New key - Add a translation
   "community.form.abstract": "Краткое описание",
   
   // "community.form.description": "Introductory text (HTML)",
-  // TODO New key - Add a translation
   "community.form.description": "Вводный текст (HTML)",
   
   // "community.form.errors.title.required": "Please enter a community name",
-  // TODO New key - Add a translation
-  "community.form.errors.title.required": "Пожалуйста, введите название сообщества",
+  "community.form.errors.title.required": "Введите название сообщества",
   
   // "community.form.rights": "Copyright text (HTML)",
-  // TODO New key - Add a translation
   "community.form.rights": "Авторский текст (HTML)",
   
   // "community.form.tableofcontents": "News (HTML)",
-  // TODO New key - Add a translation
   "community.form.tableofcontents": "Новости (HTML)",
   
   // "community.form.title": "Name",
-  // TODO New key - Add a translation
   "community.form.title": "Имя",
   
   // "community.page.edit": "Edit this community",
-  // TODO New key - Add a translation
   "community.page.edit": "Редактировать это сообщество",
   
   // "community.page.handle": "Permanent URI for this community",
-  // TODO New key - Add a translation
   "community.page.handle": "Постоянный URI для этого сообщества",
   
   // "community.page.license": "License",
-  // TODO New key - Add a translation
   "community.page.license": "Лицензия",
   
   // "community.page.news": "News",
-  // TODO New key - Add a translation
   "community.page.news": "Новости",
   
   // "community.all-lists.head": "Subcommunities and Collections",
-  // TODO New key - Add a translation
   "community.all-lists.head": "Подсообщества и коллекции",
   
   // "community.sub-collection-list.head": "Collections of this Community",
-  // TODO New key - Add a translation
   "community.sub-collection-list.head": "Коллекции этого сообщества",
   
   // "community.sub-community-list.head": "Communities of this Community",
-  // TODO New key - Add a translation
-  "community.sub-community-list.head": "Сообщества этого сообщества",
+  "community.sub-community-list.head": "Подсообщества этого сообщества",
   
   // "context-menu.actions": "Actions",
-  // TODO New key - Add a translation
   "context-menu.actions": "Действия",
   
   // "context-menu.actions.audit-item.btn": "Audit",
-  // TODO New key - Add a translation
   "context-menu.actions.audit-item.btn": "Аудит",
   
   // "context-menu.actions.bulk-import.btn": "Import items into collection",
-  // TODO New key - Add a translation
-  "context-menu.actions.bulk-import.btn": "Импортировать предметы в коллекцию",
+  "context-menu.actions.bulk-import.btn": "Импортировать элементы в коллекцию",
   
   // "context-menu.actions.claim.btn": "Claim this profile",
-  // TODO New key - Add a translation
-  "context-menu.actions.claim.btn": "Заявить права на этот профиль",
+  "context-menu.actions.claim.btn": "Утвердить этот профиль",
   
   // "context-menu.actions.export-item.btn": "Export",
-  // TODO New key - Add a translation
   "context-menu.actions.export-item.btn": "Экспорт",
   
   // "context-menu.actions.label": "Options",
-  // TODO New key - Add a translation
   "context-menu.actions.label": "Опции",
   
   // "context-menu.actions.edit-item.btn.FULL": "Edit all the details",
-  // TODO New key - Add a translation
   "context-menu.actions.edit-item.btn.FULL": "Редактировать все данные",
   
   // "context-menu.actions.edit-item.btn.OWNER": "Edit",
-  // TODO New key - Add a translation
   "context-menu.actions.edit-item.btn.OWNER": "Редактировать",
   
   // "context-menu.actions.edit-item.btn.DIRECTOR": "Edit",
-  // TODO New key - Add a translation
   "context-menu.actions.edit-item.btn.DIRECTOR": "Редактировать",
   
   // "context-menu.actions.edit-item.btn.INVESTIGATOR": "Edit",
-  // TODO New key - Add a translation
   "context-menu.actions.edit-item.btn.INVESTIGATOR": "Редактировать",
   
   // "context-menu.actions.request-correction.btn": "Request a correction",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.btn": "Запросить исправление",
   
   // "context-menu.actions.request-correction.confirm.cancel": "Cancel",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.confirm.cancel": "Отмена",
   
   // "context-menu.actions.request-correction.confirm.submit": "Yes, I'm sure",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.confirm.submit": "Да, я уверен",
   
   // "context-menu.actions.request-correction.error.403": "A request for correction has already been sent, impossible to proceed with the operation.",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.error.403": "Запрос на исправление уже отправлен, невозможно продолжить операцию.",
   
   // "context-menu.actions.request-correction.error.generic": "There was an issue when requesting a correction for the item, please try again later.",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.error.generic": "Возникла проблема при запросе исправления элемента, повторите попытку позже.",
   
   // "context-menu.actions.request-correction.info": "Are you sure you want to proceed with this operation?",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.info": "Вы уверены, что хотите продолжить эту операцию?",
   
   // "context-menu.actions.request-correction.title": "Request correction",
-  // TODO New key - Add a translation
   "context-menu.actions.request-correction.title": "Запросить исправление",
   
   // "context-menu.actions.dso-page-edit.COMMUNITY.btn": "Administer",
-  // TODO New key - Add a translation
   "context-menu.actions.dso-page-edit.COMMUNITY.btn": "Администрировать",
   
   // "context-menu.actions.dso-page-edit.COLLECTION.btn": "Administer",
-  // TODO New key - Add a translation
   "context-menu.actions.dso-page-edit.COLLECTION.btn": "Администрировать",
   
   // "context-menu.actions.dso-page-edit.ITEM.btn": "Administer",
-  // TODO New key - Add a translation
   "context-menu.actions.dso-page-edit.ITEM.btn": "Администрировать",
   
   // "context-menu.actions.edit-item-relationships.btn.fundings": "Manage Fundings",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.fundings": "Управление финансами",
+  "context-menu.actions.edit-item-relationships.btn.fundings": "Управлять финансами",
   
   // "context-menu.actions.edit-item-relationships.btn.researchoutputs": "Manage Research Outputs",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.researchoutputs": "Управление результатами исследований",
+  "context-menu.actions.edit-item-relationships.btn.researchoutputs": "Управлять результатами исследований",
   
   // "context-menu.actions.edit-item-relationships.btn.organizations": "Manage SubOrganizations",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.organizations": "Управление дочерними организациями",
+  "context-menu.actions.edit-item-relationships.btn.organizations": "Управлять дочерними организациями",
   
   // "context-menu.actions.edit-item-relationships.btn.rppublications": "Manage Researchers Publications",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.rppublications": "Управление публикациями исследователей",
+  "context-menu.actions.edit-item-relationships.btn.rppublications": "Управлять публикациями исследователей",
   
   // "context-menu.actions.edit-item-relationships.btn.publications": "Manage Publications",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.publications": "Управление публикациями",
+  "context-menu.actions.edit-item-relationships.btn.publications": "Управлять публикациями",
   
   // "context-menu.actions.edit-item-relationships.btn.rpprojects": "Manage Researchers Projects",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.rpprojects": "Управление исследовательскими проектами",
+  "context-menu.actions.edit-item-relationships.btn.rpprojects": "Управлять исследовательскими проектами",
   
   // "context-menu.actions.edit-item-relationships.btn.people": "Manage People",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.people": "Управление людьми",
+  "context-menu.actions.edit-item-relationships.btn.people": "Управлять людьми",
   
   // "context-menu.actions.edit-item-relationships.btn.projects": "Manage Projects",
-  // TODO New key - Add a translation
-  "context-menu.actions.edit-item-relationships.btn.projects": "Управление проектами",
+  "context-menu.actions.edit-item-relationships.btn.projects": "Управлять проектами",
   
   // "context-menu.actions.statistics.btn": "Statistics",
-  // TODO New key - Add a translation
   "context-menu.actions.statistics.btn": "Статистика",
   
   // "context-menu.actions.subscription.title": "Subscription",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.title": "Подписка",
   
   // "context-menu.actions.subscription.type": "Subscription Type",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.type": "Тип подписки",
   
   // "context-menu.actions.subscription.daily": "Daily",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.daily": "Повседневная",
   
   // "context-menu.actions.subscription.weekly": "Weekly",
-  // TODO New key - Add a translation
-  "context-menu.actions.subscription.weekly": "Еженедельно",
+  "context-menu.actions.subscription.weekly": "Еженедельная",
   
   // "context-menu.actions.subscription.monthly": "Monthly",
-  // TODO New key - Add a translation
-  "context-menu.actions.subscription.monthly": "Ежемесячно",
+  "context-menu.actions.subscription.monthly": "Ежемесячная",
   
   // "context-menu.actions.subscription.content": "Content",
-  // TODO New key - Add a translation
-  "context-menu.actions.subscription.content": "Содержание",
+  "context-menu.actions.subscription.content": "Контент",
   
   // "context-menu.actions.subscription.statistics": "Statistics",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.statistics": "Статистика",
   
   // "context-menu.actions.subscription.content+statistics": "Content & Statistics",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.content+statistics": "Контент и статистика",
   
   // "context-menu.actions.subscription.confirm.submit": "Save",
-  // TODO New key - Add a translation
-  "context-menu.actions.subscription.confirm.submit": "Сохранять",
+  "context-menu.actions.subscription.confirm.submit": "Сохранить",
   
   // "context-menu.actions.subscription.delete": "Delete",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.delete": "Удалить",
   
   // "context-menu.actions.subscription.frequency.required": "Frequency is required.",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.frequency.required": "Требуется частота.",
   
   // "context-menu.actions.subscribe.btn": "Subscribe",
-  // TODO New key - Add a translation
-  "context-menu.actions.subscribe.btn": "Подписывайся",
+  "context-menu.actions.subscribe.btn": "Подписаться",
   
   // "context-menu.actions.edit-subscriptions.btn": "Edit subscriptions",
-  // TODO New key - Add a translation
   "context-menu.actions.edit-subscriptions.btn": "Редактировать подписки",
   
   // "context-menu.actions.subscription.notification.here-text": "Subscription Summary",
-  // TODO New key - Add a translation
-  "context-menu.actions.subscription.notification.here-text": "Сводка подписки",
+  "context-menu.actions.subscription.notification.here-text": "Сводка по подписке",
   
   // "context-menu.actions.subscription.notification.content": "Subscription Updated Successfully, click {{here}} to see subscrition summary.",
-  // TODO New key - Add a translation
   "context-menu.actions.subscription.notification.content": "Подписка успешно обновлена, нажмите{{here}} чтобы просмотреть сводку подписки.",
   
   // "RELATION.Person.researchoutputs.search.results.head" : "Research Outputs",
-  // TODO New key - Add a translation
   "RELATION.Person.researchoutputs.search.results.head" : "Результаты исследований",
   
   // "RELATION.Person.projects.search.results.head" : "Projects",
-  // TODO New key - Add a translation
   "RELATION.Person.projects.search.results.head" : "Проекты",
   
   // "RELATION.OrgUnit.organizations.search.results.head" : "Organizations",
-  // TODO New key - Add a translation
   "RELATION.OrgUnit.organizations.search.results.head" : "Организации",
   
   // "RELATION.OrgUnit.rppublications.search.results.head" : "Researchers Publications",
-  // TODO New key - Add a translation
   "RELATION.OrgUnit.rppublications.search.results.head" : "Публикации исследователей",
   
   // "RELATION.OrgUnit.publications.search.results.head" : "Publications",
-  // TODO New key - Add a translation
   "RELATION.OrgUnit.publications.search.results.head" : "Публикации",
   
   // "RELATION.OrgUnit.rpprojects.search.results.head" : "Researchers Projects",
-  // TODO New key - Add a translation
   "RELATION.OrgUnit.rpprojects.search.results.head" : "Исследовательские проекты",
   
   // "RELATION.OrgUnit.projects.search.results.head" : "Projects",
-  // TODO New key - Add a translation
   "RELATION.OrgUnit.projects.search.results.head" : "Проекты",
   
   // "RELATION.Project.researchoutputs.search.results.head" : "Publications",
-  // TODO New key - Add a translation
   "RELATION.Project.researchoutputs.search.results.head" : "Публикации",
   
   // "RELATION.OrgUnit.people.search.results.head" : "People",
-  // TODO New key - Add a translation
   "RELATION.OrgUnit.people.search.results.head" : "Люди",
   
   // "datafile.listelement.badge": "Data File",
-  // TODO New key - Add a translation
   "datafile.listelement.badge": "Файл данных",
   
   // "datapackage.listelement.badge": "Data Package",
-  // TODO New key - Add a translation
   "datapackage.listelement.badge": "Пакет данных",
   
   // "cookies.consent.accept-all": "Accept all",
