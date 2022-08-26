@@ -4150,7 +4150,7 @@
   
   // "item.bitstreams.upload.item": "Item: ",
   // TODO New key - Add a translation
-  "item.bitstreams.upload.item": "Вещь: ",
+  "item.bitstreams.upload.item": "Элемент: ",
   
   // "item.bitstreams.upload.notifications.bundle.created.content": "Successfully created new bundle.",
   // TODO New key - Add a translation
@@ -4940,7 +4940,7 @@
   
   // "item.listelement.badge": "Item",
   // TODO New key - Add a translation
-  "item.listelement.badge": "Вещь",
+  "item.listelement.badge": "Элемент",
   
   // "item.page.description": "Description",
   // TODO New key - Add a translation
@@ -4960,7 +4960,7 @@
   
   // "item.page.titleprefix": "Item: ",
   // TODO New key - Add a translation
-  "item.page.titleprefix": "Вещь: ",
+  "item.page.titleprefix": "Элемент: ",
   
   // "item.page.volume-title": "Volume Title",
   // TODO New key - Add a translation
@@ -5476,7 +5476,7 @@
   
   // "item.version.history.table.item": "Item",
   // TODO New key - Add a translation
-  "item.version.history.table.item": "Вещь",
+  "item.version.history.table.item": "Элемент",
   
   // "item.version.history.table.editor": "Editor",
   // TODO New key - Add a translation
@@ -6095,7 +6095,7 @@
   
   // "menu.section.edit_item": "Item",
   // TODO New key - Add a translation
-  "menu.section.edit_item": "Вещь",
+  "menu.section.edit_item": "Элемент",
   
   
   
@@ -6113,7 +6113,7 @@
   
   // "menu.section.export_item": "Item",
   // TODO New key - Add a translation
-  "menu.section.export_item": "Вещь",
+  "menu.section.export_item": "Элемент",
   
   // "menu.section.export_metadata": "Metadata",
   // TODO New key - Add a translation
@@ -6229,7 +6229,7 @@
   
   // "menu.section.new_item": "Item",
   // TODO New key - Add a translation
-  "menu.section.new_item": "Вещь",
+  "menu.section.new_item": "Элемент",
   
   // "menu.section.new_item_version": "Item Version",
   // TODO New key - Add a translation
@@ -6827,7 +6827,7 @@
   
   // "none.listelement.badge": "Item",
   // TODO New key - Add a translation
-  "none.listelement.badge": "Вещь",
+  "none.listelement.badge": "Элемент",
   
   // "openaire.broker.title": "OpenAIRE Broker",
   // TODO New key - Add a translation
