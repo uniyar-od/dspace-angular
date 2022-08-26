@@ -9892,7 +9892,7 @@
   
   // "submission.import-external.source.vufind": "VuFind",
   // TODO New key - Add a translation
-  "submission.import-external.source.vufind": "ВуНайти",
+  "submission.import-external.source.vufind": "VuFind",
   
   // "submission.import-external.source.wos": "Web Of Science",
   // TODO New key - Add a translation
