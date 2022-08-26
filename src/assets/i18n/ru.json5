@@ -3024,7 +3024,7 @@
   
   // "dso-selector.no-results": "No {{ type }} found",
   // TODO New key - Add a translation
-  "dso-selector.no-results": "Нет{{ type }} найденный",
+  "dso-selector.no-results": "Невозможно найти {{ type }}",
   
   // "dso-selector.placeholder": "Search for a {{ type }}",
   // TODO New key - Add a translation
