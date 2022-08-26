@@ -439,7 +439,7 @@
   
   // "admin.registries.metadata.schemas.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.registries.metadata.schemas.table.id": "Я БЫ",
+  "admin.registries.metadata.schemas.table.id": "ID
   
   // "admin.registries.metadata.schemas.table.name": "Name",
   // TODO New key - Add a translation
@@ -615,7 +615,7 @@
   
   // "admin.access-control.epeople.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.table.id": "Я БЫ",
+  "admin.access-control.epeople.table.id": "ID,
   
   // "admin.access-control.epeople.table.name": "Name",
   // TODO New key - Add a translation
@@ -727,7 +727,7 @@
   
   // "admin.access-control.epeople.form.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.form.table.id": "Я БЫ",
+  "admin.access-control.epeople.form.table.id": "ID,
   
   // "admin.access-control.epeople.form.table.name": "Name",
   // TODO New key - Add a translation
@@ -832,7 +832,7 @@
   
   // "admin.access-control.groups.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.groups.table.id": "Я БЫ",
+  "admin.access-control.groups.table.id": "ID,
   
   // "admin.access-control.groups.table.name": "Name",
   // TODO New key - Add a translation
@@ -1038,7 +1038,7 @@
   
   // "admin.access-control.groups.form.members-list.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.groups.form.members-list.table.id": "Я БЫ",
+  "admin.access-control.groups.form.members-list.table.id": "ID
   
   // "admin.access-control.groups.form.members-list.table.name": "Name",
   // TODO New key - Add a translation
@@ -1122,7 +1122,7 @@
   
   // "admin.access-control.groups.form.subgroups-list.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.groups.form.subgroups-list.table.id": "Я БЫ",
+  "admin.access-control.groups.form.subgroups-list.table.id": "ID
   
   // "admin.access-control.groups.form.subgroups-list.table.name": "Name",
   // TODO New key - Add a translation
@@ -1393,7 +1393,7 @@
   
   // "bitstream.edit.form.fileName.hint": "Change the filename for the bitstream. Note that this will change the display bitstream URL, but old links will still resolve as long as the sequence ID does not change.",
   // TODO New key - Add a translation
-  "bitstream.edit.form.fileName.hint": "Измените имя файла для битового потока. Обратите внимание, что это изменит отображаемый URL-адрес битового потока, но старые ссылки по-прежнему будут разрешаться, пока идентификатор последовательности не изменится.",
+  "bitstream.edit.form.fileName.hint": "Измените имя файла для битового потока. Обратите внимание, что это изменит отображаемый URL-адрес битового потока, но старые ссылки по-прежнему будут разрешаться, пока ID оследовательности не изменится.",
   
   // "bitstream.edit.form.fileName.label": "Filename",
   // TODO New key - Add a translation
@@ -4843,7 +4843,7 @@
   
   // "item.edit.tabs.status.labels.id": "Item Internal ID",
   // TODO New key - Add a translation
-  "item.edit.tabs.status.labels.id": "Внутренний идентификатор предмета",
+  "item.edit.tabs.status.labels.id": "Внутренний ID элемента",
   
   // "item.edit.tabs.status.labels.itemPage": "Item Page",
   // TODO New key - Add a translation
@@ -5190,7 +5190,7 @@
   
   // "item.preview.dc.identifier.arxiv": "arXiv ID",
   // TODO New key - Add a translation
-  "item.preview.dc.identifier.arxiv": "Идентификатор arXiv",
+  "item.preview.dc.identifier.arxiv": "arXiv ID",
   
   // "item.preview.dc.identifier.patentno": "Patent Number",
   // TODO New key - Add a translation
@@ -5410,7 +5410,7 @@
   
   // "item.preview.oaire.awardNumber": "Funding ID:",
   // TODO New key - Add a translation
-  "item.preview.oaire.awardNumber": "Идентификатор финансирования:",
+  "item.preview.oaire.awardNumber": "ID финансирования:",
   
   // "item.preview.dc.coverage.spatial": "Jurisdiction:",
   // TODO New key - Add a translation
@@ -6923,7 +6923,7 @@
   
   // "openaire.broker.event.table.pidtype": "PID Type:",
   // TODO New key - Add a translation
-  "openaire.broker.event.table.pidtype": "Тип ПИД:",
+  "openaire.broker.event.table.pidtype": "Тип PID:",
   
   // "openaire.broker.event.table.pidvalue": "PID Value:",
   // TODO New key - Add a translation
@@ -7220,7 +7220,7 @@
   
   // "orgunit.page.id": "ID",
   // TODO New key - Add a translation
-  "orgunit.page.id": "Я БЫ",
+  "orgunit.page.id": "ID",
   
   // "orgunit.page.titleprefix": "Organizational Unit: ",
   // TODO New key - Add a translation
@@ -7292,7 +7292,7 @@
   
   // "person.page.orcid.create": "Create an ORCID ID",
   // TODO New key - Add a translation
-  "person.page.orcid.create": "Создать идентификатор ORCID",
+  "person.page.orcid.create": "Создать ORCID ID",
   
   // "person.page.orcid.granted-authorizations": "Granted authorizations",
   // TODO New key - Add a translation
@@ -7631,9 +7631,9 @@
   // TODO New key - Add a translation
   "person.page.orcid.synchronization-mode.manual": "Руководство по эксплуатации",
   
-  // "person.page.orcid.scope.authenticate": "Get your ORCID iD",
+  // "person.page.orcid.scope.authenticate": "Get your ORCID ID",
   // TODO New key - Add a translation
-  "person.page.orcid.scope.authenticate": "Получите свой ORCID iD",
+  "person.page.orcid.scope.authenticate": "Получите свой ORCID ID",
   
   // "person.page.orcid.scope.read-limited": "Read your information with visibility set to Trusted Parties",
   // TODO New key - Add a translation
@@ -7833,7 +7833,7 @@
   
   // "process.overview.table.id" : "Process ID",
   // TODO New key - Add a translation
-  "process.overview.table.id" : "Идентификатор процесса",
+  "process.overview.table.id" : "ID процесса",
   
   // "process.overview.table.name" : "Name",
   // TODO New key - Add a translation
@@ -7870,11 +7870,11 @@
   
   // "audit.overview.table.id" : "Audit ID",
   // TODO New key - Add a translation
-  "audit.overview.table.id" : "Идентификатор аудита",
+  "audit.overview.table.id" : "ID аудита",
   
   // "audit.overview.table.objectUUID" : "Object ID",
   // TODO New key - Add a translation
-  "audit.overview.table.objectUUID" : "Идентификатор объекта",
+  "audit.overview.table.objectUUID" : "ID объекта",
   
   // "audit.overview.table.objectType" : "Object Type",
   // TODO New key - Add a translation
@@ -7882,7 +7882,7 @@
   
   // "audit.overview.table.subjectUUID" : "Subject ID",
   // TODO New key - Add a translation
-  "audit.overview.table.subjectUUID" : "Идентификатор субъекта",
+  "audit.overview.table.subjectUUID" : "ID субъекта",
   
   // "audit.overview.table.subjectType" : "Subject Type",
   // TODO New key - Add a translation
@@ -7919,7 +7919,7 @@
   
   // "audit.detail.subjectUUID" : "Subject ID",
   // TODO New key - Add a translation
-  "audit.detail.subjectUUID" : "Идентификатор субъекта",
+  "audit.detail.subjectUUID" : "ID субъекта",
   
   // "audit.detail.subjectType" : "Subject Type",
   // TODO New key - Add a translation
@@ -8099,7 +8099,7 @@
   
   // "project.page.id": "ID",
   // TODO New key - Add a translation
-  "project.page.id": "Я БЫ",
+  "project.page.id": "ID",
   
   // "project.page.keyword": "Keywords",
   // TODO New key - Add a translation
@@ -8605,7 +8605,7 @@
   
   // "resource-policies.form.eperson-group-list.table.headers.id": "ID",
   // TODO New key - Add a translation
-  "resource-policies.form.eperson-group-list.table.headers.id": "Я БЫ",
+  "resource-policies.form.eperson-group-list.table.headers.id": "ID",
   
   // "resource-policies.form.eperson-group-list.table.headers.name": "Name",
   // TODO New key - Add a translation
@@ -8669,7 +8669,7 @@
   
   // "resource-policies.table.headers.id": "ID",
   // TODO New key - Add a translation
-  "resource-policies.table.headers.id": "Я БЫ",
+  "resource-policies.table.headers.id": "ID",
   
   // "resource-policies.table.headers.name": "Name",
   // TODO New key - Add a translation
