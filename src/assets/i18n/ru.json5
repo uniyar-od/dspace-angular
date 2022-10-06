@@ -439,7 +439,7 @@
   
   // "admin.registries.metadata.schemas.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.registries.metadata.schemas.table.id": "ID
+  "admin.registries.metadata.schemas.table.id": "ID",
   
   // "admin.registries.metadata.schemas.table.name": "Name",
   // TODO New key - Add a translation
@@ -615,7 +615,7 @@
   
   // "admin.access-control.epeople.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.table.id": "ID,
+  "admin.access-control.epeople.table.id": "ID",
   
   // "admin.access-control.epeople.table.name": "Name",
   // TODO New key - Add a translation
@@ -727,7 +727,7 @@
   
   // "admin.access-control.epeople.form.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.epeople.form.table.id": "ID,
+  "admin.access-control.epeople.form.table.id": "ID",
   
   // "admin.access-control.epeople.form.table.name": "Name",
   // TODO New key - Add a translation
@@ -832,7 +832,7 @@
   
   // "admin.access-control.groups.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.groups.table.id": "ID,
+  "admin.access-control.groups.table.id": "ID",
   
   // "admin.access-control.groups.table.name": "Name",
   // TODO New key - Add a translation
@@ -1038,7 +1038,7 @@
   
   // "admin.access-control.groups.form.members-list.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.groups.form.members-list.table.id": "ID
+  "admin.access-control.groups.form.members-list.table.id": "ID",
   
   // "admin.access-control.groups.form.members-list.table.name": "Name",
   // TODO New key - Add a translation
@@ -1122,7 +1122,7 @@
   
   // "admin.access-control.groups.form.subgroups-list.table.id": "ID",
   // TODO New key - Add a translation
-  "admin.access-control.groups.form.subgroups-list.table.id": "ID
+  "admin.access-control.groups.form.subgroups-list.table.id": "ID",
   
   // "admin.access-control.groups.form.subgroups-list.table.name": "Name",
   // TODO New key - Add a translation
