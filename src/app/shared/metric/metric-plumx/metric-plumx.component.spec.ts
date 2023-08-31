@@ -5,6 +5,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateLoaderMock } from '../../mocks/translate-loader.mock';
 import { By } from '@angular/platform-browser';
 import { ListMetricPropsPipe } from '../pipes/list-metric-props/list-metric-props.pipe';
+import { NativeWindowRef, NativeWindowService } from '../../../core/services/window.service';
 
 describe('MetricPlumxComponent', () => {
   let component: MetricPlumxComponent;
@@ -19,7 +20,7 @@ describe('MetricPlumxComponent', () => {
     metricCount: 333,
     metricType: 'plumX',
     rank: null,
-    remark: '{"type":"Publication","src":"//cdn.plu.mx/widget-popup.js","href":"https://plu.mx/plum/a/?doi=10.1056/NEJMe2025111"}',
+    remark: '{"type":"Publication","src":"//cdn.plu.mx/widget-popup.js","href":"https://plu.mx/plum/a/?doi=10.1056/NEJMe2025111", "list-data-publication-badge-enabled":"true","data-publication-badge-enabled":"true"}',
     startDate: null,
     type: null,
     _links: null
@@ -34,7 +35,8 @@ describe('MetricPlumxComponent', () => {
         }
       })],
       providers: [
-        {provide: Injector, useValue: Injector}
+        { provide: Injector, useValue: Injector },
+        { provide: NativeWindowService, useValue: new NativeWindowRef() },
       ],
     })
       .compileComponents();

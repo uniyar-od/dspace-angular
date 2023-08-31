@@ -1,8 +1,11 @@
-import { EntityTypeEnum } from './../../../../cris-layout/enums/entity-type.enum';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+
 import { StatisticsType } from '../../statistics-type.model';
 import { renderChartFor } from '../../cris-statistics-element-decorator';
 import { StatisticsChartDataComponent } from '../statistics-chart-data/statistics-chart-data.component';
+import { REPORT_DATA } from '../../../../core/statistics/data-report.service';
+import { UsageReport } from '../../../../core/statistics/models/usage-report.model';
+import { EntityTypeEnum } from '../../../../cris-layout/enums/entity-type.enum';
 
 @Component({
   selector: 'ds-statistics-table',
@@ -22,7 +25,7 @@ export class StatisticsTableComponent extends StatisticsChartDataComponent imple
   /**
    * The table headers
    */
-  headers: string[];
+  headers: string[] = [];
 
   /**
    * Array to store entity types that need to be converted to link,
@@ -36,6 +39,14 @@ export class StatisticsTableComponent extends StatisticsChartDataComponent imple
     EntityTypeEnum.Community,
   ];
 
+  constructor(
+    @Inject(REPORT_DATA) public report: UsageReport,
+    @Inject('categoryType') public categoryType: string,
+    @Inject(PLATFORM_ID) protected platformId: Object
+  ) {
+    super(report, categoryType, platformId);
+  }
+
   /**
    * Check if report has information and if data is present to show in the view
    * Insert table headers
@@ -43,10 +54,12 @@ export class StatisticsTableComponent extends StatisticsChartDataComponent imple
   ngOnInit() {
     this.hasData = !!this.report && this.report.points.length > 0;
     if (this.hasData) {
-      this.headers = [
-        this.report.points[0].type,
-        Object.keys(this.report.points[0].values)[0],
-      ];
+      const point = this.report.points[0];
+      this.headers.push(point.type);
+      const pointValues = point.values;
+      for (const valueKey of Object.keys(pointValues)) {
+        this.headers.push(valueKey);
+      }
     }
   }
 }

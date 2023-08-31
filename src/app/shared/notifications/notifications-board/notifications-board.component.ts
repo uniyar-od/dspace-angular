@@ -10,7 +10,7 @@ import {
 
 import { select, Store } from '@ngrx/store';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { difference } from 'lodash';
+import difference from 'lodash/difference';
 
 import { NotificationsService } from '../notifications.service';
 import { AppState } from '../../../app.reducer';
@@ -64,7 +64,7 @@ export class NotificationsBoardComponent implements OnInit, OnDestroy {
         } else if (state.length > this.notifications.length) {
           // Add
           const newElem = difference(state, [...this.notifications,...this.processNotifications]);
-          newElem.forEach((notification) => {
+          newElem.forEach((notification: IProcessNotification) => {
 
             if ('processId' in notification) {
               this.addProccess(notification);

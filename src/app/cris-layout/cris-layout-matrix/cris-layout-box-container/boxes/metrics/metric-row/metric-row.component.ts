@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { MetricRow } from '../cris-layout-metrics-box.component';
+
+import { BehaviorSubject, Observable, of } from 'rxjs';
+
+import { CrisLayoutMetricRow } from '../../../../../../core/layout/models/tab.model';
 
 /**
  * This component renders the rows of metadata boxes
  */
 @Component({
-  // tslint:disable-next-line: component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[ds-metric-row]',
   templateUrl: './metric-row.component.html',
   styleUrls: ['./metric-row.component.scss'],
@@ -14,5 +17,21 @@ export class MetricRowComponent {
   /**
    * Current row configuration
    */
-  @Input() metricRow: MetricRow;
+  @Input() metricRow: CrisLayoutMetricRow;
+
+  private isVisible$: BehaviorSubject<Map<string, boolean>> = new BehaviorSubject(new Map());
+
+  toggleVisibility(metricId, event) {
+    const newMap: Map<string, boolean> = this.isVisible$.value;
+    newMap.set(metricId, event);
+    this.isVisible$.next(newMap);
+  }
+
+  isHidden(metricId): Observable<boolean> {
+    if (this.isVisible$.value.has(metricId)) {
+      return of(this.isVisible$.value.get(metricId));
+    } else {
+      return of(false);
+    }
+  }
 }
