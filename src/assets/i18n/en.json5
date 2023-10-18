@@ -2070,6 +2070,8 @@
 
   "explore.counters-section.project_funding" : "Projects",
 
+  "explore.counters-section.demarchartefact" : "Artefacts",
+
   "explore.facet-section.title" : "Discover",
 
   "explore.index.all" : "All",
@@ -4592,6 +4594,8 @@
   "patent.listelement.badge": "Patent",
 
   "product.listelement.badge": "Product",
+
+  "demarchartefact.listelement.badge": "Artefact",
 
 
 
