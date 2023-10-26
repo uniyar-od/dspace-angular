@@ -1,0 +1,23 @@
+<div *ngIf="(initialized | async) && videoLinks?.length >= 1">
+    <video #video
+      crossorigin="anonymous"
+      [src]="videoLinks[currentIndex]"
+      controls
+    ></video>
+    <div class="buttons" *ngIf="videoLinks?.length > 1">
+      <button
+        class="btn btn-primary previous"
+        [disabled]="currentIndex === 0"
+        (click)="prevMedia()"
+      >
+        {{ "media-viewer.previous" | translate }}
+      </button>
+      <button
+        class="btn btn-primary next"
+        [disabled]="currentIndex === videoLinks?.length - 1"
+        (click)="nextMedia()"
+      >
+        {{ "media-viewer.next" | translate }}
+      </button>
+    </div>
+</div>

@@ -61,6 +61,9 @@ import {
   ThumbnailComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/thumbnail/thumbnail.component';
 import {
+  VideoComponent
+} from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/video/video.component';
+import {
   AttachmentComponent
 } from './cris-layout-matrix/cris-layout-box-container/boxes/metadata/rendering-types/attachment/attachment.component';
 import {
@@ -128,6 +131,7 @@ const ENTRY_COMPONENTS = [
   IdentifierComponent,
   CrisrefComponent,
   ThumbnailComponent,
+  VideoComponent,
   AttachmentComponent,
   CrisLayoutMetricsBoxComponent,
   TableComponent,
