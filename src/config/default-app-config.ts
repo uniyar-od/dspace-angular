@@ -12,7 +12,7 @@ import { MediaViewerConfig } from './media-viewer-config.interface';
 import { INotificationBoardOptions } from './notifications-config.interfaces';
 import { ServerConfig } from './server-config.interface';
 import { SubmissionConfig } from './submission-config.interface';
-import { ThemeConfig } from './theme.model';
+import { ThemeConfig } from './theme.config';
 import { UIServerConfig } from './ui-server-config.interface';
 import { BundleConfig } from './bundle-config.interface';
 import { ActuatorsConfig } from './actuators.config';
@@ -21,6 +21,7 @@ import { CommunityListConfig } from './community-list-config.interface';
 import { HomeConfig } from './homepage-config.interface';
 import { MarkdownConfig } from './markdown-config.interface';
 import { FilterVocabularyConfig } from './filter-vocabulary-config';
+import { DiscoverySortConfig } from './discovery-sort.config';
 import { AddToAnyPluginConfig } from './add-to-any-plugin-config';
 import { CmsMetadata } from './cms-metadata';
 import { CrisLayoutConfig, LayoutConfig, SuggestionConfig } from './layout-config.interfaces';
@@ -89,6 +90,8 @@ export class DefaultAppConfig implements AppConfig {
     // In-memory cache of server-side rendered content
     serverSide: {
       debug: false,
+      // Link header is used for signposting functionality
+      headers: ['Link'],
       // Cache specific to known bots.  Allows you to serve cached contents to bots only.
       // Defaults to caching 1,000 pages. Each page expires after 1 day
       botCache: {
@@ -277,13 +280,16 @@ export class DefaultAppConfig implements AppConfig {
     { code: 'pl', label: 'Polski', active: true },
     { code: 'pt-PT', label: 'Português', active: true },
     { code: 'pt-BR', label: 'Português do Brasil', active: true },
+    { code: 'sr-lat', label: 'Srpski (lat)', active: true},
     { code: 'fi', label: 'Suomi', active: true },
     { code: 'sv', label: 'Svenska', active: true },
     { code: 'tr', label: 'Türkçe', active: true },
+    { code: 'vi', label: 'Tiếng Việt', active: true },
     { code: 'kk', label: 'Қазақ', active: true },
     { code: 'bn', label: 'বাংলা', active: true },
     { code: 'hi', label: 'हिंदी', active: true},
     { code: 'el', label: 'Ελληνικά', active: true },
+    { code: 'sr-cyr', label: 'Српски', active: true},
     { code: 'uk', label: 'Yкраї́нська', active: true}
   ];
 
@@ -496,27 +502,33 @@ export class DefaultAppConfig implements AppConfig {
     }
     ];
 
+  // Configuration that determines the metadata sorting of community and collection edition and creation when there are not a search query.
+  comcolSelectionSort: DiscoverySortConfig = {
+    sortField:'dc.title',
+    sortDirection:'ASC',
+  };
+
   crisLayout: CrisLayoutConfig = {
     urn: [
       {
         name: 'doi',
-        baseUrl: 'https://doi.org/'
+        baseUrl: 'https://doi.org/',
       },
       {
         name: 'hdl',
-        baseUrl: 'https://hdl.handle.net/'
+        baseUrl: 'https://hdl.handle.net/',
       },
       {
         name: 'scopus',
-        baseUrl: 'https://www.scopus.com/authid/detail.uri?authorId='
+        baseUrl: 'https://www.scopus.com/authid/detail.uri?authorId=',
       },
       {
         name: 'researcherid',
-        baseUrl: 'http://www.researcherid.com/rid/'
+        baseUrl: 'http://www.researcherid.com/rid/',
       },
       {
         name: 'mailto',
-        baseUrl: 'mailto:'
+        baseUrl: 'mailto:',
       }
     ],
     crisRef: [
@@ -525,7 +537,7 @@ export class DefaultAppConfig implements AppConfig {
         entityStyle: {
           default: {
             icon: 'fa fa-info',
-            style: 'text-info'
+            style: 'text-info',
           }
         }
       },
@@ -534,7 +546,7 @@ export class DefaultAppConfig implements AppConfig {
         entityStyle: {
           default: {
             icon: 'fa fa-user',
-            style: 'text-info'
+            style: 'text-info',
           }
         }
       },
@@ -543,7 +555,7 @@ export class DefaultAppConfig implements AppConfig {
         entityStyle: {
           default: {
             icon: 'fa fa-university',
-            style: 'text-info'
+            style: 'text-info',
           }
         }
       },
@@ -552,7 +564,7 @@ export class DefaultAppConfig implements AppConfig {
         entityStyle: {
           default: {
             icon: 'fas fa-project-diagram',
-            style: 'text-info'
+            style: 'text-info',
           }
         }
       }
@@ -562,18 +574,18 @@ export class DefaultAppConfig implements AppConfig {
     },
     itemPage: {
       OrgUnit: {
-        orientation: 'vertical'
+        orientation: 'vertical',
       },
       Project: {
-        orientation: 'vertical'
+        orientation: 'vertical',
       },
       default: {
-        orientation: 'horizontal'
+        orientation: 'horizontal',
       },
     },
     metadataBox: {
       defaultMetadataLabelColStyle: 'col-3',
-      defaultMetadataValueColStyle: 'col-9'
+      defaultMetadataValueColStyle: 'col-9',
     },
     collectionsBox: {
       defaultCollectionsLabelColStyle: 'col-3 font-weight-bold',
@@ -586,6 +598,9 @@ export class DefaultAppConfig implements AppConfig {
     navbar: {
       // If true, show the "Community and Collections" link in the navbar; otherwise, show it in the admin sidebar
       showCommunityCollection: true,
+    },
+    breadcrumbs: {
+      charLimit: 10,
     }
   };
 
@@ -594,17 +609,17 @@ export class DefaultAppConfig implements AppConfig {
       {
         value: 0,
         icon: 'fa fa-globe',
-        color: 'green'
+        color: 'green',
       },
       {
         value: 1,
         icon: 'fa fa-key',
-        color: 'orange'
+        color: 'orange',
       },
       {
         value: 2,
         icon: 'fa fa-lock',
-        color: 'red'
+        color: 'red',
       }
     ]
   };
@@ -628,12 +643,10 @@ export class DefaultAppConfig implements AppConfig {
   addToAnyPlugin: AddToAnyPluginConfig = {
     scriptUrl: 'https://static.addtoany.com/menu/page.js',
     socialNetworksEnabled: false,
-    buttons: ['facebook', 'twitter', 'linkedin', 'email', 'copy_link'],
+    buttons: ['facebook', 'x', 'linkedin', 'email', 'copy_link'],
     showPlusButton: true,
     showCounters: true,
     title: 'DSpace CRIS 7 demo',
-    // link: 'https://dspacecris7.4science.cloud/',
-    // The link to be shown in the shared post, if different from document.location.origin
   };
 
   metricVisualizationConfig: MetricVisualizationConfig[] = [
@@ -719,12 +732,12 @@ export class DefaultAppConfig implements AppConfig {
         name: 'checksum',
         type: AdvancedAttachmentElementType.Attribute,
       }
-    ]
+    ],
   };
 
   searchResult: SearchResultConfig = {
-    additionalMetadataFields: []
+    additionalMetadataFields: [],
+    authorMetadata: ['dc.contributor.author', 'dc.creator', 'dc.contributor.*'],
   };
 
-  breadcrumbCharLimit = 10;
 }
