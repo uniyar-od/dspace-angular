@@ -25,10 +25,10 @@ import {FormBuilderService} from '../../../form-builder.service';
 import {SubmissionService} from '../../../../../../submission/submission.service';
 import {SubmissionServiceStub} from '../../../../../testing/submission-service.stub';
 
-function createKeyUpEvent(key: number) {
+function createKeyUpEvent(key: string) {
   /* eslint-disable no-empty,@typescript-eslint/no-empty-function */
   const event = {
-    keyCode: key, preventDefault: () => {
+    key: key, preventDefault: () => {
     }, stopPropagation: () => {
     }
   };
@@ -263,7 +263,7 @@ describe('DsDynamicTagComponent test suite', () => {
       });
 
       it('should add an item on ENTER or key press is \',\' or \';\'', fakeAsync(() => {
-        let event = createKeyUpEvent(13);
+        let event = createKeyUpEvent("Enter");
         tagComp.currentValue = 'test value';
 
         tagFixture.detectChanges();
@@ -274,7 +274,18 @@ describe('DsDynamicTagComponent test suite', () => {
         expect(tagComp.model.value).toEqual(['test value']);
         expect(tagComp.currentValue).toBeNull();
 
-        event = createKeyUpEvent(188);
+        event = createKeyUpEvent(",");
+        tagComp.currentValue = 'test value';
+
+        tagFixture.detectChanges();
+        tagComp.onKeyUp(event);
+
+        flush();
+
+        expect(tagComp.model.value).toEqual(['test value']);
+        expect(tagComp.currentValue).toBeNull();
+
+        event = createKeyUpEvent(";");
         tagComp.currentValue = 'test value';
 
         tagFixture.detectChanges();
